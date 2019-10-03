@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { Http, Response } from '@angular/http';
 import { Subject } from 'rxjs/Subject';
 
-import 'rxjs/add/operator/map';
+
 
 import { UserService } from '../../../services/user.service';
 
@@ -33,7 +33,7 @@ export class UsersComponent implements OnInit, AfterViewChecked {
     private userService: UserService
   ) { }
 
-  @ViewChild('utilisateurForm')
+  @ViewChild('utilisateurForm', { static: false })
   private userForm: NgForm;
 
   ngOnInit() {

@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Http, Response } from '@angular/http';
 
-import 'rxjs/add/operator/map';
+
 
 import { UserService } from '../../../services/user.service';
 
@@ -30,7 +30,7 @@ export class UserDetailComponent implements OnInit {
     route.params.subscribe(_ => this.id = _.id);
   }
 
-  @ViewChild('utilisateurForm')
+  @ViewChild('utilisateurForm', { static: false })
   private userForm: NgForm;
 
   ngOnInit() {

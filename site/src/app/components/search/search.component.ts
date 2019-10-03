@@ -6,7 +6,7 @@ import { NgbTabChangeEvent, NgbDatepickerConfig, NgbModal, ModalDismissReasons, 
 import { environment } from '../../../environments/environment';
 import { DataService } from '../../data.service';
 import { ElasticService } from '../../services/elastic.service';
-import { stagger } from '@angular/core/src/animation/dsl';
+
 import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 
 import { OrderService } from '../../services/order.service';
@@ -160,7 +160,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     };
   }
 
-  @ViewChild("runsearch")
+  @ViewChild("runsearch", { static: false })
   private inputEl: ElementRef;
 
   ngAfterViewInit(){

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 import { OrderService } from '../../services/order.service';
@@ -9,13 +9,20 @@ import { CurrencyService } from '../../services/currency.service';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 import * as crypto from 'crypto-js';
+import { NgModule } from '@angular/core';
+// import { FilterPipe } from '../../services/callback.pipe';
 
+// @NgModule({
+//   imports: [ FilterPipe.callback ]
+// })
 
 @Component({
   selector: 'app-order-history',
   templateUrl: './order-history.component.html',
   styleUrls: ['./order-history.component.css']
 })
+
+
 export class OrderHistoryComponent implements OnInit {
 
   token: any;

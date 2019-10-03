@@ -6,7 +6,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import { Subject } from 'rxjs/Subject';
 
-import 'rxjs/add/operator/map';
+
 
 
 import { OrderService } from '../../../services/order.service';
@@ -67,7 +67,7 @@ export class OrdersComponent implements OnInit {
     private orderService: OrderService
   ) { }
 
-  @ViewChild(DataTableDirective)
+  @ViewChild(DataTableDirective, { static: true })
   datatableElement: DataTableDirective;
   private countriesForm: NgForm;
 

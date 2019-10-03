@@ -82,6 +82,7 @@ import { ComplianceService } from './services/compliance.service';
 import { ProductService } from './services/product.service';
 import { ConfigService } from './services/config.service';
 import { PdfService } from './services/pdf.service';
+// import { FilterPipe } from './services/callback.pipe';
 
 // Commun
 import { ComCountriesComponent } from './components/commun/com-countries/com-countries.component';
@@ -94,6 +95,7 @@ import { SafeHtmlPipePipe } from './safe-html-pipe.pipe';
 import { RECAPTCHA_SETTINGS, RecaptchaSettings, RecaptchaModule } from 'ng-recaptcha';
 import { DataTablesModule } from 'angular-datatables';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { NgbdModalContent } from './modal-content';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 // import { PdfComponent } from './components/commun/pdf/pdf.component';
@@ -157,11 +159,12 @@ import { AdtvComponent } from './components/product/adtv/adtv.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
     HttpClientModule,
     RouterModule.forRoot(routes),
     DataTablesModule,
-    NgbModule.forRoot(),
+    // NgbModule.forRoot(),
+    NgbModule,
+//    Ng2BootstrapModule,
     RecaptchaModule.forRoot(),
     PdfViewerModule
   ],
@@ -184,6 +187,7 @@ import { AdtvComponent } from './components/product/adtv/adtv.component';
     ComplianceService,
     ProductService,
     CompanytypesService
+    // FilterPipe
   ],
   bootstrap: [AppComponent]
 })

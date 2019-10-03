@@ -7,7 +7,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import { Subject } from 'rxjs/Subject';
 
-import 'rxjs/add/operator/map';
+
 
 import { DataTableDirective } from 'angular-datatables';
 
@@ -52,7 +52,7 @@ export class ComCountriesComponent implements OnInit {
     private countriesService: CountriesService
   ) { }
 
-  @ViewChild(DataTableDirective)
+  @ViewChild(DataTableDirective, { static: true })
   datatableElement: DataTableDirective;
   private countriesForm: NgForm;
 

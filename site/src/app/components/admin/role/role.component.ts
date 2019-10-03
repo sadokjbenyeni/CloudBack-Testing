@@ -3,8 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Http, Response } from '@angular/http';
 
-import 'rxjs/add/operator/map';
-
 import { RoleService } from '../../../services/role.service';
 
 @Component({
