@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { Http, Response } from '@angular/http';
 
 
 
@@ -22,7 +21,6 @@ export class UserDetailComponent implements OnInit {
   private id: string;
 
   constructor(
-    private http: Http,
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router
@@ -45,7 +43,7 @@ export class UserDetailComponent implements OnInit {
       this.user['id'] = res.user['_id'];
     });
   }
-  
+
   roleChange(role) {
     let rolsplit = role.split('|');
     let rol = rolsplit[0];
@@ -53,8 +51,7 @@ export class UserDetailComponent implements OnInit {
     this.user['role'] = rol;
     this.user['roleName'] = rolN;
     this.userSelect = rol + '|' + rolN;
-  }
-  
+  }  
   addRole(e) {
     this.user['roleName'].push(e);
   }
@@ -62,9 +59,7 @@ export class UserDetailComponent implements OnInit {
     this.user['roleName'].splice(this.user['roleName'].indexOf(e), 1);
   }
   save() {
-    this.userService.updateUser(this.user).subscribe(res => {
-      this.router.navigateByUrl('/admin/users');
-    });
+    this.userService.updateUser(this.user).subscribe(res => this.router.navigateByUrl('/admin/users'));
   }
 
 }

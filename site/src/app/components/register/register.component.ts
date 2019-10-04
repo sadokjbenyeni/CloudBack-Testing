@@ -2,12 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
-import { RecaptchaModule } from 'ng-recaptcha';
-
 import { UserService } from '../../services/user.service';
 import { CurrencyService } from '../../services/currency.service';
-import { VatService } from '../../services/vat.service';
-import { PaymentService } from '../../services/payment.service';
 import { CountriesService } from '../../services/countries.service';
 import { CompanytypesService } from '../../services/companytypes.service';
 
@@ -51,8 +47,6 @@ export class RegisterComponent implements OnInit {
   constructor(
     private router: Router,
     private userService: UserService,
-    private paymentService: PaymentService,
-    private vatService: VatService,
     private currencyService: CurrencyService,
     private countriesService: CountriesService,
     private companytypesService: CompanytypesService
@@ -75,7 +69,6 @@ export class RegisterComponent implements OnInit {
     this.term = true;
     this.checkv = false;
     this.loadvat = 'form-control ok';
-    this.getPayments();
     this.user = <object> {
       id: <string>'',
       firstname: <string>'',
@@ -115,13 +108,6 @@ export class RegisterComponent implements OnInit {
     this.colg = 'col-lg-6';
   }
 
-  getPayments(){
-    this.paymentService.getPaymentsActive().subscribe(res=>{
-      this.payments = res;
-    });
-  }
-
-  
 
   resolved(captchaResponse: string) {
     if ( captchaResponse ) {
@@ -146,22 +132,6 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  checkVat(){
-    if (this.user['vat'] !== '' && this.user['vat']) {
-      let c = this.user['vat'].substring(0,2);
-      let v = this.user['vat'].substring(2,this.user['vat'].length);
-      this.loadvat = 'form-control loading';
-      this.vatService.checkVat(c + '|' + v).subscribe(data=>{
-        this.user['checkvat'] = data.valid;
-        this.loadvat = data.valid?'form-control ok':'form-control ko';
-      },
-      error=>{
-        console.error(error);
-      });
-    } else {
-      this.loadvat = 'form-control ok';
-    }
-  }
 
   update() {
     this.userService.updateUser(this.user).subscribe(res => {
