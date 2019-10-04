@@ -106,7 +106,7 @@ router.get('/:user', (req, res) => {
         User.findOne({_id: Object(req.params.user)}, {password:false})
         .then((user) => {
             if (!user) { res.status(202).json({}) }
-            return res.status(200).json({user:user});
+            return res.status(200).json(user);
         });
     // }
     // else{
@@ -243,7 +243,7 @@ router.post('/check/', (req, res) => {
         if(user.state === 1){
             User.updateOne({email:req.body.email}, {$set:{islogin:true}})
             .then((val)=>{
-                res.status(200).json({user});
+                res.status(200).json({user: user});
             });
         } else {
             res.status(202).json({message:'Your account is not activated'})

@@ -20,8 +20,8 @@ export class LoginComponent implements OnInit {
   pwd: string;
   password: string;
   page: string;
-  message: string;
-  showAll: boolean = false;
+  message: String;
+  showAll = false;
 
   constructor(
     private router: Router,
@@ -127,5 +127,4 @@ export class LoginComponent implements OnInit {
   termsClose() {
     this.viewterms = false;
   }
-
 }

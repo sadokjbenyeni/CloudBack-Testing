@@ -8,3 +8,7 @@ export interface Role {
 export interface Roles {
     roles: Role[];
 }
+
+export interface Pages {
+    pages: Array<string>;
+}

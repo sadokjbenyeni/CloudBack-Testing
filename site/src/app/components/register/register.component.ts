@@ -192,7 +192,7 @@ export class RegisterComponent implements OnInit {
   getUser(){
     let id = JSON.parse(sessionStorage.getItem('user'))._id;
     this.userService.getCompte(id).subscribe(res => {
-      this.user = res.user;
+      this.user = res;
       this.user['id'] = id;
       if (!this.user['vat']) {
         this.user['vat'] = '';

@@ -5,6 +5,7 @@ import { NgForm } from '@angular/forms';
 
 
 import { UserService } from '../../../services/user.service';
+import { Role } from '../../../models/Role';
 
 @Component({
   selector: 'app-user-detail',
@@ -13,11 +14,11 @@ import { UserService } from '../../../services/user.service';
 })
 export class UserDetailComponent implements OnInit {
 
-  user: { firstname: string; lastname: string; roleName: string[]; };
+  user: { firstname: String; lastname: String; roleName: String[]; };
   userSelect: string;
   message: string;
   role: string;
-  roles: Array<string>;
+  roles: Array<Role>;
   private id: string;
 
   constructor(
@@ -39,8 +40,11 @@ export class UserDetailComponent implements OnInit {
       this.roles = res.roles;
     });
     this.userService.getCompte(this.id).subscribe(res => {
-      this.user = res.user;
-      this.user['id'] = res.user['_id'];
+      this.user = {firstname: '', lastname: '', roleName: []};
+      this.user['firstname'] = res.firstname;
+      this.user['lastname'] = res.lastname;
+      this.user.roleName = res.roleName;
+      this.user['id'] = res['_id'];
     });
   }
 
