@@ -12,7 +12,6 @@ router.use('/upload', require('./upload'));
 router.use('/cmd', require('./todo'));
 router.use('/flux', require('./flux'));
 router.use('/currency', require('./currency'));
-router.use('/search', require('./elastic'));
 router.use('/config', require('./config'));
 
 module.exports = router;

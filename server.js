@@ -12,8 +12,16 @@ const cron = require('node-cron');
 // const userdb = ''; � param�trer
 // const passdb = ''; � param�trer
 // mongoose.connect('mongodb://userdb:passdb@localhost:27017/histodataweb', { 
-mongoose.connect('mongodb://localhost:27017/histodataweb', { 
-    useMongoClient: true,
+//
+// AZURE 
+//
+//  var mongoClient = require("mongodb").MongoClient;
+//  mongoClient.connect("mongodb://cloudbacktesting:Mj9Es9gbZO6xeN2PLsOhfZhMZLXCKYRnXuZZCEjVdkVUlruOPXguIGY4VkzmUCYBsdTNFCbSiNkJVt09zPdjoQ%3D%3D@cloudbacktesting.documents.azure.com:10255/?ssl=true", function (err, client) {
+//     client.close();
+//  });
+//
+mongoose.connect('mongodb://localhost:27017/cloudbacktesting', { 
+    // useMongoClient: true,
     /* other options */
 });
 mongoose.set('debug', true);
@@ -69,21 +77,21 @@ app.use(function(req, res, next) {
 // BEGIN CRON
 // A exporter de ce fichier pour plus de souplesse
 
-const cronCurrency = cron.schedule('30 15 * * *', function(){
-  request.post({
-      headers: {'content-type' : 'application/x-www-form-urlencoded'},
-      url: 'http://localhost:3000/api/currency'
-    }, (err, r, body) => {
-  });
-});
-cronCurrency.start();
+// const cronCurrency = cron.schedule('30 15 * * *', function(){
+//   request.post({
+//       headers: {'content-type' : 'application/x-www-form-urlencoded'},
+//       url: 'http://localhost:9095/api/currency'
+//     }, (err, r, body) => {
+//   });
+// });
+// cronCurrency.start();
 // test.destroy();
 
 
 // const cronAutovalidationPVF = cron.schedule('30 15 * * *', function(){
 //   request.post({
 //       headers: {'content-type' : 'application/x-www-form-urlencoded'},
-//       url: 'http://localhost:3000/api/order/autovalidation'
+//       url: 'http://localhost:9095/api/order/autovalidation'
 //     }, (err, r, body) => {
 //   });
 // });
@@ -102,11 +110,11 @@ app.use('/help/dataguide', express.static(path.join(__dirname, 'dataguide/')));
 
 //Catch all other routes and return to the index file
 app.get('*', (req, res) =>{
-   res.sendFile(path.join(__dirname, 'site/dist/index.html'));
+ res.sendFile(path.join(__dirname, 'site/dist/index.html'));
 })
 
-//Get environment port or use 3000
-const port = process.env.PORT || '3000';
+//Get environment port or use 9095
+const port = process.env.PORT || '9095';
 app.set('port', port);
  
 //Create HTTP server.

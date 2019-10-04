@@ -15,7 +15,7 @@ const URLS = config.config();
 const admin = config.admin();
 const domain = config.domain();
 const PHRASE = config.phrase();
-const DNLFILE = config.dnwfile();
+// const DNLFILE = config.dnwfile();
 const algorithm = 'aes256';
 var idd = "";
 

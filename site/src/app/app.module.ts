@@ -25,7 +25,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { SearchComponent } from './components/search/search.component';
+// import { SearchComponent } from './components/search/search.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
 import { AboutComponent } from './components/about/about.component';
 import { HelpPageComponent } from './components/help-page/help-page.component';
@@ -109,7 +109,7 @@ import { AdtvComponent } from './components/product/adtv/adtv.component';
     RegisterComponent,
     MenuComponent,
     HomeComponent,
-    SearchComponent,
+    // SearchComponent,
     UsersComponent,
     UserDetailComponent,
     UsersListComponent,

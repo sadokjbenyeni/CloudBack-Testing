@@ -6,7 +6,7 @@ const xml2js = require('xml2js'); // XML2JS Module
 const parser = new xml2js.Parser();
 
 const config = require('../config/config.js');
-const APIQF = config.apiqf();
+// const APIQF = config.apiqf();
 
 const Asset = mongoose.model('Asset');
 const Exchange = mongoose.model('Exchange');
@@ -28,30 +28,30 @@ router.get('/eid/:dataset', (req, res) => {
   let t = [];
   let tabeid = [];
   //console.dir(APIQF + '/apiHoDProduct.php');
-  request(APIQF + '/apiHoDProduct.php', { json: true }, (err, r, body) => {
-    if (err) { return console.log(err); }
-    objectToArray(body.hod_catalogue).forEach(c => {
-      // if (objectToArray(c.dataset).indexOf(req.params.dataset) != -1 && c.is_active) {
-      if (objectToArray(c.dataset).indexOf(req.params.dataset) != -1) {
-        console.dir("*************************");
-        console.dir(req.params.dataset);
-        console.dir(c);
-        console.dir("*************************");
-          objectToArray(c.EIDs).forEach((e)=>{
-          tabeid.push(e);
-          t.push(
-            {
-              eid: e,
-              name: c.name,
-              description: c.comment,
-              desc: c.mnemo
-            }
-          );
-        });
-      }
-    });
-    res.status(200).json({ tabEid: tabeid, catalogue: t });
-  });
+  // request(APIQF + '/apiHoDProduct.php', { json: true }, (err, r, body) => {
+  //   if (err) { return console.log(err); }
+  //   objectToArray(body.hod_catalogue).forEach(c => {
+  //     // if (objectToArray(c.dataset).indexOf(req.params.dataset) != -1 && c.is_active) {
+  //     if (objectToArray(c.dataset).indexOf(req.params.dataset) != -1) {
+  //       console.dir("*************************");
+  //       console.dir(req.params.dataset);
+  //       console.dir(c);
+  //       console.dir("*************************");
+  //         objectToArray(c.EIDs).forEach((e)=>{
+  //         tabeid.push(e);
+  //         t.push(
+  //           {
+  //             eid: e,
+  //             name: c.name,
+  //             description: c.comment,
+  //             desc: c.mnemo
+  //           }
+  //         );
+  //       });
+  //     }
+  //   });
+  //   res.status(200).json({ tabEid: tabeid, catalogue: t });
+  // });
 });
 
 router.get('/pricingtier', (req, res) => {

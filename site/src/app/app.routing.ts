@@ -34,7 +34,7 @@ import { AboutComponent } from './components/about/about.component';
 import { HelpPageComponent } from './components/help-page/help-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { SearchComponent } from './components/search/search.component';
+// import { SearchComponent } from './components/search/search.component';
 import { OrderComponent } from './components/order/order.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
 import { CaddiesComponent } from './components/order/caddies/caddies.component';
@@ -44,7 +44,7 @@ export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch : 'full' },
   // CLIENT
   { path: 'account', component : RegisterComponent, canActivate: [GuardGuard] },
-  { path: 'search', component : SearchComponent, canActivate: [GuardGuard] },
+  // { path: 'search', component : SearchComponent, canActivate: [GuardGuard] },
   { path: 'order/history', component : OrderHistoryComponent, canActivate: [GuardGuard] },
   { path: 'order/caddies', component : CaddiesComponent, canActivate: [GuardGuard] },
   { path: 'order/review', component : CaddiesComponent, canActivate: [GuardGuard] },
