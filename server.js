@@ -33,6 +33,14 @@ const app = express();
 const passport = require('passport');
 require('./server/config/passport')(passport); // pass passport for configuration
 
+//Enable CORS
+app.use(function(req, res, next) {
+ res.header("Access-Control-Allow-Origin", "*");
+ res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+ res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+ next();
+});
+
 //Cookie and session
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
@@ -66,13 +74,7 @@ const api = require('./server/api/');
 //Set API routes
 app.use('/api', api);
 
-//Enable CORS
-app.use(function(req, res, next) {
- res.header("Access-Control-Allow-Origin", "*");
- res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
- res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
- next();
-});
+
 
 // BEGIN CRON
 // A exporter de ce fichier pour plus de souplesse
