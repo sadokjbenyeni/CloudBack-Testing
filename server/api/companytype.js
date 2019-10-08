@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
     Companytypes.find()
     .then((companytypes) => {
         if (!companytypes) { return res.sendStatus(404); }
-        return res.status(200).json({companytypes: companytypes});
+        return res.status(200).json({companytypes: companytypes})
     });
 });
 
