@@ -51,7 +51,7 @@ import { SafeHtmlPipePipe } from './safe-html-pipe.pipe';
 
 // Middleware
 import { RecaptchaModule } from 'ng-recaptcha';
-import { DataTablesModule } from 'angular-datatables';
+import { DataTablesModule, DataTableDirective } from 'angular-datatables';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgbdModalContent } from './modal-content';
@@ -74,6 +74,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     TelephoneValidatorDirective,
     MdpValidatorDirective,
     DateValidatorDirective,
+    ComCountriesComponent,
     ConfigurationComponent,
     RoleComponent,
     CountriesComponent,

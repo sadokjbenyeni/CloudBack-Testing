@@ -46,15 +46,11 @@ export class ComCountriesComponent implements OnInit {
   countries: Countries[] = [];
 
   constructor(
-    private http: Http,
-    private router: Router,
-    private httpc: HttpClient,
+    private http: HttpClient,
     private countriesService: CountriesService
   ) { }
 
-  @ViewChild(DataTableDirective, { static: true })
   datatableElement: DataTableDirective;
-  private countriesForm: NgForm;
 
   ngOnInit() {
     this.message = '';
@@ -67,7 +63,7 @@ export class ComCountriesComponent implements OnInit {
       serverSide: true,
       processing: true,
       ajax: (dataTablesParameters: any, callback) => {
-        that.httpc
+        that.http
         .post<DataTablesResponse>(environment.api + '/countries', dataTablesParameters, {})
         .subscribe(res => {
           that.countries = res.countries;
