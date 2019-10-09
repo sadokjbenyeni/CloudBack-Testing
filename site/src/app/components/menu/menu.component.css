@@ -3,3 +3,8 @@
     position: sticky;
     left: 100%;
 }
+.spaced
+{
+    display: block;
+    width:  3em
+}

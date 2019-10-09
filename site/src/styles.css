@@ -183,10 +183,13 @@ img#logo {
 .navbar .navbar-text {
   color: #ea663b;
 }
+.navbar-nav {
+  margin: 1em 0em;
+}
 .navbar .navbar-nav .nav-link {
   color: #ea663b;
-  border-radius: .25rem;
-  margin: 0 0.25em;
+  border-radius: .01rem;
+  margin: 0em 1em; 
 }
 .navbar .navbar-nav .nav-link:not(.disabled):hover,
 .navbar .navbar-nav .nav-link:not(.disabled):focus {
