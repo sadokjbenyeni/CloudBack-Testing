@@ -56,6 +56,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgbdModalContent } from './modal-content';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+
 // import { PdfComponent } from './components/commun/pdf/pdf.component';
 
 @NgModule({
@@ -84,7 +85,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     CeilPipe,
     SafeHtmlPipePipe,
     NgbdModalContent,
-    ComCountriesComponent,
+    ComCountriesComponent
   ],
   entryComponents:[NgbdModalContent],
   imports: [

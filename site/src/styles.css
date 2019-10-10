@@ -136,6 +136,12 @@ img#logo {
   position: fixed;
 }
 
+.datasetPanel {
+  top: 250px;
+  /* display: block;
+  position: relative; */
+}
+
 #datasetPanel {
   top: 250px;
   /* display: block;
