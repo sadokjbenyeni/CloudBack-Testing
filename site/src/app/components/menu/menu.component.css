@@ -1,16 +1,17 @@
 .sticky-left {
-    position: sticky;
-    left: 100%;
+    left: 11%
 }
 
 .nopaddingright {
     padding-right: 0px;
 }
+
 .nopaddingleft {
     padding-left: 0px;
 }
 
-.radius-bordered {
-    height: 3em;
-    border-radius: 0% 0% 15% 15%;
+.alignedwithdropdown {
+    text-align: center;
+    width: 300px;
+    right: 12px;
 }
