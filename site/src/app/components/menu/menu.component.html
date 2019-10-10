@@ -1,9 +1,9 @@
 <!-- navbar top -->
-<nav class="navbar navbar-default navbar-fixed-top container-fluid" role="navigation" id="navbar" style= "height: 5%">
+<nav style="z-index: 1" class="navbar navbar-default navbar-fixed-top container-fluid" role="navigation" id="navbar" style="height: 5%">
   <!-- navbar-header -->
   <a class="navbar-brand" routerLink="{{link}}" style="height: 100%">
     <img id="logo" src="assets/img/resizedlogo.png" title="Quanthouse" alt="logo Quanthouse">
-  
+
   </a>
   <!-- end navbar-header -->
   <!-- navbar-top-links -->
@@ -11,37 +11,40 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <div *ngIf="role.length === 0 || !role ">
-      <ul class="navbar-nav ">
-        <li class="nav-item" ><a class="nav-link btn btn-default" routerLink="/">Home</a></li>
-        <li class="nav-item"><a class="nav-link btn btn-default" routerLink="/about">About QH</a></li>
-        <li class="nav-item"><a class="nav-link btn btn-default" routerLink="/help">Help</a></li>
+      <ul class="navbar-nav">
+        <li class="nav-item col-sm-4"><a class="nav-link" routerLink="/">Home</a></li>
+        <li class="nav-item spaced"><a class="nav-link" routerLink="/about">About QH</a></li>
+        <li class="nav-item spaced"><a class="nav-link" routerLink="/help">Help</a></li>
       </ul>
       <ul class="navbar-nav sticky-left">
         <li class="nav-item"><a class="nav-link btn btn-default" routerLink="/login">Login</a></li>
       </ul>
     </div>
     <div *ngIf="role.indexOf('Client') != -1 ">
-      <ul class="navbar-nav">
-        <li class="nav-item spaced"><a class="nav-link " routerLink="/">Home</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/account">My Profile</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/about">About QH</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/help">Help</a></li>
+      <ul class="navbar-nav col-sm-6 ">
+        <li class="nav-item col-sm-2 nopadding">
+          <a class="nav-link col-sm-12 nopaddingleft nopaddingright radius-bordered" routerLink="/">Home</a></li>
+        <li class="nav-item col-sm-2 nopadding">
+          <a class="nav-link col-sm-12 nopaddingleft nopaddingright radius-bordered" routerLink="/about">About QH</a>
+        </li>
+        <li class="nav-item col-sm-2 nopadding">
+          <a class="nav-link col-sm-12 nopaddingleft nopaddingright radius-bordered" routerLink="/help">Help</a></li>
       </ul>
     </div>
-    <ul class="navbar-nav sticky-left">
-      <li class="nav-item clickable"><a class="nav-link" *ngIf="role.indexOf('Administrator') != -1 "
+    <ul class=" navbar-nav col-sm-4 ">
+      <li class="nav-item clickable col-sm-4 ">
+        <a class=" nav-link col-sm-12  radius-bordered" *ngIf="role.indexOf('Administrator') != -1 "
           routerLink="/admin/role">Administration</a></li>
-          <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                TOTO              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a><br/>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div><hr>>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </li>
-      <li class="nav-item clickable"><a class="nav-link" *ngIf="role.length > 0 || role " (click)="logout()">Logout</a>
+      <li class="nav-item dropdown col-sm-4 ">
+        <a class="nav-link dropdown-toggle col-sm-12  radius-bordered" href="#" id="navbarDropdown" role="button"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          TOTO </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" routerLink="/account">My Profile</a><br>
+          <!-- <div class="dropdown-divider"></div> -->
+          <hr>
+          <a class="nav-link" *ngIf="role.length > 0 || role " (click)="logout()">Logout</a>
+        </div>
       </li>
     </ul>
   </div>

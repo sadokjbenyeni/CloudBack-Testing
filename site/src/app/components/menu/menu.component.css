@@ -1,10 +1,16 @@
-.sticky-left
-{
+.sticky-left {
     position: sticky;
     left: 100%;
 }
-.spaced
-{
-    display: block;
-    width:  3em
+
+.nopaddingright {
+    padding-right: 0px;
+}
+.nopaddingleft {
+    padding-left: 0px;
+}
+
+.radius-bordered {
+    height: 3em;
+    border-radius: 0% 0% 15% 15%;
 }
