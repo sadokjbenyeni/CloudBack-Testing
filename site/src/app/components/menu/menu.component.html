@@ -27,7 +27,7 @@
         <a class="nav-link col-sm-12 nopaddingright nopaddingleft" routerLink="/admin/role">Administration</a>
       </li>
       <li class="nav-item dropdown col-sm-6 nopaddingleft" *ngIf="role.length != 0">
-        <a class="nav-link dropdown-toggle col-sm-12  nopaddingleft" data-toggle="dropdown" href="#">TOTO
+        <a class="nav-link dropdown-toggle col-sm-12  nopaddingleft" data-toggle="dropdown" href="#">{{username}}
           <span class="caret"></span></a>
         <ul class="dropdown-menu alignedwithdropdown">
           <li><a class="dropdown-item" routerLink="/account">My Profile</a></li>

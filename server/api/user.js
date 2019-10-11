@@ -236,7 +236,9 @@ router.post('/check/', (req, res) => {
             addressBilling: true,
             cityBilling: true,
             postalCodeBilling: true,
-            countryBilling: true
+            countryBilling: true,
+            firstname:true,
+            lastname:true
         })
     .then((user) => {
         if (!user) { res.status(202).json({user:false, message:'Invalid Password or User Not Found'}) }

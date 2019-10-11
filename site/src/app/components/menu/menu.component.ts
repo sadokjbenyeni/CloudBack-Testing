@@ -11,6 +11,7 @@ import { UserService } from '../../services/user.service';
 export class MenuComponent implements OnInit {
   link: any;
   role: string;
+  username: string;
 
   constructor(
     private router: Router,
@@ -23,6 +24,7 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     this.role = '';
     let user = JSON.parse(sessionStorage.getItem('user'));
+    this.username=user.lastname;
     if (user && typeof user === 'object') {
       this.role = user.roleName;
     } else {
