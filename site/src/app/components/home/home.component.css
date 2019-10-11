@@ -5,28 +5,58 @@
 }
 
 .window-position-center{
-    left: 30vw;
+    left: 20vw;
     top: 30vh;
     height: 50%;
-    width: 50%;
+    width: 60%;
     position: absolute;
 }
 
 .text-align-center{
     text-align: center;
+}
+
+.font-size-six{
+    font-size: 6rem;
+}
+
+.bold-text{
+    font-weight: bold;
+}
+
+.font-size-two{
     font-size: 2.5rem;
+    font-family: Arial, sans-serif;
+    font-weight: 100;
 }
 
 .text-color-orange{
     color: rgb(226, 80, 46);
 }
 
-.text-color-black{
-    color: rgb(0, 0, 0);
+.text-color-white{
+    color: rgb(255, 255, 255);
 }
 
 .center-button {
+    position: relative;
+    display: inline-block;
+    padding: 1.2em 5em;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    color: white;
+    left: 26vw;
+    top: 2vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 3vh;
+    width: 6vw;
+    transform-style: preserve-3d;
+    transform: perspective(800px);
+    border-color: rgb(226, 80, 46);
+    background-color: rgb(226, 80, 46);
   }
+
