@@ -5,7 +5,7 @@
 }
 
 .window-position-center{
-    left: 20vw;
+    left: 10vw;
     top: 30vh;
     height: 50%;
     width: 60%;
@@ -60,3 +60,7 @@
     background-color: rgb(226, 80, 46);
   }
 
+  .responsive {
+    width: 100%;
+    height: auto;
+  }
