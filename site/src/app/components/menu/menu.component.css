@@ -1,15 +1,6 @@
 .sticky-left {
     left: 11%
 }
-
-.nopaddingright {
-    padding-right: 0px;
-}
-
-.nopaddingleft {
-    padding-left: 0px;
-}
-
 .alignedwithdropdown {
     text-align: center;
     width: 300px;

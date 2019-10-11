@@ -546,3 +546,12 @@ span.cap {
   height: 60px;
   border-bottom: 1px solid #ddd;
 }
+/**
+padding deleters **/
+.nopaddingright {
+  padding-right: 0px;
+}
+
+.nopaddingleft {
+  padding-left: 0px;
+}
