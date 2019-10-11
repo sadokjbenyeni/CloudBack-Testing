@@ -24,7 +24,9 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     this.role = '';
     let user = JSON.parse(sessionStorage.getItem('user'));
-    this.username=user.lastname;
+    if (user != null) {
+      this.username = user.lastname;
+    }
     if (user && typeof user === 'object') {
       this.role = user.roleName;
     } else {
@@ -34,13 +36,13 @@ export class MenuComponent implements OnInit {
 
   logout() {
     let user = JSON.parse(sessionStorage.getItem('user'));
-    if(user.token){
-      this.userService.logout({token:user.token}).subscribe(() => {
+    if (user.token) {
+      this.userService.logout({ token: user.token }).subscribe(() => {
         this.role = '';
         sessionStorage.removeItem('user');
         sessionStorage.removeItem('cart');
         sessionStorage.removeItem('surveyForm');
-        sessionStorage.setItem('dataset',JSON.stringify({"dataset":"", "title":""}));
+        sessionStorage.setItem('dataset', JSON.stringify({ "dataset": "", "title": "" }));
         this.router.navigate(['/home']);
       });
     }

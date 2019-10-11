@@ -3,39 +3,44 @@
   <!-- navbar-header -->
   <div class="navbar-header" style="height: 100%">
     <a class="navbar-brand" routerLink="{{link}}" style="height:inherit">
-      <img id="logo" src="assets/img/resizedlogo.png" style="height: inherit" title="Quanthouse" alt="logo Quanthouse">
+      <img id="logo" src="assets/img/quanthouse_logo.png" style="height: inherit" title="Quanthouse" alt="logo Quanthouse">
     </a>
   </div>
-  <!-- end navbar-header -->
+<!-- end navbar-header -->
   <!-- navbar-top-links -->
   <!-- Navbar clients -->
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <div class="collapse navbar-collapse " id="navbarSupportedContent">
 
-    <ul class="navbar-nav col-sm-6 ">
-      <li class="nav-item col-sm-2  nopaddingright"><a class="nav-link col-sm-12 nopaddingright" routerLink="/">Home</a>
+    <ul class="navbar-nav col-lg-4 col-md-4 col-sm-4">
+      <li class="nav-item col-lg-4 col-md-4 col-sm-4 nopaddingright">
+        <a class="nav-link  col-md-12 col-sm-12 nopaddingright nopaddingleft" routerLink="/">Home
+        </a>
       </li>
-      <li class="nav-item col-sm-2  nopaddingright nopaddingleft">
-        <a class="nav-link col-sm-12 nopaddingright nopaddingleft" routerLink="/about">About QH</a>
+      <li class="nav-item col-lg-4 col-md-4 col-sm-4 nopaddingright nopaddingleft">
+        <a class="nav-link col-md-12 col-sm-12 nopaddingright nopaddingleft" routerLink="/about">About QH</a>
       </li>
-      <li class="nav-item col-sm-2  nopaddingright nopaddingleft">
-        <a class="nav-link col-sm-12 nopaddingright nopaddingleft" routerLink="/help">Help</a>
+      <li class="nav-item col-lg-4 col-md-4 col-sm-4 nopaddingright nopaddingleft">
+        <a class="nav-link col-md-12 col-sm-12 nopaddingright nopaddingleft" routerLink="/help">Help</a>
       </li>
     </ul>
-    <ul class="navbar-nav navbar-right col-sm-2">
-      <li *ngIf="role.indexOf('Administrator') != -1 " class="nav-item col-sm-6  nopaddingright nopaddingleft">
-        <a class="nav-link col-sm-12 nopaddingright nopaddingleft" routerLink="/admin/role">Administration</a>
+    <ul class="navbar-nav navbar-right col-lg-4 col-md-4 col-sm-4">
+      <li *ngIf="role.indexOf('Administrator') != -1 " class="nav-item col-md-6 col-sm-6  nopaddingright nopaddingleft">
+        <a class="nav-link col-md-12 col-sm-12 nopaddingright nopaddingleft  "
+          routerLink="/admin/role">Administration</a>
       </li>
-      <li class="nav-item dropdown col-sm-6 nopaddingleft" *ngIf="role.length != 0">
-        <a class="nav-link dropdown-toggle col-sm-12  nopaddingleft" data-toggle="dropdown" href="#">{{username}}
-          <span class="caret"></span></a>
+      <li class="nav-item dropdown col-md-6 col-sm-6 nopaddingleft" *ngIf="role.length != 0">
+        <a class="nav-link dropdown-toggle col-md-12 col-sm-12 nopaddingleft nopaddingright" data-toggle="dropdown"
+          href="#">{{username}}
+          <span class="navbar-toggler-icon"></span>
+        </a>
         <ul class="dropdown-menu alignedwithdropdown">
           <li><a class="dropdown-item" routerLink="/account">My Profile</a></li>
           <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
         </ul>
       </li>
-      <li class="nav-item col-sm-6 nopaddingleft" *ngIf="role.length === 0 || !role ">
-        <a class="nav-link col-sm-12" routerLink="/login">Login</a>
+      <li class="nav-item col-md-6 col-sm-12 nopaddingleft" *ngIf="role.length === 0 || !role ">
+        <a class="nav-link col-md-12 col-sm-12" routerLink="/login">Login</a>
       </li>
     </ul>
 

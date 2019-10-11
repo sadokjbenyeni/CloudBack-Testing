@@ -145,9 +145,9 @@ img#logo {
   border: 1px solid #3F3D3F;
   background: rgb(243, 243, 243);
   min-height: 350px;
-}.btn
+}
 
-.datasetTitle {
+.btn .datasetTitle {
   background: rgb(12, 25, 52);
   color: #FFF;
   font-size: 1.2em;
@@ -235,12 +235,8 @@ img#logo {
   -o-transition: background-color 1s;
   transition: background-color 1s;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  border-bottom-width:2px;
   text-decoration-line: none;
-  border-bottom-color:White;
-  border-bottom-style: solid;
-
-
+  height: inherit
 }
 
 .navbar .navbar-nav .dropdown-menu {
