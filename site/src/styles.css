@@ -1,5 +1,6 @@
 .full-screen-height {
   height: 100vh;
+  overflow: hidden;
 }
 
 .mg-down-5 {
