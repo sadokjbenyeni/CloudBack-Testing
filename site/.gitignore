@@ -40,3 +40,12 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Exclude all merge files
+*.origin
+*.orig
+*.swp
+*_BACKUP_*
+*_BASE_*
+*_LOCAL_*
+*_REMOTE_*
