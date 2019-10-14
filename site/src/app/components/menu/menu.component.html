@@ -1,67 +1,42 @@
-<!-- navbar top -->
-<nav class="navbar navbar-default navbar-fixed-top" style="height: 0%" role="navigation" id="navbar">
-  <!-- navbar-header -->
-  <div class="navbar-header" style="height: 100%">
-    <a class="navbar-brand" routerLink="{{link}}" style="height:inherit">
-      <img id="logo" src="assets/img/quanthouse_logo.png" style="height: inherit" title="Quanthouse" alt="logo Quanthouse">
-    </a>
-  </div>
-<!-- end navbar-header -->
-  <!-- navbar-top-links -->
-  <!-- Navbar clients -->
-
-  <div class="collapse navbar-collapse " id="navbarSupportedContent">
-
-    <ul class="navbar-nav col-lg-4 col-md-4 col-sm-4">
-      <li class="nav-item col-lg-4 col-md-4 col-sm-4 nopaddingright">
-        <a class="nav-link  col-md-12 col-sm-12 nopaddingright nopaddingleft" routerLink="/">Home
-        </a>
+<nav class="navbar navbar-expand-xl navbar-fixed-top navbar-light bg-light pt-0 pb-0" style="z-index: 1000;">
+  <img id="logo" src="assets/img/quanthouse_logo.png" style="height: 43px" class="pr-2 mr-2" title="Quanthouse"
+    alt="logo Quanthouse">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto ">
+      <li class="nav-item ">
+        <a class="nav-link  mr-0 ml-0" routerLink="/">Home</a>
       </li>
-      <li class="nav-item col-lg-4 col-md-4 col-sm-4 nopaddingright nopaddingleft">
-        <a class="nav-link col-md-12 col-sm-12 nopaddingright nopaddingleft" routerLink="/about">About QH</a>
+      <li class="nav-item ">
+        <a class="nav-link   mr-0 ml-0 " routerLink="/about">About QH</a>
       </li>
-      <li class="nav-item col-lg-4 col-md-4 col-sm-4 nopaddingright nopaddingleft">
-        <a class="nav-link col-md-12 col-sm-12 nopaddingright nopaddingleft" routerLink="/help">Help</a>
+      <li class="nav-item ">
+        <a class="nav-link  mr-0 ml-0 " routerLink="/help">Help</a>
       </li>
     </ul>
-    <ul class="navbar-nav navbar-right col-lg-4 col-md-4 col-sm-4">
-      <li *ngIf="role.indexOf('Administrator') != -1 " class="nav-item col-md-6 col-sm-6  nopaddingright nopaddingleft">
-        <a class="nav-link col-md-12 col-sm-12 nopaddingright nopaddingleft  "
-          routerLink="/admin/role">Administration</a>
-      </li>
-      <li class="nav-item dropdown col-md-6 col-sm-6 nopaddingleft" *ngIf="role.length != 0">
-        <a class="nav-link dropdown-toggle col-md-12 col-sm-12 nopaddingleft nopaddingright" data-toggle="dropdown"
-          href="#">{{username}}
-          <span class="navbar-toggler-icon"></span>
-        </a>
-        <ul class="dropdown-menu alignedwithdropdown">
-          <li><a class="dropdown-item" routerLink="/account">My Profile</a></li>
-          <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
-        </ul>
-      </li>
-      <li class="nav-item col-md-6 col-sm-12 nopaddingleft" *ngIf="role.length === 0 || !role ">
-        <a class="nav-link col-md-12 col-sm-12" routerLink="/login">Login</a>
-      </li>
-    </ul>
+    <span class="navbar-left ">
+      <ul class="navbar-nav " data-hover="dropdown">
+        <li class="nav-item  " *ngIf="role.length === 0 || !role ">
+          <a class="nav-link mr-0 ml-0 " routerLink="/login">Login</a>
+        </li>
+        <li *ngIf="role.indexOf('Administrator') != -1 " class="nav-item ">
+          <a class="nav-link mr-0 ml-0 " routerLink="/admin/role">Administration</a>
+        </li>
 
+        <li class="dropdown" *ngIf="role.length != 0" data-animations="fadeInDown">
+          <a class="nav-link dropdown-toggle  mr-0 ml-0" href="#" id="navbarDropdown" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            {{username}}
+          </a>
+          <div class=" dropdown-menu dropdown-menu-right col-sm-12" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" routerLink="/account">My Profile</a>
+            <a class="dropdown-item" (click)="logout()">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </span>
   </div>
-  <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      </div> -->
-  <!-- Navbar Admins -->
-  <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      </div> -->
-
-  <!-- Navbar Compliances  -->
-  <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      </div> -->
-
-  <!-- Navbar Products  -->
-  <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      </div> -->
-
-  <!-- Navbar Finances  -->
-  <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    </div> -->
-
 </nav>
-<!-- end navbar top -->
