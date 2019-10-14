@@ -1,6 +1,6 @@
 .full-screen-height {
   height: 100vh;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .mg-down-5 {
@@ -601,16 +601,8 @@ span.cap {
   border-bottom: 1px solid #ddd;
 }
 
-/**
-padding deleters **/
 
-.nopaddingright {
-  padding-right: 0px;
-}
 
-.nopaddingleft {
-  padding-left: 0px;
-}
 
 @keyframes fadein {
   from {
