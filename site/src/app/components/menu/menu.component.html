@@ -1,12 +1,12 @@
-<nav class="navbar navbar-expand-xl navbar-fixed-top navbar-light bg-light pt-0 pb-0" style="z-index: 1000;">
-  <img id="logo" src="assets/img/quanthouse_logo.png" style="height: 43px" class="pr-2 mr-2" title="Quanthouse"
+<nav class="navbar navbar-expand-xl navbar-fixed-top navbar-light bg-light pt-0 pb-0 navbarontop" >
+  <img id="logo" src="assets/img/quanthouse_logo.png"  class="pr-2 mr-2 navbarbrandheight" title="Quanthouse"
     alt="logo Quanthouse">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
     aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarText">
-    <ul class="navbar-nav mr-auto ">
+    <ul class="navbar-nav mr-auto respfontsize" >
       <li class="nav-item ">
         <a class="nav-link  mr-0 ml-0" routerLink="/">Home</a>
       </li>
@@ -18,7 +18,7 @@
       </li>
     </ul>
     <span class="navbar-left ">
-      <ul class="navbar-nav " data-hover="dropdown">
+      <ul class="navbar-nav respfontsize" data-hover="dropdown" >
         <li class="nav-item  " *ngIf="role.length === 0 || !role ">
           <a class="nav-link mr-0 ml-0 " routerLink="/login">Login</a>
         </li>
@@ -31,8 +31,8 @@
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             {{username}}
           </a>
-          <div class=" dropdown-menu dropdown-menu-right col-sm-12" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" routerLink="/account">My Profile</a>
+          <div class=" dropdown-menu dropdown-menu-right col-sm-12 respfontsize"  aria-labelledby="navbarDropdown">
+            <a class="dropdown-item"  routerLink="/account">My Profile</a>
             <a class="dropdown-item" (click)="logout()">Logout</a>
           </div>
         </li>

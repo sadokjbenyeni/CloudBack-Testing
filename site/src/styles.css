@@ -359,6 +359,7 @@ img#logo {
 
 @media (max-width: 1199px) {
   .navbar-light .navbar-nav .nav-link {
+    font-size: 1rem;
     color: rgba(0, 0, 0, .5);
     width: 100%;
   }
@@ -375,8 +376,10 @@ img#logo {
     /* Opera < 12.1 */
     animation: fadein 1s;
   }
+
   .navbar-expand-xl .navbar-nav .show .dropdown-menu .dropdown-item {
     color: rgba(0, 0, 0, .5);
+    font-size: 1rem;
     border: none;
     border-radius: .25rem;
   }
