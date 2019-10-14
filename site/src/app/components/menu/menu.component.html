@@ -23,11 +23,11 @@
           <a class="nav-link mr-0 ml-0 " (click)="DoLogin()">Login</a>
         </li>
         <li *ngIf="role.indexOf('Administrator') != -1 " class="nav-item ">
-          <a class="nav-link mr-0 ml-0 " routerLink="/admin/role">Administration</a>
+          <a class="nav-link  ml-0 " routerLink="/admin/role">Administration</a>
         </li>
 
         <li class="dropdown" *ngIf="role.length != 0" data-animations="fadeInDown">
-          <a class="nav-link dropdown-toggle  mr-0 ml-0" href="#" id="navbarDropdown" role="button"
+          <a class="nav-link dropdown-toggle  " href="#" id="navbarDropdown" role="button"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             {{username}}
           </a>

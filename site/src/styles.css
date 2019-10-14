@@ -375,7 +375,6 @@ img#logo {
     /* Opera < 12.1 */
     animation: fadein 1s;
   }
-
   .navbar-expand-xl .navbar-nav .show .dropdown-menu .dropdown-item {
     color: rgba(0, 0, 0, .5);
     font-size: 1rem;
