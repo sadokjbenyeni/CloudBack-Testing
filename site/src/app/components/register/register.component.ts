@@ -59,7 +59,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
     this.termspdf = '/files/historical_data_tc.pdf';
     this.page = this.router.url;
-    this.key = '6LcQ80cUAAAAANfU8xFYxntN36rEdS5X5H7bjv3_'; //key reCaptcha
+    this.key = '6Lcnsb0UAAAAAOqmrPXzJhOVbhcYZLrCwLngdjjb'; //key reCaptcha
     this.pnl = 'panel panel-primary';
     this.confirmation = '';
     this.isValidPwd = false;
@@ -98,7 +98,7 @@ export class RegisterComponent implements OnInit {
     };
     this.title = 'Register';
     if ( this.page === '/account' ) {
-      this.title = 'My Profil';
+      this.title = 'My Profile';
       this.getUser();
       this.getCurrency();
     }
