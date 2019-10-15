@@ -1,7 +1,6 @@
-.full-screen-height {
+/* .full-screen-height {
   height: 100vh;
-  /* overflow: hidden; */
-}
+} */
 
 .mg-down-5 {
   margin-bottom: 5px;
@@ -621,3 +620,5 @@ span.cap {
     opacity: 1;
   }
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

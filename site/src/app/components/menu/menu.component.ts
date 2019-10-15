@@ -1,7 +1,9 @@
+import { LoginComponent } from './../login/login.component';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { UserService } from '../../services/user.service';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-menu',
@@ -15,7 +17,8 @@ export class MenuComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private matDialog: MatDialog
   ) {
     this.link = '';
     this.role = '';
@@ -48,7 +51,9 @@ export class MenuComponent implements OnInit {
     }
   }
 
-
+  DoLogin():void {
+    this.matDialog.open(LoginComponent);
+  }
 
   // openNav() {
   //   document.getElementById('mySidenav').style.width = '250px';

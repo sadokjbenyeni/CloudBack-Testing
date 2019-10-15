@@ -20,7 +20,7 @@
     <span class="navbar-left ">
       <ul class="navbar-nav respfontsize" data-hover="dropdown" >
         <li class="nav-item  " *ngIf="role.length === 0 || !role ">
-          <a class="nav-link mr-0 ml-0 " routerLink="/login">Login</a>
+          <a class="nav-link mr-0 ml-0 " (click)="DoLogin()">Login</a>
         </li>
         <li *ngIf="role.indexOf('Administrator') != -1 " class="nav-item ">
           <a class="nav-link mr-0 ml-0 " routerLink="/admin/role">Administration</a>

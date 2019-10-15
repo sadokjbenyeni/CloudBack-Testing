@@ -1,3 +1,4 @@
+import { MaterialModule } from './components/material/material.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -40,6 +41,7 @@ import { CountriesService } from './services/countries.service';
 import { CompanytypesService } from './services/companytypes.service';
 import { ComplianceService } from './services/compliance.service';
 import { ConfigService } from './services/config.service';
+
 // import { FilterPipe } from './services/callback.pipe';
 
 // Commun
@@ -49,6 +51,9 @@ import { ComCountriesComponent } from './components/commun/com-countries/com-cou
 import { CeilPipe } from './ceil.pipe';
 import { SafeHtmlPipePipe } from './safe-html-pipe.pipe';
 
+//
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 // Middleware
 import { RecaptchaModule } from 'ng-recaptcha';
 import { DataTablesModule, DataTableDirective } from 'angular-datatables';
@@ -56,6 +61,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgbdModalContent } from './modal-content';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { CdkTableModule } from '@angular/cdk/table';
 
 // import { PdfComponent } from './components/commun/pdf/pdf.component';
 
@@ -87,13 +93,16 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     NgbdModalContent,
     ComCountriesComponent
   ],
-  entryComponents:[NgbdModalContent],
+  entryComponents:[NgbdModalContent, LoginComponent],
   imports: [
+    MaterialModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot(routes),
     DataTablesModule,
+    CdkTableModule,
+    BrowserAnimationsModule,
     // NgbModule.forRoot(),
     NgbModule,
 //    Ng2BootstrapModule,
