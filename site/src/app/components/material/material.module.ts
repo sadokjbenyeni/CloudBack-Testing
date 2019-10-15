@@ -1,8 +1,9 @@
+import { LoginComponent } from './../login/login.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // Material Imports
-import { MatDialogModule, MatInputModule } from '@angular/material';
+import { MatDialogModule, MatInputModule, MatCardModule, MatProgressSpinnerModule } from '@angular/material';
 
 @NgModule({
   declarations: [],
@@ -11,7 +12,9 @@ import { MatDialogModule, MatInputModule } from '@angular/material';
   ],
   exports: [
     MatDialogModule,
-    MatInputModule 
-  ]
+    MatInputModule,
+    MatCardModule,
+    MatProgressSpinnerModule
+  ],
 })
 export class MaterialModule { }

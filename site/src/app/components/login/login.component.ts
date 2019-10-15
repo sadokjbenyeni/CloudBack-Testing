@@ -4,7 +4,6 @@ import { NgForm } from '@angular/forms';
 
 import { UserService } from '../../services/user.service';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,6 +21,7 @@ export class LoginComponent implements OnInit {
   page: string;
   message: String;
   showAll = false;
+  showSpinner: Boolean = false;
 
   constructor(
     private router: Router,
@@ -84,7 +84,9 @@ export class LoginComponent implements OnInit {
         this.colorMessage = 'alert alert-danger';
         this.message = res.message;
       } else {
+        this.showSpinner = true;
         this.userService.mdpmail({email:this.email, token:res.token}).subscribe(r => {
+          this.showSpinner = false;
           if(r.mail){
             this.colorMessage = 'alert alert-info';
             this.message = 'An email has just been sent';

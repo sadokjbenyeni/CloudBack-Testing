@@ -62,7 +62,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalContent } from './modal-content';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { CdkTableModule } from '@angular/cdk/table';
-
 // import { PdfComponent } from './components/commun/pdf/pdf.component';
 
 @NgModule({
@@ -107,7 +106,10 @@ import { CdkTableModule } from '@angular/cdk/table';
     NgbModule,
 //    Ng2BootstrapModule,
     RecaptchaModule.forRoot(),
-    PdfViewerModule
+    PdfViewerModule,
+    FormsModule,    
+    BrowserModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     GuardGuard,
