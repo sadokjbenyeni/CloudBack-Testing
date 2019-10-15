@@ -5,7 +5,7 @@
 }
 
 .window-position-center {
-  left: 10vw;
+  left: 20vw;
   top: 30vh;
   height: 50%;
   width: 60%;
@@ -78,7 +78,7 @@
   cursor: pointer;
   user-select: none;
   color: white;
-  left: 26vw;
+  left: 23vw;
   top: 2vh;
   display: flex;
   align-items: center;
