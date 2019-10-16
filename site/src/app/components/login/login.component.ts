@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 
 import { UserService } from '../../services/user.service';
 
@@ -27,6 +28,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private activatedRoute: ActivatedRoute
+    private dialogRef: MatDialogRef<LoginComponent>
+
   ) {
   }
 
@@ -128,5 +131,8 @@ export class LoginComponent implements OnInit {
   }
   termsClose() {
     this.viewterms = false;
+  }
+  closeDialog() {
+    this.dialogRef.close();
   }
 }
