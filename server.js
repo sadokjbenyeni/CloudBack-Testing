@@ -7,7 +7,7 @@ const request = require('request');
 const mongoose = require('mongoose');
 
 const cron = require('node-cron');
-import { environment } from '../../environments/environment';
+//import { environment } from '../../environments/environment';
 //Connect to mongoDB server
 // const userdb = ''; � param�trer
 // const passdb = ''; � param�trer
@@ -20,10 +20,10 @@ import { environment } from '../../environments/environment';
 //     client.close();
 //  });
 //
-mongoose.connect(environment.connexionString, { 
+//mongoose.connect(environment.connexionString, { 
     // useMongoClient: true,
     /* other options */
-});
+//});
 mongoose.set('debug', true);
 
 //Init express

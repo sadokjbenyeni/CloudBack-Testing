@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostBinding } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
@@ -69,7 +69,7 @@ export class RegisterComponent implements OnInit {
     this.term = true;
     this.checkv = false;
     this.loadvat = 'form-control ok';
-    this.user = <object> {
+    this.user = <object>{
       id: <string>'',
       firstname: <string>'',
       lastname: <string>'',
@@ -97,7 +97,7 @@ export class RegisterComponent implements OnInit {
       commercial: <boolean>true
     };
     this.title = 'Register';
-    if ( this.page === '/account' ) {
+    if (this.page === '/account') {
       this.title = 'My Profile';
       this.getUser();
       this.getCurrency();
@@ -110,25 +110,25 @@ export class RegisterComponent implements OnInit {
 
 
   resolved(captchaResponse: string) {
-    if ( captchaResponse ) {
+    if (captchaResponse) {
       this.checkrobot = false;
     } else {
       this.checkrobot = true;
     }
   }
 
-  register(){
-    if(this.confirmation === this.user['password']) {
+  register() {
+    if (this.confirmation === this.user['password']) {
       this.isValidPwd = false;
-      this.userService.create(this.user).subscribe(data=>{
+      this.userService.create(this.user).subscribe(data => {
         sessionStorage.setItem('register', 'ok')
         this.router.navigate(['/login']);
       },
-      error=>{
-        console.error(error);
-      });
+        error => {
+          console.error(error);
+        });
     } else {
-      this.isValidPwd = true; 
+      this.isValidPwd = true;
     }
   }
 
@@ -166,8 +166,8 @@ export class RegisterComponent implements OnInit {
     this.term = true;
   }
 
-  sameAddress(){
-    if (this.user['sameAddress']){
+  sameAddress() {
+    if (this.user['sameAddress']) {
       this.user['addressBilling'] = this.user['address'];
       this.user['cityBilling'] = this.user['city'];
       this.user['postalCodeBilling'] = this.user['postalCode'];
@@ -182,14 +182,14 @@ export class RegisterComponent implements OnInit {
   }
 
   verifMail() {
-    if(this.page === '/register'){
-      this.userService.verifmail({email : this.user['email']}).subscribe(resp=>{
-        this.exist = resp.valid;
+    if (this.page === '/register') {
+      this.userService.verifmail({ email: this.user['email'] }).subscribe(resp => {
+        this.exist = !resp.valid;
       });
-    }    
+    }
   }
 
-  getUser(){
+  getUser() {
     let id = JSON.parse(sessionStorage.getItem('user'))._id;
     this.userService.getCompte(id).subscribe(res => {
       this.user = res;

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { UserService } from '../../services/user.service';
 import { MatDialog } from '@angular/material';
+import { HomeComponent } from '../home/home.component';
 
 @Component({
   selector: 'app-menu',
@@ -53,6 +54,10 @@ export class MenuComponent implements OnInit {
 
   DoLogin():void {
     this.matDialog.open(LoginComponent);
+  }
+  ToHome()
+  {
+    this.router.navigateByUrl("/home")
   }
 
   // openNav() {

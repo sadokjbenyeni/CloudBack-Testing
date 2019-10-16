@@ -1,4 +1,4 @@
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MatCheckboxModule } from '@angular/material';
 import { LoginComponent } from './../login/login.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -15,7 +15,8 @@ import { MatDialogModule, MatInputModule, MatCardModule, MatProgressSpinnerModul
     MatDialogModule,
     MatInputModule,
     MatCardModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatCheckboxModule
   ],
 })
 export class MaterialModule { }
