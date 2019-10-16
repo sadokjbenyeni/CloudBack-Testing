@@ -1,0 +1,20 @@
+@media (min-width: 1199px) {
+    re-captcha {
+        margin-left: 42%;
+    }
+    .policy-center
+    {
+        margin-left: 32%;
+    }
+}
+@media (max-width: 1198px) {
+    re-captcha {
+        margin-left: 14%;
+    }
+
+}
+button
+{
+    background-color: #ea663b;
+    color: #FFF;
+}

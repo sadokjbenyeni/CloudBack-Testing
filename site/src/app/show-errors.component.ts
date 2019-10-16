@@ -4,7 +4,7 @@ import { AbstractControlDirective, AbstractControl } from '@angular/forms';
 @Component({
   selector: 'show-errors',
   template: `
-  <div class="alert alert-danger" *ngIf="shouldShowErrors()">
+  <div class="alert alert-danger col-md-12" style="line-height: 80%;" *ngIf="shouldShowErrors()">
     <span *ngFor="let error of listOfErrors()">{{error}}</span>
   </div>
   `,
