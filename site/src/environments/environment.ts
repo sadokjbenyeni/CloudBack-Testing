@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  api: 'http://lab.cloudbacktesting.quanthouse.com/api'
+  api: 'http://quantfactory.app/api'
 };
