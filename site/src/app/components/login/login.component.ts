@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 
 import { UserService } from '../../services/user.service';
+import { ResourceLoader } from '@angular/compiler';
 
 @Component({
   selector: 'app-login',
@@ -121,8 +122,8 @@ export class LoginComponent implements OnInit {
       } else {
         sessionStorage.setItem('user', JSON.stringify(res.user));
         localStorage.setItem('ula', 'true');
-        sessionStorage.removeItem('register')
-        this.router.navigate(['/home']);
+        sessionStorage.removeItem('register');
+        location.reload();
       }
     });
   }

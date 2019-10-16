@@ -66,3 +66,7 @@
 .form-dark .modal-header {
     border-bottom: none;
 }
+
+.orange-text{
+  color: rgb(226, 80, 46);
+}
