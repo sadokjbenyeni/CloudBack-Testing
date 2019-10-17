@@ -62,6 +62,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalContent } from './modal-content';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { CdkTableModule } from '@angular/cdk/table';
+import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.component';
 // import { PdfComponent } from './components/commun/pdf/pdf.component';
 
 @NgModule({
@@ -90,9 +91,10 @@ import { CdkTableModule } from '@angular/cdk/table';
     CeilPipe,
     SafeHtmlPipePipe,
     NgbdModalContent,
-    ComCountriesComponent
+    ComCountriesComponent,
+    TermsOfUseComponent
   ],
-  entryComponents:[NgbdModalContent, LoginComponent],
+  entryComponents:[NgbdModalContent, LoginComponent,TermsOfUseComponent],
   imports: [
     MaterialModule,
     BrowserModule,

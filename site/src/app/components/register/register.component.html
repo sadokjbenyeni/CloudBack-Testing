@@ -192,7 +192,7 @@
                   <mat-checkbox class="col-md-2" name="newcgv" value="user.cgv" [(ngModel)]="user.cgv" #newcgv="ngModel"
                     ngModel required>
                     <!-- <a (click)="cgv()"> -->
-                    I agree to QH’s term & services, and cookie policy
+                    I agree to QH’s  <a  [routerLink]="" class="text-nowrap" (click)=GetTerms()>term & services, and cookie policy</a>
                     <!-- </a> -->
                   </mat-checkbox>
                 </div>

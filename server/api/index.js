@@ -3,6 +3,7 @@ const router = require('express').Router();
 router.use('/user', require('./user'));
 router.use('/role', require('./role'));
 router.use('/countries', require('./countries'));
+router.use('/terms', require('./usageterms'));
 router.use('/companytype', require('./companytype'));
 router.use('/verifyvat', require('./vat'));
 router.use('/payment', require('./payment'));

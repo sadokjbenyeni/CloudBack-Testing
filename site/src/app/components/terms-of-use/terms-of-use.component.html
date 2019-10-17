@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Terms of use</h2>
+<mat-dialog-content class="mat-typography">
+    {{term.description}}
+</mat-dialog-content>
+<mat-dialog-actions>
+
+    <mat-checkbox class="col-10 col-sm-10 col-md-10" name=" newcommercial" [(ngModel)]="acceptence"
+        value="usercommercial">
+        I agree to QH’s term & services, and cookie policy
+    </mat-checkbox>
+    <button class="btn btn-primary col-sm-12 col-md-2" (click)="onclose()">Close</button>
+</mat-dialog-actions>

@@ -8,6 +8,7 @@ import { CountriesService } from '../../services/countries.service';
 import { CompanytypesService } from '../../services/companytypes.service';
 import { LoginComponent } from '../login/login.component';
 import { MatDialog } from '@angular/material';
+import { TermsOfUseComponent } from '../terms-of-use/terms-of-use.component';
 
 export interface FormModel {
   captcha?: string;
@@ -52,7 +53,7 @@ export class RegisterComponent implements OnInit {
     private currencyService: CurrencyService,
     private countriesService: CountriesService,
     private companytypesService: CompanytypesService,
-    private matDialog : MatDialog
+    private matDialog: MatDialog
   ) {
   }
 
@@ -227,6 +228,14 @@ export class RegisterComponent implements OnInit {
     this.countriesService.getCountries().subscribe(res => {
       this.country = res.countries;
     });
+  }
+  GetTerms() {
+
+    this.matDialog.open(TermsOfUseComponent, { disableClose:true,height:'90vh',maxHeight: '100vh',data:{checked:this.user["cgv"]} }).afterClosed()
+    .subscribe(reuslt=>
+      {
+        debugger;
+        this.user["cgv"] = reuslt;});
   }
 }
 

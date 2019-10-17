@@ -67,6 +67,10 @@ require('./server/models/payment');
 require('./server/models/currency');
 require('./server/models/countrie');
 require('./server/models/companytype');
+require('./server/models/payment');
+require('./server/models/termsOfUse');
+
+
 
 //Get our API routes
 const api = require('./server/api/');
