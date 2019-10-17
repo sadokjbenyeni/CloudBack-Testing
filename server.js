@@ -7,7 +7,7 @@ const request = require('request');
 const mongoose = require('mongoose');
 
 const cron = require('node-cron');
-//import { environment } from '../../environments/environment';
+
 //Connect to mongoDB server
 // const userdb = ''; � param�trer
 // const passdb = ''; � param�trer
@@ -20,7 +20,7 @@ const cron = require('node-cron');
 //     client.close();
 //  });
 //
-//mongoose.connect(environment.connexionString, { 
+mongoose.connect('mongodb://localhost:27017/cloudbacktesting', { 
     // useMongoClient: true,
     /* other options */
 //});
