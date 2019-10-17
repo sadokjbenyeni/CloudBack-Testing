@@ -21,9 +21,9 @@ const cron = require('node-cron');
 //  });
 //
 mongoose.connect('mongodb://localhost:27017/cloudbacktesting', { 
-    // useMongoClient: true,
+    useMongoClient: true,
     /* other options */
-//});
+});
 mongoose.set('debug', true);
 
 //Init express

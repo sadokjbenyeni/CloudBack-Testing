@@ -6,6 +6,8 @@ import { UserService } from '../../services/user.service';
 import { CurrencyService } from '../../services/currency.service';
 import { CountriesService } from '../../services/countries.service';
 import { CompanytypesService } from '../../services/companytypes.service';
+import { LoginComponent } from '../login/login.component';
+import { MatDialog } from '@angular/material';
 
 export interface FormModel {
   captcha?: string;
@@ -49,7 +51,8 @@ export class RegisterComponent implements OnInit {
     private userService: UserService,
     private currencyService: CurrencyService,
     private countriesService: CountriesService,
-    private companytypesService: CompanytypesService
+    private companytypesService: CompanytypesService,
+    private matDialog : MatDialog
   ) {
   }
 
@@ -64,7 +67,7 @@ export class RegisterComponent implements OnInit {
     this.confirmation = '';
     this.isValidPwd = false;
     this.message = '';
-    this.exist = true;
+    this.exist = false;
     this.checkrobot = true;
     this.term = true;
     this.checkv = false;
@@ -122,7 +125,8 @@ export class RegisterComponent implements OnInit {
       this.isValidPwd = false;
       this.userService.create(this.user).subscribe(data => {
         sessionStorage.setItem('register', 'ok')
-        this.router.navigate(['/login']);
+        this.router.navigateByUrl("/home");
+        this.matDialog.open(LoginComponent);
       },
         error => {
           console.error(error);
@@ -184,7 +188,7 @@ export class RegisterComponent implements OnInit {
   verifMail() {
     if (this.page === '/register') {
       this.userService.verifmail({ email: this.user['email'] }).subscribe(resp => {
-        this.exist = !resp.valid;
+        this.exist = resp.valid;
       });
     }
   }
