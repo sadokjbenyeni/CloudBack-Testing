@@ -189,11 +189,17 @@
             <fieldset class="col-12 text-center" *ngIf="page === '/register'">
               <div class="policy-center">
                 <div class="form-group input-group  col-md-12">
-                  <mat-checkbox class="col-md-2" name="newcgv" value="user.cgv" [(ngModel)]="user.cgv" #newcgv="ngModel"
+                  <mat-checkbox class="col-md-2" name="newcgu" (change)="showOptions($event)" 
+                  value="" [(ngModel)]="acceptingcgu" #newcgv="ngModel"
                     ngModel required>
-                    <!-- <a (click)="cgv()"> -->
-                    I agree to QH’s  <a  [routerLink]="" class="text-nowrap" (click)=GetTerms()>term & services, and cookie policy</a>
-                    <!-- </a> -->
+                    I agree to QH’s   <a  [routerLink]="" class="text-nowrap" (click)=GetTerms()>term & services, and cookie policy</a>
+                  </mat-checkbox>
+                </div>
+                <div class="form-group input-group  col-md-12">
+                  <mat-checkbox class="col-md-2" name="newcgv" 
+                  value="user.cgv" [(ngModel)]="user.cgv" #newcgv="ngModel"
+                    ngModel required>
+                    I agree to QH’s terms of Sales
                   </mat-checkbox>
                 </div>
                 <div class="form-group input-group col-md-12">
@@ -208,7 +214,7 @@
               </div>
               <a routerLink="/login" class="btn btn-default">Cancel</a>
               <button (click)="register() " class="btn btn-default"
-                [disabled]="userForm.invalid || userForm.pending || checkrobot || exist">Register
+                [disabled]="userForm.invalid|| !acceptingcgu || userForm.pending || checkrobot || exist">Register
               </button>
             </fieldset>
             <div class="col-lg-4 col-lg-offset-4" *ngIf="page ==='/account'">

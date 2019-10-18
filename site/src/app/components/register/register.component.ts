@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, HostBinding } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
 
 import { UserService } from '../../services/user.service';
 import { CurrencyService } from '../../services/currency.service';
@@ -9,6 +8,8 @@ import { CompanytypesService } from '../../services/companytypes.service';
 import { LoginComponent } from '../login/login.component';
 import { MatDialog } from '@angular/material';
 import { TermsOfUseComponent } from '../terms-of-use/terms-of-use.component';
+import { TermsService } from '../../services/terms.service';
+import { Term } from '../../models/Terms';
 
 export interface FormModel {
   captcha?: string;
@@ -41,8 +42,9 @@ export class RegisterComponent implements OnInit {
   exist: boolean;
   checkrobot: boolean;
   checkv: boolean; // check VAT Number
-  term: boolean;
+  term: Term;
   termspdf: string;
+  acceptingcgu: false;
 
 
   public formModel: FormModel = {};
@@ -53,15 +55,15 @@ export class RegisterComponent implements OnInit {
     private currencyService: CurrencyService,
     private countriesService: CountriesService,
     private companytypesService: CompanytypesService,
+    private termService: TermsService,
     private matDialog: MatDialog
   ) {
   }
 
-  @ViewChild('utilisateurForm', { static: false })
-  private utilisateurForm: NgForm;
+  // @ViewChild('utilisateurForm', { static: false })
+  // private utilisateurForm: NgForm;
 
   ngOnInit() {
-    this.termspdf = '/files/historical_data_tc.pdf';
     this.page = this.router.url;
     this.key = '6Lcnsb0UAAAAAOqmrPXzJhOVbhcYZLrCwLngdjjb'; //key reCaptcha
     this.pnl = 'panel panel-primary';
@@ -70,7 +72,6 @@ export class RegisterComponent implements OnInit {
     this.message = '';
     this.exist = false;
     this.checkrobot = true;
-    this.term = true;
     this.checkv = false;
     this.loadvat = 'form-control ok';
     this.user = <object>{
@@ -98,6 +99,7 @@ export class RegisterComponent implements OnInit {
       vat: <string>'',
       checkvat: <boolean>false,
       cgv: <boolean>false,
+      cgu: [],
       commercial: <boolean>true
     };
     this.title = 'Register';
@@ -110,6 +112,10 @@ export class RegisterComponent implements OnInit {
     this.getCountry();
     this.coll = 'col-lg-12';
     this.colg = 'col-lg-6';
+    //getting last term of use
+    this.termService.getLastTerm().subscribe(result => {
+      this.term = result;
+    });
   }
 
 
@@ -162,15 +168,6 @@ export class RegisterComponent implements OnInit {
       sessionStorage.setItem('user', JSON.stringify(user));
     });
   }
-
-  cgv() {
-    this.term = false;
-  }
-
-  cgvClose() {
-    this.term = true;
-  }
-
   sameAddress() {
     if (this.user['sameAddress']) {
       this.user['addressBilling'] = this.user['address'];
@@ -230,12 +227,18 @@ export class RegisterComponent implements OnInit {
     });
   }
   GetTerms() {
-
-    this.matDialog.open(TermsOfUseComponent, { disableClose:true,height:'90vh',maxHeight: '100vh',data:{checked:this.user["cgv"]} }).afterClosed()
-    .subscribe(reuslt=>
-      {
-        debugger;
-        this.user["cgv"] = reuslt;});
+    this.matDialog.open(TermsOfUseComponent, { disableClose: true, height: '90vh', maxHeight: '100vh', data: { terms: this.term, checked: this.acceptingcgu } }).afterClosed()
+      .subscribe(reuslt => {
+        this.acceptingcgu = reuslt;
+      });
+  }
+  showOptions(event) {
+    if (event.checked) {
+      this.user['cgu'].push(this.term.version);
+    }
+    else {
+      this.user['cgu'].splice(this.user['cgu'].indexOf(this.term.version), 1);
+    }
   }
 }
 

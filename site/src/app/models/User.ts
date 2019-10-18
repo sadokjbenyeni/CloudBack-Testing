@@ -15,6 +15,7 @@ export interface User {
     idCountry: String;
     country: String;
     cgv: Boolean;
+    cgu: string[];
     commercial: Boolean;
     phone: String;
     sameAddress: Boolean;

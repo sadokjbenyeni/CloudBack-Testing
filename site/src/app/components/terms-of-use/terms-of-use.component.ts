@@ -12,18 +12,14 @@ export class TermsOfUseComponent implements OnInit {
 
   acceptence: boolean;
   term: Term;
-  constructor(private termService: TermsService, private dialogRef: MatDialogRef<TermsOfUseComponent>, @Inject(MAT_DIALOG_DATA) public data) { }
+  constructor(private dialogRef: MatDialogRef<TermsOfUseComponent>, @Inject(MAT_DIALOG_DATA) public data) { }
 
   ngOnInit() {
     this.acceptence = this.data["checked"]
-    this.termService.getLastTerm().subscribe(result => {
-      debugger;
-      this.term = result;
-    })
+    this.term = this.data["terms"];
   }
 
   onclose() {
-    debugger;
     this.dialogRef.close(this.acceptence);
   }
 }

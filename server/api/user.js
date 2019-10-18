@@ -171,6 +171,7 @@ router.post('/', (req, res) => {
         user.region = req.body.region?req.body.region:'';
         user.phone = req.body.phone?req.body.phone:'';
         user.website = req.body.website?req.body.website:'';
+        user.cgu=req.body.cgu;
         
         user.save((err, u)=>{
             if (err) return console.error(err);
