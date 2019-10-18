@@ -11,16 +11,16 @@ const cron = require('node-cron');
 //Connect to mongoDB server
 // const userdb = ''; � param�trer
 // const passdb = ''; � param�trer
-// mongoose.connect('mongodb://userdb:passdb@localhost:27017/histodataweb', { 
+// mongoose.connect('mongodb://userdb:passdb@localhost:27017/histodataweb', {
 //
-// AZURE 
+// AZURE
 //
 //  var mongoClient = require("mongodb").MongoClient;
 //  mongoClient.connect("mongodb://cloudbacktesting:Mj9Es9gbZO6xeN2PLsOhfZhMZLXCKYRnXuZZCEjVdkVUlruOPXguIGY4VkzmUCYBsdTNFCbSiNkJVt09zPdjoQ%3D%3D@cloudbacktesting.documents.azure.com:10255/?ssl=true", function (err, client) {
 //     client.close();
 //  });
 //
-mongoose.connect('mongodb://localhost:27017/cloudbacktesting', { 
+mongoose.connect('mongodb://localhost:27017/cloudbacktesting', {
     useMongoClient: true,
     /* other options */
 });
@@ -74,7 +74,7 @@ require('./server/models/termsOfUse');
 
 //Get our API routes
 const api = require('./server/api/');
-  
+
 //Set API routes
 app.use('/api', api);
 
@@ -104,7 +104,7 @@ app.use('/api', api);
 // cronAutovalidationPVF.start();
 // cronAutovalidationPVF.destroy();
 
-// END CRON  
+// END CRON
 
 //Static path to dist
 app.use(express.static(path.join(__dirname, 'site/dist')));
@@ -122,9 +122,9 @@ app.get('*', (req, res) =>{
 //Get environment port or use 9095
 const port = process.env.PORT || '9095';
 app.set('port', port);
- 
+
 //Create HTTP server.
 const server = http.createServer(app);
- 
+
 //Listen on port
 server.listen(port, () => console.log(`API running on localhost:${port}`));

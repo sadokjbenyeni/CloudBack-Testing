@@ -55,6 +55,7 @@ export class MenuComponent implements OnInit {
   DoLogin():void {
     this.matDialog.open(LoginComponent);
   }
+  
   ToHome()
   {
     this.router.navigateByUrl("/home")

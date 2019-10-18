@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 
 import { UserService } from '../../services/user.service';
 import { ResourceLoader } from '@angular/compiler';
+import { ɵNgClassImplProvider__POST_R3__ } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,6 @@ export class LoginComponent implements OnInit {
   page: string;
   message: String;
   showAll = false;
-  showSpinner: Boolean = false;
 
   constructor(
     private router: Router,
@@ -39,17 +39,17 @@ export class LoginComponent implements OnInit {
     this.viewterms = false;
     this.ula = false;
     let ula = localStorage.getItem('ula');
-    if ( ula !== null && ula !== '' ) {
+    if (ula !== null && ula !== '') {
       this.ula = (ula.toString() === 'true');
     }
 
     let user = JSON.parse(sessionStorage.getItem('user'));
-    if ( user !== null && user !== {} ) {
+    if (user !== null && user !== {}) {
       this.router.navigate(['/home']);
     }
     this.message = '';
     let register = sessionStorage.getItem('register');
-    if(register === 'ok') {
+    if (register === 'ok') {
       this.message = 'Your account has been created';
       this.colorMessage = 'alert alert-info'
     }
@@ -63,35 +63,37 @@ export class LoginComponent implements OnInit {
     this.password = '';
     let route = this.router.url.split('/');
     this.page = route[1];
-    if(route[1] === 'mdp'){
+    if (route[1] === 'mdp') {
       this.token = route[2];
     }
+
+    this.passwordButton.addEventListener( 'click', function() {
+    this.loginWindow.classList.toggle('is-flipped');
+    });
   }
 
   activate() {
     this.activatedRoute.params.subscribe(params => {
-      this.userService.activation({token:params.token}).subscribe(res => {
+      this.userService.activation({ token: params.token }).subscribe(res => {
         this.message = res.message;
         this.colorMessage = 'alert alert-info';
-        if(this.message === 'User Not Found' ){
+        if (this.message === 'User Not Found') {
           this.colorMessage = 'alert alert-danger';
         } else {
           this.page = 'activation';
         }
       });
-    });  
+    });
   }
 
   mdp() {
-    this.userService.verifmail({email:this.email}).subscribe(res => {
+    this.userService.verifmail({ email: this.email }).subscribe(res => {
       if (!res.valid) {
         this.colorMessage = 'alert alert-danger';
         this.message = res.message;
       } else {
-        this.showSpinner = true;
-        this.userService.mdpmail({email:this.email, token:res.token}).subscribe(r => {
-          this.showSpinner = false;
-          if(r.mail){
+        this.userService.mdpmail({ email: this.email, token: res.token }).subscribe(r => {
+          if (r.mail) {
             this.colorMessage = 'alert alert-info';
             this.message = 'An email has just been sent';
           } else {
@@ -103,19 +105,19 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  savemdp(){
-    this.userService.mdpmodif({token:this.token, pwd: this.password}).subscribe(res => {
+  savemdp() {
+    this.userService.mdpmodif({ token: this.token, pwd: this.password }).subscribe(res => {
       this.colorMessage = 'alert alert-info';
       this.message = 'Password successfully changed';
-        setTimeout(() => {
-          this.message = '';
-          this.router.navigate(['/login']);
-        }, 3000);
+      setTimeout(() => {
+        this.message = '';
+        this.router.navigate(['/login']);
+      }, 3000);
     });
   }
 
   check() {
-    this.userService.check({email:this.email, pwd: this.password}).subscribe(res => {
+    this.userService.check({ email: this.email, pwd: this.password }).subscribe(res => {
       if (!res.user) {
         this.message = res.message;
         this.colorMessage = 'alert alert-danger';

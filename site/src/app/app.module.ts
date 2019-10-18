@@ -63,7 +63,11 @@ import { NgbdModalContent } from './modal-content';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { CdkTableModule } from '@angular/cdk/table';
 import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.component';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 // import { PdfComponent } from './components/commun/pdf/pdf.component';
+
+import { FlipModule } from 'ngx-flip';
+
 
 @NgModule({
   declarations: [
@@ -112,6 +116,8 @@ import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.comp
     FormsModule,    
     BrowserModule,
     BrowserAnimationsModule,
+    MDBBootstrapModule,
+    FlipModule,
   ],
   providers: [
     GuardGuard,
