@@ -599,9 +599,6 @@ span.cap {
   border-bottom: 1px solid #ddd;
 }
 
-
-
-
 @keyframes fadein {
   from {
     opacity: 0;
@@ -619,5 +616,44 @@ span.cap {
     opacity: 1;
   }
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.hide {
+  border: none;
+  background-color: transparent;
+  -webkit-animation: fadeout 1s;
+  /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadeout 1s;
+  /* Firefox < 16 */
+  -ms-animation: fadeout 1s;
+  /* Internet Explorer */
+  -o-animation: fadeout 1s;
+  /* Opera < 12.1 */
+  animation: fadein 1s;
+}
+
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
