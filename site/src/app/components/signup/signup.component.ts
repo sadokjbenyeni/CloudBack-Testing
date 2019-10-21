@@ -101,7 +101,7 @@ export class SignUpComponent implements OnInit {
       cgu: [],
       commercial: <boolean>true
     };
-    this.title = 'Register';
+    this.title = 'Sign Up';
     if (this.page === '/account') {
       this.title = 'My Profile';
       this.getUser();
@@ -126,7 +126,7 @@ export class SignUpComponent implements OnInit {
     }
   }
 
-  register() {
+  Signup() {
     if (this.confirmation === this.user['password']) {
       this.isValidPwd = false;
       this.userService.create(this.user).subscribe(data => {
@@ -183,7 +183,7 @@ export class SignUpComponent implements OnInit {
   }
 
   verifMail() {
-    if (this.page === '/register') {
+    if (this.page === '/signup') {
       this.userService.verifmail({ email: this.user['email'] }).subscribe(resp => {
         this.exist = resp.valid;
       });

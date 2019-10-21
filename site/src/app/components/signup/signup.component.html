@@ -213,8 +213,8 @@
                 <re-captcha (resolved)="resolved($event)" [siteKey]="key"></re-captcha>
               </div>
               <a routerLink="/login" class="btn btn-default">Cancel</a>
-              <button (click)="register() " class="btn btn-default"
-                [disabled]="userForm.invalid|| !acceptingcgu || userForm.pending || checkrobot || exist">Register
+              <button (click)="Signup() " class="btn btn-default"
+                [disabled]="userForm.invalid|| !acceptingcgu || userForm.pending || checkrobot || exist">Sign Up
               </button>
             </fieldset>
             <div class="col-lg-4 col-lg-offset-4" *ngIf="page ==='/account'">
