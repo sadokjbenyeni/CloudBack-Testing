@@ -42,7 +42,6 @@
     "ng-recaptcha": "^3.0.3",
     "ng2-pdf-viewer": "^3.0.8",
     "ngx-bootstrap": "^5.1.2",
-    "ngx-flip": "^7.1.0",
     "npm-registry-client": "^8.6.0",
     "pdfmake": "^0.1.36",
     "rxjs": "^6.5.3",
