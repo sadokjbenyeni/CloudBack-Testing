@@ -130,9 +130,8 @@ export class SignUpComponent implements OnInit {
     if (this.confirmation === this.user['password']) {
       this.isValidPwd = false;
       this.userService.create(this.user).subscribe(data => {
-        sessionStorage.setItem('register', 'ok')
         this.router.navigateByUrl("/home");
-        this.matDialog.open(LoginComponent);
+        this.matDialog.open(LoginComponent, { data: { registration: "ok" } });
       },
         error => {
           console.error(error);

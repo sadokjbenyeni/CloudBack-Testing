@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
@@ -28,7 +28,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private activatedRoute: ActivatedRoute,
-    private dialogRef: MatDialogRef<LoginComponent>
+    private dialogRef: MatDialogRef<LoginComponent>,
+    @Inject(MAT_DIALOG_DATA) public data
 
   ) {
   }
@@ -45,7 +46,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/home']);
     }
     this.message = '';
-    let register = sessionStorage.getItem('register');
+    let register = this.data["registration"]
     if (register === 'ok') {
       this.message = 'Your account has been created';
       this.colorMessage = 'alert alert-info'
