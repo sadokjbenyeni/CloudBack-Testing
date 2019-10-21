@@ -6,6 +6,7 @@ const domain = config.domain();
 const admin = config.admin();
 const URLS = config.config();
 const SMTP = config.smtpconf();
+const sgMail = require('@sendgrid/mail');
 
 const smtpTransport = nodemailer.createTransport({
   host: SMTP.host,
@@ -20,47 +21,79 @@ const smtpTransport = nodemailer.createTransport({
 });
 
 router.post('/inscription', (req, res, next) => {
-  let mailOptions = {
-    from: 'no-reply@quanthouse.com',
-    to: req.body.email, //req.body.user,
+  sgMail.setApiKey("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");
+  const msg = {
+    to: req.body.email,
+    from: 'no-replay@cloudbacktesting.com',
     subject: 'Confirm your email',
     text: `Hello,
 
     
     To validate your email address and activate your account, please click on the following link:
     `+ domain + `/activation/` + req.body.token +
-    `If clicking the above link does not work, you can copy and paste the URL in a new browser window.
+      `If clicking the above link does not work, you can copy and paste the URL in a new browser window.
 
     If you have received this email by error, you do not need to take any action. The account will not be activated and you will not receive any further emails.
 
 
     The Quanthouse team`,
-
     html: `Hello,<br><br>
-    To validate your email address and activate your account, please click on the following link:
-    <a href="`+ domain + `/activation/`+ req.body.token +`">Activation of the HistodataWeb account</a><br>
-    If clicking the above link does not work, you can copy and paste the URL in a new browser window.<br><br>
-    If you have received this email by error, you do not need to take any action. The account will not be activated and you will not receive any further emails.
-    <br><br>
-    <b>The Quanthouse team</b>`
+    //   To validate your email address and activate your account, please click on the following link:
+    //   <a href="`+ domain + `/activation/` + req.body.token + `">Activation of the HistodataWeb account</a><br>
+    //   If clicking the above link does not work, you can copy and paste the URL in a new browser window.<br><br>
+    //   If you have received this email by error, you do not need to take any action. The account will not be activated and you will not receive any further emails.
+    //   <br><br>
+    //   <b>The Quanthouse team</b>`,
   };
-  smtpTransport.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return console.log(error);
-    }
-    return res.json({mail:true}).statusCode(200);
-  });
+  try
+  {
+  sgMail.send(msg);
+  return res.json({ mail: true }).statusCode(200);
+  }catch 
+  {
+  return res.json({ mail: true }).statusCode(500);
+  }
+  // let mailOptions = {
+  //   from: 'no-reply@quanthouse.com',
+  //   to: req.body.email, //req.body.user,
+  //   subject: 'Confirm your email',
+  //   text: `Hello,
+
+
+  //   To validate your email address and activate your account, please click on the following link:
+  //   `+ domain + `/activation/` + req.body.token +
+  //   `If clicking the above link does not work, you can copy and paste the URL in a new browser window.
+
+  //   If you have received this email by error, you do not need to take any action. The account will not be activated and you will not receive any further emails.
+
+
+  //   The Quanthouse team`,
+
+  //   html: `Hello,<br><br>
+  //   To validate your email address and activate your account, please click on the following link:
+  //   <a href="`+ domain + `/activation/`+ req.body.token +`">Activation of the HistodataWeb account</a><br>
+  //   If clicking the above link does not work, you can copy and paste the URL in a new browser window.<br><br>
+  //   If you have received this email by error, you do not need to take any action. The account will not be activated and you will not receive any further emails.
+  //   <br><br>
+  //   <b>The Quanthouse team</b>`
+  // };
+  // smtpTransport.sendMail(mailOptions, (error, info) => {
+  //   if (error) {
+  //     return console.log(error);
+  //   }
+  //   return res.json({mail:true}).statusCode(200);
+  // });
 });
 router.post('/activation', (req, res, next) => {
   let login = '';
   let password = '';
   let link = '';
   // if(URLS.indexOf(req.headers.referer) !== -1){
-    let mailOptions = {
-      from: 'no-reply@quanthouse.com',
-      to: req.body.email, //req.body.user,
-      subject: 'Account Activation',
-      text: `Hello,
+  let mailOptions = {
+    from: 'no-reply@quanthouse.com',
+    to: req.body.email, //req.body.user,
+    subject: 'Account Activation',
+    text: `Hello,
       Thank you for choosing QH’s On Demand Historical Data product!
       Your account has been successfully created. Below are your login credentials.
       Login: ` + login + `
@@ -69,7 +102,7 @@ router.post('/activation', (req, res, next) => {
 
       The Quanthouse team`,
 
-      html: `Hello,<br><br>
+    html: `Hello,<br><br>
       Thank you for choosing QH’s On Demand Historical Data product!
       Your account has been successfully created. Below are your login credentials.
       Login: ` + login + `<br>
@@ -77,13 +110,13 @@ router.post('/activation', (req, res, next) => {
       To manage your profile please go to: ` + link + `
       <br><br>
       <b>The Quanthouse team</b>`
-    };
-    smtpTransport.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        return console.log(error);
-      }
-      return res.json({mail:true}).statusCode(200);
-    });
+  };
+  smtpTransport.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return console.log(error);
+    }
+    return res.json({ mail: true }).statusCode(200);
+  });
   // }
   // else{
   //     return res.sendStatus(404);
@@ -95,11 +128,11 @@ router.post('/activated', (req, res, next) => {
   let password = '';
   let link = '';
   // if(URLS.indexOf(req.headers.referer) !== -1){
-    let mailOptions = {
-      from: 'no-reply@quanthouse.com',
-      to: req.body.email, //req.body.user,
-      subject: 'Your Account has been validated',
-      text: `Hello,
+  let mailOptions = {
+    from: 'no-reply@quanthouse.com',
+    to: req.body.email, //req.body.user,
+    subject: 'Your Account has been validated',
+    text: `Hello,
       Thank you for choosing QH’s On Demand Historical Data product!
       Your account has been successfully created. Below are your login credentials.
       Login: ` + login + `
@@ -108,7 +141,7 @@ router.post('/activated', (req, res, next) => {
 
       The Quanthouse team`,
 
-      html: `Hello,<br><br>
+    html: `Hello,<br><br>
       Thank you for choosing QH’s On Demand Historical Data product!
       Your account has been successfully created. Below are your login credentials.
       Login: ` + login + `<br>
@@ -116,13 +149,13 @@ router.post('/activated', (req, res, next) => {
       To manage your profile please go to: ` + link + `
       <br><br>
       <b>The Quanthouse team</b>`
-    };
-    smtpTransport.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        return console.log(error);
-      }
-      return res.json({mail:true}).statusCode(200);
-    });
+  };
+  smtpTransport.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return console.log(error);
+    }
+    return res.json({ mail: true }).statusCode(200);
+  });
   // }
   // else{
   //     return res.sendStatus(404);
@@ -136,14 +169,14 @@ router.post('/mdp', (req, res, next) => {
     subject: 'Password Initialization',
     text: `Hello,
 
-    To reinitialize your password, please click on the following link: `+ domain + `/mdp/`+ req.body.token +`
+    To reinitialize your password, please click on the following link: `+ domain + `/mdp/` + req.body.token + `
     If clicking the above link does not work, you can copy and paste the URL in a new browser window.
     If you have received this email by error, you do not need to take any action. Your password will remain unchanged.
 
     The Quanthouse team`,
 
     html: `Hello,<br><br>
-    To reinitialize your password, please click on the following link: `+ domain + `/mdp/`+ req.body.token +`<br>
+    To reinitialize your password, please click on the following link: `+ domain + `/mdp/` + req.body.token + `<br>
     If clicking the above link does not work, you can copy and paste the URL in a new browser window.<br>
     If you have received this email by error, you do not need to take any action. Your password will remain unchanged.<br><br>
     <b>The Quanthouse team</b>`
@@ -152,7 +185,7 @@ router.post('/mdp', (req, res, next) => {
     if (error) {
       return console.log(error);
     }
-    return res.json({mail:true}).statusCode(200);
+    return res.json({ mail: true }).statusCode(200);
   });
 });
 
@@ -165,7 +198,7 @@ router.post('/newOrder', (req, res, next) => {
 
 
     Thank you for choosing the QH's Historical Data On-Demand product.<br>
-    You Order # `+ req.body.idCmd +` has been received on ` + req.body.paymentdate.substring(0, 10) + " " + req.body.paymentdate.substring(11, 19) + ` CET and is currently pending validation by the QH ` + req.body.service + ` department.
+    You Order # `+ req.body.idCmd + ` has been received on ` + req.body.paymentdate.substring(0, 10) + " " + req.body.paymentdate.substring(11, 19) + ` CET and is currently pending validation by the QH ` + req.body.service + ` department.
     For any further information about your order, please use the following link: `+ domain + `/order/history
 
     
@@ -174,7 +207,7 @@ router.post('/newOrder', (req, res, next) => {
 
     html: `Hello,<br><br>
     Thank you for choosing the QH's Historical Data On-Demand product.<br>
-    You Order <b># `+ req.body.idCmd +`</b> has been received on ` + req.body.paymentdate.substring(0, 10) + " " + req.body.paymentdate.substring(11, 19) + ` CET and is currently pending validation by the <b>QH ` + req.body.service + ` department</b>.<br>
+    You Order <b># `+ req.body.idCmd + `</b> has been received on ` + req.body.paymentdate.substring(0, 10) + " " + req.body.paymentdate.substring(11, 19) + ` CET and is currently pending validation by the <b>QH ` + req.body.service + ` department</b>.<br>
     For any further information about your order, please use the following link: <a href="`+ domain + `/order/history"> Click here</a>
     <br><br>
     <b>Thank you,<br>Quanthouse</b>`
@@ -183,7 +216,7 @@ router.post('/newOrder', (req, res, next) => {
     if (error) {
       return console.log(error);
     }
-    return res.json({mail:true}).statusCode(200);
+    return res.json({ mail: true }).statusCode(200);
   });
 });
 
@@ -194,15 +227,15 @@ router.post('/reminder', (req, res, next) => { // géré par un CRON
     subject: 'Pending Order # ' + req.body.idCmd,
     text: `Hello,
 
-    You Order # `+ req.body.idCmd +` received on ` + req.body.logsPayment + ` CET is currently pending completion of the billing process.
-    To complete the billing process, please use the following link: `+ domain + `order/history/`+ req.body.token + `
+    You Order # `+ req.body.idCmd + ` received on ` + req.body.logsPayment + ` CET is currently pending completion of the billing process.
+    To complete the billing process, please use the following link: `+ domain + `order/history/` + req.body.token + `
     
     Thank you,
     Quanthouse`,
 
     html: `Hello,<br><br>
-    You Order # `+ req.body.idCmd +` received on ` + req.body.logsPayment + ` CET is currently pending completion of the billing process.<br>
-    To complete the billing process, please use the following link: <a href="`+ domain + `order/history/`+ req.body.token + `">click here</a>
+    You Order # `+ req.body.idCmd + ` received on ` + req.body.logsPayment + ` CET is currently pending completion of the billing process.<br>
+    To complete the billing process, please use the following link: <a href="`+ domain + `order/history/` + req.body.token + `">click here</a>
     <br><br>
     <b>Thank you,<br>Quanthouse</b>`
   };
@@ -210,7 +243,7 @@ router.post('/reminder', (req, res, next) => { // géré par un CRON
     if (error) {
       return console.log(error);
     }
-    return res.json({mail:true}).statusCode(200);
+    return res.json({ mail: true }).statusCode(200);
   });
 });
 
@@ -221,14 +254,14 @@ router.post('/orderValidated', (req, res, next) => {
     subject: 'Order # ' + req.body.idCmd + ' validated',
     text: `Hello,
 
-    You Order # `+ req.body.idCmd +` has been now validated.
+    You Order # `+ req.body.idCmd + ` has been now validated.
     You will receive shortly an email notification with all relevant information allowing you to access your data.
     
     Thank you,
     Quanthouse`,
 
     html: `Hello,<br><br>
-    You Order <b># `+ req.body.idCmd +`</b> has been now validated.<br>
+    You Order <b># `+ req.body.idCmd + `</b> has been now validated.<br>
     You will receive shortly an email notification with all relevant information allowing you to access your data.
     <br><br>
     <b>Thank you,<br>Quanthouse</b>`
@@ -237,7 +270,7 @@ router.post('/orderValidated', (req, res, next) => {
     if (error) {
       return console.log(error);
     }
-    return res.json({mail:true}).statusCode(200);
+    return res.json({ mail: true }).statusCode(200);
   });
 });
 
@@ -248,14 +281,14 @@ router.post('/orderExecuted', (req, res, next) => {
     subject: 'Order # ' + req.body.idCmd + ' executed',
     text: `Hello,
 
-    You Order # `+ req.body.idCmd +` has been now executed.
+    You Order # `+ req.body.idCmd + ` has been now executed.
     You can also access your data via the Order History page of your account : `+ domain + `/order/history/
     
     Thank you,
     Quanthouse`,
 
     html: `Hello,<br><br>
-    You Order # `+ req.body.idCmd +` has been now executed.<br>
+    You Order # `+ req.body.idCmd + ` has been now executed.<br>
     You can also access your data via the Order History page of your account : <a href="`+ domain + `/order/history/"> Click here</a>
     <br><br>
     <b>Thank you,<br>Quanthouse</b>`
@@ -264,7 +297,7 @@ router.post('/orderExecuted', (req, res, next) => {
     if (error) {
       return console.log(error);
     }
-    return res.json({mail:true}).statusCode(200);
+    return res.json({ mail: true }).statusCode(200);
   });
 });
 

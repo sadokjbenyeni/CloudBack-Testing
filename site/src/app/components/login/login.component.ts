@@ -1,11 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { NgForm } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 
 import { UserService } from '../../services/user.service';
-import { ResourceLoader } from '@angular/compiler';
-import { ɵNgClassImplProvider__POST_R3__ } from '@angular/common';
 
 @Component({
   selector: 'app-login',

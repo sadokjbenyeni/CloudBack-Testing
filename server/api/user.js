@@ -3,7 +3,6 @@ const router = require('express').Router();
 const mongoose = require('mongoose');
 const crypto = require("crypto");
 const request = require('request');
-
 const User = mongoose.model('User');
 const Order = mongoose.model('Order');
 const Role = mongoose.model('Role');
@@ -175,7 +174,7 @@ router.post('/', (req, res) => {
 
             user.save((err, u) => {
                 if (err) return console.error(err);
-                request.post({ url: domain + '/api/mail/inscription', form: { email: req.body.email, token: user.token } }, (err, httpResponse, body) => {
+                request.post({ url: 'http://localhost:9095/api/mail/inscription', form: { email: req.body.email, token: user.token } }, (err, httpResponse, body) => {
                     if (err) console.error(err);
                     res.status(201).json({ account: true });
                 });
