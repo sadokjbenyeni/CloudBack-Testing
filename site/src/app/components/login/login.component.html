@@ -138,7 +138,7 @@
             User Id
           </a>
           <a class="deep-orange-text ml-1" data-toggle="collapse" href="#collapsePassword" aria-expanded="false"
-            aria-controls="collapsePassword" (click)="HideRest()">
+            aria-controls="collapsePassword">
             / Password
           </a>
           <p>
@@ -160,7 +160,7 @@
                 <input name="email" [(ngModel)]="email" class="form-control" placeholder="Votre email"
                   #loginemail="ngModel" ngModel email login autofocus required>
                 <show-errors [control]="loginemail"></show-errors>
-                <button type="button" (click)="ShowRest()" class="btn btn-secondary" data-dismiss="modal"
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"
                 [disabled]="email === ''" data-toggle="collapse" aria-expanded="false" aria-controls="collapsePassword">Back</button>
                 <button type="button" (click)="mdp()" class="btn btn-primary" data-dismiss="modal"
                   [disabled]="email === ''">Submit</button>
