@@ -13,7 +13,6 @@ import { ɵNgClassImplProvider__POST_R3__ } from '@angular/common';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  termspdf: string;
   viewterms: boolean;
   ula: boolean;
   colorMessage: string;
@@ -35,8 +34,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.termspdf = '/files/historical_data_tc.pdf';
-    this.viewterms = false;
     this.ula = false;
     let ula = localStorage.getItem('ula');
     if (ula !== null && ula !== '') {

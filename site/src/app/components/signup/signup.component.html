@@ -50,7 +50,7 @@
                       placeholder="Email" emailString [(ngModel)]="user['email']" (keyup)="verifMail()"
                       #newemail="ngModel" ngModel required>
                     <div class="alert alert-danger col-12 mb-0" style="line-height: 80% ;"
-                      [hidden]="!exist && page === '/register'">
+                      [hidden]="!exist && page === '/signup'">
                       <span>This email already exists</span></div>
                     <show-errors class="col-12 p-0" [control]="newemail"></show-errors>
                   </div>
@@ -63,7 +63,7 @@
                     </div>
                     <show-errors class="col-12 p-0" [control]="newpassword"></show-errors>
                   </div>
-                  <div class="form-group input-group  col-md-10" *ngIf="page === '/register'">
+                  <div class="form-group input-group  col-md-10" *ngIf="page === '/signup'">
                     <span class="input-group-addon  col-sm-12 col-md-12 col-lg-4">Confirm password*</span>
                     <input type="password" name="newconfirmation" class="form-control" [(ngModel)]="confirmation"
                       #newconfirmation="ngModel" ngModel required>
@@ -186,7 +186,7 @@
                 </div>
               </div>
             </fieldset>
-            <fieldset class="col-12 text-center" *ngIf="page === '/register'">
+            <fieldset class="col-12 text-center" *ngIf="page === '/signup'">
               <div class="policy-center">
                 <div class="form-group input-group  col-md-12">
                   <mat-checkbox class="col-md-2" name="newcgu" (change)="showOptions($event)" 
@@ -229,10 +229,6 @@
         </div>
         <div class="panel-heading" *ngIf="message">
           <h4 class="text-center">{{message}}</h4>
-        </div>
-        <div class="panel-body" *ngIf="!term">
-          <pdf-viewer [src]="termspdf" [render-text]="true" style="display: block;"></pdf-viewer>
-          <button (click)="cgvClose()">Close</button>
         </div>
       </div>
     </div>

@@ -43,7 +43,6 @@ export class SignUpComponent implements OnInit {
   checkrobot: boolean;
   checkv: boolean; // check VAT Number
   term: Term;
-  termspdf: string;
   acceptingcgu: false;
 
 
