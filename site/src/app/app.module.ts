@@ -21,7 +21,7 @@ import { MenuComponent } from './components/menu/menu.component';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
+import { SignUpComponent } from './components/signup/signup.component';
 import { AboutComponent } from './components/about/about.component';
 import { HelpPageComponent } from './components/help-page/help-page.component';
 // Administrators
@@ -69,7 +69,7 @@ import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.comp
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent,
+    SignUpComponent,
     MenuComponent,
     HomeComponent,
     // SearchComponent,
