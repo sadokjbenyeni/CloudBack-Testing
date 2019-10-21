@@ -66,10 +66,6 @@ export class LoginComponent implements OnInit {
     if (route[1] === 'mdp') {
       this.token = route[2];
     }
-
-    this.passwordButton.addEventListener( 'click', function() {
-    this.loginWindow.classList.toggle('is-flipped');
-    });
   }
 
   activate() {
