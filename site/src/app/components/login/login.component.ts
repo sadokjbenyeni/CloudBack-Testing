@@ -46,10 +46,12 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/home']);
     }
     this.message = '';
-    let register = this.data["registration"]
-    if (register === 'ok') {
-      this.message = 'Your account has been created';
-      this.colorMessage = 'alert alert-info'
+    if (this.data != undefined) {
+      let register = this.data["registration"]
+      if (register === 'ok') {
+        this.message = 'Your account has been created';
+        this.colorMessage = 'alert alert-info'
+      }
     }
     let url = this.router.url.split('/');
     if (url[1] === "activation") {
