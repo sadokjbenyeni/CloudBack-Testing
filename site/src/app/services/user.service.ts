@@ -30,63 +30,63 @@ export class UserService {
   }
 
   create(user) {
-    return this.http.post( environment.api + '/user', user );
+    return this.http.post(environment.api + '/user', user);
   }
 
   activation(token) {
-    return this.http.post<LoginResponse>( environment.api + '/user/activation', token );
+    return this.http.post<LoginResponse>(environment.api + '/user/activation', { token: token });
   }
 
   check(user) {
-    return this.http.post<UserResponse>( environment.api + '/user/check', user );
+    return this.http.post<UserResponse>(environment.api + '/user/check', user);
   }
-  
+
   info(user) {
-    return this.http.post( environment.api + '/user/info', user );
+    return this.http.post(environment.api + '/user/info', user);
   }
-  
+
   getUsers() {
-    return this.http.get<Users>( environment.api + '/user' );
+    return this.http.get<Users>(environment.api + '/user');
   }
 
   getRoles() {
-    return this.http.get<Roles>( environment.api + '/role' );
+    return this.http.get<Roles>(environment.api + '/role');
   }
 
   getCompte(user) {
-    return this.http.get<User>( environment.api + '/user/' + user );
+    return this.http.get<User>(environment.api + '/user/' + user);
   }
 
   updateUser(user) {
-    return this.http.put<Message>( environment.api + '/user', user );
+    return this.http.put<Message>(environment.api + '/user', user);
   }
 
   islogin(token) {
-    return this.http.post<LoginResponse>( environment.api + '/user/islogin', token );
+    return this.http.post<LoginResponse>(environment.api + '/user/islogin', token);
   }
 
   mdpmail(val) {
-    return this.http.post<MailResponse>( environment.api + '/mail/mdp', val );
+    return this.http.post<MailResponse>(environment.api + '/mail/mdp', val);
   }
 
 
   mdpmodif(val) {
-    return this.http.put( environment.api + '/user/mdpmodif', val );
+    return this.http.put(environment.api + '/user/mdpmodif', val);
   }
 
   public getAuthenticatedUser() {
-      return this.authenticatedUser;
+    return this.authenticatedUser;
   }
 
   logout(token) {
-    return this.http.post( environment.api + '/user/logout', token );
+    return this.http.post(environment.api + '/user/logout', token);
   }
   preferBilling(prefer) {
-    return this.http.post( environment.api + '/user/preferBilling', prefer );
+    return this.http.post(environment.api + '/user/preferBilling', prefer);
   }
 
   verifmail(email) {
-    return this.http.post<LoginResponse>( environment.api + '/user/verifmail', email );
+    return this.http.post<LoginResponse>(environment.api + '/user/verifmail', email);
   }
 
 }
