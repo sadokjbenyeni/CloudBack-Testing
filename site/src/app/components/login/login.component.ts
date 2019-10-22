@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     }
 
 ngOnInit() {
-  this.termspdf = '/files/historical_data_tc.pdf';
+  // this.termspdf = '/files/historical_data_tc.pdf';
   this.viewterms = false;
   this.ula = false;
   let ula = localStorage.getItem('ula');
@@ -49,7 +49,6 @@ ngOnInit() {
   if (register === 'ok') {
     this.message = 'Your account has been created';
     this.colorMessage = 'alert alert-info'
-      }
   }
   let url = this.router.url.split('/');
   if (url[1] === "activation") {
