@@ -1,3 +1,4 @@
+import { MenuComponent } from './components/menu/menu.component';
 import { Routes } from '@angular/router';
 
 // Guards
@@ -32,7 +33,7 @@ export const routes: Routes = [
   { path: 'about', component : AboutComponent },
   { path: 'help', component : HelpPageComponent },
   { path: 'signup', component : SignUpComponent },
-  { path: 'login', component : LoginComponent },
+  // { path: 'login', component : MenuComponent },
   { path: 'activation/:token', component : LoginComponent },
   { path: 'mdp/:token', component : LoginComponent },
   { path: '**', component: HomeComponent }

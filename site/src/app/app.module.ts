@@ -92,7 +92,7 @@ import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.comp
     SafeHtmlPipePipe,
     NgbdModalContent,
     ComCountriesComponent,
-    TermsOfUseComponent
+    TermsOfUseComponent,
   ],
   entryComponents:[NgbdModalContent, LoginComponent,TermsOfUseComponent],
   imports: [

@@ -1,10 +1,12 @@
 import { LoginComponent } from './../login/login.component';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, CanActivate } from '@angular/router';
 
 import { UserService } from '../../services/user.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { HomeComponent } from '../home/home.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-menu',
@@ -15,14 +17,23 @@ export class MenuComponent implements OnInit {
   link: any;
   role: string;
   username: string;
+  currentDialog: MatDialogRef<any> = null;
+  destroy = new Subject<any>();
+
 
   constructor(
     private router: Router,
     private userService: UserService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private route: ActivatedRoute
   ) {
     this.link = '';
     this.role = '';
+    
+  }
+
+  ngOnDestroy() {
+    this.destroy.next();
   }
 
   ngOnInit() {
@@ -52,12 +63,11 @@ export class MenuComponent implements OnInit {
     }
   }
 
-  DoLogin():void {
-    this.matDialog.open(LoginComponent);
-  }
-  
-  ToHome()
-  {
+  // DoLogin(): void {
+  //   this.matDialog.open(LoginComponent);
+  // }
+
+  ToHome() {
     this.router.navigateByUrl("/home")
   }
 
@@ -68,4 +78,21 @@ export class MenuComponent implements OnInit {
   // closeNav() {
   //   document.getElementById('mySidenav').style.width = '0';
   // }
+
+  login():void {
+    this.route.params.pipe(takeUntil(this.destroy))
+      .subscribe(params => {
+        if (this.currentDialog) {
+          this.currentDialog.close();
+        }
+        this.currentDialog = this.matDialog.open(LoginComponent, {
+          data: { id: params.id }
+        })
+        this.currentDialog.afterClosed().subscribe(result => {
+          this.router.navigateByUrl('/');
+        })
+      })
+  }
+
 }
+

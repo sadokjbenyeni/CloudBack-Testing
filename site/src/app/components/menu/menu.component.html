@@ -23,7 +23,8 @@
           <a class="nav-link mr-0 ml-0 " routerLink="/signup">Sign Up</a>
         </li>
         <li class="nav-item  " *ngIf="role.length === 0 || !role ">
-          <a class="nav-link mr-0 ml-0 " (click)="DoLogin()">Login</a>
+          <!-- <a class="nav-link mr-0 ml-0 " (click)="DoLogin()">Login</a> -->
+          <a class="nav-link mr-0 ml-0 " routerLink="/login" (click)=login()>Login</a>
         </li>
         <li *ngIf="role.indexOf('Administrator') != -1 " class="nav-item ">
           <a class="nav-link  ml-0 " routerLink="/admin/role">Administration</a>
