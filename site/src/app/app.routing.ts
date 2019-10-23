@@ -1,4 +1,4 @@
-import { MenuComponent } from './components/menu/menu.component';
+import { DialogEntryComponent } from './components/dialog-entry/dialog-entry.component';
 import { Routes } from '@angular/router';
 
 // Guards

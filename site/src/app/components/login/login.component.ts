@@ -1,9 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
+import {  MatDialogRef } from "@angular/material";
 
 import { UserService } from '../../services/user.service';
-import { inject } from '@angular/core/testing';
 
 @Component({
   selector: 'app-login',
@@ -27,8 +26,8 @@ export class LoginComponent implements OnInit {
     private userService: UserService,
     private activatedRoute: ActivatedRoute,
     private dialogRef: MatDialogRef<LoginComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
-      console.log('Injected data', data)
+    private route: ActivatedRoute,
+    ) {
     }
 
 ngOnInit() {
@@ -117,8 +116,9 @@ check() {
     } else {
       sessionStorage.setItem('user', JSON.stringify(res.user));
       localStorage.setItem('ula', 'true');
-      sessionStorage.removeItem('register');
-      location.reload();
+      this.router.navigate(['../'], { relativeTo: this.route });
+      // window.location.reload();
+      this.closeDialog();
     }
   });
 }
