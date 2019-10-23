@@ -6,11 +6,11 @@ const crypto = require("crypto");
 const Role = mongoose.model('Role');
 
 const config = require('../config/config.js');
-const URLS = config.config();
-const admin = config.admin();
-const PHRASE = config.phrase();
-const algorithm = 'aes256';
-var idd = "";
+// const URLS = config.config();
+// const admin = config.admin();
+// const PHRASE = config.phrase();
+// const algorithm = 'aes256';
+// var idd = "";
 
 router.param('role', function (req, res, next, id) {
    if (!id.match(/^[0-9a-fA-F]{24}$/)) {

@@ -1,4 +1,4 @@
-const app = require('express')();
+// const app = require('express')();
 const router = require('express').Router();
 const mongoose = require('mongoose');
 const crypto = require("crypto");
@@ -8,15 +8,15 @@ const Order = mongoose.model('Order');
 const Role = mongoose.model('Role');
 
 const config = require('../config/config.js');
-const mailer = require('./mailer.js');
-const Request = require('request');
+// const mailer = require('./mailer.js');
+// const Request = require('request');
 const URLS = config.config();
-const admin = config.admin();
-const domain = config.domain();
+// const admin = config.admin();
+// const domain = config.domain();
 const PHRASE = config.phrase();
 // const DNLFILE = config.dnwfile();
 const algorithm = 'aes256';
-var idd = "";
+// var idd = "";
 
 router.param('user', function (req, res, next, id) {
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
@@ -174,7 +174,7 @@ router.post('/', (req, res) => {
 
             user.save((err, u) => {
                 if (err) return console.error(err);
-                request.post({ url: 'http://localhost:9095/api/mail/inscription', form: { email: req.body.email, token: user.token } }, (err, httpResponse, body) => {
+                request.post({ url: process.env.DOMAIN+'/api/mail/inscription', form: { email: req.body.email, token: user.token } }, (err, httpResponse, body) => {
                     if (err) console.error(err);
                     res.status(201).json({ account: true });
                 });

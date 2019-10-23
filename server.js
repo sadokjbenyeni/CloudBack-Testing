@@ -6,8 +6,8 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const mongoose = require('mongoose');
 
-const cron = require('node-cron');
-
+//const cron = require('node-cron');
+require('dotenv').config({ path: "environment/"+process.argv[2]+".env" });
 //Connect to mongoDB server
 // const userdb = ''; � param�trer
 // const passdb = ''; � param�trer
@@ -20,9 +20,10 @@ const cron = require('node-cron');
 //     client.close();
 //  });
 //
-mongoose.connect('mongodb://localhost:27017/cloudbacktesting', {
-    useMongoClient: true,
-    /* other options */
+mongoose.connect(process.env.MONGODB_CONNECTIONSTRING, {
+  useMongoClient: true,
+  useNewUrlParser:true,
+  /* other options */
 });
 mongoose.set('debug', true);
 
@@ -34,11 +35,11 @@ const passport = require('passport');
 require('./server/config/passport')(passport); // pass passport for configuration
 
 //Enable CORS
-app.use(function(req, res, next) {
- res.header("Access-Control-Allow-Origin", "*");
- res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
- res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
- next();
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  next();
 });
 
 //Cookie and session
@@ -52,8 +53,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //Enable bodyParser
-app.use(bodyParser.json({limit: '10mb'}));
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //Require the models
 require('./server/models/config');
@@ -115,10 +116,10 @@ app.use('/iv', express.static(path.join(__dirname, 'files/invoice')));
 app.use('/help/dataguide', express.static(path.join(__dirname, 'dataguide/')));
 
 //Catch all other routes and return to the index file
-app.get('*', (req, res) =>{
- res.sendFile(path.join(__dirname, 'site/dist/index.html'));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'site/dist/index.html'));
 })
-
+console.log(" port number is " + process.env.PORT);
 //Get environment port or use 9095
 const port = process.env.PORT || '9095';
 app.set('port', port);

@@ -2,7 +2,7 @@ const app = require('express')();
 const router = require('express').Router();
 const nodemailer = require("nodemailer");
 const config = require('../config/config.js');
-const domain = config.domain();
+// const domain = config.domain();
 const admin = config.admin();
 const URLS = config.config();
 const SMTP = config.smtpconf();
@@ -30,7 +30,7 @@ router.post('/inscription', (req, res, next) => {
 
     
     To validate your email address and activate your account, please click on the following link:
-    `+ domain + `/activation/` + req.body.token +
+    `+ process.env.DOMAIN + `/activation/` + req.body.token +
       `If clicking the above link does not work, you can copy and paste the URL in a new browser window.
 
     If you have received this email by error, you do not need to take any action. The account will not be activated and you will not receive any further emails.
@@ -39,19 +39,18 @@ router.post('/inscription', (req, res, next) => {
     The Quanthouse team`,
     html: `Hello,<br><br>
     //   To validate your email address and activate your account, please click on the following link:
-    //   <a href="`+ domain + `/activation/` + req.body.token + `">Activation of the HistodataWeb account</a><br>
+    //   <a href="`+ process.env.DOMAIN + `/activation/` + req.body.token + `">Activation of the HistodataWeb account</a><br>
     //   If clicking the above link does not work, you can copy and paste the URL in a new browser window.<br><br>
     //   If you have received this email by error, you do not need to take any action. The account will not be activated and you will not receive any further emails.
     //   <br><br>
     //   <b>The Quanthouse team</b>`,
   };
-  try
+  try {
+    sgMail.send(msg);
+    return res.json({ mail: true }).statusCode(200);
+  } catch
   {
-  sgMail.send(msg);
-  return res.json({ mail: true }).statusCode(200);
-  }catch 
-  {
-  return res.json({ mail: true }).statusCode(500);
+    return res.json({ mail: true }).statusCode(500);
   }
   // let mailOptions = {
   //   from: 'no-reply@quanthouse.com',
@@ -169,14 +168,14 @@ router.post('/mdp', (req, res, next) => {
     subject: 'Password Initialization',
     text: `Hello,
 
-    To reinitialize your password, please click on the following link: `+ domain + `/mdp/` + req.body.token + `
+    To reinitialize your password, please click on the following link: `+ process.env.DOMAIN + `/mdp/` + req.body.token + `
     If clicking the above link does not work, you can copy and paste the URL in a new browser window.
     If you have received this email by error, you do not need to take any action. Your password will remain unchanged.
 
     The Quanthouse team`,
 
     html: `Hello,<br><br>
-    To reinitialize your password, please click on the following link: `+ domain + `/mdp/` + req.body.token + `<br>
+    To reinitialize your password, please click on the following link: `+ process.env.DOMAIN + `/mdp/` + req.body.token + `<br>
     If clicking the above link does not work, you can copy and paste the URL in a new browser window.<br>
     If you have received this email by error, you do not need to take any action. Your password will remain unchanged.<br><br>
     <b>The Quanthouse team</b>`
@@ -199,7 +198,7 @@ router.post('/newOrder', (req, res, next) => {
 
     Thank you for choosing the QH's Historical Data On-Demand product.<br>
     You Order # `+ req.body.idCmd + ` has been received on ` + req.body.paymentdate.substring(0, 10) + " " + req.body.paymentdate.substring(11, 19) + ` CET and is currently pending validation by the QH ` + req.body.service + ` department.
-    For any further information about your order, please use the following link: `+ domain + `/order/history
+    For any further information about your order, please use the following link: `+ process.env.DOMAIN + `/order/history
 
     
     Thank you,
@@ -228,14 +227,14 @@ router.post('/reminder', (req, res, next) => { // géré par un CRON
     text: `Hello,
 
     You Order # `+ req.body.idCmd + ` received on ` + req.body.logsPayment + ` CET is currently pending completion of the billing process.
-    To complete the billing process, please use the following link: `+ domain + `order/history/` + req.body.token + `
+    To complete the billing process, please use the following link: `+ process.env.DOMAIN + `order/history/` + req.body.token + `
     
     Thank you,
     Quanthouse`,
 
     html: `Hello,<br><br>
     You Order # `+ req.body.idCmd + ` received on ` + req.body.logsPayment + ` CET is currently pending completion of the billing process.<br>
-    To complete the billing process, please use the following link: <a href="`+ domain + `order/history/` + req.body.token + `">click here</a>
+    To complete the billing process, please use the following link: <a href="`+ process.env.DOMAIN + `order/history/` + req.body.token + `">click here</a>
     <br><br>
     <b>Thank you,<br>Quanthouse</b>`
   };
@@ -282,14 +281,14 @@ router.post('/orderExecuted', (req, res, next) => {
     text: `Hello,
 
     You Order # `+ req.body.idCmd + ` has been now executed.
-    You can also access your data via the Order History page of your account : `+ domain + `/order/history/
+    You can also access your data via the Order History page of your account : `+ process.env.DOMAIN + `/order/history/
     
     Thank you,
     Quanthouse`,
 
     html: `Hello,<br><br>
     You Order # `+ req.body.idCmd + ` has been now executed.<br>
-    You can also access your data via the Order History page of your account : <a href="`+ domain + `/order/history/"> Click here</a>
+    You can also access your data via the Order History page of your account : <a href="`+ process.env.DOMAIN + `/order/history/"> Click here</a>
     <br><br>
     <b>Thank you,<br>Quanthouse</b>`
   };
