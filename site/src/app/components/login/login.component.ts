@@ -113,11 +113,13 @@ check() {
     if (!res.user) {
       this.message = res.message;
       this.colorMessage = 'alert alert-danger';
+      this.router.navigateByUrl('home');
+      this.closeDialog();
     } else {
       sessionStorage.setItem('user', JSON.stringify(res.user));
       localStorage.setItem('ula', 'true');
-      this.router.navigate(['../'], { relativeTo: this.route });
-      // window.location.reload();
+      window.location.reload();
+      this.router.navigate(['../']);
       this.closeDialog();
     }
   });
