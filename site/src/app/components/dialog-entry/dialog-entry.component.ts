@@ -17,10 +17,17 @@ export class DialogEntryComponent {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(LoginComponent, {
+    const dialogRef = this.dialog.open(LoginComponent, { data: {source: this.route.parent.url}
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.router.navigate(['../'], { relativeTo: this.route });
+      if(result==='success')
+      {
+
+      this.router.navigate(['../'], { relativeTo: this.route });        
+    }
+    else{
+      this.router.navigateByUrl('home');
+    }
     });
   }
 }

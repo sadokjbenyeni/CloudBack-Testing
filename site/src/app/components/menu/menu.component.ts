@@ -1,3 +1,4 @@
+import { AuthentificationService } from './../../services/authentification.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -18,22 +19,18 @@ export class MenuComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     public dialog: MatDialog,
+    private authentificationService: AuthentificationService,
   ) {
     this.link = '';
     this.role = '';
   }
 
   ngOnInit() {
-    this.role = '';
-    let user = JSON.parse(sessionStorage.getItem('user'));
-    if (user != null) {
-      this.username = user.lastname;
-    }
-    if (user && typeof user === 'object') {
-      this.role = user.roleName;
-    } else {
-      this.role = '';
-    }
+    this.authentificationService.invokeLoginComponentFunction.on('onLoginSuccessed', (loggedUser: any) => {
+      this.refresh(loggedUser);
+    });
+
+    // this.refresh(this.username);
   }
 
   logout() {
@@ -52,6 +49,19 @@ export class MenuComponent implements OnInit {
 
   ToHome() {
     this.router.navigateByUrl("/home")
+  }
+
+  refresh(loggedUser: any): void {
+    this.role = '';
+    let user = JSON.parse(sessionStorage.getItem('user'));
+    if (user != null) {
+      this.username = user.lastname;
+    }
+    if (user && typeof user === 'object') {
+      this.role = user.roleName;
+    } else {
+      this.role = '';
+    }
   }
 
   // openNav() {

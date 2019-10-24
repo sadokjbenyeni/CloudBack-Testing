@@ -1,3 +1,4 @@
+import { AuthentificationService } from './services/authentification.service';
 import { MaterialModule } from './components/material/material.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -128,7 +129,8 @@ import { ProductsComponent } from './components/products/products.component';
     UserService,
     CountriesService,
     ComplianceService,
-    CompanytypesService
+    CompanytypesService,
+    AuthentificationService,
     // FilterPipe
   ],
   bootstrap: [AppComponent]

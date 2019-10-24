@@ -38,6 +38,7 @@ export class UserService {
   }
 
   check(user) {
+
     return this.http.post<UserResponse>(environment.api + '/user/check', user);
   }
 
