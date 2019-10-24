@@ -17,24 +17,29 @@ import { AboutComponent } from './components/about/about.component';
 import { HelpPageComponent } from './components/help-page/help-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignUpComponent } from './components/signup/signup.component';
+import { OurMissionComponent } from './components/our-mission/our-mission.component';
+import { ProductsComponent } from './products/products.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch : 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   // CLIENT
-  { path: 'account', component : SignUpComponent, canActivate: [GuardGuard] },
+  { path: 'account', component: SignUpComponent, canActivate: [GuardGuard] },
   // ADMINISTRATOR
-  { path: 'admin/profil/:id', component : UserDetailComponent, canActivate: [GuardGuard] },
-  { path: 'admin/users', component : UsersComponent, canActivate: [GuardGuard] },
-  { path: 'admin/role', component : RoleComponent, canActivate: [GuardGuard] },
-  { path: 'admin/countries', component : CountriesComponent, canActivate: [GuardGuard] },
-  { path: 'admin/terms', component : TermsComponent, canActivate: [GuardGuard] },
+  { path: 'admin/profil/:id', component: UserDetailComponent, canActivate: [GuardGuard] },
+  { path: 'admin/users', component: UsersComponent, canActivate: [GuardGuard] },
+  { path: 'admin/role', component: RoleComponent, canActivate: [GuardGuard] },
+  { path: 'admin/countries', component: CountriesComponent, canActivate: [GuardGuard] },
+  { path: 'admin/terms', component: TermsComponent, canActivate: [GuardGuard] },
   // ALL USERS
-  { path: 'home', component : HomeComponent },
-  { path: 'about', component : AboutComponent },
-  { path: 'help', component : HelpPageComponent },
-  { path: 'signup', component : SignUpComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'about', component: AboutComponent },
+  { path: 'help', component: HelpPageComponent },
+  { path: 'signup', component: SignUpComponent },
+  { path: 'our-missions', component: OurMissionComponent },
+  { path: 'products', component: ProductsComponent },
+
   // { path: 'login', component : MenuComponent },
-  { path: 'activation/:token', component : LoginComponent },
-  { path: 'mdp/:token', component : LoginComponent },
+  { path: 'activation/:token', component: LoginComponent },
+  { path: 'mdp/:token', component: LoginComponent },
   { path: '**', component: HomeComponent }
 ];

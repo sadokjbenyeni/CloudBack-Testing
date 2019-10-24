@@ -63,6 +63,8 @@ import { NgbdModalContent } from './modal-content';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { CdkTableModule } from '@angular/cdk/table';
 import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.component';
+import { OurMissionComponent } from './components/our-mission/our-mission.component';
+import { ProductsComponent } from './products/products.component';
 // import { PdfComponent } from './components/commun/pdf/pdf.component';
 
 @NgModule({
@@ -93,6 +95,8 @@ import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.comp
     NgbdModalContent,
     ComCountriesComponent,
     TermsOfUseComponent,
+    OurMissionComponent,
+    ProductsComponent,
   ],
   entryComponents:[NgbdModalContent, LoginComponent,TermsOfUseComponent],
   imports: [
