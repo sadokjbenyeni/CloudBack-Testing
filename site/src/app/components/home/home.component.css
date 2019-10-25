@@ -6,10 +6,15 @@
 
 .window-position-center {
   left: 20vw;
-  top: 30vh;
-  height: 50%;
+  top: 10vh;
+  /* height: 50%; */
   width: 60%;
-  position: absolute;
+  position: relative;
+}
+
+
+.text-align-justify {
+  text-align: justify;
 }
 
 .text-align-center {
@@ -24,10 +29,22 @@
   font-weight: bold;
 }
 
+.font-size-three {
+  font-size: 3rem;
+  line-height: 1.4;
+  font-weight: 100;
+}
+
 .font-size-two {
   font-size: 2.5rem;
-  font-family: Arial, sans-serif;
+  line-height: 1.4;
   font-weight: 100;
+}
+
+.font-size-one {
+  font-weight: 100;
+  font-size: 1.5rem;
+  line-height: 1.4;
 }
 
 .text-color-orange {
@@ -36,6 +53,14 @@
 
 .text-color-white {
   color: rgb(255, 255, 255);
+}
+
+.text-color-black {
+  color: #000;
+}
+
+.text-color-blue-qh {
+  color: #0E1F3A;
 }
 
 .center-button {
@@ -70,7 +95,6 @@
 }
 
 .home-button {
-  position: relative;
   display: inline-block;
   padding: 1.2em 5em;
   text-decoration: none;
@@ -78,29 +102,20 @@
   cursor: pointer;
   user-select: none;
   color: white;
-  left: 23vw;
-  top: 2vh;
   display: flex;
-  align-items: center;
   justify-content: center;
   height: 3vh;
   width: 6vw;
   transform-style: preserve-3d;
   transform: perspective(800px);
-  border-color: rgb(226, 80, 46);
-  background-color: rgb(226, 80, 46);
   border-radius: 4px;
   background: linear-gradient(to right, #df2d01 0%, #e24418 51%, #c95532 100%) !important;
   border: none;
-  color: #FFFFFF;
   text-align: center;
-  text-transform: uppercase;
   font-size: 16px;
-  padding: 20px;
   width: 200px;
   transition: all 0.4s;
   cursor: pointer;
-  margin: 5px;
 }
 
 .home-button span {

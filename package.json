@@ -9,7 +9,6 @@
     "local": "node server.js local",
     "production": "node server.js production",
     "development": "node server.js development"
-
   },
   "author": "Christophe LEFLOCH",
   "license": "ISC",
