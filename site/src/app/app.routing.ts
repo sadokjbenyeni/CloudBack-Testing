@@ -18,7 +18,7 @@ import { HelpPageComponent } from './components/help-page/help-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignUpComponent } from './components/signup/signup.component';
 import { OurMissionComponent } from './components/our-mission/our-mission.component';
-import { ProductsComponent } from './products/products.component';
+import { ProductsComponent } from './components/products/products.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
