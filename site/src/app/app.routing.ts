@@ -1,3 +1,5 @@
+import { LoginPageComponent } from './components/login-page/login-page.component';
+import { MenuComponent } from './components/menu/menu.component';
 import { DialogEntryComponent } from './components/dialog-entry/dialog-entry.component';
 import { Routes } from '@angular/router';
 
@@ -22,15 +24,16 @@ import { ProductsComponent } from './components/products/products.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
+  
   // CLIENT
   { path: 'account', component: SignUpComponent, canActivate: [GuardGuard] },
+
   // ADMINISTRATOR
   { path: 'admin/profil/:id', component: UserDetailComponent, canActivate: [GuardGuard] },
   { path: 'admin/users', component: UsersComponent, canActivate: [GuardGuard] },
   { path: 'admin/role', component: RoleComponent, canActivate: [GuardGuard] },
   { path: 'admin/countries', component: CountriesComponent, canActivate: [GuardGuard] },
   { path: 'admin/terms', component: TermsComponent, canActivate: [GuardGuard] },
-  // ALL USERS
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'help', component: HelpPageComponent },
@@ -39,6 +42,11 @@ export const routes: Routes = [
   { path: 'products', component: ProductsComponent },
 
   // { path: 'login', component : MenuComponent },
+  { path: 'about', component: AboutComponent },
+  { path: 'help', component: HelpPageComponent },
+  { path: 'signup', component: SignUpComponent },
+  { path: 'login', component: LoginPageComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'activation/:token', component: LoginComponent },
   { path: 'mdp/:token', component: LoginComponent },
   { path: '**', component: HomeComponent }

@@ -1,9 +1,10 @@
 import { AuthentificationService } from './../../services/authentification.service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { UserService } from '../../services/user.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-menu',
@@ -17,9 +18,10 @@ export class MenuComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private userService: UserService,
     public dialog: MatDialog,
-    private authentificationService: AuthentificationService,
+    private authentificationService: AuthentificationService
   ) {
     this.link = '';
     this.role = '';
@@ -30,7 +32,7 @@ export class MenuComponent implements OnInit {
       this.refresh(loggedUser);
     });
 
-    // this.refresh(this.username);
+    this.refresh(this.username);
   }
 
   logout() {
@@ -42,7 +44,6 @@ export class MenuComponent implements OnInit {
         sessionStorage.removeItem('cart');
         sessionStorage.removeItem('surveyForm');
         sessionStorage.setItem('dataset', JSON.stringify({ "dataset": "", "title": "" }));
-        this.router.navigate(['/home']);
       });
     }
   }
@@ -64,13 +65,11 @@ export class MenuComponent implements OnInit {
     }
   }
 
-  // openNav() {
-  //   document.getElementById('mySidenav').style.width = '250px';
-  // }
-
-  // closeNav() {
-  //   document.getElementById('mySidenav').style.width = '0';
-  // }
+  openDialog(): void {
+    this.dialog.open(LoginComponent, {
+      data: { source: this.route.parent.url }
+    });
+  }
 }
 
 

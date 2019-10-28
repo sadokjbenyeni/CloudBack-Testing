@@ -1,3 +1,5 @@
+import { LoginService } from './services/login.service';
+import { MatDialogRef } from '@angular/material';
 import { AuthentificationService } from './services/authentification.service';
 import { MaterialModule } from './components/material/material.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -67,6 +69,7 @@ import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.comp
 import { OurMissionComponent } from './components/our-mission/our-mission.component';
 import { DialogEntryComponent } from './components/dialog-entry/dialog-entry.component';
 import { ProductsComponent } from './components/products/products.component';
+import { LoginPageComponent } from './components/login-page/login-page.component';
 // import { PdfComponent } from './components/commun/pdf/pdf.component';
 
 @NgModule({
@@ -76,7 +79,8 @@ import { ProductsComponent } from './components/products/products.component';
     SignUpComponent,
     MenuComponent,
     HomeComponent,
-    // SearchComponent
+    LoginPageComponent,
+    
     UsersComponent,
     UserDetailComponent,
     ShowErrorsComponent,
@@ -98,7 +102,8 @@ import { ProductsComponent } from './components/products/products.component';
     ComCountriesComponent,
     TermsOfUseComponent,
     OurMissionComponent,
-    DialogEntryComponent
+    DialogEntryComponent,
+    LoginPageComponent
     ProductsComponent,
   ],
   entryComponents:[NgbdModalContent, HomeComponent, LoginComponent, TermsOfUseComponent],
@@ -111,9 +116,11 @@ import { ProductsComponent } from './components/products/products.component';
     DataTablesModule,
     CdkTableModule,
     BrowserAnimationsModule,
+
     // NgbModule.forRoot(),
     NgbModule,
-//    Ng2BootstrapModule,
+
+    //Ng2BootstrapModule,
     RecaptchaModule.forRoot(),
     PdfViewerModule,
     FormsModule,    
@@ -131,6 +138,7 @@ import { ProductsComponent } from './components/products/products.component';
     ComplianceService,
     CompanytypesService,
     AuthentificationService,
+    LoginService
     // FilterPipe
   ],
   bootstrap: [AppComponent]

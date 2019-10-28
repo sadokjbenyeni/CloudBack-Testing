@@ -10,7 +10,7 @@ import { UserService } from './services/user.service';
 export class GuardGuard implements CanActivate {
 
   constructor(
-    private router: Router,
+    public router: Router,
     private userService: UserService
   ) {}
 
@@ -22,18 +22,14 @@ export class GuardGuard implements CanActivate {
           if(res.islogin && res.role > 0) {
             resolve(true);
           } else {
-            this.router.navigate(['/login']);
+            this.router.navigate(['/login?redirection=' + state.url]);
             resolve(false);
           }
         });
       });
     } else {
-      this.router.navigate(['/login']);
+      this.router.navigateByUrl("/login?redirection=" + state.url);
       return false;
     }
   }
-
-
-
-
 }
