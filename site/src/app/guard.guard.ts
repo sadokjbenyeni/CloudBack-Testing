@@ -22,7 +22,7 @@ export class GuardGuard implements CanActivate {
           if(res.islogin && res.role > 0) {
             resolve(true);
           } else {
-            this.router.navigate(['/login?redirection=' + state.url]);
+            this.router.navigate(['/login?redirection=' + this.router.url]);
             resolve(false);
           }
         });

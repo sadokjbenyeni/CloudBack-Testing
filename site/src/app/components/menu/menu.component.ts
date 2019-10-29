@@ -44,6 +44,7 @@ export class MenuComponent implements OnInit {
         sessionStorage.removeItem('cart');
         sessionStorage.removeItem('surveyForm');
         sessionStorage.setItem('dataset', JSON.stringify({ "dataset": "", "title": "" }));
+        this.router.navigateByUrl('/home');
       });
     }
   }
@@ -67,6 +68,7 @@ export class MenuComponent implements OnInit {
 
   openDialog(): void {
     this.dialog.open(LoginComponent, {
+      panelClass: 'no-padding-dialog',
       data: { source: this.route.parent.url }
     });
   }

@@ -15,7 +15,7 @@ export class LoginPageComponent implements OnInit {
     private dialog: MatDialog,
     public loginService: LoginService,
   ) {
-    this.openDialog();
+    this.openDialog(true);
   }
 
   ngOnInit() {
@@ -50,9 +50,8 @@ export class LoginPageComponent implements OnInit {
       this.loginService.token = route[2];
     }
   }
-  openDialog(): void {
-    this.dialog.open(LoginComponent, {
-      data: { source: this.route.parent.url }
+  openDialog(canClose: boolean): void {
+    this.dialog.open(LoginComponent, {panelClass: 'no-padding-dialog', disableClose: canClose, data: { source: this.route.parent.url }
     });
   }
 }

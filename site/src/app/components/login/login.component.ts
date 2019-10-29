@@ -49,4 +49,8 @@ export class LoginComponent implements OnInit {
       this.loginService.token = route[2];
     }
   }
+
+  openSignupPage() {
+    this.router.navigateByUrl('/signup')
+  }
 }

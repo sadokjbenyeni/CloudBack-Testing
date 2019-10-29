@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { GuardGuard } from './../guard.guard';
 import { UserService } from './user.service';
 import { Injectable } from '@angular/core';
@@ -21,6 +22,7 @@ export class LoginService {
   page: string;
   message: String;
   showAll = false;
+  redirection: string;
 
   constructor(
     public router: Router,
@@ -29,7 +31,8 @@ export class LoginService {
     public dialogRef: MatDialogRef<LoginComponent>,
     public authentificationService: AuthentificationService,
     public guardGuard: GuardGuard
-  ) { }
+  ) {
+  }
 
   activate() {
     this.activatedRoute.params.subscribe(params => {
@@ -83,7 +86,9 @@ export class LoginService {
         this.colorMessage = 'alert alert-danger';
       }
       else if (currentUrl[1].includes("redirection")) {
-        this.router.navigateByUrl(this.guardGuard.router.routerState.snapshot.root.queryParams["redirection"]);
+        console.info(this.redirection);
+        this.redirection = this.guardGuard.router.routerState.snapshot.root.queryParams['redirection'];
+        window.location.href = this.redirection;
       }
     })
   };

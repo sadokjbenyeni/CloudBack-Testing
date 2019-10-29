@@ -653,3 +653,7 @@ body {
     opacity: 0;
   }
 }
+
+.no-padding-dialog .mat-dialog-container {
+  padding: 0;
+}
