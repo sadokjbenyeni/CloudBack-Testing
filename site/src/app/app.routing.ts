@@ -34,10 +34,6 @@ export const routes: Routes = [
   { path: 'admin/role', component: RoleComponent, canActivate: [GuardGuard] },
   { path: 'admin/countries', component: CountriesComponent, canActivate: [GuardGuard] },
   { path: 'admin/terms', component: TermsComponent, canActivate: [GuardGuard] },
-  { path: 'home', component: HomeComponent },
-  { path: 'about', component: AboutComponent },
-  { path: 'help', component: HelpPageComponent },
-  { path: 'signup', component: SignUpComponent },
   { path: 'our-missions', component: OurMissionComponent },
   { path: 'products', component: ProductsComponent },
 
