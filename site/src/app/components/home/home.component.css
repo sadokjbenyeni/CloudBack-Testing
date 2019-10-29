@@ -48,7 +48,7 @@
 }
 
 .text-color-orange {
-  color: rgb(226, 80, 46);
+  color: #ED6540;
 }
 
 .text-color-white {
@@ -81,8 +81,8 @@
   width: 6vw;
   transform-style: preserve-3d;
   transform: perspective(800px);
-  border-color: rgb(226, 80, 46);
-  background-color: rgb(226, 80, 46);
+  border-color: #ED6540;
+  background-color: #ED6540;
 }
 
 .responsive {
@@ -95,25 +95,18 @@
 }
 
 .home-button {
-  display: inline-block;
-  padding: 1.2em 5em;
   text-decoration: none;
-  text-align: center;
-  cursor: pointer;
   user-select: none;
   color: white;
   display: flex;
   justify-content: center;
-  height: 3vh;
-  width: 6vw;
   transform-style: preserve-3d;
   transform: perspective(800px);
   border-radius: 4px;
-  background: linear-gradient(to right, #df2d01 0%, #e24418 51%, #c95532 100%) !important;
+  background: linear-gradient(to right, #ED6540 0%, #ED6540 51%, #ED6540 100%) !important;
   border: none;
   text-align: center;
   font-size: 16px;
-  width: 200px;
   transition: all 0.4s;
   cursor: pointer;
 }

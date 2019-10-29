@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
 // Access for Jobs
-exports.rtconfig = () => { const urls = [ "192.168.10.10" ]; }
+//exports.rtconfig = () => { const urls = [ "192.168.10.10" ]; }
 
 // Domain of site
-exports.domain = () => { return "http://cloudbacktesting.quanthouse.com"; }
-
+//exports.domain = () => { return "http://cloudbacktesting.quanthouse.com"; }
+exports.domain=()=> process.env.DOMAIN;
 // // IPs ElastcSearch
 // exports.hostsES = () => { return ['10.0.10.218:9200', '10.0.10.190:9200', '10.0.10.234:9200']; }
 

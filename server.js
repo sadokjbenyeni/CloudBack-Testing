@@ -21,7 +21,7 @@ require('dotenv').config({ path: "environment/"+process.argv[2]+".env" });
 //  });
 //
 mongoose.connect(process.env.MONGODB_CONNECTIONSTRING, {
-  useMongoClient: true,
+  // useMongoClient: true,
   useNewUrlParser:true,
   /* other options */
 });
