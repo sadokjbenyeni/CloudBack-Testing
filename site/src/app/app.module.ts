@@ -103,7 +103,7 @@ import { LoginPageComponent } from './components/login-page/login-page.component
     TermsOfUseComponent,
     OurMissionComponent,
     DialogEntryComponent,
-    LoginPageComponent
+    LoginPageComponent,
     ProductsComponent,
   ],
   entryComponents:[NgbdModalContent, HomeComponent, LoginComponent, TermsOfUseComponent],
