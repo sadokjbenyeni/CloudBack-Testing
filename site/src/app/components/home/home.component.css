@@ -1,3 +1,14 @@
+.img-logo {
+  max-width: 340px;
+  max-height: 370px;
+  width:auto;
+  height: auto;
+}
+
+.div-logo{
+  padding-top: 6rem;
+}
+
 .market-depth-fix>img {
   position: relative;
   display: block;
