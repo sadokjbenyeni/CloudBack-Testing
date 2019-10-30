@@ -6,15 +6,24 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const mongoose = require('mongoose');
 
-const cron = require('node-cron');
-
+//const cron = require('node-cron');
+require('dotenv').config({ path: "environment/"+process.argv[2]+".env" });
 //Connect to mongoDB server
 // const userdb = ''; � param�trer
 // const passdb = ''; � param�trer
-// mongoose.connect('mongodb://userdb:passdb@localhost:27017/histodataweb', { 
-mongoose.connect('mongodb://localhost:27017/histodataweb', { 
-    useMongoClient: true,
-    /* other options */
+// mongoose.connect('mongodb://userdb:passdb@localhost:27017/histodataweb', {
+//
+// AZURE
+//
+//  var mongoClient = require("mongodb").MongoClient;
+//  mongoClient.connect("mongodb://cloudbacktesting:Mj9Es9gbZO6xeN2PLsOhfZhMZLXCKYRnXuZZCEjVdkVUlruOPXguIGY4VkzmUCYBsdTNFCbSiNkJVt09zPdjoQ%3D%3D@cloudbacktesting.documents.azure.com:10255/?ssl=true", function (err, client) {
+//     client.close();
+//  });
+//
+mongoose.connect(process.env.MONGODB_CONNECTIONSTRING, {
+  // useMongoClient: true,
+  useNewUrlParser:true,
+  /* other options */
 });
 mongoose.set('debug', true);
 
@@ -24,6 +33,14 @@ const app = express();
 //Passport
 const passport = require('passport');
 require('./server/config/passport')(passport); // pass passport for configuration
+
+//Enable CORS
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  next();
+});
 
 //Cookie and session
 const cookieParser = require('cookie-parser');
@@ -36,8 +53,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //Enable bodyParser
-app.use(bodyParser.json({limit: '10mb'}));
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //Require the models
 require('./server/models/config');
@@ -51,46 +68,44 @@ require('./server/models/payment');
 require('./server/models/currency');
 require('./server/models/countrie');
 require('./server/models/companytype');
+require('./server/models/payment');
+require('./server/models/termsOfUse');
+
+
 
 //Get our API routes
 const api = require('./server/api/');
-  
+
 //Set API routes
 app.use('/api', api);
 
-//Enable CORS
-app.use(function(req, res, next) {
- res.header("Access-Control-Allow-Origin", "*");
- res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
- res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
- next();
-});
+
 
 // BEGIN CRON
 // A exporter de ce fichier pour plus de souplesse
 
-const cronCurrency = cron.schedule('30 15 * * *', function(){
-  request.post({
-      headers: {'content-type' : 'application/x-www-form-urlencoded'},
-      url: 'http://localhost:3000/api/currency'
-    }, (err, r, body) => {
-  });
-});
-cronCurrency.start();
+// const cronCurrency = cron.schedule('30 15 * * *', function(){
+//   request.post({
+//       headers: {'content-type' : 'application/x-www-form-urlencoded'},
+//       url: 'http://localhost:9095/api/currency'
+//     }, (err, r, body) => {
+//   });
+// });
+// cronCurrency.start();
 // test.destroy();
 
 
 // const cronAutovalidationPVF = cron.schedule('30 15 * * *', function(){
 //   request.post({
 //       headers: {'content-type' : 'application/x-www-form-urlencoded'},
-//       url: 'http://localhost:3000/api/order/autovalidation'
+//       url: 'http://localhost:9095/api/order/autovalidation'
 //     }, (err, r, body) => {
 //   });
 // });
 // cronAutovalidationPVF.start();
 // cronAutovalidationPVF.destroy();
 
-// END CRON  
+// END CRON
 
 //Static path to dist
 app.use(express.static(path.join(__dirname, 'site/dist')));
@@ -101,16 +116,16 @@ app.use('/iv', express.static(path.join(__dirname, 'files/invoice')));
 app.use('/help/dataguide', express.static(path.join(__dirname, 'dataguide/')));
 
 //Catch all other routes and return to the index file
-app.get('*', (req, res) =>{
-   res.sendFile(path.join(__dirname, 'site/dist/index.html'));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'site/dist/index.html'));
 })
-
-//Get environment port or use 3000
-const port = process.env.PORT || '3000';
+console.log(" port number is " + process.env.PORT);
+//Get environment port or use 9095
+const port = process.env.PORT || '9095';
 app.set('port', port);
- 
+
 //Create HTTP server.
 const server = http.createServer(app);
- 
+
 //Listen on port
 server.listen(port, () => console.log(`API running on localhost:${port}`));

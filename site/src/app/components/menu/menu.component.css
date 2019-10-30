@@ -1,0 +1,17 @@
+.respfontsize {
+    font-size: 2vh;
+}
+
+.navbarbrandheight {
+    height: 6vh
+}
+
+.navbarontop {
+    z-index: 1000;
+}
+
+@media (max-width: 1199px) {
+    .navbarbrandheight {
+        height: 13vh;
+    }
+}

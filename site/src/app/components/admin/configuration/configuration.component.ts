@@ -16,8 +16,6 @@ export class ConfigurationComponent implements OnInit {
       {page: 'Users', active: false, link: '/admin/users'},
       {page: 'Countries', active: false, link: '/admin/countries'},
       {page: 'Terms', active: false, link: '/admin/terms'},
-      {page: 'Variables Environment', active: false, link: '/admin/variable'},
-      {page: 'Management Help', active: false, link: '/admin/help'}
     ];
   }
 }

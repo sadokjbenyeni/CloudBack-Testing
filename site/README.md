@@ -25,3 +25,9 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## How to use the environment variables 
+
+For more information please see [Configure and build Angular application for differnet environments](https://medium.com/@balramchavan/configure-and-build-angular-application-for-different-environments-7e94a3c0af23).
+
+To use the local environment use 'nb build --configuration local [arguments...]'

@@ -1,8 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { NgForm } from '@angular/forms';
-import { Http, Response } from '@angular/http';
-
 import { RoleService } from '../../../services/role.service';
 
 @Component({
@@ -13,12 +9,7 @@ import { RoleService } from '../../../services/role.service';
 export class RoleComponent implements OnInit {
   roles: Array<object>;
   pages: Array<string>;
-  constructor(
-    private http: Http,
-    private roleService: RoleService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
+  constructor(private roleService: RoleService) {
   }
 
   ngOnInit() {
@@ -27,17 +18,11 @@ export class RoleComponent implements OnInit {
   }
 
   getRoles() {
-    this.roleService.getRoles()
-    .subscribe(res => {
-      this.roles = res.roles;
-    });
+    this.roleService.getRoles().subscribe(res => this.roles = res.roles);
   }
 
   getPages() {
-    this.roleService.getPages()
-    .subscribe(res => {
-      this.pages = res.pages;
-    });
+    this.roleService.getPages().subscribe(res => this.pages = res.pages);
   }
 
 }

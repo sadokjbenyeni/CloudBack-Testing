@@ -2,13 +2,13 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
 // Access for Jobs
-exports.rtconfig = () => { const urls = [ "192.168.10.10" ]; }
+//exports.rtconfig = () => { const urls = [ "192.168.10.10" ]; }
 
 // Domain of site
-exports.domain = () => { return "http://hod-lab.quanthouse.com"; }
-
-// IPs ElastcSearch
-exports.hostsES = () => { return ['10.0.10.218:9200', '10.0.10.190:9200', '10.0.10.234:9200']; }
+//exports.domain = () => { return "http://cloudbacktesting.quanthouse.com"; }
+exports.domain=()=> process.env.DOMAIN;
+// // IPs ElastcSearch
+// exports.hostsES = () => { return ['10.0.10.218:9200', '10.0.10.190:9200', '10.0.10.234:9200']; }
 
 // Param SMTP
 exports.smtpconf = () => {
@@ -22,11 +22,11 @@ exports.smtpconf = () => {
 }
 exports.phrase = () => { return '14cb4a9235d7360d2911d6444aa69f02'; }
 
-// Domaine QuantFlow
-exports.apiqf = () => { return "http://10.1.0.6"; }
+// // Domaine QuantFlow
+// exports.apiqf = () => { return "http://10.1.0.6"; }
 
 // Download file HoD
-exports.dnwfile = () => { return "http://gateway0X.hod.quanthouse.com"; }
+// exports.dnwfile = () => { return "http://gateway0X.hod.quanthouse.com"; }
 
 // Link API Currency
 exports.currency = () => { return "http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml"; }
@@ -44,13 +44,11 @@ exports.config = () => {
         herbergement + "/admin/users",
         herbergement + "/admin/profil/",
         herbergement + "/admin/role",
-        herbergement + "/admin/help",
         herbergement + "/home",
         herbergement + "/login",
         herbergement + "/pwd",
         herbergement + "/register",
         herbergement + "/confirm",
-        herbergement + "/search",
         herbergement + "/contact",
         herbergement + "/active",
         herbergement + "/mdpoublie",

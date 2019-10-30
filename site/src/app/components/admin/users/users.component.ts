@@ -1,19 +1,10 @@
 import { Component, OnInit, AfterViewChecked, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { Http, Response } from '@angular/http';
 import { Subject } from 'rxjs/Subject';
 
 
 
 import { UserService } from '../../../services/user.service';
-
-class DataTablesResponse {
-  data: any[];
-  draw: number;
-  recordsFiltered: number;
-  recordsTotal: number;
-}
 
 @Component({
   selector: 'app-users',
@@ -28,8 +19,6 @@ export class UsersComponent implements OnInit, AfterViewChecked {
   dtTrigger: Subject<any> = new Subject();
 
   constructor(
-    private http: Http,
-    private router: Router,
     private userService: UserService
   ) { }
 
@@ -46,9 +35,6 @@ export class UsersComponent implements OnInit, AfterViewChecked {
 
     this.userService.getUsers().subscribe(res => {
       this.users = res.users;
-      // console.dir(res.users);
-      // console.log(typeof res.users['roleName']);
-      // this.users['roleName'] = res.users['roleName'].join(', ');
       this.dtTrigger.next();
     });
   }
@@ -62,8 +48,4 @@ export class UsersComponent implements OnInit, AfterViewChecked {
   edit(id): void {
   }
 
-  private extractData(res: Response) {
-    const body = res.json();
-    return body.data || {};
-  }
 }

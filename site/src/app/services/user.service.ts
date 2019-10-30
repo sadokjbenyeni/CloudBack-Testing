@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map'
-import 'rxjs/Rx';
+import 'rxjs/add/operator/map';
 
 import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { Users, User, UserResponse } from '../models/User';
+import { Roles } from '../models/Role';
+import { LoginResponse } from '../models/LoginResponse';
+import { MailResponse } from '../models/MailResponse';
+import { Message } from '../models/message';
 
 // export interface User {
 //   islogin: boolean;
@@ -21,82 +24,70 @@ export class UserService {
 
   protected authenticatedUser: boolean;
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     this.authenticatedUser = false;
     this.getAuthenticatedUser();
   }
 
   create(user) {
-    return this.http.post( environment.api + '/user', user )
-      .map( res => res.json() );
+    return this.http.post(environment.api + '/user', user);
   }
 
   activation(token) {
-    return this.http.post( environment.api + '/user/activation', token )
-    .map( res => res.json() );
+    return this.http.post<LoginResponse>(environment.api + '/user/activation', { token: token });
   }
 
   check(user) {
-    return this.http.post( environment.api + '/user/check', user )
-      .map( res => res.json() );
+
+    return this.http.post<UserResponse>(environment.api + '/user/check', user);
   }
-  
+
   info(user) {
-    return this.http.post( environment.api + '/user/info', user )
-      .map( res => res.json() );
+    return this.http.post(environment.api + '/user/info', user);
   }
-  
+
   getUsers() {
-    return this.http.get( environment.api + '/user' )
-    .map( res => res.json() );
+    return this.http.get<Users>(environment.api + '/user');
   }
 
   getRoles() {
-    return this.http.get( environment.api + '/role' )
-    .map( res => res.json() );
+    return this.http.get<Roles>(environment.api + '/role');
   }
 
   getCompte(user) {
-    return this.http.get( environment.api + '/user/' + user )
-      .map( res => res.json() );
+    return this.http.get<User>(environment.api + '/user/' + user);
   }
 
   updateUser(user) {
-    return this.http.put( environment.api + '/user', user )
-      .map( res => res.json() );
+    return this.http.put<Message>(environment.api + '/user', user);
   }
 
   islogin(token) {
-    return this.http.post( environment.api + '/user/islogin', token ).map( res => res.json() );
+    return this.http.post<LoginResponse>(environment.api + '/user/islogin', token);
   }
 
   mdpmail(val) {
-    return this.http.post( environment.api + '/mail/mdp', val )
-    .map( res => res.json() );
+    return this.http.post<MailResponse>(environment.api + '/mail/mdp', val);
   }
 
 
   mdpmodif(val) {
-    return this.http.put( environment.api + '/user/mdpmodif', val )
-    .map( res => res.json() );
+    return this.http.put(environment.api + '/user/mdpmodif', val);
   }
 
   public getAuthenticatedUser() {
-      return this.authenticatedUser;
+    return this.authenticatedUser;
   }
 
   logout(token) {
-    return this.http.post( environment.api + '/user/logout', token )
-      .map( res => res.json() );
+    return this.http.post(environment.api + '/user/logout', token);
   }
   preferBilling(prefer) {
-    return this.http.post( environment.api + '/user/preferBilling', prefer )
-      .map( res => res.json() );
+    return this.http.post(environment.api + '/user/preferBilling', prefer);
   }
 
   verifmail(email) {
-    return this.http.post( environment.api + '/user/verifmail', email )
-    .map( res => res.json() );
+    return this.http.post<LoginResponse>(environment.api + '/user/verifmail', email);
   }
 
 }

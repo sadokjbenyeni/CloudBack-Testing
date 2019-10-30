@@ -1,62 +1,46 @@
-<!-- navbar top -->
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar">
-  <!-- navbar-header -->
-      <a class="navbar-brand" routerLink="{{link}}">
-        <img id="logo" src="assets/img/logo.gif" title="Quanthouse" alt="logo Quanthouse">
-      </a>
-  <!-- end navbar-header -->
-  <!-- navbar-top-links -->
-  <!-- Navbar clients -->
+<nav class="navbar navbar-expand-xl navbar-fixed-top navbar-light bg-light pt-0 pb-0 navbarontop">
+  <img id="logo" src="assets/img/quanthouse_logo.png" class="pr-2 mr-2 navbarbrandheight" title="Quanthouse"
+    alt="logo Quanthouse" (click)="ToHome()">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto respfontsize">
+      <li class="nav-item ">
+        <a class="nav-link  mr-0 ml-0" routerLink="/">Home</a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link   mr-0 ml-0 " routerLink="/about">About QH</a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link  mr-0 ml-0 " routerLink="/help">Help</a>
+      </li>
+    </ul>
+    <span class="navbar-left ">
+      <ul class="navbar-nav respfontsize" data-hover="dropdown">
+        <li class="nav-item" *ngIf="role.length === 0 || !role ">
+          <a class="nav-link mr-0 ml-0 " routerLink="/signup">Sign Up</a>
+        </li>
+        <li class="nav-item  " *ngIf="role.length === 0 || !role ">
+          <a class="nav-link mr-0 ml-0 " (click)="openDialog()" >Login</a>
+        </li>
+        <li *ngIf="role.indexOf('Administrator') != -1 " class="nav-item ">
+          <a class="nav-link  ml-0 " routerLink="/admin/role">Administration</a>
+        </li>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto" *ngIf="role.length === 0 || !role ">
-        <li class="nav-item"><a class="nav-link" routerLink = "/">Home</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink = "/about">About QH</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink = "/help">Help</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink = "/login">Login</a></li>
+        <li class="dropdown" *ngIf="role.length != 0" data-animations="fadeInDown">
+          <a class="nav-link dropdown-toggle  " href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="true">
+            {{username}}
+          </a>
+          <div class=" dropdown-menu dropdown-menu-right col-sm-12 respfontsize" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" routerLink="/account">My Profile</a>
+            <a class="dropdown-item" (click)="logout()">Logout</a>
+          </div>
+        </li>
       </ul>
-      <ul class="navbar-nav mr-auto" *ngIf="role.indexOf('Client') != -1 ">
-          <li class="nav-item"><a class="nav-link" routerLink = "/">Home</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink = "/account">My Profile</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink = "/order/history">Order History</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink = "/about">About QH</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink = "/help">Help</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink = "/order/caddies"><i class="fa fa-shopping-cart fa-2x"></i></a></li>
-        </ul>
-        <ul class="navbar-nav mr-auto" *ngIf="role.indexOf('Administrator') != -1 ">
-          <li class="nav-item clickable"><a class="nav-link" routerLink = "/admin/role">Administration</a></li>
-        </ul>
-        <ul class="navbar-nav mr-auto" *ngIf="role.indexOf('Compliance') != -1 ">
-          <li class="nav-item"><a class="nav-link" routerLink = "/compliance/orders">Compliance</a></li>
-        </ul>
-        <ul class="navbar-nav mr-auto" *ngIf="role.indexOf('Product') != -1 ">
-          <li class="nav-item"><a class="nav-link" routerLink = "/product/orders">Product</a></li>
-        </ul>
-        <ul class="navbar-nav mr-auto" *ngIf="role.indexOf('Finance') != -1 ">
-          <li class="nav-item"><a class="nav-link" routerLink = "/finance/orders">Finance</a></li>
-        </ul>
-        <ul class="navbar-nav mr-auto" *ngIf="role.length > 0 || role ">
-          <li class="nav-item clickable"><a class="nav-link" (click)="logout()">Logout</a></li>
-        </ul>
-      </div>
-  <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    </div> -->
-  <!-- Navbar Admins -->
-  <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    </div> -->
-
-  <!-- Navbar Compliances  -->
-  <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    </div> -->
-
-  <!-- Navbar Products  -->
-  <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    </div> -->
-
-  <!-- Navbar Finances  -->
-  <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
-  </div> -->
-
-  </nav>
-  <!-- end navbar top -->
-  
+    </span>
+  </div>
+</nav>
+<router-outlet></router-outlet>

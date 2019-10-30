@@ -19,6 +19,7 @@ let UserSchema = new mongoose.Schema({
   idCountry: { type: String, maxlength: 200 },
   country: { type: String, maxlength: 200 },
   cgv: { type: Boolean, default: false },
+  cgu: { type: [String] },
   commercial: { type: Boolean, default: false },
   phone: { type: String, maxlength: 200 },
   sameAddress: { type: Boolean, default: false },

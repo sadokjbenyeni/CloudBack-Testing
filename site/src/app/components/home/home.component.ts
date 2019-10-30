@@ -10,7 +10,8 @@ export class HomeComponent implements OnInit {
 
   search: string;
 
-  constructor(private data: DataService) { }
+  constructor(private data: DataService) {
+     }
 
   ngOnInit() {
     this.data.currentSearch.subscribe(search => this.search = search);
@@ -20,5 +21,4 @@ export class HomeComponent implements OnInit {
     sessionStorage.setItem('dataset', JSON.stringify({ dataset: dataset, title: search }));
     this.data.changeSearch(search);
   }
-
 }

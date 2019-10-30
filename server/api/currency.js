@@ -24,7 +24,7 @@ router.get('/rib/:id', (req, res) => {
     Currency.findOne({id: req.params.id})
     .then((rib) => {
         if (!rib) { return res.sendStatus(404); }
-        return res.status(200).json({rib: rib});
+        return res.status(200).json(rib);
     });
 });
 

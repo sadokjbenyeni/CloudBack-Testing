@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { Http, Response } from '@angular/http';
 
 
 
 import { UserService } from '../../../services/user.service';
+import { Role } from '../../../models/Role';
 
 @Component({
   selector: 'app-user-detail',
@@ -14,15 +14,14 @@ import { UserService } from '../../../services/user.service';
 })
 export class UserDetailComponent implements OnInit {
 
-  user: { firstname: string; lastname: string; roleName: string[]; };
+  user: { firstname: String; lastname: String; roleName: String[]; };
   userSelect: string;
   message: string;
   role: string;
-  roles: Array<string>;
+  roles: Array<Role>;
   private id: string;
 
   constructor(
-    private http: Http,
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router
@@ -41,11 +40,14 @@ export class UserDetailComponent implements OnInit {
       this.roles = res.roles;
     });
     this.userService.getCompte(this.id).subscribe(res => {
-      this.user = res.user;
-      this.user['id'] = res.user['_id'];
+      this.user = {firstname: '', lastname: '', roleName: []};
+      this.user['firstname'] = res.firstname;
+      this.user['lastname'] = res.lastname;
+      this.user.roleName = res.roleName;
+      this.user['id'] = res['_id'];
     });
   }
-  
+
   roleChange(role) {
     let rolsplit = role.split('|');
     let rol = rolsplit[0];
@@ -53,8 +55,7 @@ export class UserDetailComponent implements OnInit {
     this.user['role'] = rol;
     this.user['roleName'] = rolN;
     this.userSelect = rol + '|' + rolN;
-  }
-  
+  }  
   addRole(e) {
     this.user['roleName'].push(e);
   }
@@ -62,9 +63,7 @@ export class UserDetailComponent implements OnInit {
     this.user['roleName'].splice(this.user['roleName'].indexOf(e), 1);
   }
   save() {
-    this.userService.updateUser(this.user).subscribe(res => {
-      this.router.navigateByUrl('/admin/users');
-    });
+    this.userService.updateUser(this.user).subscribe(res => this.router.navigateByUrl('/admin/users'));
   }
 
 }

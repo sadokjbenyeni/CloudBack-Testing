@@ -1,18 +1,14 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-
 import 'rxjs/add/operator/catch';
-
 import { environment } from '../../environments/environment';
+import { Companytypes } from '../models/Companytypes';
 
 @Injectable()
 export class CompanytypesService {
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
   getCompanytypes() {
-    return this.http.get( environment.api + '/companytype' )
-    .map( res => res.json() );
+    return this.http.get<Companytypes>( environment.api + '/companytype' );
   }
-
 }

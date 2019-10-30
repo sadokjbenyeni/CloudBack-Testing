@@ -1,28 +1,25 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map'
 import 'rxjs/Rx';
 import { environment } from '../../environments/environment';
+import { Message } from '../models/message';
+import { Countries, Country } from '../models/Country';
 
 @Injectable()
 export class CountriesService {
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   getCountries() {
-    return this.http.get( environment.api + '/countries' )
-    .map( res => res.json() );
+    return this.http.get<Countries>( environment.api + '/countries' );
   }
   isUE(id) {
-    return this.http.post( environment.api + '/countries/isUE', id )
-    .map( res => res.json() );
+    return this.http.post<Country>( environment.api + '/countries/isUE', id );
   }
   saveUE(country) {
-    return this.http.put( environment.api + '/countries/ue', country )
-    .map( res => res.json() );
+    return this.http.put<Message>( environment.api + '/countries/ue', country );
   }
 
 }
