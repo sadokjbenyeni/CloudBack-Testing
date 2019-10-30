@@ -71,6 +71,7 @@ import { DialogEntryComponent } from './components/dialog-entry/dialog-entry.com
 import { ProductsComponent } from './components/products/products.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { PricingComponent } from './components/pricing/pricing.component';
+import { ActivationComponent } from './components/signup/activation/activation.component';
 import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurrency.component';
 // import { PdfComponent } from './components/commun/pdf/pdf.component';
 
@@ -108,6 +109,7 @@ import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurre
     LoginPageComponent,
     ProductsComponent,
     PricingComponent,
+    ActivationComponent,
     CryptocurrencyComponent,
   ],
   entryComponents:[NgbdModalContent, HomeComponent, LoginComponent, TermsOfUseComponent],

@@ -34,19 +34,19 @@ export class LoginService {
   ) {
   }
 
-  activate() {
-    this.activatedRoute.params.subscribe(params => {
-      this.userService.activation({ token: params.token }).subscribe(res => {
-        this.message = res.message;
-        this.colorMessage = 'alert alert-info';
-        if (this.message === 'User Not Found') {
-          this.colorMessage = 'alert alert-danger';
-        } else {
-          this.page = 'activation';
-        }
-      });
-    });
-  }
+  // activate() {
+  //   this.activatedRoute.params.subscribe(params => {
+  //     this.userService.activation({ token: params.token }).subscribe(res => {
+  //       this.message = res.message;
+  //       this.colorMessage = 'alert alert-info';
+  //       if (this.message === 'User Not Found') {
+  //         this.colorMessage = 'alert alert-danger';
+  //       } else {
+  //         this.page = 'activation';
+  //       }
+  //     });
+  //   });
+  // }
 
   mdp() {
     this.userService.verifmail({ email: this.email }).subscribe(res => {

@@ -36,10 +36,10 @@ export class LoginPageComponent implements OnInit {
       this.loginService.message = 'Your account has been created';
       this.loginService.colorMessage = 'alert alert-info'
     }
-    let url = this.loginService.router.url.split('/');
-    if (url[1] === "activation") {
-      this.loginService.activate();
-    }
+    // let url = this.loginService.router.url.split('/');
+    // if (url[1] === "activation") {
+    //   this.loginService.activate();
+    // }
     this.loginService.email = '';
     this.loginService.token = '';
     this.loginService.pwd = '';

@@ -1,3 +1,4 @@
+import { ActivationComponent } from './components/signup/activation/activation.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { DialogEntryComponent } from './components/dialog-entry/dialog-entry.component';
@@ -47,7 +48,7 @@ export const routes: Routes = [
   { path: 'signup', component: SignUpComponent },
   { path: 'login', component: LoginPageComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'activation/:token', component: LoginComponent },
+  { path: 'activation/:token', component: ActivationComponent },
   { path: 'mdp/:token', component: LoginComponent },
   { path: '**', component: HomeComponent }
 
