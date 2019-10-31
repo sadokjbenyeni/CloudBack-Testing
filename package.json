@@ -4,11 +4,12 @@
   "description": "Site HistoData pour QuantHouse créé par Christophe LEFLOCH - Power4Web - powerforweb@gmail.com",
   "main": "server.js",
   "scripts": {
+    "debug":"node --inspect-brk=46728 server.js env=local",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js local",
-    "local": "node server.js local",
-    "production": "node server.js production",
-    "development": "node server.js development"
+    "start": "node server.js env=local",
+    "local": "node server.js env=local",
+    "production": "node server.js env=production",
+    "development": "node server.js env=development"
   },
   "author": "Christophe LEFLOCH",
   "license": "ISC",

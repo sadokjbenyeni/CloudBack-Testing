@@ -7,7 +7,23 @@ const request = require('request');
 const mongoose = require('mongoose');
 
 //const cron = require('node-cron');
-require('dotenv').config({ path: "environment/"+process.argv[2]+".env" });
+var resultEnv = false;
+process.argv.forEach(function(item) {
+  if(item.substr(0, 4) === "env="){
+    let environement = item.replace("env=", "");
+    require('dotenv').config({ path: "environment/"+environement+".env" });
+    resultEnv = true;
+  }
+  // return false;
+});
+if(resultEnv)
+{
+  console.log("Environment variables has been loaded");
+}
+else{
+  console.log("An error has been detected during the Environment variable loading");
+  throw new Exception("Environment variables is not found.");
+}
 //Connect to mongoDB server
 // const userdb = ''; � param�trer
 // const passdb = ''; � param�trer
@@ -20,6 +36,7 @@ require('dotenv').config({ path: "environment/"+process.argv[2]+".env" });
 //     client.close();
 //  });
 //
+console.log("the connectionstring is "+process.env.MONGODB_CONNECTIONSTRING);
 mongoose.connect(process.env.MONGODB_CONNECTIONSTRING, {
   // useMongoClient: true,
   useNewUrlParser:true,

@@ -38,18 +38,17 @@ router.post('/inscription', (req, res, next) => {
 
     The Quanthouse team`,
     html: `Hello,<br><br>
-    //   To validate your email address and activate your account, please click on the following link:
-    //   <a href="`+ process.env.DOMAIN + `/activation/` + req.body.token + `">Activation of the HistodataWeb account</a><br>
-    //   If clicking the above link does not work, you can copy and paste the URL in a new browser window.<br><br>
-    //   If you have received this email by error, you do not need to take any action. The account will not be activated and you will not receive any further emails.
-    //   <br><br>
-    //   <b>The Quanthouse team</b>`,
+       To validate your email address and activate your account, please click on the following link:
+       <a href="`+ process.env.DOMAIN + `/activation/` + req.body.token + `">Activation of the HistodataWeb account</a><br>
+       If clicking the above link does not work, you can copy and paste the URL in a new browser window.<br><br>
+       If you have received this email by error, you do not need to take any action. The account will not be activated and you will not receive any further emails.
+       <br><br>
+       <b>The Quanthouse team</b>`,
   };
   try {
     sgMail.send(msg);
     return res.json({ mail: true }).statusCode(200);
-  } catch
-  {
+  } catch   {
     return res.json({ mail: true }).statusCode(500);
   }
   // let mailOptions = {
