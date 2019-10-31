@@ -1,11 +1,13 @@
+import { PasswordComponent } from './../components/login/password/password.component';
 import { Observable } from 'rxjs/Observable';
 import { GuardGuard } from './../guard.guard';
 import { UserService } from './user.service';
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { AuthentificationService } from './authentification.service';
-import { LoginComponent } from '../components/login/login.component';
+import { LoginDialogComponent } from '../components/login/login-dialog/login-dialog.component';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -23,30 +25,19 @@ export class LoginService {
   message: String;
   showAll = false;
   redirection: string;
+  
 
   constructor(
     public router: Router,
     public userService: UserService,
     public activatedRoute: ActivatedRoute,
-    public dialogRef: MatDialogRef<LoginComponent>,
+    public dialogRef: MatDialogRef<LoginDialogComponent>,
     public authentificationService: AuthentificationService,
-    public guardGuard: GuardGuard
+    public guardGuard: GuardGuard,
+    public passwordDialog: MatDialog,
+
   ) {
   }
-
-  // activate() {
-  //   this.activatedRoute.params.subscribe(params => {
-  //     this.userService.activation({ token: params.token }).subscribe(res => {
-  //       this.message = res.message;
-  //       this.colorMessage = 'alert alert-info';
-  //       if (this.message === 'User Not Found') {
-  //         this.colorMessage = 'alert alert-danger';
-  //       } else {
-  //         this.page = 'activation';
-  //       }
-  //     });
-  //   });
-  // }
 
   mdp() {
     this.userService.verifmail({ email: this.email }).subscribe(res => {
@@ -90,16 +81,27 @@ export class LoginService {
         this.redirection = this.guardGuard.router.routerState.snapshot.root.queryParams['redirection'];
         window.location.href = this.redirection;
       }
+      else {
+        console.info("redirect to home");
+        console.debug("redirection value is null");
+        this.router.navigateByUrl("/home");
+      }
     })
   };
 
   termsOpen() {
     this.viewterms = true;
   }
+
   termsClose() {
     this.viewterms = false;
   }
+  
   closeDialog() {
     this.dialogRef.close();
+  }
+
+  openPasswordDialog(){
+    this.passwordDialog.open(PasswordComponent,{panelClass: 'no-padding-dialog'});
   }
 }

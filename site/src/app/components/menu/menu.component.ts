@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { UserService } from '../../services/user.service';
 import { MatDialog } from '@angular/material/dialog';
-import { LoginComponent } from '../login/login.component';
+import { LoginDialogComponent } from '../login/login-dialog/login-dialog.component';
 
 @Component({
   selector: 'app-menu',
@@ -67,7 +67,7 @@ export class MenuComponent implements OnInit {
   }
 
   openDialog(): void {
-    this.dialog.open(LoginComponent, {
+    this.dialog.open(LoginDialogComponent, {
       panelClass: 'no-padding-dialog',
       data: { source: this.route.parent.url }
     });

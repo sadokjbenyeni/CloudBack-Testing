@@ -1,23 +1,24 @@
-import { LoginService } from './../../services/login.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginService } from '../../../services/login.service';
+import { MatDialog } from '@angular/material';
+import { PasswordComponent } from '../password/password.component';
 
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  templateUrl: './login-Dialog.component.html',
+  styleUrls: ['./login-Dialog.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginDialogComponent implements OnInit {
 
   constructor(
     private router: Router,
-    public loginService: LoginService
+    public loginService: LoginService,
   ) {
   }
 
   ngOnInit() {
-    // this.termspdf = '/files/historical_data_tc.pdf';
     this.loginService.viewterms = false;
     this.loginService.ula = false;
     let ula = localStorage.getItem('ula');
@@ -35,10 +36,6 @@ export class LoginComponent implements OnInit {
       this.loginService.message = 'Your account has been created';
       this.loginService.colorMessage = 'alert alert-info'
     }
-    // let url = this.router.url.split('/');
-    // if (url[1] === "activation") {
-    //   this.loginService.activate();
-    // }
     this.loginService.email = '';
     this.loginService.token = '';
     this.loginService.pwd = '';
@@ -53,4 +50,6 @@ export class LoginComponent implements OnInit {
   openSignupPage() {
     this.router.navigateByUrl('/signup')
   }
+    
+ 
 }

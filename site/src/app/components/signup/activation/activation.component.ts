@@ -1,11 +1,8 @@
-import { GuardGuard } from './../../../guard.guard';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../services/user.service';
-import { MatDialogRef, MatSnackBar } from '@angular/material';
-import { AuthentificationService } from '../../../services/authentification.service';
-import { LoginComponent } from '../../login/login.component';
-import { Action } from 'rxjs/internal/scheduler/Action';
+import { MatSnackBar } from '@angular/material';
+
 
 
 @Component({
@@ -23,7 +20,6 @@ export class ActivationComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private activatedRoute: ActivatedRoute,
-    private snackBar: MatSnackBar,
   ) { }
 
 
@@ -41,18 +37,15 @@ export class ActivationComponent implements OnInit {
         this.colorMessage = 'alert alert-info';
         if (this.message === 'User Not Found') {
           this.colorMessage = 'alert alert-danger';
-          this.activationSnack('Activation has failed', 'Try again');
+          // this.activationSnack('Activation has failed', 'Try again');
         } else {
           this.page = 'activation';
-          this.router.navigateByUrl('/login');
-          this.activationSnack('Account successfully activated!', 'Go to login');
+          this.router.navigateByUrl('/login?activate=true');
         }
       });
     });
   }
 
-  activationSnack(message: string, action:string) {
-    this.snackBar.open(message, action, {verticalPosition: 'top'});
-  }
+
 
 }

@@ -1,0 +1,66 @@
+
+<!-- 
+  <div class="col-md-12" *ngIf="viewterms">
+        <p class="closeUla"><button class="btn btn-danger" (click)="termsClose()">Close</button></p>
+          <pdf-viewer
+          [src]="termspdf"
+          [original-size]="originalSize"
+          [fit-to-page]="fitToPage"
+          [zoom]="zoom"
+          [page]="page"
+          [show-all]="showAll"
+          [stick-to-page]="stickToPage"
+          [render-text]="renderText"
+          [external-link-target]="'blank'"
+          [autoresize]="autoresize"
+          ></pdf-viewer>
+      </div> -->
+
+
+<div class="login-style no-padding-dialog">
+  <div class="login-wrap">
+    <div class="login-html">
+      <div class="text-center group">
+        <h2 class="more-bottom-margin"><strong>Login</strong></h2>
+        <h5 class="more-bottom-margin"><small>Please enter your email and password</small></h5>
+      </div>
+
+      <div class="login-form">
+        <div class="sign-in">
+
+          <div class="group">
+            <label for="materialLoginFormEmail" class="label">Email</label>
+            <input [(ngModel)]="loginService.email" class="input" type="email" name="email" required
+              id="materialLoginFormEmail">
+          </div>
+
+          <div class="group">
+            <label for="materialLoginFormPassword" class="label">Password</label>
+            <input [(ngModel)]="loginService.password" class="input" type="password" name="pwd" required
+              id="materialLoginFormPassword" data-type="password">
+          </div>
+        </div>
+      </div>
+
+      <div class="align-right top-margin">
+        <p>Forgot your <button class="look-link" (click)="loginService.openPasswordDialog()">password</button></p>
+      </div>
+
+      <div class="group">
+        <input type="submit" class="button more-bottom-margin" [mat-dialog-close] value="Sign In"
+          (click)="loginService.check()">
+      </div>
+
+      <hr class="hr more-bottom-margin">
+
+      <div class="foot-lnk">
+        <div class="group">
+          <p>Don't have an account ?
+            <input class="signup-button" [mat-dialog-close] value="Sign Up" (click)="openSignupPage()">
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
