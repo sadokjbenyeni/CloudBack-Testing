@@ -71,6 +71,7 @@ import { DialogEntryComponent } from './components/dialog-entry/dialog-entry.com
 import { ProductsComponent } from './components/products/products.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { PricingComponent } from './components/pricing/pricing.component';
+import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurrency.component';
 // import { PdfComponent } from './components/commun/pdf/pdf.component';
 
 @NgModule({
@@ -107,6 +108,7 @@ import { PricingComponent } from './components/pricing/pricing.component';
     LoginPageComponent,
     ProductsComponent,
     PricingComponent,
+    CryptocurrencyComponent,
   ],
   entryComponents:[NgbdModalContent, HomeComponent, LoginComponent, TermsOfUseComponent],
   imports: [

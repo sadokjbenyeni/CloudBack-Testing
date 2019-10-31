@@ -22,10 +22,12 @@ import { SignUpComponent } from './components/signup/signup.component';
 import { OurMissionComponent } from './components/our-mission/our-mission.component';
 import { ProductsComponent } from './components/products/products.component';
 import { PricingComponent } from './components/pricing/pricing.component';
+import { Component } from '@angular/core';
+import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurrency.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  
+
   // CLIENT
   { path: 'account', component: SignUpComponent, canActivate: [GuardGuard] },
 
@@ -35,10 +37,11 @@ export const routes: Routes = [
   { path: 'admin/role', component: RoleComponent, canActivate: [GuardGuard] },
   { path: 'admin/countries', component: CountriesComponent, canActivate: [GuardGuard] },
   { path: 'admin/terms', component: TermsComponent, canActivate: [GuardGuard] },
+  // NO LOGIN NEEDED
+  { path: 'cryptocurrency', component: CryptocurrencyComponent },
   { path: 'our-missions', component: OurMissionComponent },
   { path: 'products', component: ProductsComponent },
   { path: 'pricing', component: PricingComponent },
-  // { path: 'login', component : MenuComponent },
   { path: 'about', component: AboutComponent },
   { path: 'help', component: HelpPageComponent },
   { path: 'signup', component: SignUpComponent },
