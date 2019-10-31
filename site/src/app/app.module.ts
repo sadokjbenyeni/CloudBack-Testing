@@ -70,6 +70,7 @@ import { OurMissionComponent } from './components/our-mission/our-mission.compon
 import { DialogEntryComponent } from './components/dialog-entry/dialog-entry.component';
 import { ProductsComponent } from './components/products/products.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
+import { PricingComponent } from './components/pricing/pricing.component';
 // import { PdfComponent } from './components/commun/pdf/pdf.component';
 
 @NgModule({
@@ -105,6 +106,7 @@ import { LoginPageComponent } from './components/login-page/login-page.component
     DialogEntryComponent,
     LoginPageComponent,
     ProductsComponent,
+    PricingComponent,
   ],
   entryComponents:[NgbdModalContent, HomeComponent, LoginComponent, TermsOfUseComponent],
   imports: [
