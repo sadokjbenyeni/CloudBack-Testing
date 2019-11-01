@@ -1,13 +1,10 @@
 import { PasswordComponent } from './../components/login/password/password.component';
-import { Observable } from 'rxjs/Observable';
 import { GuardGuard } from './../guard.guard';
 import { UserService } from './user.service';
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import {  MatDialog } from '@angular/material/dialog';
 import { AuthentificationService } from './authentification.service';
-import { LoginDialogComponent } from '../components/login/login-dialog/login-dialog.component';
-import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +28,6 @@ export class LoginService {
     public router: Router,
     public userService: UserService,
     public activatedRoute: ActivatedRoute,
-    public dialogRef: MatDialogRef<LoginDialogComponent>,
     public authentificationService: AuthentificationService,
     public guardGuard: GuardGuard,
     public passwordDialog: MatDialog,
@@ -58,14 +54,15 @@ export class LoginService {
     });
   }
 
-  savemdp() {
-    this.userService.mdpmodif({ token: this.token, pwd: this.password }).subscribe(res => {
+  savemdp(token: string, password: string) {
+    this.userService.mdpmodif({ token: token, pwd: password }).subscribe(res => {
+      debugger;
       this.colorMessage = 'alert alert-info';
       this.message = 'Password successfully changed';
       setTimeout(() => {
         this.message = '';
-        this.router.navigate(['/login']);
-      }, 3000);
+        this.router.navigateByUrl('/login');
+      }, 1000);
     });
   }
 
@@ -88,18 +85,6 @@ export class LoginService {
       }
     })
   };
-
-  termsOpen() {
-    this.viewterms = true;
-  }
-
-  termsClose() {
-    this.viewterms = false;
-  }
-  
-  closeDialog() {
-    this.dialogRef.close();
-  }
 
   openPasswordDialog(){
     this.passwordDialog.open(PasswordComponent,{panelClass: 'no-padding-dialog'});

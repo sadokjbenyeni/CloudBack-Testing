@@ -10,9 +10,17 @@ export class PasswordResetComponent implements OnInit {
 
   constructor(
     public loginService: LoginService,
-  ) { }
+  ) {
+
+   }
 
   ngOnInit() {
   }
 
+  changePassword(){
+    debugger;
+    let currentToken = this.loginService.router.url.split('/');
+
+    this.loginService.savemdp(currentToken[2], this.loginService.password);
+  }
 }
