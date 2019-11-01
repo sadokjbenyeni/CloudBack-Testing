@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../../../services/login.service';
-import { MatDialog } from '@angular/material';
-import { PasswordComponent } from '../password/password.component';
+
 
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login-Dialog.component.html',
-  styleUrls: ['./login-Dialog.component.css']
+  templateUrl: './login-dialog.component.html',
+  styleUrls: ['./login-dialog.component.css']
 })
 export class LoginDialogComponent implements OnInit {
 
