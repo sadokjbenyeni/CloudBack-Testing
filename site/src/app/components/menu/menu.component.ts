@@ -1,6 +1,6 @@
 import { AuthentificationService } from './../../services/authentification.service';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouteReuseStrategy } from '@angular/router';
 
 import { UserService } from '../../services/user.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -71,6 +71,12 @@ export class MenuComponent implements OnInit {
       panelClass: 'no-padding-dialog',
       data: { source: this.route.parent.url }
     });
+  }
+  goto(element) {
+    var a = this.router.parseUrl(this.router.url).root;
+    if (this.router.url.includes("/home")) {
+      element = document.getElementById(element).scrollIntoView({behavior:'smooth'} );
+    }
   }
 }
 

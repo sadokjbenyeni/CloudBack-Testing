@@ -72,6 +72,7 @@ import { ProductsComponent } from './components/products/products.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { PricingComponent } from './components/pricing/pricing.component';
 import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurrency.component';
+import { OnBoardingComponent } from './components/on-boarding/on-boarding.component';
 // import { PdfComponent } from './components/commun/pdf/pdf.component';
 
 @NgModule({
@@ -109,6 +110,7 @@ import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurre
     ProductsComponent,
     PricingComponent,
     CryptocurrencyComponent,
+    OnBoardingComponent,
   ],
   entryComponents:[NgbdModalContent, HomeComponent, LoginComponent, TermsOfUseComponent],
   imports: [
