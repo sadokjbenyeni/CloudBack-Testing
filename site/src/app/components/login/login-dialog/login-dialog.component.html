@@ -5,7 +5,7 @@
         <h2 class="more-bottom-margin"><strong>Login</strong></h2>
         <h5 class="more-bottom-margin"><small>Please enter your email and password</small></h5>
       </div>
-
+      <div class="alert alert-info" *ngIf="loginService.message">An email has been sent to you</div>
       <div class="login-form">
         <div class="sign-in">
 

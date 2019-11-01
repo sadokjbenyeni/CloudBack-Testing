@@ -75,6 +75,7 @@ import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurre
 import { PasswordComponent } from './components/login/password/password.component';
 import { PasswordResetComponent } from './components/login/password-reset/password-reset.component';
 // import { PdfComponent } from './components/commun/pdf/pdf.component';
+import { NotifierModule } from "angular-notifier";
 
 @NgModule({
   declarations: [
@@ -113,6 +114,7 @@ import { PasswordResetComponent } from './components/login/password-reset/passwo
     CryptocurrencyComponent,
     PasswordComponent,
     PasswordResetComponent,
+
   ],
   entryComponents:[NgbdModalContent, HomeComponent, LoginDialogComponent, PasswordComponent,PasswordResetComponent, TermsOfUseComponent],
   imports: [
@@ -124,7 +126,6 @@ import { PasswordResetComponent } from './components/login/password-reset/passwo
     DataTablesModule,
     CdkTableModule,
     BrowserAnimationsModule,
-
     // NgbModule.forRoot(),
     NgbModule,
 
@@ -134,6 +135,7 @@ import { PasswordResetComponent } from './components/login/password-reset/passwo
     FormsModule,    
     BrowserModule,
     BrowserAnimationsModule,
+    NotifierModule.withConfig({}),
     ],
   providers: [
     GuardGuard,

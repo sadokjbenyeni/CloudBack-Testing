@@ -56,13 +56,12 @@ export class LoginService {
 
   savemdp(token: string, password: string) {
     this.userService.mdpmodif({ token: token, pwd: password }).subscribe(res => {
-      debugger;
       this.colorMessage = 'alert alert-info';
       this.message = 'Password successfully changed';
       setTimeout(() => {
         this.message = '';
         this.router.navigateByUrl('/login');
-      }, 1000);
+      }, 3000);
     });
   }
 
