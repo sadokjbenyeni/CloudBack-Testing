@@ -1,11 +1,10 @@
-import { Observable } from 'rxjs/Observable';
+import { PasswordComponent } from './../components/login/password/password.component';
 import { GuardGuard } from './../guard.guard';
 import { UserService } from './user.service';
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialogRef } from '@angular/material/dialog';
+import {  MatDialog } from '@angular/material/dialog';
 import { AuthentificationService } from './authentification.service';
-import { LoginComponent } from '../components/login/login.component';
 
 @Injectable({
   providedIn: 'root'
@@ -23,29 +22,17 @@ export class LoginService {
   message: String;
   showAll = false;
   redirection: string;
+  
 
   constructor(
     public router: Router,
     public userService: UserService,
     public activatedRoute: ActivatedRoute,
-    public dialogRef: MatDialogRef<LoginComponent>,
     public authentificationService: AuthentificationService,
-    public guardGuard: GuardGuard
-  ) {
-  }
+    public guardGuard: GuardGuard,
+    public passwordDialog: MatDialog,
 
-  activate() {
-    this.activatedRoute.params.subscribe(params => {
-      this.userService.activation({ token: params.token }).subscribe(res => {
-        this.message = res.message;
-        this.colorMessage = 'alert alert-info';
-        if (this.message === 'User Not Found') {
-          this.colorMessage = 'alert alert-danger';
-        } else {
-          this.page = 'activation';
-        }
-      });
-    });
+  ) {
   }
 
   mdp() {
@@ -67,13 +54,13 @@ export class LoginService {
     });
   }
 
-  savemdp() {
-    this.userService.mdpmodif({ token: this.token, pwd: this.password }).subscribe(res => {
+  savemdp(token: string, password: string) {
+    this.userService.mdpmodif({ token: token, pwd: password }).subscribe(res => {
       this.colorMessage = 'alert alert-info';
       this.message = 'Password successfully changed';
       setTimeout(() => {
         this.message = '';
-        this.router.navigate(['/login']);
+        this.router.navigateByUrl('/login');
       }, 3000);
     });
   }
@@ -90,16 +77,15 @@ export class LoginService {
         this.redirection = this.guardGuard.router.routerState.snapshot.root.queryParams['redirection'];
         window.location.href = this.redirection;
       }
+      else {
+        console.info("redirect to home");
+        console.debug("redirection value is null");
+        this.router.navigateByUrl("/home");
+      }
     })
   };
 
-  termsOpen() {
-    this.viewterms = true;
-  }
-  termsClose() {
-    this.viewterms = false;
-  }
-  closeDialog() {
-    this.dialogRef.close();
+  openPasswordDialog(){
+    this.passwordDialog.open(PasswordComponent,{panelClass: 'no-padding-dialog'});
   }
 }

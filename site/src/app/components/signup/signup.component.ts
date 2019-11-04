@@ -5,11 +5,11 @@ import { UserService } from '../../services/user.service';
 import { CurrencyService } from '../../services/currency.service';
 import { CountriesService } from '../../services/countries.service';
 import { CompanytypesService } from '../../services/companytypes.service';
-import { LoginComponent } from '../login/login.component';
 import { MatDialog } from '@angular/material';
 import { TermsOfUseComponent } from '../terms-of-use/terms-of-use.component';
 import { TermsService } from '../../services/terms.service';
 import { Term } from '../../models/Terms';
+import { LoginDialogComponent } from '../login/login-dialog/login-dialog.component';
 
 export interface FormModel {
   captcha?: string;
@@ -142,7 +142,7 @@ export class SignUpComponent implements OnInit {
       this.isValidPwd = false;
       this.userService.create(this.user).subscribe(data => {
         this.router.navigateByUrl("/on-boarding");
-        this.matDialog.open(LoginComponent, { data: { registration: "ok" } });
+        this.matDialog.open(LoginDialogComponent, { data: { registration: "ok" } });
       },
         error => {
           console.error(error);

@@ -22,7 +22,7 @@ import { DateValidatorDirective } from './validators/date-validator.directive';
 import { MenuComponent } from './components/menu/menu.component';
 // Clients
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/login/login.component';
+import { LoginDialogComponent } from './components/login/login-dialog/login-dialog.component';
 import { SignUpComponent } from './components/signup/signup.component';
 
 // Administrators
@@ -64,22 +64,25 @@ import { NgbdModalContent } from './modal-content';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { CdkTableModule } from '@angular/cdk/table';
 import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.component';
-import { DialogEntryComponent } from './components/dialog-entry/dialog-entry.component';
-import { LoginPageComponent } from './components/login-page/login-page.component';
+import { LoginPageComponent } from './components/login/login-page/login-page.component';
 import { HomeComponent } from './components/home/home.component';
 import { PricingComponent } from './components/pricing/pricing.component';
 import { ProductsComponent } from './components/products/products.component';
+import { ActivationComponent } from './components/signup/activation/activation.component';
 import { AboutComponent } from './components/about/about.component';
 import { HelpPageComponent } from './components/help-page/help-page.component';
 import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurrency.component';
 import { OnBoardingComponent } from './components/on-boarding/on-boarding.component';
 
+import { PasswordComponent } from './components/login/password/password.component';
+import { PasswordResetComponent } from './components/login/password-reset/password-reset.component';
 // import { PdfComponent } from './components/commun/pdf/pdf.component';
+import { NotifierModule } from "angular-notifier";
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
+    LoginDialogComponent,
     SignUpComponent,
     MenuComponent,
     LoginPageComponent,
@@ -109,10 +112,13 @@ import { OnBoardingComponent } from './components/on-boarding/on-boarding.compon
     NgbdModalContent,
     ComCountriesComponent,
     TermsOfUseComponent,
-    DialogEntryComponent,
     LoginPageComponent,
+    ActivationComponent,
+    PasswordComponent,
+    PasswordResetComponent,
+
   ],
-  entryComponents: [NgbdModalContent, LoginComponent, TermsOfUseComponent],
+  entryComponents:[NgbdModalContent, LoginDialogComponent, PasswordComponent,PasswordResetComponent, TermsOfUseComponent],
   imports: [
     MaterialModule,
     BrowserModule,
@@ -122,7 +128,6 @@ import { OnBoardingComponent } from './components/on-boarding/on-boarding.compon
     DataTablesModule,
     CdkTableModule,
     BrowserAnimationsModule,
-
     // NgbModule.forRoot(),
     NgbModule,
 
@@ -132,6 +137,7 @@ import { OnBoardingComponent } from './components/on-boarding/on-boarding.compon
     FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
+    NotifierModule.withConfig({}),
   ],
   providers: [
     GuardGuard,
