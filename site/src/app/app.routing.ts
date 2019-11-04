@@ -19,11 +19,10 @@ import { AboutComponent } from './components/about/about.component';
 import { HelpPageComponent } from './components/help-page/help-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignUpComponent } from './components/signup/signup.component';
-import { OurMissionComponent } from './components/our-mission/our-mission.component';
 import { ProductsComponent } from './components/products/products.component';
 import { PricingComponent } from './components/pricing/pricing.component';
-import { Component } from '@angular/core';
 import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurrency.component';
+import { OnBoardingComponent } from './components/on-boarding/on-boarding.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -38,8 +37,8 @@ export const routes: Routes = [
   { path: 'admin/countries', component: CountriesComponent, canActivate: [GuardGuard] },
   { path: 'admin/terms', component: TermsComponent, canActivate: [GuardGuard] },
   // NO LOGIN NEEDED
+  { path: 'on-boarding', component: OnBoardingComponent },
   { path: 'cryptocurrency', component: CryptocurrencyComponent },
-  { path: 'our-missions', component: OurMissionComponent },
   { path: 'products', component: ProductsComponent },
   { path: 'pricing', component: PricingComponent },
   { path: 'about', component: AboutComponent },
@@ -49,6 +48,6 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'activation/:token', component: LoginComponent },
   { path: 'mdp/:token', component: LoginComponent },
-  { path: '**', component: HomeComponent }
+  { path: '**', component: OnBoardingComponent }
 
 ];
