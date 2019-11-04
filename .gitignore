@@ -8,3 +8,9 @@ dist/*
 .vscode/*
 */.vscode/*
 **/.vscode/*
+### DotnetCore ###
+# .NET Core build folders
+bin
+obj
+.vs
+*.user
