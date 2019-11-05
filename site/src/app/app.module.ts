@@ -18,15 +18,13 @@ import { TelephoneValidatorDirective } from './validators/telephone-validator.di
 import { MdpValidatorDirective } from './validators/mdp-validator.directive';
 import { DateValidatorDirective } from './validators/date-validator.directive';
 // Components
-  // All
+// All
 import { MenuComponent } from './components/menu/menu.component';
-  // Clients
+// Clients
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/login/login.component';
+import { LoginDialogComponent } from './components/login/login-dialog/login-dialog.component';
 import { SignUpComponent } from './components/signup/signup.component';
-import { AboutComponent } from './components/about/about.component';
-import { HelpPageComponent } from './components/help-page/help-page.component';
+
 // Administrators
 import { ConfigurationComponent } from './components/admin/configuration/configuration.component';
 import { RoleComponent } from './components/admin/role/role.component';
@@ -66,23 +64,35 @@ import { NgbdModalContent } from './modal-content';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { CdkTableModule } from '@angular/cdk/table';
 import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.component';
-import { OurMissionComponent } from './components/our-mission/our-mission.component';
-import { DialogEntryComponent } from './components/dialog-entry/dialog-entry.component';
-import { ProductsComponent } from './components/products/products.component';
-import { LoginPageComponent } from './components/login-page/login-page.component';
+import { LoginPageComponent } from './components/login/login-page/login-page.component';
+import { HomeComponent } from './components/home/home.component';
 import { PricingComponent } from './components/pricing/pricing.component';
+import { ProductsComponent } from './components/products/products.component';
+import { ActivationComponent } from './components/signup/activation/activation.component';
+import { AboutComponent } from './components/about/about.component';
+import { HelpPageComponent } from './components/help-page/help-page.component';
 import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurrency.component';
+import { OnBoardingComponent } from './components/on-boarding/on-boarding.component';
+
+import { PasswordComponent } from './components/login/password/password.component';
+import { PasswordResetComponent } from './components/login/password-reset/password-reset.component';
 // import { PdfComponent } from './components/commun/pdf/pdf.component';
+import { NotifierModule } from "angular-notifier";
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
+    LoginDialogComponent,
     SignUpComponent,
     MenuComponent,
-    HomeComponent,
     LoginPageComponent,
-    
+    HomeComponent,
+    PricingComponent,
+    CryptocurrencyComponent,
+    OnBoardingComponent,
+    ProductsComponent,
+    AboutComponent,
+    HelpPageComponent,
     UsersComponent,
     UserDetailComponent,
     ShowErrorsComponent,
@@ -96,21 +106,19 @@ import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurre
     RoleComponent,
     CountriesComponent,
     TermsComponent,
-    AboutComponent,
-    HelpPageComponent,
+
     CeilPipe,
     SafeHtmlPipePipe,
     NgbdModalContent,
     ComCountriesComponent,
     TermsOfUseComponent,
-    OurMissionComponent,
-    DialogEntryComponent,
     LoginPageComponent,
-    ProductsComponent,
-    PricingComponent,
-    CryptocurrencyComponent,
+    ActivationComponent,
+    PasswordComponent,
+    PasswordResetComponent,
+
   ],
-  entryComponents:[NgbdModalContent, HomeComponent, LoginComponent, TermsOfUseComponent],
+  entryComponents:[NgbdModalContent, LoginDialogComponent, PasswordComponent,PasswordResetComponent, TermsOfUseComponent],
   imports: [
     MaterialModule,
     BrowserModule,
@@ -120,17 +128,17 @@ import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurre
     DataTablesModule,
     CdkTableModule,
     BrowserAnimationsModule,
-
     // NgbModule.forRoot(),
     NgbModule,
 
     //Ng2BootstrapModule,
     RecaptchaModule.forRoot(),
     PdfViewerModule,
-    FormsModule,    
+    FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
-    ],
+    NotifierModule.withConfig({}),
+  ],
   providers: [
     GuardGuard,
     ConfigService,
@@ -147,4 +155,5 @@ import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurre
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

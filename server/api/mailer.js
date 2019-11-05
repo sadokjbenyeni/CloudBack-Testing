@@ -8,6 +8,8 @@ const URLS = config.config();
 const SMTP = config.smtpconf();
 const sgMail = require('@sendgrid/mail');
 
+sgMail.setApiKey("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");
+
 const smtpTransport = nodemailer.createTransport({
   host: SMTP.host,
   port: SMTP.port,
@@ -21,7 +23,7 @@ const smtpTransport = nodemailer.createTransport({
 });
 
 router.post('/inscription', (req, res, next) => {
-  sgMail.setApiKey("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");
+  // sgMail.setApiKey("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");
   const msg = {
     to: req.body.email,
     from: 'no-replay@cloudbacktesting.com',
@@ -47,9 +49,9 @@ router.post('/inscription', (req, res, next) => {
   };
   try {
     sgMail.send(msg);
-    return res.json({ mail: true }).statusCode(200);
+    return res.status(200).json({ mail: true });
   } catch   {
-    return res.json({ mail: true }).statusCode(500);
+    return res.status(500).json({ mail: true });
   }
   // let mailOptions = {
   //   from: 'no-reply@quanthouse.com',
@@ -179,12 +181,19 @@ router.post('/mdp', (req, res, next) => {
     If you have received this email by error, you do not need to take any action. Your password will remain unchanged.<br><br>
     <b>The Quanthouse team</b>`
   };
-  smtpTransport.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return console.log(error);
-    }
-    return res.json({ mail: true }).statusCode(200);
-  });
+  // smtpTransport.sendMail(mailOptions, (error, info) => {
+  //   if (error) {
+  //     return console.log(error);
+  //   }
+  //   return res.json({ mail: true }).statusCode(200);
+  // });
+  try {
+    sgMail.send(mailOptions);
+    return res.status(200).json({ mail: true });
+  } catch
+  {
+    return res.status(500).json({ mail: true });
+  }
 });
 
 router.post('/newOrder', (req, res, next) => {

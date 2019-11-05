@@ -1,10 +1,10 @@
 import { AuthentificationService } from './../../services/authentification.service';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouteReuseStrategy } from '@angular/router';
 
 import { UserService } from '../../services/user.service';
 import { MatDialog } from '@angular/material/dialog';
-import { LoginComponent } from '../login/login.component';
+import { LoginDialogComponent } from '../login/login-dialog/login-dialog.component';
 
 @Component({
   selector: 'app-menu',
@@ -67,10 +67,16 @@ export class MenuComponent implements OnInit {
   }
 
   openDialog(): void {
-    this.dialog.open(LoginComponent, {
+    this.dialog.open(LoginDialogComponent, {
       panelClass: 'no-padding-dialog',
       data: { source: this.route.parent.url }
     });
+  }
+  goto(element) {
+    var a = this.router.parseUrl(this.router.url).root;
+    if (this.router.url.includes("/home")) {
+      element = document.getElementById(element).scrollIntoView({behavior:'smooth'} );
+    }
   }
 }
 

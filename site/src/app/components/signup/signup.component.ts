@@ -5,11 +5,11 @@ import { UserService } from '../../services/user.service';
 import { CurrencyService } from '../../services/currency.service';
 import { CountriesService } from '../../services/countries.service';
 import { CompanytypesService } from '../../services/companytypes.service';
-import { LoginComponent } from '../login/login.component';
 import { MatDialog } from '@angular/material';
 import { TermsOfUseComponent } from '../terms-of-use/terms-of-use.component';
 import { TermsService } from '../../services/terms.service';
 import { Term } from '../../models/Terms';
+import { LoginDialogComponent } from '../login/login-dialog/login-dialog.component';
 
 export interface FormModel {
   captcha?: string;
@@ -42,7 +42,8 @@ export class SignUpComponent implements OnInit {
   exist: boolean;
   checkrobot: boolean;
   checkv: boolean; // check VAT Number
-  term: Term;
+  term: object
+
   acceptingcgu: false;
 
 
@@ -101,13 +102,21 @@ export class SignUpComponent implements OnInit {
       cgu: [],
       commercial: <boolean>true
     };
+    this.term = <object>{
+      _id: <string>'',
+      name: <string>'',
+      description: <string>'',
+      version: <string>''
+    };
     this.title = 'Sign Up';
     if (this.page === '/account') {
       this.title = 'My Profile';
       this.getUser();
       this.getCurrency();
     }
+    debugger;
     this.getCompanyType();
+    debugger;
     this.getCountry();
     this.coll = 'col-lg-12';
     this.colg = 'col-lg-6';
@@ -115,6 +124,8 @@ export class SignUpComponent implements OnInit {
     this.termService.getLastTerm().subscribe(result => {
       this.term = result;
     });
+    debugger;
+
   }
 
 
@@ -130,8 +141,8 @@ export class SignUpComponent implements OnInit {
     if (this.confirmation === this.user['password']) {
       this.isValidPwd = false;
       this.userService.create(this.user).subscribe(data => {
-        this.router.navigateByUrl("/home");
-        this.matDialog.open(LoginComponent, { data: { registration: "ok" } });
+        this.router.navigateByUrl("/on-boarding");
+        this.matDialog.open(LoginDialogComponent, { data: { registration: "ok" } });
       },
         error => {
           console.error(error);
@@ -232,10 +243,10 @@ export class SignUpComponent implements OnInit {
   }
   showOptions(event) {
     if (event.checked) {
-      this.user['cgu'].push(this.term.version);
+      this.user['cgu'].push(this.term['version']);
     }
     else {
-      this.user['cgu'].splice(this.user['cgu'].indexOf(this.term.version), 1);
+      this.user['cgu'].splice(this.user['cgu'].indexOf(this.term['version']), 1);
     }
   }
 }

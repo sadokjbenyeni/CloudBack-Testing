@@ -1,0 +1,152 @@
+.login-style {
+  margin: 0px;
+  color: #000000;
+  background: #c8c8c8;
+  font: 16px/20px;
+}
+
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
+.clearfix:after,
+.clearfix:before {
+  content: "";
+  display: table;
+}
+.clearfix:after {
+  clear: both;
+  display: block;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.login-wrap {
+  width: 100%;
+  height: 32vw;
+  margin: 0px;
+  max-width: 1000px;
+  min-height: 700px;
+  position: relative;
+  box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+.login-html {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  padding: 50px 50px 50px 50px;
+  background: #fafafa;
+}
+
+.login-html .sign-in {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: relative;
+  backface-visibility: hidden;
+  transition: all 0.4s linear;
+}
+
+.login .sign-in {
+  display: none;
+}
+
+.label {
+  text-transform: uppercase;
+}
+
+.login-form {
+  min-height: 210px;
+  position: relative;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.group {
+  margin-bottom: 25px;
+}
+
+.label,
+.button {
+  width: 100%;
+  color: #fff;
+  display: block;
+}
+
+.input {
+  width: 100%;
+  display: block;
+}
+
+.input,
+.button {
+  border: none;
+  padding: 15px 20px;
+  border-radius: 25px;
+  background: #e8f0fe;
+}
+
+.label {
+  color: #aaa;
+  font-size: 12px;
+}
+
+.button {
+  background: rgb(255, 54, 7);
+}
+
+.hr {
+  height: 2px;
+  background: rgba(255, 255, 255, 0.2);
+}
+.foot-lnk {
+  text-align: center;
+}
+
+.sign-up {
+  color: #aaa;
+  font-size: 30px;
+  display: block;
+  text-transform: uppercase;
+}
+
+.more-bottom-margin {
+  margin-bottom: 25px;
+}
+.top-margin {
+  margin-top: 25px;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.orange {
+  color: rgb(255, 157, 120);
+}
+
+.signup-button {
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  background: rgb(24, 85, 148);
+  color: #fff;
+}
+
+.look-link {
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  /*optional*/
+  font-family: arial, sans-serif;
+  /*input has OS specific font-family*/
+  color: rgb(255, 60, 0);
+  text-decoration: underline;
+  cursor: pointer;
+}
