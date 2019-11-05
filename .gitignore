@@ -14,3 +14,9 @@ bin
 obj
 .vs
 *.user
+*/.vs/*
+**/.vs/*
+*/bin/*
+**/bin/*
+*/obj/*
+**/obj/*
