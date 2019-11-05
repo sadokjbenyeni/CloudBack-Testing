@@ -30,16 +30,16 @@ export class UserService {
   }
 
   create(user) {
-    return this.http.post(environment.api + '/user', user);
+    return this.http.post(environment.api + '/register', user);
   }
 
   activation(token) {
-    return this.http.post<LoginResponse>(environment.api + '/user/activation', { token: token });
+    return this.http.post<LoginResponse>(environment.api + '/activation', { token: token });
   }
 
   check(user) {
 
-    return this.http.post<UserResponse>(environment.api + '/user/check', user);
+    return this.http.post<UserResponse>(environment.api + '/login', user);
   }
 
   info(user) {

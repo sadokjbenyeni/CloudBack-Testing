@@ -29,6 +29,14 @@ namespace CloudBacktesting.ApiGateway.Web
         {
             services.AddControllers();
             services.AddOcelot(Configuration);
+            services.AddCors(options =>
+            {
+                options.AddPolicy("allOrigins",
+                builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,7 +48,7 @@ namespace CloudBacktesting.ApiGateway.Web
             }
 
             //app.UseHttpsRedirection();
-
+            app.UseCors("allOrigins");
             app.UseRouting();
 
             app.UseAuthorization();

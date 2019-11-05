@@ -1,0 +1,98 @@
+{
+  "ReRoutes": [
+    {
+      //resigration routes
+      "DownstreamPathTemplate": "/api/countries",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "9095"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/countries"
+    },
+    {
+      "DownstreamPathTemplate": "/api/companytype",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "9095"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/companytype"
+      //"RouteClaimsRequirement": {
+      //  "UserType": "registered"
+      //}
+    },
+    {
+      "DownstreamPathTemplate": "/api/terms/{url}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "9095"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/terms/{url}"
+    },
+    {
+      "DownstreamPathTemplate": "/api/user/verifmail",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "9095"
+        }
+      ],
+      "UpstreamPathTemplate": "/api/user/verifmail"
+    },
+    //account activation
+    {
+      "DownstreamPathTemplate": "/api/user/activation",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "9095"
+        }
+      ],
+
+      "UpstreamPathTemplate": "/api/activation",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/user",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "9095"
+        }
+      ],
+
+      "UpstreamPathTemplate": "/api/register",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+
+    //signIn
+    {
+      "DownstreamPathTemplate": "/api/user/check",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "9095"
+        }
+      ],
+
+      "UpstreamPathTemplate": "/login",
+      "UpstreamHttpMethod": [ "Post" ]
+    }
+
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5002"
+  }
+}
