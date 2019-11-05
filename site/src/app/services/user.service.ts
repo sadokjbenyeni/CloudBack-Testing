@@ -80,7 +80,7 @@ export class UserService {
   }
 
   logout(token) {
-    return this.http.post(environment.api + '/user/logout', token);
+    return this.http.post(environment.api + '/logout', token);
   }
   preferBilling(prefer) {
     return this.http.post(environment.api + '/user/preferBilling', prefer);
