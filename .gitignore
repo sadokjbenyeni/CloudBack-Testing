@@ -8,3 +8,11 @@ dist/*
 .vscode/*
 */.vscode/*
 **/.vscode/*
+*/.vs/*
+**/.vs/*
+.vs/*
+*/bin/*
+**/bin/*
+*/obj/*
+**/obj/*
+**/*.csproj.user
