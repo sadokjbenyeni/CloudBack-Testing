@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace CloudBacktesting.ApiGateway.Web
+namespace CloudBacktesting.ApiGateway.WebApi.Host
 {
     public class Program
     {
@@ -17,11 +17,11 @@ namespace CloudBacktesting.ApiGateway.Web
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-            .ConfigureAppConfiguration((host, config) =>
-            {
-                config.AddJsonFile("Ocelot.json");
-            })
+            Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
+              .ConfigureAppConfiguration((host, config) =>
+              {
+                  config.AddJsonFile("Ocelot.json");
+              })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

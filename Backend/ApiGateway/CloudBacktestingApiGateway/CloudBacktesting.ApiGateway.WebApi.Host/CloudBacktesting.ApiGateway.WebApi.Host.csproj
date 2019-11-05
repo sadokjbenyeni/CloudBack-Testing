@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ocelot" Version="13.8.0" />
+    <PackageReference Include="Ocelot.JWTAuthorize" Version="0.0.400" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CloudBacktesting.ApiGateway.Web\CloudBacktesting.ApiGateway.WebApi.Ocelot.csproj">
+      <Private>true</Private>
+    </ProjectReference>
+  </ItemGroup>
+
+</Project>
