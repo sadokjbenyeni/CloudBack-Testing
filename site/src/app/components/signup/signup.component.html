@@ -1,9 +1,9 @@
 <app-menu></app-menu>
-<div class="container col-md-12">
+<div class="container col-md-12 mt-4 pt-4">
   <div class="row">
     <!--  page header -->
     <div class="col-md-12">
-      <h1 class="page-header pt-3 pl-3">{{title}}</h1>
+      <h1 class="page-header pt-2 pl-3">{{title}}</h1>
       <hr />
     </div>
     <!-- end  page header -->
@@ -211,7 +211,7 @@
               <div class="form-group input-group  col-md-12 ">
                 <re-captcha (resolved)="resolved($event)" [siteKey]="key"></re-captcha>
               </div>
-              <a routerLink="/home" class="btn btn-default">Cancel</a>
+              <a routerLink="/on-boarding" class="btn btn-default">Cancel</a>
               <button (click)="Signup() " class="btn btn-default"
                 [disabled]="userForm.invalid|| !acceptingcgu || userForm.pending || checkrobot || exist">Sign Up
               </button>
@@ -219,7 +219,7 @@
             <div class="col-lg-4 col-lg-offset-4" *ngIf="page ==='/account'">
               <input type="checkbox" name="newcommercial" [(ngModel)]="user.commercial" value="usercommercial" />
               Subscribe to commercial emails
-              <a routerLink="/home" class="btn btn-default">Cancel</a>
+              <a routerLink="/on-boarding" class="btn btn-default">Cancel</a>
 
               <button class="btn btn-success" [disabled]="userForm.invalid || userForm.pending"
                 (click)="update()">Update</button>

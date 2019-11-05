@@ -5,8 +5,7 @@ export interface Terms {
 
 export interface Term {
   _id: string;
-  id: { type: String };
-  name: { type: String };
+  name: String
   description: string;
   version: string;
 }
