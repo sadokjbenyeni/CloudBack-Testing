@@ -20,7 +20,7 @@ namespace CloudBacktesting.ApiGateway.WebApi.Host
             Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
               .ConfigureAppConfiguration((host, config) =>
               {
-                  config.AddJsonFile("Ocelot.json");
+                  config.AddJsonFile("Ocelot.json", false, true);
               })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

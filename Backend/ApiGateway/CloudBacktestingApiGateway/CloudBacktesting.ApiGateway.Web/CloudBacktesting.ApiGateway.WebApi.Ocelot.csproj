@@ -7,9 +7,9 @@
     <StartupObject />
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\bin\</OutputPath>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Ocelot" Version="13.8.0" />
