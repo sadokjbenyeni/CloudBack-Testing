@@ -18,9 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CloudBacktesting.ApiGateway.Web\CloudBacktesting.ApiGateway.WebApi.Ocelot.csproj">
-      <Private>true</Private>
-    </ProjectReference>
+    <ProjectReference Include="..\CloudBacktesting.ApiGateway.WebApi.Ocelot\CloudBacktesting.ApiGateway.WebApi.Ocelot.csproj" />
   </ItemGroup>
 
   <ItemGroup>
