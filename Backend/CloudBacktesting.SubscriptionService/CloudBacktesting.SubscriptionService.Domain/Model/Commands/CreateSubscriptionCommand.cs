@@ -1,8 +1,8 @@
 ﻿using Akkatecture.Commands;
 using System;
-using CloudBacktesting.SubscriptionService.Domain.Model.SubscriptionAccount.ValueObjects;
+using CloudBacktesting.SubscriptionService.Domain.Model.ValueObjects;
 
-namespace CloudBacktesting.SubscriptionService.Domain.Model.SubscriptionAccount.Commands
+namespace CloudBacktesting.SubscriptionService.Domain.Model.Commands
 {
     public class CreateSubscriptionCommand : Command<SubscriptionAccount, SubscriptionAccountId>
     {

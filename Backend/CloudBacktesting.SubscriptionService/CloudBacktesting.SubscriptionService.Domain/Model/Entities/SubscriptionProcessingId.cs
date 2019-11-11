@@ -2,7 +2,7 @@
 using Akkatecture.ValueObjects;
 using Newtonsoft.Json;
 
-namespace CloudBacktesting.SubscriptionService.Domain.Model.SubscriptionAccount.Entities
+namespace CloudBacktesting.SubscriptionService.Domain.Model.Entities
 {
     [JsonConverter(typeof(SingleValueObjectConverter))]
     public class SubscriptionProcessingId : Identity<SubscriptionProcessingId>

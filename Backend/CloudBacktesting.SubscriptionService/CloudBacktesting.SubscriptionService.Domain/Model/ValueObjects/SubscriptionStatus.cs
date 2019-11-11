@@ -1,7 +1,7 @@
 ﻿using Akkatecture.ValueObjects;
 
 
-namespace CloudBacktesting.SubscriptionService.Domain.Model.SubscriptionAccount.ValueObjects
+namespace CloudBacktesting.SubscriptionService.Domain.Model.ValueObjects
 {
     public class SubscriptionStatus : SingleValueObject<string>
     {

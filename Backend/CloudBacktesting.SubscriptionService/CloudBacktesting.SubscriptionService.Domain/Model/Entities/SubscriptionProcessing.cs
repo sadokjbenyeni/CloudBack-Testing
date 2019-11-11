@@ -1,8 +1,8 @@
 ﻿
 using Akkatecture.Entities;
-using CloudBacktesting.SubscriptionService.Domain.Model.SubscriptionAccount.ValueObjects;
+using CloudBacktesting.SubscriptionService.Domain.Model.ValueObjects;
 
-namespace CloudBacktesting.SubscriptionService.Domain.Model.SubscriptionAccount.Entities
+namespace CloudBacktesting.SubscriptionService.Domain.Model.Entities
 {
     public class SubscriptionProcessing : Entity<SubscriptionProcessingId>
     {
@@ -14,7 +14,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Model.SubscriptionAccount.
         public SubscriptionProcessing(
             SubscriptionProcessingId subscriptionProcessingId,
             SubscriptionAccountId subscriptionAccount,
-             SubscriptionAccountId subscriptionAdministratorAccount,
+            SubscriptionAccountId subscriptionAdministratorAccount,
             SubscriptionStatus subscriptionStatus)
             : base(subscriptionProcessingId)
         {

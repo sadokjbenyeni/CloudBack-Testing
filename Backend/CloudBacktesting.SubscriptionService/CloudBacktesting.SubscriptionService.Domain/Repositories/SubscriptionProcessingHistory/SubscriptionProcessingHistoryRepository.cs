@@ -2,7 +2,7 @@
 using CloudBacktesting.SubscriptionService.Domain.Model.Repositories.SubscriptionProcessingHistory.Commands;
 using CloudBacktesting.SubscriptionService.Domain.Model.Repositories.SubscriptionProcessingHistory.Queries;
 using CloudBacktesting.SubscriptionService.Domain.Model.Repositories.SubscriptionProcessingHistory.ReadModels;
-using CloudBacktesting.SubscriptionService.Domain.Model.SubscriptionAccount.ValueObjects;
+using CloudBacktesting.SubscriptionService.Domain.Model.ValueObjects;
 
 namespace CloudBacktesting.SubscriptionService.Domain.Model.Repositories.SubscriptionProcessingHistory
 {

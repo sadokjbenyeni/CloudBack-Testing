@@ -1,9 +1,9 @@
 ﻿using Akkatecture.Aggregates;
 using Akkatecture.Specifications.Provided;
 using CloudBacktesting.SubscriptionService.Domain.Model.SubscriptionAccount.Commands;
-using CloudBacktesting.SubscriptionService.Domain.Model.SubscriptionAccount.Events;
+using CloudBacktesting.SubscriptionService.Domain.Model.Events;
 
-namespace CloudBacktesting.SubscriptionService.Domain.Model.SubscriptionAccount
+namespace CloudBacktesting.SubscriptionService.Domain.Model
 {
     public class SubscriptionAccount : AggregateRoot<SubscriptionAccount, SubscriptionAccountId, SubscriptionAccountState>,
         IExecute<CreateSubscriptionCommand>

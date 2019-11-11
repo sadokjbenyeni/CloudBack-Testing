@@ -5,6 +5,7 @@ using CloudBacktesting.SubscriptionService.Domain.Model.SubscriptionAccount.Comm
 using CloudBacktesting.SubscriptionService.Domain.Model.SubscriptionAccount.ValueObjects;
 using CloudBacktesting.SubscriptionService.Domain.Model.SubscriptionAccount;
 using CloudBacktesting.SubscriptionService.Domain.Model.SubscriptionAccount.Events;
+using Akka.Actor;
 
 namespace CloudBacktesting.SubscriptionService.Domain.Tests
 {
@@ -24,7 +25,8 @@ namespace CloudBacktesting.SubscriptionService.Domain.Tests
             this.FixtureFor<SubscriptionAccount, SubscriptionAccountId>(accountId)
                 .GivenNothing()
                 .When(new CreateSubscriptionCommand(accountId, state))
-                .ThenExpect<SubscriptionCreatedEvent>(x => x.SubscriptionState == state);
+                .ThenExpect<SubscriptionCreatedEvent>(s => s.SubscriptionStatus == state);
         }
+
     }
 }

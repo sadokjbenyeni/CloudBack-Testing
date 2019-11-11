@@ -1,5 +1,5 @@
 ﻿using System;
-using CloudBacktesting.SubscriptionService.Domain.Model.SubscriptionAccount.ValueObjects;
+using CloudBacktesting.SubscriptionService.Domain.Model.ValueObjects;
 
 namespace CloudBacktesting.SubscriptionService.Domain.Model.Repositories.SubscriptionProcessingHistory.Commands
 {
