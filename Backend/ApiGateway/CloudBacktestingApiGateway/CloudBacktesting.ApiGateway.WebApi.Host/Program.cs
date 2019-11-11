@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Ocelot.DependencyInjection;
 
 namespace CloudBacktesting.ApiGateway.WebApi.Host
 {
@@ -16,15 +18,11 @@ namespace CloudBacktesting.ApiGateway.WebApi.Host
             CreateHostBuilder(args).Build().Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
+        public static IWebHostBuilder CreateHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
               .ConfigureAppConfiguration((host, config) =>
               {
-                  config.AddJsonFile("Ocelot.json", false, true);
-              })
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+                  config.AddOcelot(host.HostingEnvironment);
+              }).UseStartup<Startup>();
     }
 }

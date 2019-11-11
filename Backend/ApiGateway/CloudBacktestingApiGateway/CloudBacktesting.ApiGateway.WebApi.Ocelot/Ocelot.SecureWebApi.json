@@ -1,0 +1,28 @@
+{
+  "ReRoutes": [
+    {
+      "DownstreamPathTemplate": "/api/user/isLogin",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/api/isLogin",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "9095"
+        }
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/user/logout",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "9095"
+        }
+      ],
+
+      "UpstreamPathTemplate": "/api/logout",
+      "UpstreamHttpMethod": [ "Post" ]
+    }
+  ]
+}
