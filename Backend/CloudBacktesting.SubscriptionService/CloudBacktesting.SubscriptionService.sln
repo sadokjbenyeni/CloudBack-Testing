@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.Subscripti
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "9.Hosting", "9.Hosting", "{B9C384B7-6F82-423A-96D3-7E9B7ABC6D6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.SubscriptionService.WebAPI.Host", "CloudBacktesting.SubscriptionService.WebAPI.Host\CloudBacktesting.SubscriptionService.WebAPI.Host.csproj", "{DF1E2429-8E9C-411F-9359-C30A1E49209C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.SubscriptionService.WebAPI.Host", "CloudBacktesting.SubscriptionService.WebAPI.Host\CloudBacktesting.SubscriptionService.WebAPI.Host.csproj", "{DF1E2429-8E9C-411F-9359-C30A1E49209C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

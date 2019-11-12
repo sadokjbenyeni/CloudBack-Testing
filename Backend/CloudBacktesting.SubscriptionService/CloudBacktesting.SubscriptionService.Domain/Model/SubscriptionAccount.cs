@@ -1,7 +1,7 @@
 ﻿using Akkatecture.Aggregates;
 using Akkatecture.Specifications.Provided;
-using CloudBacktesting.SubscriptionService.Domain.Model.SubscriptionAccount.Commands;
 using CloudBacktesting.SubscriptionService.Domain.Model.Events;
+using CloudBacktesting.SubscriptionService.Domain.Model.Commands;
 
 namespace CloudBacktesting.SubscriptionService.Domain.Model
 {
