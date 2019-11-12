@@ -9,7 +9,6 @@ namespace CloudBacktesting.SubscriptionService.Domain.Model
     {
         public SubscriptionAccountId(string value) : base(value)
         {
-
         }
     }
 }

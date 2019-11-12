@@ -15,14 +15,12 @@ namespace CloudBacktesting.SubscriptionService.Domain.Model
 
         public bool Execute(CreateSubscriptionCommand command)
         {
-            //This spec is part of Akkatecture
             var spec = new AggregateIsNewSpecification();
             if(spec.IsSatisfiedBy(this))
             {
-                var aggregateEvent = new SubscriptionCreatedEvent(command.SubscriptionState);
+                var aggregateEvent = new SubscriptionCreatedEvent(command.SubscriptionStatus, command.SubscriptionUser, command.SubscriptionType, command.SubscriptionDate);
                 Emit(aggregateEvent);
             }
-
             return true;
         }
     }

@@ -18,7 +18,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Subscribers.SubscriptionPr
 
         public bool Handle(IDomainEvent<SubscriptionAccount, SubscriptionAccountId, SubscriptionCreatedEvent> domainEvent)
         {
-            var command = new CreateSubscriptionCommand(SubscriptionAccountId.New, domainEvent.AggregateEvent.SubscriptionStatus);
+            var command = new CreateSubscriptionCommand(SubscriptionAccountId.New, domainEvent.AggregateEvent.SubscriptionStatus, domainEvent.AggregateEvent.SubscriptionUser, domainEvent.AggregateEvent.SubscriptionType, domainEvent.AggregateEvent.SubscriptionDate);
             SubscriptionProcessingHistoryRepository.Tell(command);
 
             return true;
