@@ -1,12 +1,11 @@
 {
   "profiles": {
-    "CloudBacktesting.ApiGateway.WebApi.Host": {
+    "CloudBacktesting.ApiGateway.Specs": {
       "commandName": "Project",
       "workingDirectory": "$(TargetDir)",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "https://localhost:5001"
+      }
     }
   }
 }

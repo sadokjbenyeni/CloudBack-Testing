@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using CloudBacktesting.ApiGateway.WebApi.Ocelot.Middlewares;
 using CloudBacktesting.ApiGateway.WebApi.Ocelot.Services;
 using Microsoft.AspNetCore.Builder;
@@ -14,7 +11,7 @@ using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Provider.Consul;
 
-namespace CloudBacktesting.ApiGateway.WebApi.Host
+namespace CloudBacktesting.ApiGateway.WebApi
 {
     public class Startup
     {
@@ -60,5 +57,6 @@ namespace CloudBacktesting.ApiGateway.WebApi.Host
                 });
             });
         }
+
     }
 }
