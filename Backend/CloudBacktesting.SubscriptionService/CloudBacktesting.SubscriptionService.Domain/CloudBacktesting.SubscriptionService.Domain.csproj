@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Model\Specifications\" />
     <Folder Include="Sagas\" />
   </ItemGroup>
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CloudBacktesting.SubscriptionService.Domain.Model.Specifications
 {
-    public class SubscriptionUserIsNotNull : Specification<SubscriptionAccountState>
+    public class SubscriptionUserIsNotNullSpecification : Specification<SubscriptionAccountState>
     {
         protected override IEnumerable<string> IsNotSatisfiedBecause(SubscriptionAccountState state)
         {

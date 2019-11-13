@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CloudBacktesting.SubscriptionService.WebAPI.Models;
+using CloudBacktesting.SubscriptionService.WebAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,36 +13,66 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
     [ApiController]
     public class SubscriptionController : ControllerBase
     {
-        // GET: api/Subscription
+        private readonly SubscriptionAccountService _subscriptionService;
+
+        public SubscriptionController(SubscriptionAccountService subscriptionService)
+        {
+            _subscriptionService = subscriptionService;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ActionResult<List<SubscriptionAccount>> Get() =>
+            _subscriptionService.Get();
+
+        [HttpGet("{id:length(24)}", Name = "GetSubscription")]
+        public ActionResult<SubscriptionAccount> Get(string id)
         {
-            return new string[] { "value1", "value2" };
+            var subscription = _subscriptionService.Get(id);
+
+            if (subscription == null)
+            {
+                return NotFound();
+            }
+
+            return subscription;
         }
 
-        // GET: api/Subscription/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST: api/Subscription
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<SubscriptionAccount> Create(SubscriptionAccount subscription)
         {
+            _subscriptionService.Create(subscription);
+
+            return CreatedAtRoute("GetSubscription", new { id = subscription.Id.ToString() }, subscription);
         }
 
-        // PUT: api/Subscription/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{id:length(24)}")]
+        public IActionResult Update(string id, SubscriptionAccount subscriptionIn)
         {
+            var subscription = _subscriptionService.Get(id);
+
+            if (subscription == null)
+            {
+                return NotFound();
+            }
+
+            _subscriptionService.Update(id, subscriptionIn);
+
+            return NoContent();
         }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{id:length(24)}")]
+        public IActionResult Delete(string id)
         {
+            var subscription = _subscriptionService.Get(id);
+
+            if (subscription == null)
+            {
+                return NotFound();
+            }
+
+            _subscriptionService.Remove(subscription.Id);
+
+            return NoContent();
         }
     }
 }
