@@ -13,14 +13,34 @@ namespace CloudBacktesting.SubscriptionService.Domain.Model
 
         }
 
+        /// <Summary>
+        /// this command create a first time the SubscriptionAccount model
+        /// this command can be call only one time by user
+        /// <Summary>
+        public bool Execute(CreateSubscriptionAccountCommand command) 
+        {
+            var spec = new AggregateIsNewSpecification();
+            if(!spec.IsSatisfiedBy(this))
+            {
+                return false;
+            }
+            var aggregateEvent = new SubscriptionAccountCreatedEvent(command.UserIdentifier, DateTime.UtcNow);
+            Emit(aggregateEvent);               
+            return true;
+        }
+
+        /// <Summary>
+        /// This command create a new subscription for one user
+        /// <Summary>
         public bool Execute(CreateSubscriptionCommand command)
         {
             var spec = new AggregateIsNewSpecification();
-            if(spec.IsSatisfiedBy(this))
+            if(!spec.IsSatisfiedBy(this))
             {
-                var aggregateEvent = new SubscriptionCreatedEvent(command.SubscriptionStatus, command.SubscriptionUser, command.SubscriptionType, command.SubscriptionDate);
-                Emit(aggregateEvent);
+                return false;
             }
+            var aggregateEvent = new SubscriptionCreatedEvent(command.SubscriptionStatus, command.SubscriptionUser, command.SubscriptionType, command.SubscriptionDate);
+            Emit(aggregateEvent);                
             return true;
         }
     }

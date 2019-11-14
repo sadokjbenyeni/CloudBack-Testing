@@ -10,14 +10,11 @@ namespace CloudBacktesting.SubscriptionService.Domain.Model.Commands
         public SubscriptionUser SubscriptionUser { get; }
         public SubscriptionType SubscriptionType { get; }
         public SubscriptionDate SubscriptionDate { get; }
-        public CreateSubscriptionCommand( SubscriptionAccountId aggregateId, SubscriptionStatus subscriptionStatus, SubscriptionUser subscriptionUser, SubscriptionType subscriptionType, SubscriptionDate subscriptionDate) : base(aggregateId)
+        public CreateSubscriptionCommand(SubscriptionAccountId aggregateId, SubscriptionUser subscriptionUser, SubscriptionType subscriptionType, SubscriptionDate subscriptionDate) : base(aggregateId)
         {
-            if (subscriptionStatus == null) throw new ArgumentNullException(nameof(subscriptionStatus));
             if (subscriptionUser == null) throw new ArgumentNullException(nameof(subscriptionUser));
             if (subscriptionType == null) throw new ArgumentNullException(nameof(subscriptionType));
             if (subscriptionDate == null) throw new ArgumentNullException(nameof(subscriptionDate));
-
-            SubscriptionStatus = subscriptionStatus;
             SubscriptionUser = subscriptionUser;
             SubscriptionType = subscriptionType;
             SubscriptionDate = subscriptionDate;

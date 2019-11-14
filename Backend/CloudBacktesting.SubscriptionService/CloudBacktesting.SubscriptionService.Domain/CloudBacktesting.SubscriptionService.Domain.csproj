@@ -12,4 +12,8 @@
     <Folder Include="Sagas\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CloudBacktesting.SubscriptionService.Infra\CloudBacktesting.SubscriptionService.Infra.csproj" />
+  </ItemGroup>
+
 </Project>

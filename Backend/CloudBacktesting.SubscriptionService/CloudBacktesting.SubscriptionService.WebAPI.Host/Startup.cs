@@ -1,3 +1,6 @@
+using Akka.Actor;
+using CloudBacktesting.SubscriptionService.Domain.Model;
+using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountQuery;
 using CloudBacktesting.SubscriptionService.WebAPI.Models;
 using CloudBacktesting.SubscriptionService.WebAPI.Services;
 using Microsoft.AspNetCore.Builder;
@@ -21,29 +24,29 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<SubscriptionDatabaseSettings>(
-                Configuration.GetSection(nameof(SubscriptionDatabaseSettings)));
-
-            services.AddSingleton<ISubscriptionDatabaseSettings>(sp =>
-                sp.GetRequiredService<IOptions<SubscriptionDatabaseSettings>>().Value);
-
-            services.AddSingleton<SubscriptionAccountService>();
-
             services.AddControllers().AddNewtonsoftJson(options => options.UseMemberCasing());
+
+            // TODO: Add in services all dependencies            
+
+            var actorSystem = ActorSystem.Create("subscription-api-system");
+            var aggregateSubscriptionAccountManager = actorSystem.ActorOf(Props.Create(() => new SubscriptionAccountManager()),"subscriptionaccount-manager");
+            // var sagaManager = actorSystem.ActorOf(Props.Create(() => new ResourceCreationSagaManager(() => new ResourceCreationSaga())),"resourcecreation-sagamanager");
+            var subscriptionAccountStorage = actorSystem.ActorOf(Props.Create(() => new SubscriptionAccountStorageHandler()), "resource-storagehandler");
+            var subscriptionStorage = actorSystem.ActorOf(Props.Create(() => new SubscriptionStorageHandler()), "operation-storagehandler");
+            
+            // Add Actors to DI as ActorRefProvider<T>
+            services
+                .AddAkkatecture(actorSystem)
+                .AddActorReference<SubscriptionAccountManager>(aggregateSubscriptionAccountManager)
+                // .AddActorReference<ResourceCreationSagaManager>(sagaManager)
+                .AddActorReference<SubscriptionAccountStorageHandler>(subscriptionAccountStorage)
+                .AddActorReference<SubscriptionStorageHandler>(subscriptionStorage);
+            
+            // Add Read Side 
+            services
+                .AddTransient<IQuerySubscriptionAccount, QuerySubscriptionAccount>()
+                .AddTransient<IQuerySubscription, QuerySubscription>();
         }
-        //public void ConfigureServices(IServiceCollection services)
-        //{
-        //    // requires using Microsoft.Extensions.Options
-        //    services.Configure<SubscriptionDatabaseSettings>(
-        //        Configuration.GetSection(nameof(SubscriptionDatabaseSettings)));
-
-        //    services.AddSingleton<ISubscriptionDatabaseSettings>(sp =>
-        //        sp.GetRequiredService<IOptions<SubscriptionDatabaseSettings>>().Value);
-
-        //    services.AddSingleton<SubscriptionService>();
-
-        //    services.AddControllers();
-        //}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

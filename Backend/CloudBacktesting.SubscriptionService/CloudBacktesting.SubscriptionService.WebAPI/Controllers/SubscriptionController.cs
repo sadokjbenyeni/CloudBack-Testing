@@ -2,10 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Akkatecture.Aggregates.ExecutionResults;
+using Akkatecture.Akka;
+using CloudBacktesting.SubscriptionService.Domain.Model;
+using CloudBacktesting.SubscriptionService.Domain.Model.Commands;
+using CloudBacktesting.SubscriptionService.Domain.Model.ValueObjects;
+using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccount;
 using CloudBacktesting.SubscriptionService.WebAPI.Models;
 using CloudBacktesting.SubscriptionService.WebAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
 {
@@ -13,66 +20,80 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
     [ApiController]
     public class SubscriptionController : ControllerBase
     {
-        private readonly SubscriptionAccountService _subscriptionService;
+        private readonly ILogger<SubscriptionController> logger;
+        private readonly ActorRefProvider<SubscriptionAccountManager> subscriptionAccountManager;
+        private readonly IQuerySubscription querySubscription;
+        private readonly IQuerySubscriptionAccount querySubscriptionAccount;
 
-        public SubscriptionController(SubscriptionAccountService subscriptionService)
+        public SubscriptionController(ILogger<SubscriptionController> logger, 
+            ActorRefProvider<SubscriptionAccountManager> subscriptionAccountManager, 
+            IQuerySubscription querySubscription,
+            IQuerySubscriptionAccount querySubscriptionAccount)
         {
-            _subscriptionService = subscriptionService;
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.subscriptionAccountManager = subscriptionAccountManager ?? throw new ArgumentNullException(nameof(subscriptionAccountManager));
+            this.querySubscription = querySubscription ?? throw new ArgumentNullException(nameof(querySubscription));
+            this.querySubscriptionAccount = querySubscriptionAccount ?? throw new ArgumentNullException(nameof(querySubscriptionAccount));
         }
 
         [HttpGet]
-        public ActionResult<List<SubscriptionAccount>> Get() =>
-            _subscriptionService.Get();
-
-        [HttpGet("{id:length(24)}", Name = "GetSubscription")]
-        public ActionResult<SubscriptionAccount> Get(string id)
+        public async Task<IActionResult> Get()
         {
-            var subscription = _subscriptionService.Get(id);
-
-            if (subscription == null)
+            if (this.User == null || !this.User.Identity.IsAuthenticated)
             {
-                return NotFound();
+                var idError = Guid.NewGuid().ToString();
+                logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
+                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
             }
+            return Ok(await querySubscription.FindByUserId(this.User.Identity.Name));            
+        }
+            
 
-            return subscription;
+        [HttpGet("{id:length(24)}", Name = "getSubscription")]
+        public ActionResult<SubscriptionAccountDto> Get(string id)
+        {
+            if (this.User != null && User.Identity.IsAuthenticated)
+            {
+                return Ok(querySubscription.Find(id, this.User.Identity.Name));
+            }
+            var idError = Guid.NewGuid().ToString();
+            logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
+            return BadRequest($"Access error, please contact the administrator with error id: {idError}");
         }
 
         [HttpPost]
-        public ActionResult<SubscriptionAccount> Create(SubscriptionAccount subscription)
+        public async IActionResult Post(CreateSubscriptionCommandDto commandDto)
         {
-            _subscriptionService.Create(subscription);
-
-            return CreatedAtRoute("GetSubscription", new { id = subscription.Id.ToString() }, subscription);
-        }
-
-        [HttpPut("{id:length(24)}")]
-        public IActionResult Update(string id, SubscriptionAccount subscriptionIn)
-        {
-            var subscription = _subscriptionService.Get(id);
-
-            if (subscription == null)
+            if (this.User == null || !this.User.Identity.IsAuthenticated)
             {
-                return NotFound();
+                var idError = Guid.NewGuid().ToString();
+                logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
+                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
             }
-
-            _subscriptionService.Update(id, subscriptionIn);
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id:length(24)}")]
-        public IActionResult Delete(string id)
-        {
-            var subscription = _subscriptionService.Get(id);
-
-            if (subscription == null)
+            var notValidData = new List<string>();
+            if(string.IsNullOrEmpty(commandDto.SubscriptionType))
             {
-                return NotFound();
+                notValidData.Add("Type of subscription cannot be null or empty");
             }
-
-            _subscriptionService.Remove(subscription.Id);
-
-            return NoContent();
+            
+            if(notValidData.Any())
+            {
+                return BadRequest(string.Join(Environment.NewLine, notValidData));
+            }
+            var accountId = await querySubscriptionAccount.Find(User.Identity.Name);
+            var createCommand = new CreateSubscriptionCommand(new SubscriptionAccountId(accountId.Id), 
+                                                              new SubscriptionUser(accountId.UserIdentifier),
+                                                              new SubscriptionType(commandDto.SubscriptionType),
+                                                              new SubscriptionDate(DateTime.UtcNow));                                                              
+            var commandResult = await subscriptionAccountManager.Ask<IExecutionResult>(createCommand);            
+            if(commandResult.IsSuccess)
+            {
+                return Ok();
+            }
+            var errorMessage = string.Join(Environment.NewLine, ((FailedExecutionResult)commandResult).Errors);
+            logger.LogError($"[Business, Error]Subscription failed for {User.Identity.Name}, type of command {commandDto.SubscriptionType}.{Environment.NewLine}{errorMessage}");
+            return BadRequest(errorMessage);
         }
+
     }
 }

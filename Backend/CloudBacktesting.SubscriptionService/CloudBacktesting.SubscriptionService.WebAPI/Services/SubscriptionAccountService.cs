@@ -9,28 +9,28 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Services
 {
     public class SubscriptionAccountService
     {
-        private readonly IMongoCollection<SubscriptionAccount> _subscriptions;
+        private readonly IMongoCollection<SubscriptionAccountDto> _subscriptions;
 
         public SubscriptionAccountService(ISubscriptionDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            _subscriptions = database.GetCollection<SubscriptionAccount>(settings.SubscriptionsCollectionName);
+            _subscriptions = database.GetCollection<SubscriptionAccountDto>(settings.SubscriptionsCollectionName);
         }
 
-        public List<SubscriptionAccount> Get() => _subscriptions.Find(subscription => true).ToList();
-        public SubscriptionAccount Get(string id) => _subscriptions.Find(subscription => subscription.Id == id).FirstOrDefault();
+        public List<SubscriptionAccountDto> Get() => _subscriptions.Find(subscription => true).ToList();
+        public SubscriptionAccountDto Get(string id) => _subscriptions.Find(subscription => subscription.Id == id).FirstOrDefault();
 
-        public SubscriptionAccount Create(SubscriptionAccount subscription)
+        public SubscriptionAccountDto Create(SubscriptionAccountDto subscription)
         {
             _subscriptions.InsertOne(subscription);
             return subscription;
         }
 
-        public void Update(string id, SubscriptionAccount subscriptionIn) => _subscriptions.ReplaceOne(subscription => subscription.Id == id, subscriptionIn);
+        public void Update(string id, SubscriptionAccountDto subscriptionIn) => _subscriptions.ReplaceOne(subscription => subscription.Id == id, subscriptionIn);
 
-        public void Remove(SubscriptionAccount subscriptionIn) => _subscriptions.DeleteOne(subscription => subscription.Id == subscriptionIn.Id);
+        public void Remove(SubscriptionAccountDto subscriptionIn) => _subscriptions.DeleteOne(subscription => subscription.Id == subscriptionIn.Id);
 
         public void Remove(string id) => _subscriptions.DeleteOne(subscription => subscription.Id == id);
 
