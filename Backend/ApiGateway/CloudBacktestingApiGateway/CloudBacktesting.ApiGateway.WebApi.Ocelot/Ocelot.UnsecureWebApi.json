@@ -4,74 +4,48 @@
       //resigration routes
       "DownstreamPathTemplate": "/api/countries",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": "9095"
-        }
-      ],
+      "ServiceName": "nodeservices",
+      //"DownstreamHostAndPorts": [
+      //  {
+      //    "Host": "localhost",
+      //    "Port": "9095"
+      //  }
+      //],
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
       "UpstreamPathTemplate": "/api/countries"
     },
     {
       "DownstreamPathTemplate": "/api/companytype",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": "9095"
-        }
-      ],
+      "ServiceName": "nodeservices",
       "UpstreamPathTemplate": "/api/companytype"
-      //"RouteClaimsRequirement": {
-      //  "UserType": "registered"
-      //}
     },
     {
       "DownstreamPathTemplate": "/api/terms/{url}",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": "9095"
-        }
-      ],
+      "ServiceName": "nodeservices",
       "UpstreamPathTemplate": "/api/terms/{url}"
     },
     {
       "DownstreamPathTemplate": "/api/user/verifmail",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": "9095"
-        }
-      ],
+      "ServiceName": "nodeservices",
       "UpstreamPathTemplate": "/api/user/verifmail"
     },
     //account activation
     {
       "DownstreamPathTemplate": "/api/user/activation",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": "9095"
-        }
-      ],
-
+      "ServiceName": "nodeservices",
       "UpstreamPathTemplate": "/api/activation",
       "UpstreamHttpMethod": [ "Post" ]
     },
     {
       "DownstreamPathTemplate": "/api/user",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": "9095"
-        }
-      ],
-
+      "ServiceName": "nodeservices",
       "UpstreamPathTemplate": "/api/register",
       "UpstreamHttpMethod": [ "Post" ]
     },
@@ -80,13 +54,7 @@
     {
       "DownstreamPathTemplate": "/api/user/check",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": "9095"
-        }
-      ],
-
+      "ServiceName": "nodeservices",
       "UpstreamPathTemplate": "/api/login",
       "UpstreamHttpMethod": [ "Post" ]
     }

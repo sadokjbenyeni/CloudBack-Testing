@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using Ocelot.Provider.Consul;
 
 namespace CloudBacktesting.ApiGateway.WebApi.Host
 {
@@ -25,7 +26,7 @@ namespace CloudBacktesting.ApiGateway.WebApi.Host
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddOcelot(Configuration);
+            services.AddOcelot(Configuration).AddConsul();
             services.AddCors(options =>
             {
                 options.AddPolicy("allOrigins",
@@ -37,7 +38,7 @@ namespace CloudBacktesting.ApiGateway.WebApi.Host
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -46,7 +47,7 @@ namespace CloudBacktesting.ApiGateway.WebApi.Host
 
             app.UseRouting();
             app.UseCors("allOrigins");
-            app.UseOcelot();
+            await app.UseOcelot();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/", async context =>
