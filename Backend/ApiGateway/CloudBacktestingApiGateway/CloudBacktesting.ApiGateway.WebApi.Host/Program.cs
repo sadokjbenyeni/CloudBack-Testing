@@ -1,4 +1,5 @@
 using CloudBacktesting.ApiGateway.WebApi.Ocelot;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Ocelot.DependencyInjection;
@@ -12,15 +13,11 @@ namespace CloudBacktesting.ApiGateway.WebApi.Host
             CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IHostBuilder CreateWebHostBuilder(string[] args) =>
-            Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                  {
-                      //webBuilder.UseStartup<OcelotStartup>();
-                      webBuilder.ConfigureAppConfiguration((host, config) =>
-                      {
-                          config.AddOcelot(host.HostingEnvironment);
-                      });
-                  });
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                       .ConfigureAppConfiguration((host, config) =>
+                       {
+                           config.AddOcelot(host.HostingEnvironment);
+                       }).UseStartup<Startup>();
     }
 }

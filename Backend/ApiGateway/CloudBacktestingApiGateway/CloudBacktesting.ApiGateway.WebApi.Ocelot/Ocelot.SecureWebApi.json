@@ -3,14 +3,14 @@
     {
       "DownstreamPathTemplate": "/api/user/isLogin",
       "DownstreamScheme": "http",
-      "UpstreamPathTemplate": "/api/isLogin",
+      "UpstreamPathTemplate": "/api/user/isLogin",
       "ServiceName": "nodeservices"
     },
     {
       "DownstreamPathTemplate": "/api/user/logout",
       "DownstreamScheme": "http",
       "ServiceName": "nodeservices",
-      "UpstreamPathTemplate": "/api/logout",
+      "UpstreamPathTemplate": "/api/user/logout",
       "UpstreamHttpMethod": [ "Post" ],
       "RouteClaimsRequirement": {
         "IsLogin": "True",

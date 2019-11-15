@@ -33,14 +33,14 @@
       "DownstreamPathTemplate": "/api/user/activation",
       "DownstreamScheme": "http",
       "ServiceName": "nodeservices",
-      "UpstreamPathTemplate": "/api/activation",
+      "UpstreamPathTemplate": "/api/user/activation",
       "UpstreamHttpMethod": [ "Post" ]
     },
     {
       "DownstreamPathTemplate": "/api/user",
       "DownstreamScheme": "http",
       "ServiceName": "nodeservices",
-      "UpstreamPathTemplate": "/api/register",
+      "UpstreamPathTemplate": "/api/user",
       "UpstreamHttpMethod": [ "Post" ]
     },
 
@@ -49,7 +49,7 @@
       "DownstreamPathTemplate": "/api/user/check",
       "DownstreamScheme": "http",
       "ServiceName": "nodeservices",
-      "UpstreamPathTemplate": "/api/login",
+      "UpstreamPathTemplate": "/api/user/check",
       "UpstreamHttpMethod": [ "Post" ]
     }
   ]

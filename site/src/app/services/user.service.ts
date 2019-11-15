@@ -31,16 +31,16 @@ export class UserService {
   }
 
   create(user) {
-    return this.http.post(environment.api + '/register', user);
+    return this.http.post(environment.api + '/api/user', user);
   }
 
   activation(token) {
-    return this.http.post<LoginResponse>(environment.api + '/activation', { token: token });
+    return this.http.post<LoginResponse>(environment.api + '/user/activation', { token: token });
   }
 
   check(user) {
 
-    return this.http.post<UserResponse>(environment.api + '/login', user);
+    return this.http.post<UserResponse>(environment.api + '/user/check', user);
   }
 
   info(user) {
@@ -66,7 +66,7 @@ export class UserService {
   }
 
   islogin(token) {
-    return this.http.post<LoginResponse>(environment.api + '/islogin', token);
+    return this.http.post<LoginResponse>(environment.api + '/user/islogin', token);
   }
 
   mdpmail(val) {
@@ -83,7 +83,7 @@ export class UserService {
   }
 
   logout(token) {
-    return this.http.post(environment.api + '/logout', token);
+    return this.http.post(environment.api + '/user/logout', token);
   }
   preferBilling(prefer) {
     return this.http.post(environment.api + '/user/preferBilling', prefer);
