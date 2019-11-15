@@ -39,11 +39,14 @@ namespace CloudBacktesting.ApiGateway.WebApi.Ocelot.Middlewares
         }
         private ClaimsIdentity BuildClaimsIdentity(User user)
         {
+            
             var claims = new List<Claim>();
-            claims.Add(new Claim("State", user.State.ToString(), ClaimValueTypes.Boolean));
+            //state 1 => Activated Account
+            //state 0 => Inactivated 
+            claims.Add(new Claim("State", user.State.ToString()));
             claims.Add(new Claim("Role", user.RoleName.Contains("Administrator") ? "Administrator" : "Client"));
+            claims.Add(new Claim("IsLogin", user.IsLogin.ToString(),ClaimValueTypes.Boolean));
             var appIdentity = new ClaimsIdentity(claims);
-
             return appIdentity;
 
         }

@@ -30,9 +30,11 @@ namespace CloudBacktesting.ApiGateway.WebApi.Ocelot.Models
         public string Job { get; set; }
 
         [JsonProperty("state")]
-        public bool State { get; set; }
+        public int State { get; set; }
 
         [JsonProperty("roleName")]
         public IEnumerable<string> RoleName { get; set; }
+        [JsonProperty("islogin")]
+        public bool IsLogin { get; set; }
     }
 }

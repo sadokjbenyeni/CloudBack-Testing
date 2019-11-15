@@ -5,7 +5,7 @@ import { MaterialModule } from './components/material/material.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { routes } from './app.routing';
 // Guard
@@ -78,6 +78,7 @@ import { PasswordComponent } from './components/login/password/password.componen
 import { PasswordResetComponent } from './components/login/password-reset/password-reset.component';
 // import { PdfComponent } from './components/commun/pdf/pdf.component';
 import { NotifierModule } from "angular-notifier";
+import { AuthInterceptor } from './services/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -150,7 +151,12 @@ import { NotifierModule } from "angular-notifier";
     ComplianceService,
     CompanytypesService,
     AuthentificationService,
-    LoginService
+    LoginService,
+    {
+      provide:HTTP_INTERCEPTORS,
+      useClass:AuthInterceptor,
+      multi:true
+    }
     // FilterPipe
   ],
   bootstrap: [AppComponent]

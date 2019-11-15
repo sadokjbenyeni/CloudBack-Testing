@@ -1,16 +1,10 @@
 {
   "ReRoutes": [
     {
-      //resigration routes
       "DownstreamPathTemplate": "/api/countries",
       "DownstreamScheme": "http",
       "ServiceName": "nodeservices",
-      //"DownstreamHostAndPorts": [
-      //  {
-      //    "Host": "localhost",
-      //    "Port": "9095"
-      //  }
-      //],
+
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       },

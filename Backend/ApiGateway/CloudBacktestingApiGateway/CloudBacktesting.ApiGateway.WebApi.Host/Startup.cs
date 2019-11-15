@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CloudBacktesting.ApiGateway.WebApi.Ocelot.Middlewares;
+using CloudBacktesting.ApiGateway.WebApi.Ocelot.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -26,6 +28,7 @@ namespace CloudBacktesting.ApiGateway.WebApi.Host
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IUserService, UserService>();
             services.AddOcelot(Configuration).AddConsul();
             services.AddCors(options =>
             {
@@ -47,6 +50,7 @@ namespace CloudBacktesting.ApiGateway.WebApi.Host
 
             app.UseRouting();
             app.UseCors("allOrigins");
+            app.UseClaimsBuilder();
             await app.UseOcelot();
             app.UseEndpoints(endpoints =>
             {

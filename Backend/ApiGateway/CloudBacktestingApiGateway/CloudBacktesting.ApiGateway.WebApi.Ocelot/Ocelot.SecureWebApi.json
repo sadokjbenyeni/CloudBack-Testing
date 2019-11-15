@@ -4,25 +4,69 @@
       "DownstreamPathTemplate": "/api/user/isLogin",
       "DownstreamScheme": "http",
       "UpstreamPathTemplate": "/api/isLogin",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": "9095"
-        }
-      ]
+      "ServiceName": "nodeservices"
     },
     {
       "DownstreamPathTemplate": "/api/user/logout",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": "9095"
-        }
-      ],
-
+      "ServiceName": "nodeservices",
       "UpstreamPathTemplate": "/api/logout",
-      "UpstreamHttpMethod": [ "Post" ]
+      "UpstreamHttpMethod": [ "Post" ],
+      "RouteClaimsRequirement": {
+        "IsLogin": "True",
+        "State": "1"
+      }
+
+    },
+    {
+      "DownstreamPathTemplate": "/api/role/{url}",
+      "DownstreamScheme": "http",
+      "ServiceName": "nodeservices",
+      "UpstreamPathTemplate": "/api/role/{url}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "RouteClaimsRequirement": {
+        "Role": "Administrator",
+        "IsLogin": "True",
+        "State": "1"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/role",
+      "DownstreamScheme": "http",
+      "ServiceName": "nodeservices",
+      "UpstreamPathTemplate": "/api/role",
+      "UpstreamHttpMethod": [ "GET" ],
+      "RouteClaimsRequirement": {
+        "Role": "Administrator",
+        "IsLogin": "True",
+        "State": "1"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/user/info",
+      "DownstreamScheme": "http",
+      "ServiceName": "nodeservices",
+      "UpstreamPathTemplate": "/api/user/info",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "RouteClaimsRequirement": {
+        "IsLogin": "True",
+        "State": "1"
+
+      }
+    },
+    //currency
+    {
+      "DownstreamPathTemplate": "/api/currency",
+      "DownstreamScheme": "http",
+      "ServiceName": "nodeservices",
+      "UpstreamPathTemplate": "/api/currency",
+      "UpstreamHttpMethod": [ "GET" ],
+      "RouteClaimsRequirement": {
+        "IsLogin": "True",
+        "State": "1"
+
+      }
     }
+    
   ]
 }

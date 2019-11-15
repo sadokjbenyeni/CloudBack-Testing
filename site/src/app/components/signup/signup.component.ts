@@ -114,9 +114,7 @@ export class SignUpComponent implements OnInit {
       this.getUser();
       this.getCurrency();
     }
-    debugger;
     this.getCompanyType();
-    debugger;
     this.getCountry();
     this.coll = 'col-lg-12';
     this.colg = 'col-lg-6';
@@ -124,8 +122,6 @@ export class SignUpComponent implements OnInit {
     this.termService.getLastTerm().subscribe(result => {
       this.term = result;
     });
-    debugger;
-
   }
 
 
@@ -174,7 +170,7 @@ export class SignUpComponent implements OnInit {
       user['roleName'] = this.user['roleName']
       user['currency'] = this.user['currency']
       user['sameAddress'] = this.user['sameAddress']
-      sessionStorage.setItem('user', JSON.stringify(user));
+      sessionStorage.setItem('user',  JSON.stringify(user));
     });
   }
   sameAddress() {
