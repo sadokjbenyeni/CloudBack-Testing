@@ -10,6 +10,7 @@ import { Roles } from '../models/Role';
 import { LoginResponse } from '../models/LoginResponse';
 import { MailResponse } from '../models/MailResponse';
 import { Message } from '../models/message';
+import { UserDetailComponent } from '../components/admin/user-detail/user-detail.component';
 
 // export interface User {
 //   islogin: boolean;
@@ -30,7 +31,7 @@ export class UserService {
   }
 
   create(user) {
-    return this.http.post(environment.api + '/user', user);
+    return this.http.post(environment.api + '/api/user', user);
   }
 
   activation(token) {
@@ -55,7 +56,9 @@ export class UserService {
   }
 
   getCompte(user) {
-    return this.http.get<User>(environment.api + '/user/' + user);
+    // var token = JSON.parse(sessionStorage.getItem("user"))["token"]
+    // ,{headers:{authorization: token}
+    return this.http.get<User>(environment.api + '/user/info');
   }
 
   updateUser(user) {

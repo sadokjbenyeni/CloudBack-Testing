@@ -1,0 +1,56 @@
+{
+  "ReRoutes": [
+    {
+      "DownstreamPathTemplate": "/api/countries",
+      "DownstreamScheme": "http",
+      "ServiceName": "nodeservices",
+
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
+      "UpstreamPathTemplate": "/api/countries"
+    },
+    {
+      "DownstreamPathTemplate": "/api/companytype",
+      "DownstreamScheme": "http",
+      "ServiceName": "nodeservices",
+      "UpstreamPathTemplate": "/api/companytype"
+    },
+    {
+      "DownstreamPathTemplate": "/api/terms/{url}",
+      "DownstreamScheme": "http",
+      "ServiceName": "nodeservices",
+      "UpstreamPathTemplate": "/api/terms/{url}"
+    },
+    {
+      "DownstreamPathTemplate": "/api/user/verifmail",
+      "DownstreamScheme": "http",
+      "ServiceName": "nodeservices",
+      "UpstreamPathTemplate": "/api/user/verifmail"
+    },
+    //account activation
+    {
+      "DownstreamPathTemplate": "/api/user/activation",
+      "DownstreamScheme": "http",
+      "ServiceName": "nodeservices",
+      "UpstreamPathTemplate": "/api/user/activation",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/user",
+      "DownstreamScheme": "http",
+      "ServiceName": "nodeservices",
+      "UpstreamPathTemplate": "/api/user",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+
+    //Login and Logout
+    {
+      "DownstreamPathTemplate": "/api/user/check",
+      "DownstreamScheme": "http",
+      "ServiceName": "nodeservices",
+      "UpstreamPathTemplate": "/api/user/check",
+      "UpstreamHttpMethod": [ "Post" ]
+    }
+  ]
+}

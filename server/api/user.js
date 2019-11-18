@@ -16,23 +16,21 @@ const URLS = config.config();
 const PHRASE = config.phrase();
 // const DNLFILE = config.dnwfile();
 const algorithm = 'aes256';
-// var idd = "";
 
-router.param('user', function (req, res, next, id) {
-    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-        return res.sendStatus(422);
-    }
-    idd = id;
-    return next();
-});
+// router.param('user', function (req, res, next) {
+//     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+//         return next();
+
+//         return res.sendStatus(422);
+//     }
+// });
 
 router.get('/', (req, res) => {
     if (URLS.indexOf(req.headers.referer) !== -1) {
         User.find().sort({ "firstname": 1, "lastname": 1 })
             .then((users) => {
                 if (!users) { return res.sendStatus(404); }
-                return res.json({ users: users })
-                    .statusCode(200);
+                return res.status(200).json({ users: users });
             });
     }
     else {
@@ -44,7 +42,7 @@ router.get('/count/', (req, res) => {
     if (URLS.indexOf(req.headers.referer) !== -1) {
         User.count()
             .then((count) => {
-                return res.json({ nb: count }).statusCode(200);
+                return res.status(200).json({ nb: count });
             });
     }
     else {
@@ -95,14 +93,25 @@ router.get('/test/:token/:id/:file', (req, res) => {
 router.get('/cpt/', (req, res) => {
     User.findOne({ nbSession: 1 }, { _id: false, count: true })
         .then((nb) => {
-            return res.json(nb).statusCode(200);
+            return res.status(200).json(nb);
         });
 });
-
+router.get('/info', (req, res) => {
+    if (req.headers["authorization"] == undefined) {
+        return res.sendStatus(204);
+    }
+    User.findOne({ token: Object(req.headers["authorization"]) }, { password: false })
+        .then((val) => {
+            if (val == undefined) {
+                return res.sendStatus(204)
+            }
+            return res.status(200).json(val)
+        })
+});
 router.get('/:user', (req, res) => {
     // let test = req.headers.referer.replace(idd, "");
     // if(URLS.indexOf(test) !== -1){
-    User.findOne({ _id: Object(req.params.user) }, { password: false })
+    User.findOne({ _id: Object(req.params.user) }, { password: false, token: false })
         .then((user) => {
             if (!user) { res.status(202).json({}) }
             return res.status(200).json(user);
@@ -174,7 +183,7 @@ router.post('/', (req, res) => {
 
             user.save((err, u) => {
                 if (err) return console.error(err);
-                request.post({ url: process.env.DOMAIN+'/api/mail/inscription', form: { email: req.body.email, token: user.token } }, (err, httpResponse, body) => {
+                request.post({ url: process.env.DOMAIN + '/api/mail/inscription', form: { email: req.body.email, token: user.token } }, (err, httpResponse, body) => {
                     if (err) console.error(err);
                     res.status(201).json({ account: true });
                 });
@@ -267,8 +276,8 @@ router.post('/activation/', (req, res) => {
 router.post('/suspendre/', (req, res) => {
     User.update({ token: req.body.token }, { $set: { actif: -1 } })
         .then((user) => {
-            if (!user) { res.json({}).statusCode(200) }
-            return res.json({ valid: true }).statusCode(200);
+            if (!user) { res.status(200).json({}) }
+            return res.status(200).json({ valid: true });
         });
 });
 
