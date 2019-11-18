@@ -59,6 +59,11 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
 
             services.AddSingleton<SubscriptionServiceMongo>();
             services.AddControllers().AddNewtonsoftJson(options => options.UseMemberCasing());
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("V1", new Microsoft.OpenApi.Models.OpenApiInfo() { Title = "Subscription Api", Version = "V1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,9 +76,13 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
 
             app.UseHttpsRedirection();
 
+            app.UseSwagger();
+
+            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/V1/swagger.json", "Subscription Api"));
+
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
