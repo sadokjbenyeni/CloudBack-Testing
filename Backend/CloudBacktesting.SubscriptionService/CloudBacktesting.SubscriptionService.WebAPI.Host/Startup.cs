@@ -1,8 +1,11 @@
 using Akka.Actor;
-using CloudBacktesting.SubscriptionService.Domain.Model;
+using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountQuery;
-using CloudBacktesting.SubscriptionService.WebAPI.Models;
-using CloudBacktesting.SubscriptionService.WebAPI.Services;
+using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccounts;
+using CloudBacktesting.SubscriptionService.Domain.Repositories.Subscriptions;
+using CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionAccountSaga;
+using CloudBacktesting.SubscriptionService.Infra.Models;
+using CloudBacktesting.SubscriptionService.Infra.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -29,23 +32,33 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
             // TODO: Add in services all dependencies            
 
             var actorSystem = ActorSystem.Create("subscription-api-system");
-            var aggregateSubscriptionAccountManager = actorSystem.ActorOf(Props.Create(() => new SubscriptionAccountManager()),"subscriptionaccount-manager");
-            // var sagaManager = actorSystem.ActorOf(Props.Create(() => new ResourceCreationSagaManager(() => new ResourceCreationSaga())),"resourcecreation-sagamanager");
-            var subscriptionAccountStorage = actorSystem.ActorOf(Props.Create(() => new SubscriptionAccountStorageHandler()), "resource-storagehandler");
-            var subscriptionStorage = actorSystem.ActorOf(Props.Create(() => new SubscriptionStorageHandler()), "operation-storagehandler");
-            
+            var aggregateSubscriptionAccountManager = actorSystem.ActorOf(Props.Create(() => new SubscriptionAccountManager()), "subscriptionaccount-manager");
+            //var sagaManager = actorSystem.ActorOf(Props.Create(() => new SubscriptionAccountCreationSaga()), "subscriptionaccount-sagamanager");
+            var subscriptionAccountStorage = actorSystem.ActorOf(Props.Create(() => new SubscriptionAccountsStorageHandler()), "subscription-storagehandler");
+            var subscriptionStorage = actorSystem.ActorOf(Props.Create(() => new SubscriptionsStorageHandler()), "subscriptionaccount-storagehandler");
+
             // Add Actors to DI as ActorRefProvider<T>
             services
                 .AddAkkatecture(actorSystem)
                 .AddActorReference<SubscriptionAccountManager>(aggregateSubscriptionAccountManager)
-                // .AddActorReference<ResourceCreationSagaManager>(sagaManager)
-                .AddActorReference<SubscriptionAccountStorageHandler>(subscriptionAccountStorage)
-                .AddActorReference<SubscriptionStorageHandler>(subscriptionStorage);
-            
+                //.AddActorReference<SubscriptionAccountCreationSaga>(sagaManager)
+                .AddActorReference<SubscriptionAccountsStorageHandler>(subscriptionAccountStorage)
+                .AddActorReference<SubscriptionsStorageHandler>(subscriptionStorage);
+
             // Add Read Side 
             services
-                .AddTransient<IQuerySubscriptionAccount, QuerySubscriptionAccount>()
-                .AddTransient<IQuerySubscription, QuerySubscription>();
+                .AddTransient<IQuerySubscriptionAccounts, SubscriptionAccountsQueryHandler>()
+                .AddTransient<IQuerySubscriptions, SubscriptionsQueryHandler>();
+
+            // requires using Microsoft.Extensions.Options
+            services.Configure<SubscriptionDatabaseSettings>(
+                Configuration.GetSection(nameof(SubscriptionDatabaseSettings)));
+
+            services.AddSingleton<ISubscriptionDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<SubscriptionDatabaseSettings>>().Value);
+
+            services.AddSingleton<SubscriptionServiceMongo>();
+            services.AddControllers().AddNewtonsoftJson(options => options.UseMemberCasing());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

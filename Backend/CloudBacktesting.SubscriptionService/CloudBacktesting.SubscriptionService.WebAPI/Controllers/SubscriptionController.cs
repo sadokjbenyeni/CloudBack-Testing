@@ -4,13 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Akkatecture.Aggregates.ExecutionResults;
 using Akkatecture.Akka;
-using CloudBacktesting.SubscriptionService.Domain.Model;
-using CloudBacktesting.SubscriptionService.Domain.Model.Commands;
-using CloudBacktesting.SubscriptionService.Domain.Model.ValueObjects;
-using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccount;
+using CloudBacktesting.SubscriptionService.Domain.Aggregates.Subscription;
+using CloudBacktesting.SubscriptionService.Domain.Aggregates.Subscription.Commands;
+using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount;
+using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount.Commands;
+using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountQuery;
+using CloudBacktesting.SubscriptionService.Domain.Repositories.Subscriptions;
 using CloudBacktesting.SubscriptionService.WebAPI.Models;
-using CloudBacktesting.SubscriptionService.WebAPI.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -22,13 +22,13 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
     {
         private readonly ILogger<SubscriptionController> logger;
         private readonly ActorRefProvider<SubscriptionAccountManager> subscriptionAccountManager;
-        private readonly IQuerySubscription querySubscription;
-        private readonly IQuerySubscriptionAccount querySubscriptionAccount;
+        private readonly IQuerySubscriptions querySubscription;
+        private readonly IQuerySubscriptionAccounts querySubscriptionAccount;
 
         public SubscriptionController(ILogger<SubscriptionController> logger, 
             ActorRefProvider<SubscriptionAccountManager> subscriptionAccountManager, 
-            IQuerySubscription querySubscription,
-            IQuerySubscriptionAccount querySubscriptionAccount)
+            IQuerySubscriptions querySubscription,
+            IQuerySubscriptionAccounts querySubscriptionAccount)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.subscriptionAccountManager = subscriptionAccountManager ?? throw new ArgumentNullException(nameof(subscriptionAccountManager));
@@ -50,7 +50,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             
 
         [HttpGet("{id:length(24)}", Name = "getSubscription")]
-        public ActionResult<SubscriptionAccountDto> Get(string id)
+        public ActionResult<SubscriptionAccountDto> Get(SubscriptionId id)
         {
             if (this.User != null && User.Identity.IsAuthenticated)
             {
@@ -62,7 +62,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async IActionResult Post(CreateSubscriptionCommandDto commandDto)
+        public async Task<IActionResult> Post(CreateSubscriptionCommandDto commandDto)
         {
             if (this.User == null || !this.User.Identity.IsAuthenticated)
             {
@@ -80,11 +80,12 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             {
                 return BadRequest(string.Join(Environment.NewLine, notValidData));
             }
-            var accountId = await querySubscriptionAccount.Find(User.Identity.Name);
-            var createCommand = new CreateSubscriptionCommand(new SubscriptionAccountId(accountId.Id), 
-                                                              new SubscriptionUser(accountId.UserIdentifier),
-                                                              new SubscriptionType(commandDto.SubscriptionType),
-                                                              new SubscriptionDate(DateTime.UtcNow));                                                              
+            var accountId = SubscriptionAccountId.New;
+            var account = new SubscriptionAccountState();
+            //var accountId = await querySubscriptionAccount.Find((SubscriptionAccountId)User.Identity.Name);
+            var createCommand = new CreateSubscriptionAccountCommand(accountId,
+                                                              account.SubscriptionUser,
+                                                              account.SubscriptionDate);                                                             
             var commandResult = await subscriptionAccountManager.Ask<IExecutionResult>(createCommand);            
             if(commandResult.IsSuccess)
             {

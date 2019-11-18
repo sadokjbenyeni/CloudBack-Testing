@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
-using System;
+﻿using System;
 using Newtonsoft.Json;
 
 namespace CloudBacktesting.SubscriptionService.WebAPI.Models

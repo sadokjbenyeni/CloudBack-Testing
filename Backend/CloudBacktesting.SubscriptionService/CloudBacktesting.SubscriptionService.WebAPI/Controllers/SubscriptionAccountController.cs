@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Akkatecture.Aggregates.ExecutionResults;
 using Akkatecture.Akka;
-using CloudBacktesting.SubscriptionService.Domain.Model;
-using CloudBacktesting.SubscriptionService.Domain.Model.Commands;
+using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount;
+using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount.Commands;
 using CloudBacktesting.SubscriptionService.WebAPI.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -43,19 +40,20 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Post()
         {
+            var subscriptionAccountId = SubscriptionAccountId.New;
             if (this.User == null || !this.User.Identity.IsAuthenticated)
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
                 return BadRequest($"Access error, please contact the administrator with error id: {idError}");
             }
-            var command = new CreateSubscriptionAccountCommand() { UserIdentifier = this.User.Identity.Name };
+            var command = new CreateSubscriptionAccountCommand(subscriptionAccountId , this.User.Identity.Name, DateTime.UtcNow);
             var commandResult = await subscriptionAccountManager.Ask<IExecutionResult>(command);
             if(commandResult.IsSuccess)
             {
                 return Ok();
             }
-            logger.LogError($"[Business, Error]SubscriptionAccount for {command.UserIdentifier} has not been created.");
+            logger.LogError($"[Business, Error]SubscriptionAccount for {command.SubscriptionUser} has not been created.");
             return BadRequest();
         }
     }

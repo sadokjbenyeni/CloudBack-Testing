@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CloudBacktesting.SubscriptionService.Infra\CloudBacktesting.SubscriptionService.Infra.csproj" />
     <ProjectReference Include="..\CloudBacktesting.SubscriptionService.WebAPI\CloudBacktesting.SubscriptionService.WebAPI.csproj" />
   </ItemGroup>
 
