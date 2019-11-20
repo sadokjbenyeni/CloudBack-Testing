@@ -1,11 +1,8 @@
-﻿using Akkatecture.Aggregates;
-using Akkatecture.Events;
-using System;
+﻿using System;
 
 namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.Subscription.Events
 {
-    [EventVersion("SubscriptionCreated", 1)]
-    public class SubscriptionCreatedEvent : AggregateEvent<Subscription, SubscriptionId>
+    public class SubscriptionCreatedEvent /*: AggregateEvent<Subscription, SubscriptionId>*/
     {
         public string SubscriptionStatus { get; }
         public string SubscriptionUser { get; }

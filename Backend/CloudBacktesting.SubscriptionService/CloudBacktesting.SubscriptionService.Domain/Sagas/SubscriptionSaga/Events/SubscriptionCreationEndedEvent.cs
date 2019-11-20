@@ -1,12 +1,11 @@
-﻿using Akkatecture.Aggregates;
-using CloudBacktesting.SubscriptionService.Domain.Aggregates.Subscription;
+﻿using CloudBacktesting.SubscriptionService.Domain.Aggregates.Subscription;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount;
 using System;
 
 
 namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionSaga.Events
 {
-    public class SubscriptionCreationEndedEvent : AggregateEvent<SubscriptionCreationSaga, SubscriptionCreationSagaId>
+    public class SubscriptionCreationEndedEvent /*: AggregateEvent<SubscriptionCreationSaga, SubscriptionCreationSagaId>*/
     {
         public SubscriptionId Id { get; }
         public SubscriptionAccountId SubscriptionAccountId { get; set; }

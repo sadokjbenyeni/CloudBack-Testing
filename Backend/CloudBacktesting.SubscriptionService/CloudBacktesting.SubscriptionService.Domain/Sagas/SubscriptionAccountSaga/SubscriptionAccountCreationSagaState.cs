@@ -1,16 +1,12 @@
-﻿using Akkatecture.Aggregates;
-using Akkatecture.Sagas;
-using CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionAccountSaga.Events;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionAccountSaga.Events;
 
 namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionAccountSaga
 {
-    public class SubscriptionAccountCreationSagaState : SagaState<SubscriptionAccountCreationSaga, SubscriptionAccountCreationSagaId, IMessageApplier<SubscriptionAccountCreationSaga, SubscriptionAccountCreationSagaId>>,
-        IApply<SubscriptionAccountCreationStartedEvent>,
-        IApply<SubscriptionAccountCreationProgressEvent>,
-        IApply<SubscriptionAccountCreationEndedEvent>
+    public class SubscriptionAccountCreationSagaState
+        //: SagaState<SubscriptionAccountCreationSaga, SubscriptionAccountCreationSagaId, IMessageApplier<SubscriptionAccountCreationSaga, SubscriptionAccountCreationSagaId>>,
+        //IApply<SubscriptionAccountCreationStartedEvent>,
+        //IApply<SubscriptionAccountCreationProgressEvent>,
+        //IApply<SubscriptionAccountCreationEndedEvent>
     {
         public int Progress { get; private set; }
 

@@ -1,10 +1,9 @@
-﻿using Akkatecture.Aggregates;
-using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount;
+﻿using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount;
 using System;
 
 namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionAccountSaga.Events
 {
-    public class SubscriptionAccountCreationProgressEvent : AggregateEvent<SubscriptionAccountCreationSaga, SubscriptionAccountCreationSagaId>
+    public class SubscriptionAccountCreationProgressEvent /*: AggregateEvent<SubscriptionAccountCreationSaga, SubscriptionAccountCreationSagaId>*/
     {
         public SubscriptionAccountId SubscriptionAccountId { get; }
         public int Progress { get; }

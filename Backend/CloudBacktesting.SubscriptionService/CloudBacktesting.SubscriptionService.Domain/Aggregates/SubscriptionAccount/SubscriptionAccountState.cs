@@ -1,11 +1,10 @@
-﻿using Akkatecture.Aggregates;
-using CloudBacktesting.SubscriptionService.Domain.Aggregates.Subscription.Events;
+﻿using CloudBacktesting.SubscriptionService.Domain.Aggregates.Subscription.Events;
 using System;
 
 namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount
 {
-    public class SubscriptionAccountState : AggregateState<SubscriptionAccount, SubscriptionAccountId>,
-        IApply<SubscriptionCreatedEvent>
+    public class SubscriptionAccountState /*: AggregateState<SubscriptionAccount, SubscriptionAccountId>,*/
+        //IApply<SubscriptionCreatedEvent>
     {
         public string SubscriptionUser { get; set; }
         public DateTime SubscriptionDate { get; set; }

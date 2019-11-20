@@ -1,13 +1,8 @@
-﻿using Akkatecture.Sagas;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionAccountSaga
+﻿namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionAccountSaga
 {
-    public class SubscriptionAccountCreationSagaId : SagaId<SubscriptionAccountCreationSagaId>
+    public class SubscriptionAccountCreationSagaId /*: SagaId<SubscriptionAccountCreationSagaId>*/
     {
-        public SubscriptionAccountCreationSagaId(string value) : base(value)
+        public SubscriptionAccountCreationSagaId(string value) /*: base(value)*/
         {
         }
     }

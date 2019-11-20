@@ -1,4 +1,4 @@
-﻿using Akkatecture.Aggregates;
+﻿//using Akkatecture.Aggregates;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount.Commands;
 
 namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount
@@ -7,13 +7,13 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAcc
     ///// this command create a first time the SubscriptionAccount model
     ///// this command can be call only one time by user
     ///// <Summary>
-    public class SubscriptionAccount : AggregateRoot<SubscriptionAccount, SubscriptionAccountId, SubscriptionAccountState>
+    public class SubscriptionAccount /*: AggregateRoot<SubscriptionAccount, SubscriptionAccountId, SubscriptionAccountState>*/
 
     {
-        public SubscriptionAccount(SubscriptionAccountId aggregateId) : base(aggregateId)
+        public SubscriptionAccount(SubscriptionAccountId aggregateId) /*: base(aggregateId)*/
 
         {
-            Command<CreateSubscriptionAccountCommand, CreateSubscriptionAccountCommandHandler>();
+            
         }
     }
 }
