@@ -1,12 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using Akkatecture.Aggregates.ExecutionResults;
-using Akkatecture.Akka;
-using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount;
-using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount.Commands;
-using CloudBacktesting.SubscriptionService.WebAPI.Models;
+﻿using CloudBacktesting.SubscriptionService.WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
 {
@@ -15,12 +11,12 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
     public class SubscriptionAccountController : ControllerBase
     {
         private readonly ILogger<SubscriptionAccountController> logger;
-        private readonly ActorRefProvider<SubscriptionAccountManager> subscriptionAccountManager;
+        //private readonly ActorRefProvider<SubscriptionAccountManager> subscriptionAccountManager;
 
-        public SubscriptionAccountController(ILogger<SubscriptionAccountController> logger, ActorRefProvider<SubscriptionAccountManager> subscriptionAccountManager)
+        public SubscriptionAccountController(ILogger<SubscriptionAccountController> logger /*ActorRefProvider<SubscriptionAccountManager> subscriptionAccountManager*/)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            this.subscriptionAccountManager = subscriptionAccountManager ?? throw new ArgumentNullException(nameof(subscriptionAccountManager));
+            //this.subscriptionAccountManager = subscriptionAccountManager ?? throw new ArgumentNullException(nameof(subscriptionAccountManager));
         }
 
         [HttpGet]
@@ -38,23 +34,23 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post()
+        public IActionResult Post()
         {
-            var subscriptionAccountId = SubscriptionAccountId.New;
-            if (this.User == null || !this.User.Identity.IsAuthenticated)
-            {
-                var idError = Guid.NewGuid().ToString();
-                logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
-            }
-            var command = new CreateSubscriptionAccountCommand(subscriptionAccountId , this.User.Identity.Name, DateTime.UtcNow);
-            var commandResult = await subscriptionAccountManager.Ask<IExecutionResult>(command);
-            if(commandResult.IsSuccess)
-            {
-                return Ok();
-            }
-            logger.LogError($"[Business, Error]SubscriptionAccount for {command.SubscriptionUser} has not been created.");
-            return BadRequest();
+            //var subscriptionAccountId = SubscriptionAccountId.New;
+            //if (this.User == null || !this.User.Identity.IsAuthenticated)
+            //{
+            //    var idError = Guid.NewGuid().ToString();
+            //    logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
+            //    return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+            //}
+            //var command = new CreateSubscriptionAccountCommand(subscriptionAccountId, this.User.Identity.Name, DateTime.UtcNow);
+            //var commandResult = await subscriptionAccountManager.Ask<IExecutionResult>(command);
+            //if(commandResult.IsSuccess)
+            //{
+            return Ok();
+            //}
+            //logger.LogError($"[Business, Error]SubscriptionAccount for {command.SubscriptionUser} has not been created.");
+            //return BadRequest();
         }
     }
 }

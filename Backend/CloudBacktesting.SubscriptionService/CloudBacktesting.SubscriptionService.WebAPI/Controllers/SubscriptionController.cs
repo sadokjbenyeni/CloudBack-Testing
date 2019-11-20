@@ -2,14 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Akkatecture.Aggregates.ExecutionResults;
-using Akkatecture.Akka;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.Subscription;
-using CloudBacktesting.SubscriptionService.Domain.Aggregates.Subscription.Commands;
-using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount;
-using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount.Commands;
-using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountQuery;
-using CloudBacktesting.SubscriptionService.Domain.Repositories.Subscriptions;
 using CloudBacktesting.SubscriptionService.WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -28,7 +21,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
             if (this.User == null || !this.User.Identity.IsAuthenticated)
             {
@@ -41,15 +34,15 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             
 
         [HttpGet("{id:length(24)}", Name = "getSubscription")]
-        public ActionResult<SubscriptionAccountDto> Get(SubscriptionId id)
+        public IActionResult Get(SubscriptionId id)
         {
-            if (this.User != null && User.Identity.IsAuthenticated)
-            {
+            //if (this.User != null && User.Identity.IsAuthenticated)
+            //{
                 return Ok();
-            }
-            var idError = Guid.NewGuid().ToString();
-            logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-            return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+            //}
+            //var idError = Guid.NewGuid().ToString();
+            //logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
+            //return BadRequest($"Access error, please contact the administrator with error id: {idError}");
         }
 
         [HttpPost]

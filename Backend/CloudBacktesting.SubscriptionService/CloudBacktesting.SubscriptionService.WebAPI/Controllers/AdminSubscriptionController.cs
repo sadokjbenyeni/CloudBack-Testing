@@ -1,5 +1,4 @@
 ﻿
-using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountQuery;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

@@ -8,21 +8,21 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionAccountS
         //IApply<SubscriptionAccountCreationProgressEvent>,
         //IApply<SubscriptionAccountCreationEndedEvent>
     {
-        public int Progress { get; private set; }
+        //public int Progress { get; private set; }
 
-        public void Apply(SubscriptionAccountCreationStartedEvent aggregateEvent)
-        {
-            Progress = 0;
-        }
+        //public void Apply(SubscriptionAccountCreationStartedEvent aggregateEvent)
+        //{
+        //    Progress = 0;
+        //}
 
-        public void Apply(SubscriptionAccountCreationProgressEvent aggregateEvent)
-        {
-            Progress = aggregateEvent.Progress;
-        }
+        //public void Apply(SubscriptionAccountCreationProgressEvent aggregateEvent)
+        //{
+        //    Progress = aggregateEvent.Progress;
+        //}
 
-        public void Apply(SubscriptionAccountCreationEndedEvent aggregateEvent)
-        {
-            Progress = 100;
-        }
+        //public void Apply(SubscriptionAccountCreationEndedEvent aggregateEvent)
+        //{
+        //    Progress = 100;
+        //}
     }
 }

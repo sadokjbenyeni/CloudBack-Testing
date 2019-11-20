@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿
+using NUnit.Framework;
 
 namespace CloudBacktesting.SubscriptionService.Domain.Tests.Model
 {
