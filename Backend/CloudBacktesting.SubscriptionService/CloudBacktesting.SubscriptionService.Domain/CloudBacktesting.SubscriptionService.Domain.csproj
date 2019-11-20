@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EventFlow" Version="0.76.4014" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CloudBacktesting.SubscriptionService.Infra\CloudBacktesting.SubscriptionService.Infra.csproj" />
   </ItemGroup>
 

@@ -1,18 +1,18 @@
-﻿using System;
+﻿using EventFlow.Aggregates;
+using System;
 
 namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount.Events
 {
 
-    public class SubscriptionAccountCreatedEvent /*: AggregateEvent<SubscriptionAccount, SubscriptionAccountId>*/
+    public class SubscriptionAccountCreatedEvent : AggregateEvent<SubscriptionAccount, SubscriptionAccountId>
     {
-        public string SubscriptionUser { get; }
+        public string Subscriber { get; }
         public DateTime SubscriptionDate { get; }
 
-        public SubscriptionAccountCreatedEvent(string subscriptionUser, DateTime subscriptionDate)
+        public SubscriptionAccountCreatedEvent(string subscriber, DateTime subscriptionDate)
         {
-            SubscriptionUser = subscriptionUser;
+            Subscriber = subscriber;
             SubscriptionDate = subscriptionDate;
         }
-
     }
 }
