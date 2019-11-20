@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.Subscription;
-using CloudBacktesting.SubscriptionService.WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -46,24 +42,24 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(CreateSubscriptionCommandDto commandDto)
+        public IActionResult Post()
         {
-            if (this.User == null || !this.User.Identity.IsAuthenticated)
-            {
-                var idError = Guid.NewGuid().ToString();
-                logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
-            }
-            var notValidData = new List<string>();
-            if(string.IsNullOrEmpty(commandDto.SubscriptionType))
-            {
-                notValidData.Add("Type of subscription cannot be null or empty");
-            }
+            //if (this.User == null || !this.User.Identity.IsAuthenticated)
+            //{
+            //    var idError = Guid.NewGuid().ToString();
+            //    logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
+            //    return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+            //}
+            //var notValidData = new List<string>();
+            //if(string.IsNullOrEmpty(commandDto.SubscriptionType))
+            //{
+            //    notValidData.Add("Type of subscription cannot be null or empty");
+            //}
             
-            if(notValidData.Any())
-            {
-                return BadRequest(string.Join(Environment.NewLine, notValidData));
-            }
+            //if(notValidData.Any())
+            //{
+            //    return BadRequest(string.Join(Environment.NewLine, notValidData));
+            //}
             //var accountId = SubscriptionAccountId.New;
             //var account = new SubscriptionAccountState();
             ////var accountId = await querySubscriptionAccount.Find((SubscriptionAccountId)User.Identity.Name);

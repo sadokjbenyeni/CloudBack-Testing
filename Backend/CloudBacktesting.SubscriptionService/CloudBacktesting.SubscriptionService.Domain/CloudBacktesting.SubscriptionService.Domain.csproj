@@ -12,4 +12,10 @@
     <ProjectReference Include="..\CloudBacktesting.SubscriptionService.Infra\CloudBacktesting.SubscriptionService.Infra.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\SubscriptionReservations\" />
+    <Folder Include="Sagas\SubscriptionAccountSaga\" />
+    <Folder Include="Sagas\SubscriptionReservationSaga\" />
+  </ItemGroup>
+
 </Project>
