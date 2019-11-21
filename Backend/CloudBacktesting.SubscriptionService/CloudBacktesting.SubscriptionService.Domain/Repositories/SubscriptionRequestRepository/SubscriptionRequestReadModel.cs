@@ -1,15 +1,16 @@
 ﻿using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Events;
 using EventFlow.Aggregates;
+using EventFlow.MongoDB.ReadStores;
 using EventFlow.ReadStores;
 using System;
 
 namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository
 {
-    public class SusbcriptionRequestReadModel : IReadModel, IAmReadModelFor<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestCreatedEvent>
+    public class SubscriptionRequestReadModel : IReadModel, IAmReadModelFor<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestCreatedEvent>, IMongoDbReadModel
     {
         public string Id { get; private set; }
-        public long? Version { get; }
+        public long? Version { get; set; }
         public string Subscriber { get; set; }
         public string Status { get; set; }
         public string Type { get; set; }

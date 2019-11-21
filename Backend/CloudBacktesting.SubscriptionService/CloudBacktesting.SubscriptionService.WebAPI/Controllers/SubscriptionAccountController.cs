@@ -1,6 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate;
+using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate.Commands;
+using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
+using CloudBacktesting.SubscriptionService.WebAPI.Models;
+using EventFlow;
+using EventFlow.Queries;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
@@ -9,13 +16,15 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
     [ApiController]
     public class SubscriptionAccountController : ControllerBase
     {
-        private readonly ILogger<SubscriptionAccountController> logger;
-        //private readonly ActorRefProvider<SubscriptionAccountManager> subscriptionAccountManager;
+        private readonly ILogger<SubscriptionAccountController> _logger;
+        private readonly ICommandBus _commandBus;
+        private readonly IQueryProcessor _queryProcessor;
 
-        public SubscriptionAccountController(ILogger<SubscriptionAccountController> logger /*ActorRefProvider<SubscriptionAccountManager> subscriptionAccountManager*/)
+        public SubscriptionAccountController(ILogger<SubscriptionAccountController> logger, ICommandBus commandBus, IQueryProcessor queryProcessor)
         {
-            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            //this.subscriptionAccountManager = subscriptionAccountManager ?? throw new ArgumentNullException(nameof(subscriptionAccountManager));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _commandBus = commandBus;
+            _queryProcessor = queryProcessor;
         }
 
         [HttpGet]
@@ -33,21 +42,36 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             return Ok();
         }
 
-        [HttpPost]
-        public IActionResult Post()
+        [HttpGet("{id:length(24)}")]
+        public async Task<ActionResult<SubscriptionAccountReadModel>> Get(SubscriptionAccountId id)
         {
-            //var subscriptionAccountId = SubscriptionAccountId.New;
+            //if (this.User != null && this.User.Identity.IsAuthenticated)
+            //{
+            //    var idError = Guid.NewGuid().ToString();
+            //    _logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
+            //    return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+            //}
+            var readModel = await _queryProcessor.ProcessAsync(new ReadModelByIdQuery<SubscriptionAccountReadModel>(id), CancellationToken.None);
+            return Ok(readModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Post([FromBody] CreateSubscriptionAccountDto value)
+        {
+            var subscriptionAccountCommand = new SubscriptionAccountCreationCommand(SubscriptionAccountId.New, value.Subscriber, value.SubscriptionDate);
+
+            var subscriptionAccountId = SubscriptionAccountId.New;
             //if (this.User == null || !this.User.Identity.IsAuthenticated)
             //{
             //    var idError = Guid.NewGuid().ToString();
-            //    logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
+            //    _logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
             //    return BadRequest($"Access error, please contact the administrator with error id: {idError}");
             //}
-            //var command = new CreateSubscriptionAccountCommand(subscriptionAccountId, this.User.Identity.Name, DateTime.UtcNow);
             //var commandResult = await subscriptionAccountManager.Ask<IExecutionResult>(command);
-            //if(commandResult.IsSuccess)
+            //if (commandResult.IsSuccess)
             //{
-            return Ok();
+            await _commandBus.PublishAsync(subscriptionAccountCommand, CancellationToken.None);
+            return CreatedAtAction(nameof(Get), new { id = subscriptionAccountCommand.AggregateId.Value }, subscriptionAccountCommand);
             //}
             //logger.LogError($"[Business, Error]SubscriptionAccount for {command.SubscriptionUser} has not been created.");
             //return BadRequest();
