@@ -12,6 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using EventFlow.DependencyInjection.Extensions;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
+using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Events;
+using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Commands;
+using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository;
 
 namespace CloudBacktesting.SubscriptionService.WebAPI.Host
 {
@@ -31,16 +34,25 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
 
             services.AddSwaggerGen(options => options.SwaggerDoc("V1", new Microsoft.OpenApi.Models.OpenApiInfo() { Title = "Subscription Api", Version = "V1" }));
 
+            //services.AddEventFlow(options => options.AddAspNetCore()
+            //                                       .AddEvents(typeof(SubscriptionAccountCreatedEvent))
+            //                                       .AddCommands(typeof(SubscriptionAccountCreationCommand))
+            //                                       .AddCommandHandlers(typeof(SubscriptionAccountCreationCommandHandler))
+            //                                       .UseMongoDbEventStore()
+            //                                       .ConfigureMongoDb("mongodb://localhost:27017", "SubscriptionDb")
+            //                                       .UseConsoleLog()
+            //                                       .UseMongoDbReadModel<SubscriptionAccountReadModel>()
+            //                    );
+
             services.AddEventFlow(options => options.AddAspNetCore()
-                                                   .AddEvents(typeof(SubscriptionAccountCreatedEvent))
-                                                   .AddCommands(typeof(SubscriptionAccountCreationCommand))
-                                                   .AddCommandHandlers(typeof(SubscriptionAccountCreationCommandHandler))
-                                                   .UseMongoDbEventStore()
-                                                   .ConfigureMongoDb("mongodb://localhost:27017", "SubscriptionDb")
-                                                   .UseConsoleLog()
-                                                   //.UseInMemoryReadStoreFor<ExampleReadModel>()
-                                                   .UseMongoDbReadModel<SubscriptionAccountReadModel>()
-                                );
+                                       .AddEvents(typeof(SubscriptionRequestCreatedEvent))
+                                       .AddCommands(typeof(SubscriptionRequestCreationCommand))
+                                       .AddCommandHandlers(typeof(SubscriptionRequestCreationCommandHandler))
+                                       .UseMongoDbEventStore()
+                                       .ConfigureMongoDb("mongodb://localhost:27017", "SubscriptionDb")
+                                       .UseConsoleLog()
+                                       .UseMongoDbReadModel<SubscriptionRequestReadModel>()
+                    );
 
             return services.BuildServiceProvider();
         }

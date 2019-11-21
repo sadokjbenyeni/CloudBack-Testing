@@ -67,16 +67,16 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             //    _logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
             //    return BadRequest($"Access error, please contact the administrator with error id: {idError}");
             //}
-            var notValidData = new List<string>();
-            if (string.IsNullOrEmpty(subscriptionRequestCommand.Type))
-            {
-                notValidData.Add("Type of subscription cannot be null or empty");
-            }
+            //var notValidData = new List<string>();
+            //if (string.IsNullOrEmpty(subscriptionRequestCommand.Type))
+            //{
+            //    notValidData.Add("Type of subscription cannot be null or empty");
+            //}
 
-            if (notValidData.Any())
-            {
-                return BadRequest(string.Join(Environment.NewLine, notValidData));
-            }
+            //if (notValidData.Any())
+            //{
+            //    return BadRequest(string.Join(Environment.NewLine, notValidData));
+            //}
 
             //var requestId = SubscriptionRequestId.New;
             //var request = new SubscriptionRequest(requestId);
