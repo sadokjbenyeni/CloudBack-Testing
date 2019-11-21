@@ -13,9 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\SubscriptionReservations\" />
     <Folder Include="Sagas\SubscriptionAccountSaga\" />
-    <Folder Include="Sagas\SubscriptionReservationSaga\" />
+    <Folder Include="Sagas\SubscriptionRequestSaga\" />
   </ItemGroup>
 
 </Project>

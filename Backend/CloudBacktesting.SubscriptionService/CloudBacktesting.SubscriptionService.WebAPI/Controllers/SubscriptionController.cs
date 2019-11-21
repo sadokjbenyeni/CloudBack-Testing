@@ -1,5 +1,4 @@
 ﻿using System;
-using CloudBacktesting.SubscriptionService.Domain.Aggregates.Subscription;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -30,7 +29,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             
 
         [HttpGet("{id:length(24)}", Name = "getSubscription")]
-        public IActionResult Get(SubscriptionId id)
+        public IActionResult Get(SubscriptionRequestId id)
         {
             //if (this.User != null && User.Identity.IsAuthenticated)
             //{

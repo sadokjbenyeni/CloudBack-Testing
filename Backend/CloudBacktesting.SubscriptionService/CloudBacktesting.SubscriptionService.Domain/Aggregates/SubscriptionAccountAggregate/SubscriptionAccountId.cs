@@ -1,8 +1,6 @@
-﻿
+﻿using EventFlow.Core;
 
-using EventFlow.Core;
-
-namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount
+namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate
 {
     public class SubscriptionAccountId : Identity<SubscriptionAccountId>
     {

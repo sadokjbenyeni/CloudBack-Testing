@@ -1,15 +1,15 @@
-﻿using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount;
-using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount.Events;
+﻿using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate;
+using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate.Events;
 using EventFlow.Aggregates;
 using EventFlow.ReadStores;
 using System;
 
-namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccounts
+namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository
 {
     public class SubscriptionAccountReadModel : IReadModel, IAmReadModelFor<SubscriptionAccount, SubscriptionAccountId, SubscriptionAccountCreatedEvent>
     {
-        public string Id { get; set; }
-        public long? Version { get; set; }
+        public string Id { get; private set; }
+        public long? Version { get; }
         public string Subscriber { get; set; }
         public DateTime SubscriptionDate { get; set; }
 

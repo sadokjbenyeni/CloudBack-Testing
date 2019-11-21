@@ -3,7 +3,7 @@ using EventFlow.Commands;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount.Commands
+namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate.Commands
 {
     public class SubscriptionAccountCreationCommandHandler : CommandHandler<SubscriptionAccount, SubscriptionAccountId, IExecutionResult, SubscriptionAccountCreationCommand>
     {

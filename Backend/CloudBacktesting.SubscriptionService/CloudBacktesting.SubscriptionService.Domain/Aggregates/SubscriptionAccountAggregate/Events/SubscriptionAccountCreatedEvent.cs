@@ -1,7 +1,7 @@
 ﻿using EventFlow.Aggregates;
 using System;
 
-namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount.Events
+namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate.Events
 {
 
     public class SubscriptionAccountCreatedEvent : AggregateEvent<SubscriptionAccount, SubscriptionAccountId>

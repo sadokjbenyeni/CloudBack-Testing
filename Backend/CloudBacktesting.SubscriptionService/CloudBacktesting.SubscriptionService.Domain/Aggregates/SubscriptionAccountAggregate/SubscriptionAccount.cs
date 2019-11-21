@@ -1,10 +1,10 @@
 ﻿//using Akkatecture.Aggregates;
-using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount.Events;
+using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate.Events;
 using EventFlow.Aggregates;
 using EventFlow.Aggregates.ExecutionResults;
 using System;
 
-namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount
+namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate
 {
     ///// <Summary>
     ///// this command create a first time the SubscriptionAccount model
