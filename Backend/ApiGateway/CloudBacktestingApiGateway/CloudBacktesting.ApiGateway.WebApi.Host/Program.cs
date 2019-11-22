@@ -27,7 +27,8 @@ namespace CloudBacktesting.ApiGateway.WebApi.Host
                                .AddJsonFile($"appsettings.{host.HostingEnvironment.EnvironmentName}.json", optional: false, reloadOnChange: true)
                                .AddOcelot(host.HostingEnvironment);
 
-                     })
+                     });
+            webhost
                   .UseKestrel()
                   .UseUrls(JsonConvert.DeserializeObject<KestrelConfiguration>(settingsfile).BaseUrls)
                   .UseStartup<Startup>();
