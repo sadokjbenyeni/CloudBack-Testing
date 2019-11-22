@@ -4,9 +4,7 @@ using CloudBacktesting.ApiGateway.WebApi.Ocelot.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -39,13 +37,12 @@ namespace CloudBacktesting.ApiGateway.WebApi.Ocelot.Middlewares
         }
         private ClaimsIdentity BuildClaimsIdentity(User user)
         {
-            
+
             var claims = new List<Claim>();
             //state 1 => Activated Account
             //state 0 => Inactivated 
             claims.Add(new Claim("State", user.State.ToString()));
-            claims.Add(new Claim("Role", user.RoleName.Contains("Administrator") ? "Administrator" : "Client"));
-            claims.Add(new Claim("IsLogin", user.IsLogin.ToString(),ClaimValueTypes.Boolean));
+            claims.Add(new Claim("IsLogin", user.IsLogin.ToString(), ClaimValueTypes.Boolean));
             var appIdentity = new ClaimsIdentity(claims);
             return appIdentity;
 

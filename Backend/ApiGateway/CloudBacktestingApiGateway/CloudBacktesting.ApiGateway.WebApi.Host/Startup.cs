@@ -44,7 +44,6 @@ namespace CloudBacktesting.ApiGateway.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseRouting();
             app.UseCors("allOrigins");
             app.UseClaimsBuilder();

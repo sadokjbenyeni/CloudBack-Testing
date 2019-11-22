@@ -4,7 +4,6 @@
       "DownstreamPathTemplate": "/api/countries",
       "DownstreamScheme": "http",
       "ServiceName": "nodeservices",
-
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       },

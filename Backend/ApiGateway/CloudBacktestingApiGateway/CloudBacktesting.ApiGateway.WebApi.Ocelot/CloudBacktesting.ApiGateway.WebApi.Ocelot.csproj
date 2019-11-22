@@ -13,6 +13,5 @@
 
   <ItemGroup>
     <PackageReference Include="Ocelot" Version="13.8.0" />
-    <PackageReference Include="Ocelot.JWTAuthorize" Version="0.0.400" />
   </ItemGroup>
 </Project>
