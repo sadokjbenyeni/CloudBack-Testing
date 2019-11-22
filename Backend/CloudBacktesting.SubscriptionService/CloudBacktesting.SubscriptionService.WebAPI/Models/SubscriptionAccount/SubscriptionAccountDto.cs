@@ -9,4 +9,9 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Models
     }
 
     
+    {
+        public string SubscriptionId { get; set; }
+        public string Subscriber { get; set; }
+        public DateTime SubscriptionDate { get; set; }
+    }
 }

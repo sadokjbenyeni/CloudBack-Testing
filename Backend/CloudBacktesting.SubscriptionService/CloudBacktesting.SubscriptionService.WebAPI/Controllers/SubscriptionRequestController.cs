@@ -29,19 +29,18 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             _queryProcessor = queryProcessor;
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Get()
-        //{
-        //    if (this.User != null || !this.User.Identity.IsAuthenticated)
-        //    {
-        //        var idError = Guid.NewGuid().ToString();
-        //        _logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-        //        return BadRequest($"Access error, please contact the administrator with error id: {idError}");
-        //    }
-
-        //    var readModel = await _queryProcessor.ProcessAsync(new InMemoryQuery<SusbcriptionRequestReadModel>(), CancellationToken.None);
-        //    return Ok(readModel);
-        //}
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            //if (this.User != null || !this.User.Identity.IsAuthenticated)
+            //{
+            //    var idError = Guid.NewGuid().ToString();
+            //    _logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
+            //    return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+            //}
+            var readModel = await _queryProcessor.ProcessAsync(new GetSubscriptionRequests(), CancellationToken.None);
+            return Ok(readModel);
+        }
 
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<SubscriptionRequestReadModel>> Get(SubscriptionRequestId id)
@@ -88,6 +87,16 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             //var errorMessage = string.Join(Environment.NewLine, ((FailedExecutionResult)commandResult).Errors);
             //_logger.LogError($"[Business, Error]Subscription failed for {User.Identity.Name}, type of command {commandDto.SubscriptionType}.{Environment.NewLine}{errorMessage}");
             //return BadRequest(errorMessage);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Put([FromBody] UpdateSubscriptionRequestDto value)
+        {
+            var subscriptionRequestCommand = new SubscriptionRequestCreationCommand(new SubscriptionRequestId(value.SubscriptionId), value.Subscriber, value.Type, value.Status, value.SubscriptionDate);
+
+            await _commandBus.PublishAsync(subscriptionRequestCommand, CancellationToken.None);
+
+            return CreatedAtAction(nameof(Get), new { id = subscriptionRequestCommand.AggregateId.Value }, subscriptionRequestCommand);
         }
     }
 }

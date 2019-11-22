@@ -47,13 +47,17 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
             {
                 services.AddEventFlow(options => options.AddAspNetCore()
                                        .AddEvents(typeof(SubscriptionRequestCreatedEvent).Assembly)
-                                       .AddCommands(typeof(SubscriptionRequestCreationCommand))
-                                       .AddCommandHandlers(typeof(SubscriptionRequestCreationCommandHandler))
+                                       .AddCommands(typeof(SubscriptionAccountCreationCommand))
+                                       .AddCommandHandlers(typeof(SubscriptionAccountCreationCommandHandler))
+                                       //.AddEvents(typeof(SubscriptionRequestCreatedEvent))
+                                       //.AddCommands(typeof(SubscriptionRequestCreationCommand))
+                                       //.AddCommandHandlers(typeof(SubscriptionRequestCreationCommandHandler))
                                        .UseMongoDbEventStore()
                                        .ConfigureMongoDb(configMongo.ConnectionString, configMongo.DatabaseName)
                                        .UseConsoleLog()
-                                       .UseMongoDbReadModel<SubscriptionRequestReadModel>()
-                    );
+                                       .UseMongoDbReadModel<SubscriptionAccountReadModel>()
+                                  //.UseMongoDbReadModel<SubscriptionRequestReadModel>()
+                                  );
             }
             return services;
         }

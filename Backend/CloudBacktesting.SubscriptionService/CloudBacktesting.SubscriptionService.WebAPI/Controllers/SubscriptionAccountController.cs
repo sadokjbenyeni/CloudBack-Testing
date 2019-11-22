@@ -5,6 +5,7 @@ using CloudBacktesting.SubscriptionService.WebAPI.Models;
 using CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionAccount;
 using EventFlow;
 using EventFlow.Aggregates.ExecutionResults;
+using EventFlow.MongoDB.ReadStores;
 using EventFlow.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,6 +13,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CloudBacktesting.MongoDb.Driver.Extensions;
 
 namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
 {
@@ -23,13 +25,21 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         private readonly ICommandBus commandBus;
         private readonly IQueryProcessor queryProcessor;
 
-        public SubscriptionAccountController(ILogger<SubscriptionAccountController> logger, ICommandBus commandBus, IQueryProcessor queryProcessor)
+        //private readonly IQueryProcessor _queryProcessor;
+
+        public SubscriptionAccountController(ILogger<SubscriptionAccountController> logger, ICommandBus commandBus
+        , IMongoDbReadModelStore<SubscriptionAccountReadModel> queryProcessor)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.commandBus = commandBus;
             this.queryProcessor = queryProcessor;
+            //_queryProcessor = queryProcessor;
         }
 
+        public async Task<IActionResult> Get()
+            var cursor = await queryProcessor.FindAsync(subscription => true);
+            //await cursor.MoveNextAsync();
+            return Ok(await cursor.ToEnumerableAsync());
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
