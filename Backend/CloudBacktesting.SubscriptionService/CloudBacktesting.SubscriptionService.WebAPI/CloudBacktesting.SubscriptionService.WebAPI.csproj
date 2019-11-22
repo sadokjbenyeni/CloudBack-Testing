@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CloudBacktesting.Infra.EventFlow\CloudBacktesting.Infra.EventFlow.csproj" />
     <ProjectReference Include="..\CloudBacktesting.MongoDb\CloudBacktesting.MongoDb.csproj" />
     <ProjectReference Include="..\CloudBacktesting.SubscriptionService.Domain\CloudBacktesting.SubscriptionService.Domain.csproj" />
   </ItemGroup>

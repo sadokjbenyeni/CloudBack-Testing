@@ -12,6 +12,9 @@ using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequest
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Commands;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository;
 using CloudBacktesting.SubscriptionService.WebAPI.Host.DatabaseSettings;
+using CloudBacktesting.Infra.EventFlow.Queries;
+using CloudBacktesting.Infra.EventFlow.MongoDb.Queries;
+using CloudBacktesting.Infra.EventFlow.ReadStores;
 
 namespace CloudBacktesting.SubscriptionService.WebAPI.Host
 {
@@ -56,6 +59,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
                                        .ConfigureMongoDb(configMongo.ConnectionString, configMongo.DatabaseName)
                                        .UseConsoleLog()
                                        .UseMongoDbReadModel<SubscriptionAccountReadModel>()
+                                       .AddQueryHandler<MongoDbFindReadModelQueryHandler<SubscriptionAccountReadModel>, FindReadModelQuery<SubscriptionAccountReadModel>, ICollectionReadModel<SubscriptionAccountReadModel>>()
                                   //.UseMongoDbReadModel<SubscriptionRequestReadModel>()
                                   );
             }

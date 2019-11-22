@@ -14,6 +14,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CloudBacktesting.MongoDb.Driver.Extensions;
+using CloudBacktesting.Infra.EventFlow.Queries;
+using System.Linq;
 
 namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
 {
@@ -25,21 +27,19 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         private readonly ICommandBus commandBus;
         private readonly IQueryProcessor queryProcessor;
 
-        //private readonly IQueryProcessor _queryProcessor;
+        private readonly IQueryProcessor queryProcessor;
 
-        public SubscriptionAccountController(ILogger<SubscriptionAccountController> logger, ICommandBus commandBus
-        , IMongoDbReadModelStore<SubscriptionAccountReadModel> queryProcessor)
+        public SubscriptionAccountController(ILogger<SubscriptionAccountController> logger, ICommandBus commandBus, IQueryProcessor queryProcessor)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.commandBus = commandBus;
             this.queryProcessor = queryProcessor;
-            //_queryProcessor = queryProcessor;
         }
 
         public async Task<IActionResult> Get()
-            var cursor = await queryProcessor.FindAsync(subscription => true);
+            var result = await queryProcessor.ProcessAsync(new FindReadModelQuery<SubscriptionAccountReadModel>(model => true), CancellationToken.None);
             //await cursor.MoveNextAsync();
-            return Ok(await cursor.ToEnumerableAsync());
+            return Ok(result.ToList());
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
