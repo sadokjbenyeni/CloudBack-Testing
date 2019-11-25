@@ -7,8 +7,8 @@ Background:
 @v1 @subscriptionAccount @creation 
 Scenario: Morgan creates a new subscription account after that customer has been registered on the web site
 	Given the webapi is online
-	When morgan sends the subscription account creation request for Chang
-	Then SubscriptionAccount entity has been created on the system
+	When morgan sends the subscription account creation request for 'Chang'
+	Then Creation of subscription account is successful
 
 
 @v1 @subscriptionAccount @creation 

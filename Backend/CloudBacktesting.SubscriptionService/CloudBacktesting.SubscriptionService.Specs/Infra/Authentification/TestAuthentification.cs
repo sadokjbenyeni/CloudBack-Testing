@@ -24,7 +24,8 @@ namespace CloudBacktesting.SubscriptionService.Specs.Infra.Authentification
 
     public class TestAuthenicationHandler : AuthenticationHandler<TestAuthenticationOptions>
     {
-        public TestAuthenicationHandler(IOptionsMonitor<TestAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock)
+        public TestAuthenicationHandler(IOptionsMonitor<TestAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) 
+            : base(options, logger, encoder, clock)
         {
         }
 

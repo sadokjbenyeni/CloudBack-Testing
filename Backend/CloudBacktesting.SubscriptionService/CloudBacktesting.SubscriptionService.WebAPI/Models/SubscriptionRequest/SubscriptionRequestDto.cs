@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionRequestDto
+namespace CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionRequest
 {
     public class CreateSubscriptionRequestDto
     {

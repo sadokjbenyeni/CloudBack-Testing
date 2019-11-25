@@ -17,6 +17,7 @@
     },
     "CloudBacktesting.SubscriptionService.Specs": {
       "commandName": "Project",
+      "workingDirectory": "${TargetDir}",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

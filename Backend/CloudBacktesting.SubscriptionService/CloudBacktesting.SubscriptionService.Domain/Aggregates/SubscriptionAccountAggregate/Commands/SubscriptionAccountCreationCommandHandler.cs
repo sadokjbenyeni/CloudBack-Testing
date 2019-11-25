@@ -9,8 +9,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAcc
     {
         public override Task<IExecutionResult> ExecuteCommandAsync(SubscriptionAccount aggregate, SubscriptionAccountCreationCommand command, CancellationToken cancellationToken)
         {
-            var executionResult = aggregate.SetSubscriptionAccount(command.Subscriber, command.SubscriptionDate);
-            return Task.FromResult(executionResult);
+            return Task.FromResult(aggregate.Create(command.Subscriber));
         }
     }
 }

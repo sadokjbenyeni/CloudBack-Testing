@@ -25,14 +25,13 @@ namespace CloudBacktesting.SubscriptionService.Specs.Host
             this.startup = new SpecWebApplicationFactory(container);
             container.RegisterInstanceAs((WebApplicationFactory<SpecWebApplicationFactory>)startup);
             container.RegisterFactoryAs(objContainer => startup.CreateClient());
-            container.Resolve<HttpClient>();
-            //startup.Server.Host.
             return this;
         }
 
 
         public IServiceProvider Build()
         {
+            container.Resolve<HttpClient>();
             var provider = startup.ServiceCollection.BuildServiceProvider();
             container.RegisterInstanceAs<IServiceProvider>(provider);
             return provider;

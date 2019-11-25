@@ -1,22 +1,26 @@
 ﻿using BoDi;
+using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Commands;
+using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Events;
+using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
+using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository;
 using CloudBacktesting.SubscriptionService.Specs.Infra.Authentification;
 using CloudBacktesting.SubscriptionService.WebAPI.Controllers;
 using CloudBacktesting.SubscriptionService.WebAPI.Host;
-using Microsoft.AspNetCore.Authentication;
+using EventFlow;
+using EventFlow.AspNetCore.Extensions;
+using EventFlow.DependencyInjection.Extensions;
+using EventFlow.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using NSubstitute;
 using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Security.Claims;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
+using System.Reflection;
+using System.Web.Http;
 using TechTalk.SpecFlow;
 
 namespace CloudBacktesting.SubscriptionService.Specs.Host
@@ -41,58 +45,57 @@ namespace CloudBacktesting.SubscriptionService.Specs.Host
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //app.UseWebSockets();
-            //app.UseAuthentication();
-            //app.UseStaticFiles();
-            //app.UseSpaStaticFiles();
-
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        name: "default",
-            //        template: "api/v{version}/{controller=Home}/{action=Index}/{id?}");
-            //});
-
-            //app.UseSpa(spa =>
-            //{
-            //    spa.Options.SourcePath = "ClientApp";
-            //});
-
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(name: "default", template: "api/{controller=Home}/{action=Index}/{id?}");
+            });
         }
-
-
+        
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             base.ConfigureWebHost(builder);
+            builder.ConfigureAppConfiguration((context, config) => config.AddJsonFile("appsettings.json"));
             builder.ConfigureServices(ConfigureServices);
         }
 
         private void ConfigureServices(IServiceCollection serviceCollection)
-        {
+        {            
             ServiceCollection = serviceCollection;
-            RegisterSpecflowDependecies(serviceCollection);
             serviceCollection.AddSingleton(container);
+            RegisterSpecflowDependecies(serviceCollection);            
             UseCurrentIOCConfiguration(serviceCollection);
-            InjectSubstituteServices(serviceCollection);
-            InjectSubstituteByContainer(serviceCollection);
+            AddTransientBindingAttribute(serviceCollection);
+            UseMapController(serviceCollection);
+            UseEventFlowInMemory(serviceCollection);
+            AddAuthentication(serviceCollection);
         }
 
-        //private static void InjectSubstituteByContainer(IUnityContainer container)
-        private static void InjectSubstituteByContainer(IServiceCollection serviceCollection)
+        private void UseMapController(IServiceCollection serviceCollection)
         {
-            var controllerTypes = typeof(TestStartup)
-                                                .Assembly
-                                                .GetTypes()
-                                                .Union(typeof(SubscriptionRequestController).Assembly.GetTypes())
-                                                .Where(t => Attribute.IsDefined(t, typeof(BindingAttribute)));
-
-            foreach (var type in controllerTypes)
+            
+            //.Where(@type => type.BaseType == controllerBaseType)
+            //.Where(@type => type.GetCustomAttribute(apiControllerAttributeType) != null && type.BaseType == controllerBaseType)
+            ;
+            foreach (var type in typeof(SubscriptionAccountController).Assembly.DefinedTypes.Where(@type => type.BaseType == typeof(ControllerBase)))
             {
                 serviceCollection.AddTransient(type);
             }
+            
         }
 
-        private static void InjectSubstituteServices(IServiceCollection serviceCollection)
+        private void UseEventFlowInMemory(IServiceCollection services)
+        {
+            services.AddEventFlow(options => options.AddAspNetCore()
+                                       .AddEvents(typeof(SubscriptionRequestCreatedEvent).Assembly)
+                                       .AddCommands(typeof(SubscriptionRequestCreationCommand).Assembly, type => true)
+                                       .AddCommandHandlers(typeof(SubscriptionRequestCreationCommandHandler).Assembly)
+                                       .UseConsoleLog()
+                                       .UseInMemoryReadStoreFor<SubscriptionAccountReadModel>()
+                                       .UseInMemoryReadStoreFor<SubscriptionRequestReadModel>()
+                    );
+        }
+        
+        private static void AddAuthentication(IServiceCollection serviceCollection)
         {
             serviceCollection
                 .AddAuthentication(options =>
@@ -105,9 +108,13 @@ namespace CloudBacktesting.SubscriptionService.Specs.Host
 
         private static void UseCurrentIOCConfiguration(IServiceCollection serviceCollection)
         {
-            var configurationStartup = Substitute.For<IConfiguration>();
-            serviceCollection.AddSingleton(configurationStartup);
-            var startup = new Startup(configurationStartup);
+            //var configurationStartup = Substitute.For<IConfiguration>();
+            //serviceCollection.AddSingleton(configurationStartup);
+            var config = serviceCollection.BuildServiceProvider().GetService<IConfiguration>();
+            var startup = new Startup(config)
+            {
+                UseEventFlowOptionsBuilder = false
+            };
             startup.ConfigureServices(serviceCollection);
             serviceCollection.AddSingleton(startup);
         }
@@ -119,13 +126,25 @@ namespace CloudBacktesting.SubscriptionService.Specs.Host
             serviceCollection.AddSingleton(ResolveInObjectContainer<TestThreadContext>);
         }
 
+        private static void AddTransientBindingAttribute(IServiceCollection serviceCollection)
+        {
+            var controllerTypes = typeof(TestStartup)
+                                        .Assembly
+                                        .GetTypes()
+                                        .Union(typeof(SubscriptionAccountController).Assembly.GetTypes())
+                                        .Where(t => Attribute.IsDefined(t, typeof(BindingAttribute)));
+
+            foreach (var type in controllerTypes)
+            {
+                serviceCollection.AddTransient(type);
+            }
+        }
+
         private static T ResolveInObjectContainer<T>(IServiceProvider provider)
         {
             var container = provider.GetRequiredService<IObjectContainer>();
             return container.Resolve<T>();
         }
-
-
     }
 
     

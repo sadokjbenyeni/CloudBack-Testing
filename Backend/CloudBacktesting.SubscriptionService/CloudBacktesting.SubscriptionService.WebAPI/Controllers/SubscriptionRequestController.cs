@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Commands;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository;
-using CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionRequestDto;
+using CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionRequest;
 using EventFlow;
 using EventFlow.Queries;
 using Microsoft.AspNetCore.Mvc;

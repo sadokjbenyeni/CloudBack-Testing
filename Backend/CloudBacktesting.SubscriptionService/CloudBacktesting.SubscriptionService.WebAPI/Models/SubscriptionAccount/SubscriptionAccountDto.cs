@@ -7,4 +7,6 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Models
         public string Subscriber { get; set; }
         public DateTime SubscriptionDate { get; set; }
     }
+
+    
 }

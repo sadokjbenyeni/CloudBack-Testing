@@ -22,9 +22,10 @@ namespace CloudBacktesting.SubscriptionService.Specs
         [BeforeScenario]
         public void BeforeScenario()
         {
-            new BehaviorDependenciesBuilder()
-                .CreateServiceCollection(context.ScenarioContainer)
-                .Build();
+            var serviceProvider = new BehaviorDependenciesBuilder()
+                                    .CreateServiceCollection(context.ScenarioContainer)
+                                    .Build();
+            context.Set(serviceProvider);
             
         }
     }
