@@ -27,7 +27,6 @@
       "ServiceName": "nodeservices",
       "UpstreamPathTemplate": "/api/user/verifmail"
     },
-    //account activation
     {
       "DownstreamPathTemplate": "/api/user/activation",
       "DownstreamScheme": "http",
@@ -42,8 +41,6 @@
       "UpstreamPathTemplate": "/api/user",
       "UpstreamHttpMethod": [ "Post" ]
     },
-
-    //Login and Logout
     {
       "DownstreamPathTemplate": "/api/user/check",
       "DownstreamScheme": "http",

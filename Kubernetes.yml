@@ -1,11 +1,12 @@
-apiVersion :  apps/v1
-kind : Deployment
-metadata: Cloudbacktesting-deployment
-spec: 
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: Cloudbacktesting-deployment
+spec:
   replicas: 1
   spec:
     containers:
-    - name: jsproj
-      image: jsprojects
-      ports:
-      - containerPort: 9095
+      - name: jsproj
+        image: jsprojects
+        ports:
+          - containerPort: 9095
