@@ -18,21 +18,19 @@ namespace CloudBacktesting.ApiGateway.WebApi.Host
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
-        {
-            var settingsfile = File.ReadAllText("appsettings.json");
-            var webhost = WebHost.CreateDefaultBuilder(args)
+        =>
+            //var settingsfile = File.ReadAllText("appsettings.json");
+             WebHost.CreateDefaultBuilder(args)
                      .ConfigureAppConfiguration((host, config) =>
                      {
                          config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                                .AddJsonFile($"appsettings.{host.HostingEnvironment.EnvironmentName}.json", optional: false, reloadOnChange: true)
                                .AddOcelot(host.HostingEnvironment);
 
-                     });
-            webhost
-                  .UseKestrel()
-                  .UseUrls(JsonConvert.DeserializeObject<KestrelConfiguration>(settingsfile).BaseUrls)
+                     })
+                  //.UseKestrel()
+                  //.UseUrls(JsonConvert.DeserializeObject<KestrelConfiguration>(settingsfile).BaseUrls)
                   .UseStartup<Startup>();
-            return webhost;
-        }
+        
     }
 }
