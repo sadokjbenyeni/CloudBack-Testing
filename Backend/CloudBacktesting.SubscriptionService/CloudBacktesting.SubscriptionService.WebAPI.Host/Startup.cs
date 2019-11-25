@@ -34,16 +34,6 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
 
             services.AddSwaggerGen(options => options.SwaggerDoc("V1", new Microsoft.OpenApi.Models.OpenApiInfo() { Title = "Subscription Api", Version = "V1" }));
 
-            //services.AddEventFlow(options => options.AddAspNetCore()
-            //                                       .AddEvents(typeof(SubscriptionAccountCreatedEvent))
-            //                                       .AddCommands(typeof(SubscriptionAccountCreationCommand))
-            //                                       .AddCommandHandlers(typeof(SubscriptionAccountCreationCommandHandler))
-            //                                       .UseMongoDbEventStore()
-            //                                       .ConfigureMongoDb("mongodb://localhost:27017", "SubscriptionDb")
-            //                                       .UseConsoleLog()
-            //                                       .UseMongoDbReadModel<SubscriptionAccountReadModel>()
-            //                    );
-
             services.AddEventFlow(options => options.AddAspNetCore()
                                        .AddEvents(typeof(SubscriptionRequestCreatedEvent))
                                        .AddCommands(typeof(SubscriptionRequestCreationCommand))
