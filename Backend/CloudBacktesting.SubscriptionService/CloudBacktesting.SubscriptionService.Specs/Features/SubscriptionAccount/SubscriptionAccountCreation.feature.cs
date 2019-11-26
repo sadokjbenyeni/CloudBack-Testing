@@ -136,17 +136,17 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Morgan browses the Chang\'s subscription account")]
+        [NUnit.Framework.DescriptionAttribute("Morgan browses all subscription accounts")]
         [NUnit.Framework.CategoryAttribute("v1")]
         [NUnit.Framework.CategoryAttribute("subscriptionAccount")]
         [NUnit.Framework.CategoryAttribute("creation")]
-        public virtual void MorganBrowsesTheChangsSubscriptionAccount()
+        public virtual void MorganBrowsesAllSubscriptionAccounts()
         {
             string[] tagsOfScenario = new string[] {
                     "v1",
                     "subscriptionAccount",
                     "creation"};
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Morgan browses the Chang\'s subscription account", null, new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Morgan browses all subscription accounts", null, new string[] {
                         "v1",
                         "subscriptionAccount",
                         "creation"});
@@ -184,6 +184,63 @@ this.FeatureBackground();
 #line hidden
 #line 19
  testRunner.Then("get request return \'Chang\' subscription account description", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Morgan browses the Chang\'s subscription account")]
+        [NUnit.Framework.CategoryAttribute("v1")]
+        [NUnit.Framework.CategoryAttribute("subscriptionAccount")]
+        [NUnit.Framework.CategoryAttribute("creation")]
+        [NUnit.Framework.CategoryAttribute("reaquestById")]
+        public virtual void MorganBrowsesTheChangsSubscriptionAccount()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "v1",
+                    "subscriptionAccount",
+                    "creation",
+                    "reaquestById"};
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Morgan browses the Chang\'s subscription account", null, new string[] {
+                        "v1",
+                        "subscriptionAccount",
+                        "creation",
+                        "reaquestById"});
+#line 22
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 4
+this.FeatureBackground();
+#line hidden
+#line 23
+ testRunner.Given("the webapi is online", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 24
+ testRunner.And("\'Chang\' subscription account has been created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 25
+ testRunner.When("morgan gets the subscription account for \'Chang\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 26
+ testRunner.Then("get request by chang identifier return \'Chang\' subscription account description", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

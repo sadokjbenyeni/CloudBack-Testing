@@ -77,6 +77,22 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionAccoun
             context.Set(models.ToList(), "GetSubscriptionAccountList");
         }
 
+        [When(@"morgan gets the subscription account for '(.*)'")]
+        public async Task WhenMorganGetsTheSubscriptionAccountFor(string customer)
+        {
+            var resultCommand = context.Get<HttpResponseMessage>("createSubscriptionCommandResult");
+            Assert.That(resultCommand.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            var content = await resultCommand.Content.ReadAsStringAsync();
+            var identifierContainer = JsonConvert.DeserializeObject<SubscriptionAccountIdDto>(content);
+
+            var httpClient = context.ScenarioContainer.Resolve<HttpClient>();
+            var request = await httpClient.GetAsync($"api/SubscriptionAccount/{HttpUtility.UrlEncode(identifierContainer.Id)}");
+            var bodyString = await request.Content.ReadAsStringAsync();
+            var customerReadModel = JsonConvert.DeserializeObject<SubscriptionAccountReadModelDto>(bodyString);
+
+            context.Set(customerReadModel);
+        }
+
         [Then(@"Creation of subscription account is successful")]
         public async Task ThenCreationOfSubscriptionAccountIsSuccessful()
         {
@@ -100,6 +116,16 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionAccoun
         public void ThenGetRequestReturnSubscriptionAccountDescription(string customer)
         {
             Assert.That(context.Get<List<SubscriptionAccountReadModel>>("GetSubscriptionAccountList").Select(m => m.Subscriber.ToLower()), Has.One.EqualTo(customer));
+        }
+
+        [Then(@"get request by chang identifier return '(.*)' subscription account description")]
+        public async Task ThenGetRequestByChangIdentifierReturnSubscriptionAccountDescription(string p0)
+        {
+            var customer = context.Get<SubscriptionAccountReadModelDto>();
+            Assert.That(customer, Is.Not.Null);
+            Assert.That(customer.Subscriber, Is.EqualTo("Chang"));
+            Assert.That(customer.SubscriptionDate.Date, Is.EqualTo(DateTime.UtcNow.Date));
+
         }
 
     }
