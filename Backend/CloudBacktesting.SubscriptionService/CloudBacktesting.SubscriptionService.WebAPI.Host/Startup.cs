@@ -15,6 +15,8 @@ using CloudBacktesting.SubscriptionService.WebAPI.Host.DatabaseSettings;
 using CloudBacktesting.Infra.EventFlow.Queries;
 using CloudBacktesting.Infra.EventFlow.MongoDb.Queries;
 using CloudBacktesting.Infra.EventFlow.ReadStores;
+using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate.Commands;
+using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
 
 namespace CloudBacktesting.SubscriptionService.WebAPI.Host
 {

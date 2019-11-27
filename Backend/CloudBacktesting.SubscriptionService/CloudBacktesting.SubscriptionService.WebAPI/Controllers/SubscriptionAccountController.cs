@@ -15,7 +15,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using CloudBacktesting.MongoDb.Driver.Extensions;
 using CloudBacktesting.Infra.EventFlow.Queries;
-using System.Linq;
 
 namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
 {
@@ -25,8 +24,6 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
     {
         private readonly ILogger<SubscriptionAccountController> logger;
         private readonly ICommandBus commandBus;
-        private readonly IQueryProcessor queryProcessor;
-
         private readonly IQueryProcessor queryProcessor;
 
         public SubscriptionAccountController(ILogger<SubscriptionAccountController> logger, ICommandBus commandBus, IQueryProcessor queryProcessor)
@@ -54,7 +51,6 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             {
                 Id = readModel.Id,
                 Subscriber = readModel.Subscriber,
-                SubscriptionDate = readModel.SubscriptionDate
             });
         }
 

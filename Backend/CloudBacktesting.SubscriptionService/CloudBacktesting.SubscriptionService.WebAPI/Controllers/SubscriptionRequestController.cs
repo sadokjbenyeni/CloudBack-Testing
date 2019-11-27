@@ -7,6 +7,7 @@ using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequest
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Commands;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository;
 using CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionRequest;
+using CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionRequestDto;
 using EventFlow;
 using EventFlow.Queries;
 using Microsoft.AspNetCore.Mvc;
@@ -59,7 +60,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CreateSubscriptionRequestDto value)
         {
-            var subscriptionRequestCommand = new SubscriptionRequestCreationCommand(SubscriptionRequestId.New,value.SubscriptionAccountId, value.Subscriber, value.Type, value.Status, value.SubscriptionDate);
+            var subscriptionRequestCommand = new SubscriptionRequestCreationCommand(SubscriptionRequestId.New,value.SubscriptionAccountId, value.Subscriber, value.Type, value.Status);
             //if (this.User == null || !this.User.Identity.IsAuthenticated)
             //{
             //    var idError = Guid.NewGuid().ToString();
@@ -92,7 +93,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         [HttpPut]
         public async Task<ActionResult> Put([FromBody] UpdateSubscriptionRequestDto value)
         {
-            var subscriptionRequestCommand = new SubscriptionRequestCreationCommand(new SubscriptionRequestId(value.SubscriptionId), value.Subscriber, value.Type, value.Status, value.SubscriptionDate);
+            var subscriptionRequestCommand = new SubscriptionRequestCreationCommand(new SubscriptionRequestId(value.SubscriptionId),value.SubscriptionAccountId, value.Subscriber, value.Type, value.Status);
 
             await _commandBus.PublishAsync(subscriptionRequestCommand, CancellationToken.None);
 

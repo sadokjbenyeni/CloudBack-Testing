@@ -23,7 +23,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAcc
 
         public IExecutionResult Create(string subscriber)
         {
-            Emit(new SubscriptionAccountCreatedEvent(subscriber, DateTime.UtcNow));
+            Emit(new SubscriptionAccountCreatedEvent(subscriber));
             return ExecutionResult.Success();
         }
 

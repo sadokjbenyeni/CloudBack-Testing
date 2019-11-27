@@ -98,7 +98,6 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionAccoun
             Assert.That(customerReadModel, Is.Not.Null);
             Assert.That(customerReadModel.Id, Is.EqualTo(identifierContainer.Id));
             Assert.That(customerReadModel.Subscriber, Is.EqualTo(context.Get<CreateSubscriptionAccountDto>("creationSubscriptionAccountCommand").Subscriber));
-            Assert.That(customerReadModel.SubscriptionDate.Date, Is.EqualTo(DateTime.UtcNow.Date));
         }
 
         [Then(@"get request return '(.*)' subscription account description")]

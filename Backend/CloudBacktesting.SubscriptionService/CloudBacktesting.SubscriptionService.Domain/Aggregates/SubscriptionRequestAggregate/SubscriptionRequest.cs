@@ -12,9 +12,9 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
     {
         public SubscriptionRequest(SubscriptionRequestId id) : base(id) { }
 
-        public IExecutionResult Create(string subscriptionAccountId, string status, string subscriber, string type, DateTime subscriptionDate)
+        public IExecutionResult Create(string subscriptionAccountId, string status, string subscriber, string type)
         {
-            Emit(new SubscriptionRequestCreatedEvent(subscriptionAccountId, status, subscriber, type, subscriptionDate));
+            Emit(new SubscriptionRequestCreatedEvent(subscriptionAccountId, status, subscriber, type));
 
             return ExecutionResult.Success();
         }

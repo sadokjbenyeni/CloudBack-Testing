@@ -10,7 +10,6 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionAccount
     public class SubscriptionAccountListItem
     {
         public string Subscriber { get; set; }
-        public DateTime SubscriptionDate { get; set; }
     }
 
 

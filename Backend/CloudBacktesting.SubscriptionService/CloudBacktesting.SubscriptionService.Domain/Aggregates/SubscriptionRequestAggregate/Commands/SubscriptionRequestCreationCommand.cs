@@ -9,10 +9,9 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
         public string Subscriber { get; }
         public string Type { get; }
         public string Status { get; set; }
-        public DateTime SubscriptionDate { get; }
         public string SubscriptionAccountId { get; set; }
 
-        public SubscriptionRequestCreationCommand(SubscriptionRequestId aggregateId,string subscriptionAccountId, string subscriber, string type, string status, DateTime subscriptionDate) : base(aggregateId)
+        public SubscriptionRequestCreationCommand(SubscriptionRequestId aggregateId,string subscriptionAccountId, string subscriber, string type, string status) : base(aggregateId)
         {
             if (string.IsNullOrEmpty(subscriptionAccountId))
             {
@@ -38,7 +37,6 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
             Subscriber = subscriber;
             Type = type;
             Status = status;
-            SubscriptionDate = subscriptionDate;
         }
     }
 }
