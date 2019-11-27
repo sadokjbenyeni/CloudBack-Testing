@@ -27,12 +27,6 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionAccoun
             context.Set(httpClient);
         }
 
-        [Given(@"Morgan is authentificated")]
-        public void GivenMorganIsAuthentificated()
-        {
-
-        }
-
         [Given(@"the webapi is online")]
         public void GivenTheWebapiIsOnline()
         {
@@ -40,21 +34,16 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionAccoun
         }
 
         [Given(@"'(.*)' subscription account has been created")]
-        public void GivenSubscriptionAccountHasBeenCreated(string customer)
+        public Task GivenSubscriptionAccountHasBeenCreated(string customer)
         {
-            CreateNewSubscriptionAccountFor(customer).ConfigureAwait(false)
-                                                     .GetAwaiter()
-                                                     .GetResult();
+            return CreateNewSubscriptionAccountFor(customer);
         }
 
         
         [When(@"morgan sends the subscription account creation request for '(.*)'")]
-        public void WhenMorganSendsTheSubscriptionAccountCreationRequestForChang(string customer)
+        public Task WhenMorganSendsTheSubscriptionAccountCreationRequestForChang(string customer)
         {
-            CreateNewSubscriptionAccountFor(customer)
-                                                     .ConfigureAwait(true)
-                                                     .GetAwaiter()
-                                                     .GetResult();
+            return CreateNewSubscriptionAccountFor(customer);
         }
 
         private async Task CreateNewSubscriptionAccountFor(string customer)
@@ -119,7 +108,7 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionAccoun
         }
 
         [Then(@"get request by chang identifier return '(.*)' subscription account description")]
-        public async Task ThenGetRequestByChangIdentifierReturnSubscriptionAccountDescription(string p0)
+        public void ThenGetRequestByChangIdentifierReturnSubscriptionAccountDescription(string p0)
         {
             var customer = context.Get<SubscriptionAccountReadModelDto>();
             Assert.That(customer, Is.Not.Null);

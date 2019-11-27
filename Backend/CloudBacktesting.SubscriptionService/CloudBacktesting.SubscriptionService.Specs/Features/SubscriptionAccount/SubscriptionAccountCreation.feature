@@ -11,13 +11,6 @@ Scenario: Morgan creates a new subscription account after that customer has been
 	Then Creation of subscription account is successful
 
 
-@v1 @subscriptionAccount @creation 
-Scenario: Morgan browses all subscription accounts
-	Given the webapi is online
-	And 'Chang' subscription account has been created
-	When morgan gets the subscription account list
-	Then get request return 'Chang' subscription account description
-
 @v1 @subscriptionAccount @creation @reaquestById
 Scenario: Morgan browses the Chang's subscription account
 	Given the webapi is online
