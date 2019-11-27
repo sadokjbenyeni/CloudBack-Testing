@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1bete1
 kind: Deployment
 metadata:
   name: Cloudbacktesting-deployment

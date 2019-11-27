@@ -144,32 +144,32 @@ app.set('port', port);
 //Create HTTP server.
 const server = http.createServer(app);
 //Consul Service Registry
-// server.on('close', function () {
-//   request.put({
-//     "headers": { "content-type": "application/json" },
-//     "url": process.env.CONSUL_BASEURL + "/agent/service/deregister/" + process.env.SERVICE_NAME,
-//   }, () => {
-//     console.log("Service Unregistred in Consul")
-//     //killing process after deregistring service in consul//
-//     process.exit(0);
+server.on('close', function () {
+  request.put({
+    "headers": { "content-type": "application/json" },
+    "url": process.env.CONSUL_BASEURL + "/agent/service/deregister/" + process.env.SERVICE_NAME,
+  }, () => {
+    console.log("Service Unregistred in Consul")
+    //killing process after deregistring service in consul//
+    process.exit(0);
 
-//   });
-// });
-// process.on('SIGINT', function () {
-//   server.close()
-// });
+  });
+});
+process.on('SIGINT', function () {
+  server.close()
+});
 //Listen on port
 server.listen(port, () => console.log(`API running on localhost:${port}`));
 //register nodeservice
-// request.put({
-//   "headers": { "content-type": "application/json" },
-//   "url": process.env.CONSUL_BASEURL + "/agent/service/register",
-//   "body": JSON.stringify({
-//     "name": process.env.SERVICE_NAME,
-//     "port": (port!=undefined)?parseInt(port):80,
-//     "Address": process.env.HOST
-//   })
-// }, (result) => {
+request.put({
+  "headers": { "content-type": "application/json" },
+  "url": process.env.CONSUL_BASEURL + "/agent/service/register",
+  "body": JSON.stringify({
+    "name": process.env.SERVICE_NAME,
+    "port": (port!=undefined)?parseInt(port):80,
+    "Address": process.env.HOST
+  })
+}, (result) => {
   
-//   console.log(`service registred in Consul with service name : ${process.env.SERVICE_NAME}`)
-// });
+  console.log(`service registred in Consul with service name : ${process.env.SERVICE_NAME}`)
+});
