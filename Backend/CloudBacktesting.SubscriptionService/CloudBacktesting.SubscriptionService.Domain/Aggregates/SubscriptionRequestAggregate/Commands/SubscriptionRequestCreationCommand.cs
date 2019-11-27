@@ -10,12 +10,31 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
         public string Type { get; }
         public string Status { get; set; }
         public DateTime SubscriptionDate { get; }
+        public string SubscriptionAccountId { get; set; }
 
-        public SubscriptionRequestCreationCommand(SubscriptionRequestId aggregateId, string subscriber, string type, string status, DateTime subscriptionDate) : base(aggregateId)
+        public SubscriptionRequestCreationCommand(SubscriptionRequestId aggregateId,string subscriptionAccountId, string subscriber, string type, string status, DateTime subscriptionDate) : base(aggregateId)
         {
-            if (subscriber == null) throw new ArgumentNullException(nameof(subscriber));
-            if (type == null) throw new ArgumentNullException(nameof(type));
-            if (status == null) throw new ArgumentNullException(nameof(status));
+            if (string.IsNullOrEmpty(subscriptionAccountId))
+            {
+                throw new ArgumentException("Cannot be null or empty", nameof(subscriptionAccountId));
+            }
+
+            if (string.IsNullOrEmpty(subscriber))
+            {
+                throw new ArgumentException("Cannot be null or empty", nameof(subscriber));
+            }
+
+            if (string.IsNullOrEmpty(type))
+            {
+                throw new ArgumentException("Cannot be null or empty", nameof(type));
+            }
+
+            if (string.IsNullOrEmpty(status))
+            {
+                throw new ArgumentException("Cannot be null or empty", nameof(status));
+            }
+
+            SubscriptionAccountId = subscriptionAccountId;
             Subscriber = subscriber;
             Type = type;
             Status = status;

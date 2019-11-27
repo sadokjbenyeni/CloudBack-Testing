@@ -15,6 +15,12 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAcc
     {
         public SubscriptionAccount(SubscriptionAccountId aggregateId) : base(aggregateId) { }
 
+        public IExecutionResult LinkSubscriptionRequest(string subscriptionRequestId, string subscriptionRequestStatus, string subscriptionRequestType)
+        {
+            Emit(new SubscriptionRequestLinkedEvent(subscriptionRequestId, subscriptionRequestStatus, subscriptionRequestType));
+            return ExecutionResult.Success();
+        }
+
         public IExecutionResult Create(string subscriber)
         {
             Emit(new SubscriptionAccountCreatedEvent(subscriber, DateTime.UtcNow));

@@ -8,6 +8,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionRequest
         public string Subscriber { get; set; }
         public string Type { get; set; }
         public DateTime SubscriptionDate { get; set; }
+        public string SubscriptionAccountId { get; set; }
     }
     public class UpdateSubscriptionRequestDto
     {

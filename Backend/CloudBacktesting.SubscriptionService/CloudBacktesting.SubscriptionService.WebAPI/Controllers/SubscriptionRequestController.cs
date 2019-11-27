@@ -59,7 +59,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CreateSubscriptionRequestDto value)
         {
-            var subscriptionRequestCommand = new SubscriptionRequestCreationCommand(SubscriptionRequestId.New, value.Subscriber, value.Type, value.Status, value.SubscriptionDate);
+            var subscriptionRequestCommand = new SubscriptionRequestCreationCommand(SubscriptionRequestId.New,value.SubscriptionAccountId, value.Subscriber, value.Type, value.Status, value.SubscriptionDate);
             //if (this.User == null || !this.User.Identity.IsAuthenticated)
             //{
             //    var idError = Guid.NewGuid().ToString();
