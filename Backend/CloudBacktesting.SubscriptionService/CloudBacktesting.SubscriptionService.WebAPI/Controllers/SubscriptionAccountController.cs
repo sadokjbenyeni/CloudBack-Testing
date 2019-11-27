@@ -30,21 +30,6 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             this.queryProcessor = queryProcessor;
         }
 
-        [HttpGet]
-        public IActionResult Get()
-        {
-            //if (this.User == null || !this.User.Identity.IsAuthenticated)
-            //{
-            //    var idError = Guid.NewGuid().ToString();
-            //    logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-            //    return Task.FromResult((IActionResult)BadRequest($"Access error, please contact the administrator with error id: {idError}"));
-            //}
-            //var userId = this.User.Identity.Name;
-            //// TODO: Do Query to get the User in Read Model SubscriptionAccountDto
-            //return Task.FromResult((IActionResult)Ok(new SubscriptionAccountDto() { Email = userId }));
-            return Ok();
-        }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
