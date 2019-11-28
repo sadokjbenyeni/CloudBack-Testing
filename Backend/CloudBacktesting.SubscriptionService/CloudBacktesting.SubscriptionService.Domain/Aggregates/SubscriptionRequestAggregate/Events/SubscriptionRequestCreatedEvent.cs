@@ -1,4 +1,5 @@
-﻿using EventFlow.Aggregates;
+﻿using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate;
+using EventFlow.Aggregates;
 using System;
 
 namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Events
@@ -6,7 +7,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
     public class SubscriptionRequestCreatedEvent : AggregateEvent<SubscriptionRequest, SubscriptionRequestId>
     {
         public string Status { get; }
-        public string SubscriptionAccountId { get; set; }
+        public string SubscriptionAccountId { get; }
         public string Subscriber { get; }
         public string Type { get; }
 

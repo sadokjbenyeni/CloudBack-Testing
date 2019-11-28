@@ -86,5 +86,16 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             logger.LogDebug($"[Business, Error, Message] | '{errorIdentifier}' | Error messages:{Environment.NewLine}{string.Join(Environment.NewLine, ((FailedExecutionResult)commandResult).Errors)}");
             return BadRequest($"Creation of account for subscription failed. Please contact support with error's identifier {errorIdentifier}");
         }
+
+
+        //[HttpPut]
+        //public async Task<ActionResult> Put([FromBody] UpdateSubscriptionAccountDto value)
+        //{
+        //    var subscriptionAccountCommand = new SubscriptionAccountCreationCommand(value.Subscriber);
+
+        //    await commandBus.PublishAsync(subscriptionAccountCommand, CancellationToken.None);
+
+        //    return CreatedAtAction(nameof(Get), new { id = subscriptionAccountCommand.AggregateId.Value }, subscriptionAccountCommand);
+        //}
     }
 }

@@ -6,7 +6,6 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CloudBacktesting.Infra.EventFlow.ReadStores;
-using EventFlow.MongoDB.ReadStores;
 using EventFlow.Queries;
 using EventFlow.ReadStores;
 

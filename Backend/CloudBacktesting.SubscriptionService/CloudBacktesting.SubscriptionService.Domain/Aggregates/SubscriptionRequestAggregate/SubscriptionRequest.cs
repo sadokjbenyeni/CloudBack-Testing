@@ -1,4 +1,5 @@
-﻿using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Events;
+﻿using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate;
+using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Events;
 using EventFlow.Aggregates;
 using EventFlow.Aggregates.ExecutionResults;
 using System;
@@ -10,7 +11,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
     /// <Summary>
     public class SubscriptionRequest : AggregateRoot<SubscriptionRequest, SubscriptionRequestId>, IEmit<SubscriptionRequestCreatedEvent>
     {
-        public SubscriptionRequest(SubscriptionRequestId id) : base(id) { }
+        public SubscriptionRequest(SubscriptionRequestId aggregateId) : base(aggregateId) { }
 
         public IExecutionResult Create(string subscriptionAccountId, string status, string subscriber, string type)
         {

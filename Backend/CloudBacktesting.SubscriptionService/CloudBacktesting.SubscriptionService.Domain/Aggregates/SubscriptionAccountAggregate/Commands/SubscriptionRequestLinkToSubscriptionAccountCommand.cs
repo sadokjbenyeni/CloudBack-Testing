@@ -1,4 +1,5 @@
-﻿using EventFlow.Commands;
+﻿using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate;
+using EventFlow.Commands;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,9 +12,9 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAcc
         public string SubscriptionRequestStatus { get; }
         public string SubscriptionRequestType { get; }
 
-        public SubscriptionRequestLinkToSubscriptionAccountCommand(SubscriptionAccountId aggregateId, string subscriptionRequestId, string subscriptionRequestStatus, string subscriptionRequestType ) : base(aggregateId)
+        public SubscriptionRequestLinkToSubscriptionAccountCommand(SubscriptionAccountId subscriptionAccountId, string subscriptionRequestId, string subscriptionRequestStatus, string subscriptionRequestType ) : base(subscriptionAccountId)
         {
-            if (string.IsNullOrEmpty(subscriptionRequestId))
+            if (subscriptionRequestId == null)
             {
                 throw new ArgumentException("Cannot be null or empty", nameof(subscriptionRequestId));
             }

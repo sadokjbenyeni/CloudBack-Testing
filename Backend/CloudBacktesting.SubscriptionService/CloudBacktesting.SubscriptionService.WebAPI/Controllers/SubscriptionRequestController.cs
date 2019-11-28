@@ -1,14 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CloudBacktesting.Infra.EventFlow.Queries;
+using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Commands;
+using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository;
 using CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionRequest;
 using CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionRequestDto;
 using EventFlow;
+using EventFlow.Aggregates.ExecutionResults;
+using EventFlow.Core;
 using EventFlow.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -19,32 +23,37 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
     [ApiController]
     public class SubscriptionRequestController : ControllerBase
     {
-        private readonly ILogger<SubscriptionRequestController> _logger;
-        private readonly ICommandBus _commandBus;
-        private readonly IQueryProcessor _queryProcessor;
+        private readonly ILogger<SubscriptionRequestController> logger;
+        private readonly ICommandBus commandBus;
+        private readonly IQueryProcessor queryProcessor;
 
         public SubscriptionRequestController(ILogger<SubscriptionRequestController> logger, ICommandBus commandBus, IQueryProcessor queryProcessor)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _commandBus = commandBus;
-            _queryProcessor = queryProcessor;
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.commandBus = commandBus;
+            this.queryProcessor = queryProcessor;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            //if (this.User != null || !this.User.Identity.IsAuthenticated)
+            //if (this.User == null || !this.User.Identity.IsAuthenticated)
             //{
             //    var idError = Guid.NewGuid().ToString();
-            //    _logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-            //    return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+            //    logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
+            //    return Task.FromResult((IActionResult)BadRequest($"Access error, please contact the administrator with error id: {idError}"));
             //}
-            var readModel = await _queryProcessor.ProcessAsync(new GetSubscriptionRequests(), CancellationToken.None);
-            return Ok(readModel);
+            //var userId = this.User.Identity.Name;
+            //// TODO: Do Query to get the User in Read Model SubscriptionAccountDto
+            //return Task.FromResult((IActionResult)Ok(new SubscriptionAccountDto() { Email = userId }));
+            var result = await queryProcessor.ProcessAsync(new FindReadModelQuery<SubscriptionRequestReadModel>(model => true), CancellationToken.None);
+            //await cursor.MoveNextAsync();
+            return Ok(result.ToList());
         }
 
-        [HttpGet("{id:length(24)}")]
-        public async Task<ActionResult<SubscriptionRequestReadModel>> Get(SubscriptionRequestId id)
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(string id)
         {
             //if (this.User != null && this.User.Identity.IsAuthenticated)
             //{
@@ -53,14 +62,23 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             //    return BadRequest($"Access error, please contact the administrator with error id: {idError}");
             //}
 
-            var readModel = await _queryProcessor.ProcessAsync(new ReadModelByIdQuery<SubscriptionRequestReadModel>(id), CancellationToken.None);
-            return Ok(readModel);
+            //var readModel = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<SubscriptionRequestReadModel>(id), CancellationToken.None);
+            //return Ok(readModel);
+            var readModel = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<SubscriptionRequestReadModel>(new SubscriptionRequestId(id)), CancellationToken.None);
+            return Ok(new SubscriptionRequestReadModelDto()
+            {
+                Id = readModel.Id,
+                SubscriptionAccountId = readModel.SubscriptionAccountId,
+                Status = readModel.Status,
+                Subscriber = readModel.Subscriber,
+                Type = readModel.Type
+            });
         }
 
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CreateSubscriptionRequestDto value)
         {
-            var subscriptionRequestCommand = new SubscriptionRequestCreationCommand(SubscriptionRequestId.New,value.SubscriptionAccountId, value.Subscriber, value.Type, value.Status);
+            var command = new SubscriptionRequestCreationCommand(new SubscriptionAccountId(value.SubscriptionAccountId).ToString(), value.Subscriber, value.Type, value.Status);
             //if (this.User == null || !this.User.Identity.IsAuthenticated)
             //{
             //    var idError = Guid.NewGuid().ToString();
@@ -82,22 +100,44 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             //var request = new SubscriptionRequest(requestId);
             //if (commandResult.IsSuccess)
             //{
-            await _commandBus.PublishAsync(subscriptionRequestCommand, CancellationToken.None);
-            return CreatedAtAction(nameof(Get), new { id = subscriptionRequestCommand.AggregateId.Value }, subscriptionRequestCommand);
+            IExecutionResult commandResult = null;
+            try
+            {
+                //var task = commandBus.PublishAsync(command, CancellationToken.None);
+                //task.ConfigureAwait(true);
+                //commandResult = await task;
+                commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
+                if (commandResult.IsSuccess)
+                {
+                    return Ok(new { id = command.AggregateId.Value });
+                }
+            }
+            catch (AggregateException aggregateEx)
+            {
+                commandResult = new FailedExecutionResult(new[] { aggregateEx.Message }.Union(aggregateEx.InnerExceptions.Select(ex => ex.Message)));
+            }
+            catch (Exception ex)
+            {
+                commandResult = new FailedExecutionResult(new[] { ex.Message });
+            }
+            var errorIdentifier = Guid.NewGuid().ToString();
+            logger.LogError($"[Business, Error] | '{errorIdentifier}' | SubscriptionRequest for {command.Subscriber} has not been created.");
+            logger.LogDebug($"[Business, Error, Message] | '{errorIdentifier}' | Error messages:{Environment.NewLine}{string.Join(Environment.NewLine, ((FailedExecutionResult)commandResult).Errors)}");
+            return BadRequest($"Creation of subscription failed. Please contact support with error's identifier {errorIdentifier}");
             //}
             //var errorMessage = string.Join(Environment.NewLine, ((FailedExecutionResult)commandResult).Errors);
             //_logger.LogError($"[Business, Error]Subscription failed for {User.Identity.Name}, type of command {commandDto.SubscriptionType}.{Environment.NewLine}{errorMessage}");
             //return BadRequest(errorMessage);
         }
 
-        [HttpPut]
-        public async Task<ActionResult> Put([FromBody] UpdateSubscriptionRequestDto value)
-        {
-            var subscriptionRequestCommand = new SubscriptionRequestCreationCommand(new SubscriptionRequestId(value.SubscriptionId),value.SubscriptionAccountId, value.Subscriber, value.Type, value.Status);
+        //[HttpPut]
+        //public async Task<ActionResult> Put([FromBody] UpdateSubscriptionRequestDto value)
+        //{
+        //    var subscriptionRequestCommand = new SubscriptionRequestCreationCommand(value.Id ,value.SubscriptionAccountId, value.Subscriber, value.Type, value.Status);
 
-            await _commandBus.PublishAsync(subscriptionRequestCommand, CancellationToken.None);
+        //    await commandBus.PublishAsync(subscriptionRequestCommand, CancellationToken.None);
 
-            return CreatedAtAction(nameof(Get), new { id = subscriptionRequestCommand.AggregateId.Value }, subscriptionRequestCommand);
-        }
+        //    return CreatedAtAction(nameof(Get), new { id = subscriptionRequestCommand.AggregateId.Value }, subscriptionRequestCommand);
+        //}
     }
 }

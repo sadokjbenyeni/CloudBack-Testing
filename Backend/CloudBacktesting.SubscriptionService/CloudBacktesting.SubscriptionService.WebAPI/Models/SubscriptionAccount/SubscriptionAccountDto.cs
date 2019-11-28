@@ -9,7 +9,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Models
 
     public class UpdateSubscriptionAccountDto
     {
-        public string SubscriptionId { get; set; }
+        public string Id { get; set; }
         public string Subscriber { get; set; }
     }
 }

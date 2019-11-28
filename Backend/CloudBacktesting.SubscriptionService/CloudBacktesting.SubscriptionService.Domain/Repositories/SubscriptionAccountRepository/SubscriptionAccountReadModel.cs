@@ -12,11 +12,14 @@ namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionA
         public string Id { get; private set; }
         public long? Version { get; set; }
         public string Subscriber { get; set; }
+        public DateTime SubscriptionDate { get; set; }
+
 
         public void Apply(IReadModelContext context, IDomainEvent<SubscriptionAccount, SubscriptionAccountId, SubscriptionAccountCreatedEvent> domainEvent)
         {
             Id = string.IsNullOrEmpty(Id) ? domainEvent.AggregateIdentity.Value : Id;
             Subscriber = domainEvent.AggregateEvent.Subscriber;
+            SubscriptionDate = DateTime.UtcNow;
         }
     }
 }

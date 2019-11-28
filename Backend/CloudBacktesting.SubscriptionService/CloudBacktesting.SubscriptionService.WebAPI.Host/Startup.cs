@@ -17,12 +17,13 @@ using CloudBacktesting.Infra.EventFlow.MongoDb.Queries;
 using CloudBacktesting.Infra.EventFlow.ReadStores;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate.Commands;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
+using CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation;
 
 namespace CloudBacktesting.SubscriptionService.WebAPI.Host
 {
     public class Startup
     {
-        
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -52,8 +53,10 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
             {
                 services.AddEventFlow(options => options.AddAspNetCore()
                                        .AddEvents(typeof(SubscriptionRequestCreatedEvent).Assembly)
-                                       .AddCommands(typeof(SubscriptionAccountCreationCommand))
-                                       .AddCommandHandlers(typeof(SubscriptionAccountCreationCommandHandler))
+                                       .AddCommands(typeof(SubscriptionAccountCreationCommand).Assembly, type => true)
+                                       .AddCommandHandlers(typeof(SubscriptionAccountCreationCommandHandler).Assembly)
+                                       .AddSagas(typeof(SubscriptionCreationSaga).Assembly)
+                                       .AddSagaLocators(typeof(SubscriptionCreationSagaLocator).Assembly)
                                        //.AddEvents(typeof(SubscriptionRequestCreatedEvent))
                                        //.AddCommands(typeof(SubscriptionRequestCreationCommand))
                                        //.AddCommandHandlers(typeof(SubscriptionRequestCreationCommandHandler))
@@ -61,9 +64,10 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
                                        .ConfigureMongoDb(configMongo.ConnectionString, configMongo.DatabaseName)
                                        .UseConsoleLog()
                                        .UseMongoDbReadModel<SubscriptionAccountReadModel>()
+                                       .UseMongoDbReadModel<SubscriptionRequestReadModel>()
                                        .AddQueryHandler<MongoDbFindReadModelQueryHandler<SubscriptionAccountReadModel>, FindReadModelQuery<SubscriptionAccountReadModel>, ICollectionReadModel<SubscriptionAccountReadModel>>()
-                                  //.UseMongoDbReadModel<SubscriptionRequestReadModel>()
-                                  );
+                                       .AddQueryHandler<MongoDbFindReadModelQueryHandler<SubscriptionRequestReadModel>, FindReadModelQuery<SubscriptionRequestReadModel>, ICollectionReadModel<SubscriptionRequestReadModel>>()
+                                       );
             }
             return services;
         }
