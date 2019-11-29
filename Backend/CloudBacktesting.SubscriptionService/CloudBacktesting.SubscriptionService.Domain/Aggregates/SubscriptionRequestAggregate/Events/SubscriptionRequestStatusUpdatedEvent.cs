@@ -2,11 +2,11 @@
 
 namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Events
 {
-    public class SubscriptionStatusUpdatedEvent : AggregateEvent<SubscriptionRequest, SubscriptionRequestId>
+    public class SubscriptionRequestStatusUpdatedEvent : AggregateEvent<SubscriptionRequest, SubscriptionRequestId>
     {
         public string Status { get; }
 
-        public SubscriptionStatusUpdatedEvent(string status)
+        public SubscriptionRequestStatusUpdatedEvent(string status)
         {
             Status = status;
         }

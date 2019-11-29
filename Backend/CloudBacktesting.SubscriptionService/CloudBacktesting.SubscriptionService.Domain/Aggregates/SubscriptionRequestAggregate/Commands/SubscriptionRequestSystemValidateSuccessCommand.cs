@@ -7,8 +7,11 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
 {
     public class SubscriptionRequestSystemValidateSuccessCommand : Command<SubscriptionRequest, SubscriptionRequestId>
     {
-        public SubscriptionRequestSystemValidateSuccessCommand(SubscriptionRequestId aggregateId) : base(aggregateId)
+        public SubscriptionRequestSystemValidateSuccessCommand(SubscriptionRequestId aggregateId, string subscriber) : base(aggregateId)
         {
+            Subscriber = subscriber;
         }
+
+        public string Subscriber { get; }
     }
 }

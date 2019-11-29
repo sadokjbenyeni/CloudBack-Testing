@@ -3,6 +3,7 @@ using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequest
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Events;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository;
+using CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation;
 using CloudBacktesting.SubscriptionService.Specs.Infra.Authentification;
 using CloudBacktesting.SubscriptionService.WebAPI.Controllers;
 using CloudBacktesting.SubscriptionService.WebAPI.Host;
@@ -85,13 +86,24 @@ namespace CloudBacktesting.SubscriptionService.Specs.Host
 
         private void UseEventFlowInMemory(IServiceCollection services)
         {
+                                       //.AddEvents(typeof(SubscriptionRequestCreatedEvent))
+                                       //.AddCommands(typeof(SubscriptionRequestCreationCommand))
+                                       //.AddCommandHandlers(typeof(SubscriptionRequestCreationCommandHandler))
+
+
             services.AddEventFlow(options => options.AddAspNetCore()
                                        .AddEvents(typeof(SubscriptionRequestCreatedEvent).Assembly)
                                        .AddCommands(typeof(SubscriptionRequestCreationCommand).Assembly, type => true)
                                        .AddCommandHandlers(typeof(SubscriptionRequestCreationCommandHandler).Assembly)
+                                       .AddSagas(typeof(SubscriptionCreationSaga).Assembly)
+                                       .AddSagaLocators(typeof(SubscriptionCreationSagaLocator).Assembly)
                                        .UseConsoleLog()
                                        .UseInMemoryReadStoreFor<SubscriptionAccountReadModel>()
                                        .UseInMemoryReadStoreFor<SubscriptionRequestReadModel>()
+                                       // TODO Code InMemoryFindReadModelQueryHandler
+                                       //.AddQueryHandler<MongoDbFindReadModelQueryHandler<SubscriptionAccountReadModel>, FindReadModelQuery<SubscriptionAccountReadModel>, ICollectionReadModel<SubscriptionAccountReadModel>>()
+                                       //.AddQueryHandler<MongoDbFindReadModelQueryHandler<SubscriptionRequestReadModel>, FindReadModelQuery<SubscriptionRequestReadModel>, ICollectionReadModel<SubscriptionRequestReadModel>>()
+
                     );
         }
         

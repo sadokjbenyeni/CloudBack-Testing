@@ -8,15 +8,13 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
     {
         public string Status { get; }
         public string SubscriptionAccountId { get; }
-        public string Subscriber { get; }
         public string Type { get; }
 
 
-        public SubscriptionRequestCreatedEvent(string subscriptionAccountId, string status, string subscriber, string type)
+        public SubscriptionRequestCreatedEvent(string subscriptionAccountId, string status, string type)
         {
             SubscriptionAccountId = subscriptionAccountId;
             Status = status;
-            Subscriber = subscriber;
             Type = type;
         }
     }

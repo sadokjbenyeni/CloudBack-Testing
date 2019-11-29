@@ -12,8 +12,9 @@ Scenario: Morgan creates a new subscription account after that customer has been
 
 
 @v1 @subscriptionAccount @creation @reaquestById
-Scenario: Morgan browses the Chang's subscription account
+Scenario: Chang browses his subscription account
 	Given the webapi is online
+	And 'Chang' is authentificated
 	And 'Chang' subscription account has been created
-	When morgan gets the subscription account for 'Chang'
-	Then get request by chang identifier return 'Chang' subscription account description
+	When 'Chang' gets his subscription account
+	Then get request return 'Chang' subscription account description

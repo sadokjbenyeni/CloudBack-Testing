@@ -13,6 +13,8 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAcc
     public class SubscriptionAccount : AggregateRoot<SubscriptionAccount, SubscriptionAccountId>, IEmit<SubscriptionAccountCreatedEvent>, IEmit<SubscriptionRequestLinkedEvent>
 
     {
+        private string subscriber;
+
         public SubscriptionAccount(SubscriptionAccountId aggregateId) : base(aggregateId) { }
 
         public IExecutionResult Create(string subscriber)
@@ -22,11 +24,14 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAcc
         }
         public IExecutionResult LinkSubscriptionRequest(string subscriptionRequestId, string subscriptionRequestStatus, string subscriptionRequestType)
         {
-            Emit(new SubscriptionRequestLinkedEvent(subscriptionRequestId, subscriptionRequestStatus, subscriptionRequestType));
+            Emit(new SubscriptionRequestLinkedEvent(subscriptionRequestId, subscriptionRequestStatus, subscriptionRequestType, this.subscriber));
             return ExecutionResult.Success();
         }
 
-        public void Apply(SubscriptionAccountCreatedEvent aggregateEvent) { }
+        public void Apply(SubscriptionAccountCreatedEvent aggregateEvent) 
+        {
+            this.subscriber = aggregateEvent.Subscriber;
+        }
 
         public void Apply(SubscriptionRequestLinkedEvent aggregateEvent) { }
     }

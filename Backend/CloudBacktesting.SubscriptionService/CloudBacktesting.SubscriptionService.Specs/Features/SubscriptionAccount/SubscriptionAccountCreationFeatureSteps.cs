@@ -66,7 +66,7 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionAccoun
             context.Set(models.ToList(), "GetSubscriptionAccountList");
         }
 
-        [When(@"morgan gets the subscription account for '(.*)'")]
+        [When(@"'(.*)' gets his subscription account")]
         public async Task WhenMorganGetsTheSubscriptionAccountFor(string customer)
         {
             var resultCommand = context.Get<HttpResponseMessage>("createSubscriptionCommandResult");
@@ -103,17 +103,10 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionAccoun
         [Then(@"get request return '(.*)' subscription account description")]
         public void ThenGetRequestReturnSubscriptionAccountDescription(string customer)
         {
-            Assert.That(context.Get<List<SubscriptionAccountReadModel>>("GetSubscriptionAccountList").Select(m => m.Subscriber.ToLower()), Has.One.EqualTo(customer));
-        }
-
-        [Then(@"get request by chang identifier return '(.*)' subscription account description")]
-        public void ThenGetRequestByChangIdentifierReturnSubscriptionAccountDescription(string p0)
-        {
-            var customer = context.Get<SubscriptionAccountReadModelDto>();
-            Assert.That(customer, Is.Not.Null);
-            Assert.That(customer.Subscriber, Is.EqualTo("Chang"));
-            Assert.That(customer.SubscriptionDate.Date, Is.EqualTo(DateTime.UtcNow.Date));
-
+            var dtoModel = context.Get<SubscriptionAccountReadModelDto>();
+            Assert.That(dtoModel, Is.Not.Null);
+            Assert.That(dtoModel.Subscriber, Is.EqualTo(customer).Using((IEqualityComparer<string>)StringComparer.InvariantCultureIgnoreCase));
+            Assert.That(dtoModel.SubscriptionDate.Date, Is.EqualTo(DateTime.UtcNow.Date));
         }
 
     }

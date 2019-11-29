@@ -16,16 +16,31 @@ namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionR
         public string Subscriber { get; set; }
         public string Status { get; set; }
         public string Type { get; set; }
-        public DateTime SubscriptionDate { get; set; }
+        public DateTime CreationDate { get; set; }
+        public bool IsSystemValidated { get; set; } = false;
 
         public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestCreatedEvent> domainEvent)
         {
             Id = string.IsNullOrEmpty(Id) ? domainEvent.AggregateIdentity.Value : Id;
             SubscriptionAccountId = domainEvent.AggregateEvent.SubscriptionAccountId;
-            Subscriber = domainEvent.AggregateEvent.Subscriber;
             Status = domainEvent.AggregateEvent.Status;
             Type = domainEvent.AggregateEvent.Type;
-            SubscriptionDate = DateTime.UtcNow;
+            CreationDate = DateTime.UtcNow;
+        }
+
+        public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionAccountAffectedEvent> domainEvent)
+        {
+            this.Subscriber = domainEvent.AggregateEvent.Subscriber;
+        }
+
+        public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestStatusUpdatedEvent> domainEvent)
+        {
+            this.Subscriber = domainEvent.AggregateEvent.Status;
+        }
+
+        public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestValidatedEvent> domainEvent)
+        {
+            this.IsSystemValidated = true; 
         }
     }
 }

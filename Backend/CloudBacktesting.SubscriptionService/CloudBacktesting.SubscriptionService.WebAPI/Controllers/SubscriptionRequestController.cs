@@ -8,6 +8,7 @@ using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequest
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Commands;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository;
+using CloudBacktesting.SubscriptionService.WebAPI.Models;
 using CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionRequest;
 using CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionRequestDto;
 using EventFlow;
@@ -48,7 +49,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             //return Task.FromResult((IActionResult)Ok(new SubscriptionAccountDto() { Email = userId }));
             var result = await queryProcessor.ProcessAsync(new FindReadModelQuery<SubscriptionRequestReadModel>(model => true), CancellationToken.None);
             //await cursor.MoveNextAsync();
-            return Ok(result.ToList());
+            return Ok(result.Select(ToDto).ToList());
         }
 
 
@@ -65,20 +66,27 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             //var readModel = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<SubscriptionRequestReadModel>(id), CancellationToken.None);
             //return Ok(readModel);
             var readModel = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<SubscriptionRequestReadModel>(new SubscriptionRequestId(id)), CancellationToken.None);
-            return Ok(new SubscriptionRequestReadModelDto()
+            return base.Ok(ToDto(readModel));
+        }
+
+        private static SubscriptionRequestReadModelDto ToDto(SubscriptionRequestReadModel readModel)
+        {
+            return new SubscriptionRequestReadModelDto()
             {
                 Id = readModel.Id,
                 SubscriptionAccountId = readModel.SubscriptionAccountId,
                 Status = readModel.Status,
                 Subscriber = readModel.Subscriber,
-                Type = readModel.Type
-            });
+                Type = readModel.Type,
+                CreationDate = readModel.CreationDate,
+                IsSystemValidated = readModel.IsSystemValidated,
+            };
         }
 
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CreateSubscriptionRequestDto value)
         {
-            var command = new SubscriptionRequestCreationCommand(new SubscriptionAccountId(value.SubscriptionAccountId).ToString(), value.Subscriber, value.Type, value.Status);
+            var command = new SubscriptionRequestCreationCommand(new SubscriptionAccountId(value.SubscriptionAccountId).ToString(), value.Type);
             //if (this.User == null || !this.User.Identity.IsAuthenticated)
             //{
             //    var idError = Guid.NewGuid().ToString();
@@ -109,7 +117,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
                 commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
                 if (commandResult.IsSuccess)
                 {
-                    return Ok(new { id = command.AggregateId.Value });
+                    return Ok(new IdentifierDto{ Id = command.AggregateId.Value });
                 }
             }
             catch (AggregateException aggregateEx)
@@ -121,7 +129,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
                 commandResult = new FailedExecutionResult(new[] { ex.Message });
             }
             var errorIdentifier = Guid.NewGuid().ToString();
-            logger.LogError($"[Business, Error] | '{errorIdentifier}' | SubscriptionRequest for {command.Subscriber} has not been created.");
+            logger.LogError($"[Business, Error] | '{errorIdentifier}' | SubscriptionRequest for {this.User?.Identity?.Name} has not been created.");
             logger.LogDebug($"[Business, Error, Message] | '{errorIdentifier}' | Error messages:{Environment.NewLine}{string.Join(Environment.NewLine, ((FailedExecutionResult)commandResult).Errors)}");
             return BadRequest($"Creation of subscription failed. Please contact support with error's identifier {errorIdentifier}");
             //}

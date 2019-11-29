@@ -27,7 +27,10 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
 
         public  Task HandleAsync(IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestCreatedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
-            var command = new SubscriptionRequestLinkToSubscriptionAccountCommand(new SubscriptionAccountId(domainEvent.AggregateEvent.SubscriptionAccountId), domainEvent.AggregateIdentity.Value, domainEvent.AggregateEvent.Status, domainEvent.AggregateEvent.Type);
+            var command = new SubscriptionRequestLinkToSubscriptionAccountCommand(new SubscriptionAccountId(domainEvent.AggregateEvent.SubscriptionAccountId), 
+                domainEvent.AggregateIdentity.Value, 
+                domainEvent.AggregateEvent.Status, 
+                domainEvent.AggregateEvent.Type);
             //try
             //{
             this.Publish(command);
@@ -36,13 +39,13 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
             //{
 
             //}
-            //this.Emit(new SubscriptionRequestLinkedEvent(domainEvent.AggregateIdentity.Value, domainEvent.AggregateEvent.Status, domainEvent.AggregateEvent.Type));
+            this.Emit(new SubscriptionAccountLinkedSagaEvent(domainEvent.AggregateIdentity.Value, domainEvent.AggregateEvent.Status, domainEvent.AggregateEvent.Type));
             return Task.CompletedTask;
         }
 
         public Task HandleAsync(IDomainEvent<SubscriptionAccount, SubscriptionAccountId, SubscriptionRequestLinkedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
-            var command = new SubscriptionRequestSystemValidateSuccessCommand(new SubscriptionRequestId(domainEvent.AggregateEvent.SubscriptionRequestId));
+            var command = new SubscriptionRequestSystemValidateSuccessCommand(new SubscriptionRequestId(domainEvent.AggregateEvent.SubscriptionRequestId), domainEvent.AggregateEvent.Subscriber);
             this.Publish(command);
             return Task.CompletedTask;
         }
@@ -53,10 +56,20 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
             return Task.CompletedTask;
         }
 
+        public void Apply(SubscriptionAccountLinkedSagaEvent @event) { }
 
         public void Apply(SubscriptionCreationSagaCompletedEvent sagaEvent)
         {
             Complete();
+        }
+
+    }
+    public class SubscriptionCreationSagaUpdater : ISagaUpdater<SubscriptionAccount, SubscriptionAccountId, SubscriptionRequestLinkedEvent, SubscriptionCreationSaga>
+    {
+        public Task ProcessAsync(ISaga saga, IDomainEvent domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
+        {
+            var @event = (IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestCreatedEvent>)domainEvent;
+            return ((SubscriptionCreationSaga)saga).HandleAsync(@event, sagaContext, cancellationToken);
         }
     }
 }
