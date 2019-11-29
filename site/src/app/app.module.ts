@@ -1,12 +1,11 @@
 import { LoginService } from './services/login.service';
-import { MatDialogRef } from '@angular/material';
 import { AuthentificationService } from './services/authentification.service';
 import { MaterialModule } from './components/material/material.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { routes } from './app.routing';
 // Guard
 import { GuardGuard } from './guard.guard';
@@ -78,6 +77,7 @@ import { PasswordComponent } from './components/login/password/password.componen
 import { PasswordResetComponent } from './components/login/password-reset/password-reset.component';
 // import { PdfComponent } from './components/commun/pdf/pdf.component';
 import { NotifierModule } from "angular-notifier";
+import { MutualizedSubscriptionComponent } from './components/mutualized-subscription/mutualized-subscription.component';
 
 @NgModule({
   declarations: [
@@ -116,6 +116,7 @@ import { NotifierModule } from "angular-notifier";
     ActivationComponent,
     PasswordComponent,
     PasswordResetComponent,
+    MutualizedSubscriptionComponent,
 
   ],
   entryComponents:[NgbdModalContent, LoginDialogComponent, PasswordComponent,PasswordResetComponent, TermsOfUseComponent],
@@ -130,7 +131,7 @@ import { NotifierModule } from "angular-notifier";
     BrowserAnimationsModule,
     // NgbModule.forRoot(),
     NgbModule,
-
+    ReactiveFormsModule,
     //Ng2BootstrapModule,
     RecaptchaModule.forRoot(),
     PdfViewerModule,

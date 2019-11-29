@@ -1,9 +1,9 @@
-import { MatDialogRef, MatCheckboxModule, MAT_DIALOG_DATA, MatSnackBarModule } from '@angular/material';
+import { MatDialogRef, MatCheckboxModule, MAT_DIALOG_DATA, MatSnackBarModule, MatStepperModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // Material Imports
-import { MatDialogModule, MatInputModule, MatCardModule, MatProgressSpinnerModule, MatSnackBar } from '@angular/material';
+import { MatDialogModule, MatInputModule, MatCardModule, MatProgressSpinnerModule } from '@angular/material';
 
 @NgModule({
   declarations: [],
@@ -17,6 +17,7 @@ import { MatDialogModule, MatInputModule, MatCardModule, MatProgressSpinnerModul
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatSnackBarModule,
+    MatStepperModule,
   ],
   providers: [{provide: MAT_DIALOG_DATA, useValue: {}}, 
     {provide: MatDialogRef, useValue: {}}]

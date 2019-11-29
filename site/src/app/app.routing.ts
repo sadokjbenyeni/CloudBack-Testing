@@ -23,13 +23,14 @@ import { LoginDialogComponent } from './components/login/login-dialog/login-dial
 import { LoginPageComponent } from './components/login/login-page/login-page.component';
 import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurrency.component';
 import { OnBoardingComponent } from './components/on-boarding/on-boarding.component';
+import { MutualizedSubscriptionComponent } from './components/mutualized-subscription/mutualized-subscription.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 
   // CLIENT
   { path: 'account', component: SignUpComponent, canActivate: [GuardGuard] },
-
+  { path: 'subscription/mutualized', component: MutualizedSubscriptionComponent, canActivate: [GuardGuard] },
   // ADMINISTRATOR
   { path: 'admin/profil/:id', component: UserDetailComponent, canActivate: [GuardGuard] },
   { path: 'admin/users', component: UsersComponent, canActivate: [GuardGuard] },
