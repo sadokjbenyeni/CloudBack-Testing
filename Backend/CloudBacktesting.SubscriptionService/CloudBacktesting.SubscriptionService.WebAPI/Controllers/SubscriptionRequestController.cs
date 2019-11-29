@@ -133,7 +133,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         //[HttpPut]
         //public async Task<ActionResult> Put([FromBody] UpdateSubscriptionRequestDto value)
         //{
-        //    var subscriptionRequestCommand = new SubscriptionRequestCreationCommand(value.Id ,value.SubscriptionAccountId, value.Subscriber, value.Type, value.Status);
+        //    var subscriptionRequestCommand = new SubscriptionRequestCreationCommand(value.SubscriptionAccountId, value.Subscriber, value.Type, value.Status);
 
         //    await commandBus.PublishAsync(subscriptionRequestCommand, CancellationToken.None);
 
