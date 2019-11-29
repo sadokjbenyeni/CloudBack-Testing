@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TermsService } from '../../services/terms.service';
 import { Term } from '../../models/Terms';
 import { CountriesService } from '../../services/countries.service';
-import { Countries } from '../../models/Country';
 @Component({
   selector: 'app-mutualized-subscription',
   templateUrl: './mutualized-subscription.component.html',
@@ -19,7 +18,6 @@ export class MutualizedSubscriptionComponent implements OnInit {
   ngOnInit() {
     this.terms.getLastSaleTerm().subscribe(result => {
       this.Cgv = result;
-
     })
     this.countryService.getCountries().subscribe(result => {
       this.Countries = result.countries;
