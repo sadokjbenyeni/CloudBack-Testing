@@ -1,5 +1,5 @@
 import { PasswordResetComponent } from './components/login/password-reset/password-reset.component';
-import { ActivationComponent } from './components/signup/activation/activation.component';
+import { ActivationComponent } from './components/activation/activation.component';
 import { Routes } from '@angular/router';
 
 // Guards
@@ -19,7 +19,6 @@ import { HelpPageComponent } from './components/help-page/help-page.component';
 import { SignUpComponent } from './components/signup/signup.component';
 import { ProductsComponent } from './components/products/products.component';
 import { PricingComponent } from './components/pricing/pricing.component';
-import { LoginDialogComponent } from './components/login/login-dialog/login-dialog.component';
 import { LoginPageComponent } from './components/login/login-page/login-page.component';
 import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurrency.component';
 import { OnBoardingComponent } from './components/on-boarding/on-boarding.component';

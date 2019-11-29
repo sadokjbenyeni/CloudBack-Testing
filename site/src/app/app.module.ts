@@ -67,7 +67,7 @@ import { LoginPageComponent } from './components/login/login-page/login-page.com
 import { HomeComponent } from './components/home/home.component';
 import { PricingComponent } from './components/pricing/pricing.component';
 import { ProductsComponent } from './components/products/products.component';
-import { ActivationComponent } from './components/signup/activation/activation.component';
+import { ActivationComponent } from './components/activation/activation.component';
 import { AboutComponent } from './components/about/about.component';
 import { HelpPageComponent } from './components/help-page/help-page.component';
 import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurrency.component';

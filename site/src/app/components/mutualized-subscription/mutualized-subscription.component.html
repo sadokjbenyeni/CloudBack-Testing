@@ -3,21 +3,44 @@
     <h1 class="py-3 my-3 text-center">Mutualized subscription</h1>
     <div class="col-12">
 
-        <mat-horizontal-stepper linerar #stepper>
-            <mat-step [stepControl]="firstFormGroup">
-                <form [formGroup]="firstFormGroup">
-                    <p> {{cgv.description}} </p>
+        <mat-horizontal-stepper linerar #stepper class="col-12" [linear]="true">
+            <mat-step [stepControl]="CgvFormGroup" class="col-12">
+                <form [formGroup]="CgvFormGroup">
+                    <p class="termsofsale"> {{Cgv.description}} </p>
                     <ng-template matStepLabel>General condition of sale</ng-template>
-                    <mat-checkbox formControlName="firstCtrl" required> I read and I agree with general condition of
-                        sale</mat-checkbox>
-                    <button class="btn btn-primary ml-2" matStepperNext>Next</button>
+                    <div class="col-12 text-right">
+                        <mat-checkbox formControlName="cgvCrtl" required> I read and I agree with general condition of
+                            sale</mat-checkbox>
+                        <button class="btn btn-primary ml-2" matStepperNext>Next</button>
+                    </div>
                 </form>
             </mat-step>
-            <mat-step [stepControl]="secondFormGroup">
-                <form [formGroup]="secondFormGroup">
+            <mat-step [stepControl]="PaymentFormGroup" class="col-12">
+                <form class="col-12" [formGroup]="PaymentFormGroup">
                     <ng-template matStepLabel>Payment informations</ng-template>
-                    <button class="btn btn-default" matStepperPrevious>Back</button>
-                    <button class="btn btn-primary" matStepperNext>Next</button>
+                    <mat-form-field class="col-12">
+                        <input class="col-12" matInput formControlName="VAT" placeholder="VAT Number" required>
+                    </mat-form-field><br>
+                    <mat-form-field class="col-12">
+                        <input class="col-12" matInput formControlName="Adress" placeholder="Address" required>
+                    </mat-form-field><br>
+                    <mat-form-field class="col-12">
+                        <input class="col-12" matInput formControlName="City" placeholder="City" required>
+                    </mat-form-field><br>
+                    <mat-form-field class="col-12">
+                        <input class="col-12" matInput formControlName="Postal" placeholder="Postal Code" required>
+                    </mat-form-field><br>
+                    <mat-form-field class="col-12">
+                        <mat-label>Select country</mat-label>
+                        <mat-select class="col-12" name="countryBilling" formControlName="Country" required>
+                            <mat-option *ngFor='let country of Countries' [value]="country.id">{{country.name}}</mat-option>
+                        </mat-select><br>
+                    </mat-form-field>
+
+                    <div class=" col-12 text-right">
+                        <button class="btn btn-default" matStepperPrevious>Back</button>
+                        <button class="btn btn-primary" matStepperNext>Next</button>
+                    </div>
                 </form>
             </mat-step>
             <mat-step>

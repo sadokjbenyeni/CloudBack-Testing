@@ -87,6 +87,7 @@ require('./server/models/countrie');
 require('./server/models/companytype');
 require('./server/models/payment');
 require('./server/models/termsOfUse');
+require('./server/models/termsofsale')
 
 
 

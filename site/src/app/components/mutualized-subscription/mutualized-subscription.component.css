@@ -1,0 +1,14 @@
+.termsofsale
+{
+    text-align: justify;
+    max-height: 60vh;
+    overflow-y: scroll;
+    border-style: ridge;
+}
+::ng-deep .mat-checkbox .mat-checkbox-frame {
+    border-color: #ea663b;
+}
+
+::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+    background-color: #ea663b !important;
+}

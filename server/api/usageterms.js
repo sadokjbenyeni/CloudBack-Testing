@@ -1,21 +1,17 @@
-const app = require('express')();
 const router = require('express').Router();
 const mongoose = require('mongoose');
-const Console  = require('console');
-const Terms = mongoose.model('usageterm');
+const usageTerms = mongoose.model('usageterm');
+const saleTerms = mongoose.model('saleterm');
 
-const config = require('../config/config.js');
-
-router.get('/', (req, res) => {
-    Terms.find()
+router.get('/lastusgeterm', (req, res) => {
+    usageTerms.find()
     .then((terms) => {
-        if (!terms) { return res.sendStatus(404); }
-        Console.log(terms);
-        return res.status(200).json({terms: terms});
+        if (!terms) { return res.sendStatus(200); }
+        return res.status(200).send(terms[terms.length-1])
     });
 });
-router.get('/lastterm', (req, res) => {
-    Terms.find()
+router.get('/lastsaleterm', (req, res) => {
+    saleTerms.find()
     .then((terms) => {
         if (!terms) { return res.sendStatus(200); }
         return res.status(200).send(terms[terms.length-1])
