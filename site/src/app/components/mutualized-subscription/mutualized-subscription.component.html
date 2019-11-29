@@ -1,0 +1,30 @@
+<app-menu></app-menu>
+<div class="container  col-8 pt-4 mt-4  d-block">
+    <h1 class="py-3 my-3 text-center">Mutualized subscription</h1>
+    <div class="col-12">
+
+        <mat-horizontal-stepper linerar #stepper>
+            <mat-step [stepControl]="firstFormGroup">
+                <form [formGroup]="firstFormGroup">
+                    <p> {{cgv.description}} </p>
+                    <ng-template matStepLabel>General condition of sale</ng-template>
+                    <mat-checkbox formControlName="firstCtrl" required> I read and I agree with general condition of
+                        sale</mat-checkbox>
+                    <button class="btn btn-primary ml-2" matStepperNext>Next</button>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="secondFormGroup">
+                <form [formGroup]="secondFormGroup">
+                    <ng-template matStepLabel>Payment informations</ng-template>
+                    <button class="btn btn-default" matStepperPrevious>Back</button>
+                    <button class="btn btn-primary" matStepperNext>Next</button>
+                </form>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Review and validation</ng-template>
+                <button class="btn btn-default" matStepperPrevious>Back</button>
+                <button class="btn btn-primary" matStepperAcceptance>Submit</button>
+            </mat-step>
+        </mat-horizontal-stepper>
+    </div>
+</div>
