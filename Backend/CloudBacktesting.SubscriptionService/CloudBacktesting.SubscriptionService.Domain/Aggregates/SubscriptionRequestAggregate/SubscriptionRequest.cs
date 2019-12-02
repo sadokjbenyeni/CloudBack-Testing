@@ -18,7 +18,9 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
 
         public IExecutionResult Create(string subscriptionAccountId, string type)
         {
-            Emit(new SubscriptionRequestCreatedEvent(subscriptionAccountId, "Creating", type));
+            var @event = new SubscriptionRequestCreatedEvent(this.Id.Value, subscriptionAccountId, "Creating", type);
+            
+            Emit(@event);
             return ExecutionResult.Success();
         }
 
@@ -26,7 +28,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
         {
             Emit(new SubscriptionAccountAffectedEvent(this.subscriptionAccountId, subscriber));
             Emit(new SubscriptionRequestStatusUpdatedEvent("Pending"));
-            Emit(new SubscriptionRequestValidatedEvent());
+            Emit(new SubscriptionRequestValidatedEvent(this.Id.Value));
             return ExecutionResult.Success();
         }
 
