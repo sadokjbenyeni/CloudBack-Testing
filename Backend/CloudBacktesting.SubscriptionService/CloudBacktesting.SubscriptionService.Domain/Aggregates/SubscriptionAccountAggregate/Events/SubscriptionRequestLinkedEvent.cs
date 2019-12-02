@@ -5,6 +5,7 @@ using EventFlow.Aggregates;
 namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate.Events
 {
     public class SubscriptionRequestLinkedEvent : AggregateEvent<SubscriptionAccount, SubscriptionAccountId>, ISubscriptionSagaRequestId
+                                                  //AggregateEvent<SubscriptionCreationSaga, SubscriptionCreationSagaId>
     {
         public string SubscriptionRequestId { get; }
         public string SubscriptionRequestStatus { get; }
