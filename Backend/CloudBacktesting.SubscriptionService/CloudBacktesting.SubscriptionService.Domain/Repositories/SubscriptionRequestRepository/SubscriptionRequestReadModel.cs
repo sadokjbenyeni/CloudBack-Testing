@@ -8,7 +8,11 @@ using System;
 
 namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository
 {
-    public class SubscriptionRequestReadModel : IReadModel, IAmReadModelFor<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestCreatedEvent>, IMongoDbReadModel
+    public class SubscriptionRequestReadModel : IReadModel, IMongoDbReadModel
+        , IAmReadModelFor<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestCreatedEvent>
+        , IAmReadModelFor<SubscriptionRequest, SubscriptionRequestId, SubscriptionAccountAffectedEvent>
+        , IAmReadModelFor<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestStatusUpdatedEvent>
+        , IAmReadModelFor<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestValidatedEvent>
     {
         public string Id { get; private set; }
         public string SubscriptionAccountId { get; set; }
@@ -35,7 +39,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionR
 
         public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestStatusUpdatedEvent> domainEvent)
         {
-            this.Subscriber = domainEvent.AggregateEvent.Status;
+            this.Status = domainEvent.AggregateEvent.Status;
         }
 
         public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestValidatedEvent> domainEvent)

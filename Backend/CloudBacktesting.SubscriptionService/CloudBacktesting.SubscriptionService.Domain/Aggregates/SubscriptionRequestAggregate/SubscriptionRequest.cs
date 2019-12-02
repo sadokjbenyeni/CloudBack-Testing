@@ -11,20 +11,20 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
     /// <Summary>
     public class SubscriptionRequest : AggregateRoot<SubscriptionRequest, SubscriptionRequestId>, IEmit<SubscriptionRequestCreatedEvent>
     {
-        public string SubscriptionAccountId { get; private set; }
+        public string subscriptionAccountId;
+        private string status;
 
         public SubscriptionRequest(SubscriptionRequestId aggregateId) : base(aggregateId) { }
 
         public IExecutionResult Create(string subscriptionAccountId, string type)
         {
             Emit(new SubscriptionRequestCreatedEvent(subscriptionAccountId, "Creating", type));
-
             return ExecutionResult.Success();
         }
 
         public IExecutionResult ValidateBySystem(string subscriber)
         {
-            Emit(new SubscriptionAccountAffectedEvent(this.SubscriptionAccountId, subscriber));
+            Emit(new SubscriptionAccountAffectedEvent(this.subscriptionAccountId, subscriber));
             Emit(new SubscriptionRequestStatusUpdatedEvent("Pending"));
             Emit(new SubscriptionRequestValidatedEvent());
             return ExecutionResult.Success();
@@ -32,7 +32,15 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
 
         public void Apply(SubscriptionRequestCreatedEvent aggregateEvent) 
         {
-            this.SubscriptionAccountId = aggregateEvent.SubscriptionAccountId;
+            this.subscriptionAccountId = aggregateEvent.SubscriptionAccountId;
         }
+
+        public void Apply(SubscriptionAccountAffectedEvent @event) { }
+
+        public void Apply(SubscriptionRequestStatusUpdatedEvent @event) 
+        {
+            this.status = @event.Status;
+        }
+        public void Apply(SubscriptionRequestValidatedEvent @event) { }
     }
 }
