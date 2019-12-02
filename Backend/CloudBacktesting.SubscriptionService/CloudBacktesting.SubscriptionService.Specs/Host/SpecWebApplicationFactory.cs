@@ -1,4 +1,7 @@
 ﻿using BoDi;
+using CloudBacktesting.Infra.EventFlow.Queries;
+using CloudBacktesting.Infra.EventFlow.Queries.InMemory;
+using CloudBacktesting.Infra.EventFlow.ReadStores;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Commands;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Events;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
@@ -101,8 +104,8 @@ namespace CloudBacktesting.SubscriptionService.Specs.Host
                                        .UseInMemoryReadStoreFor<SubscriptionAccountReadModel>()
                                        .UseInMemoryReadStoreFor<SubscriptionRequestReadModel>()
                                        // TODO Code InMemoryFindReadModelQueryHandler
-                                       //.AddQueryHandler<MongoDbFindReadModelQueryHandler<SubscriptionAccountReadModel>, FindReadModelQuery<SubscriptionAccountReadModel>, ICollectionReadModel<SubscriptionAccountReadModel>>()
-                                       //.AddQueryHandler<MongoDbFindReadModelQueryHandler<SubscriptionRequestReadModel>, FindReadModelQuery<SubscriptionRequestReadModel>, ICollectionReadModel<SubscriptionRequestReadModel>>()
+                                       .AddQueryHandler<InMemoryFindReadModelQueryHandler<SubscriptionAccountReadModel>, FindReadModelQuery<SubscriptionAccountReadModel>, ICollectionReadModel<SubscriptionAccountReadModel>>()
+                                       .AddQueryHandler<InMemoryFindReadModelQueryHandler<SubscriptionRequestReadModel>, FindReadModelQuery<SubscriptionRequestReadModel>, ICollectionReadModel<SubscriptionRequestReadModel>>()
 
                     );
         }
