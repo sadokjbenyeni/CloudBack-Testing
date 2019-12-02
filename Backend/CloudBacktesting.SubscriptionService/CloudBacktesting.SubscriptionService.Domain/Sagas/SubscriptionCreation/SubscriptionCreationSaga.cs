@@ -45,7 +45,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
 
         public Task HandleAsync(IDomainEvent<SubscriptionAccount, SubscriptionAccountId, SubscriptionRequestLinkedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
-            var command = new SubscriptionRequestSystemValidateSuccessCommand(new SubscriptionRequestId(domainEvent.AggregateEvent.SubscriptionRequestId), domainEvent.AggregateEvent.Subscriber);
+            var command = new SubscriptionRequestSystemValidateSuccessCommand(new SubscriptionRequestId(domainEvent.AggregateEvent.RequestId), domainEvent.AggregateEvent.Subscriber);
             this.Publish(command);
             return Task.CompletedTask;
         }

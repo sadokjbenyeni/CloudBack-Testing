@@ -5,18 +5,18 @@ using EventFlow.Aggregates;
 namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate.Events
 {
     public class SubscriptionRequestLinkedEvent : AggregateEvent<SubscriptionAccount, SubscriptionAccountId>, ISubscriptionSagaRequestId
-                                                  //AggregateEvent<SubscriptionCreationSaga, SubscriptionCreationSagaId>
+    //AggregateEvent<SubscriptionCreationSaga, SubscriptionCreationSagaId>
     {
-        public string SubscriptionRequestId { get; }
+        //public string SubscriptionRequestId { get; }
         public string SubscriptionRequestStatus { get; }
         public string SubscriptionRequestType { get; }
         public string Subscriber { get; }
+        public string RequestId { get; }
 
-        public string RequestId => SubscriptionRequestId;
 
-        public SubscriptionRequestLinkedEvent(string subscriptionRequestId, string subscriptionRequestStatus, string subscriptionRequestType, string subscriber)
+        public SubscriptionRequestLinkedEvent(string requestId, string subscriptionRequestStatus, string subscriptionRequestType, string subscriber)
         {
-            SubscriptionRequestId = subscriptionRequestId;
+            RequestId = requestId;
             SubscriptionRequestStatus = subscriptionRequestStatus;
             SubscriptionRequestType = subscriptionRequestType;
             Subscriber = subscriber;

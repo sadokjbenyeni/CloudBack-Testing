@@ -1,4 +1,5 @@
-﻿using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate;
+﻿using CloudBacktesting.Infra.EventFlow.Queries;
+using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate.Commands;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
 using CloudBacktesting.SubscriptionService.WebAPI.Models;
@@ -89,33 +90,6 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
                 commandResult = new FailedExecutionResult(new[] { aggregateEx.Message }.Union(aggregateEx.InnerExceptions.Select(ex => ex.Message)));
             }
             catch (Exception ex)
-            {
-                commandResult = new FailedExecutionResult(new[] { ex.Message });
-            }
-            var errorIdentifier = Guid.NewGuid().ToString();
-            logger.LogError($"[Business, Error] | '{errorIdentifier}' | SubscriptionAccount for {command.Subscriber} has not been created.");
-            logger.LogDebug($"[Business, Error, Message] | '{errorIdentifier}' | Error messages:{Environment.NewLine}{string.Join(Environment.NewLine, ((FailedExecutionResult)commandResult).Errors)}");
-            return BadRequest($"Creation of account for subscription failed. Please contact support with error's identifier {errorIdentifier}");
-        }
-            //{
-            //    var idError = Guid.NewGuid().ToString();
-            //    logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-            //    return BadRequest($"Access error, please contact the administrator with error id: {idError}");
-            //}
-            IExecutionResult commandResult = null;
-            try
-            {
-                commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
-                if (commandResult.IsSuccess)
-                {
-                    return Ok(new SubscriptionAccountIdDto() { Id = command.AggregateId.Value });
-                }
-            }
-            catch(AggregateException aggregateEx)
-            {
-                commandResult = new FailedExecutionResult(new[] { aggregateEx.Message }.Union(aggregateEx.InnerExceptions.Select(ex => ex.Message)));
-            }
-            catch(Exception ex)
             {
                 commandResult = new FailedExecutionResult(new[] { ex.Message });
             }

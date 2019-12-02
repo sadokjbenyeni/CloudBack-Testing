@@ -16,6 +16,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionR
     {
         public string Id { get; private set; }
         public string SubscriptionAccountId { get; set; }
+        public string RequestId { get; set; }
         public long? Version { get; set; }
         public string Subscriber { get; set; }
         public string Status { get; set; }
@@ -30,6 +31,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionR
             Status = domainEvent.AggregateEvent.Status;
             Type = domainEvent.AggregateEvent.Type;
             CreationDate = DateTime.UtcNow;
+            RequestId = domainEvent.AggregateEvent.RequestId;
         }
 
         public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionAccountAffectedEvent> domainEvent)
