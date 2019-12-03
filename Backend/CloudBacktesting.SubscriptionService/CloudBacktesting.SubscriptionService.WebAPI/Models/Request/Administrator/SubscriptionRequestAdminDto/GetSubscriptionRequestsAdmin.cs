@@ -7,18 +7,20 @@ using EventFlow.ReadStores;
 using System;
 using System.Collections.Generic;
 
-namespace CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionRequestDto
+namespace CloudBacktesting.SubscriptionService.WebAPI.Models.Request.Administrator.SubscriptionRequestAdminDto
 {
     public class SubscriptionRequestListItem
     {
         public string Status { get; set; }
         public string Subscriber { get; set; }
         public string Type { get; set; }
+        public bool IsAdminValidated { get; set; }
     }
 
-    public class GetSubscriptionRequests : IQuery<List<SubscriptionRequestListItem>>, IReadModel, IMongoDbReadModel
+    public class GetSubscriptionRequestsAdmin : IQuery<List<SubscriptionRequestListItem>>, IReadModel, IMongoDbReadModel
     {
         public string Id { get; set; }
         public long? Version { get; set; }
+        public bool IsAdminValidated { get; set; }
     }
 }

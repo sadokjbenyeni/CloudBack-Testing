@@ -2,8 +2,7 @@
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate.Commands;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
-using CloudBacktesting.SubscriptionService.WebAPI.Models;
-using CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionAccount;
+using CloudBacktesting.SubscriptionService.WebAPI.Models.Account.Client.SubscriptionAccount;
 using EventFlow;
 using EventFlow.Aggregates.ExecutionResults;
 using EventFlow.Queries;
@@ -45,7 +44,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             {
                 Id = readModel.Id,
                 Subscriber = readModel.Subscriber,
-                SubscriptionDate = readModel.SubscriptionDate
+                CreationDate = readModel.CreationDate
             });
         }
 

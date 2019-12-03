@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionAccountDto
+namespace CloudBacktesting.SubscriptionService.WebAPI.Models.Account.Client.SubscriptionAccountDto
 {
 
     public class SubscriptionAccountListItem
@@ -13,7 +13,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionAccount
     }
 
 
-    public class GetSubscriptionAccounts : IQuery<List<SubscriptionAccountListItem>>
+    public class GetSubscriptionAccountsAdmin : IQuery<List<SubscriptionAccountListItem>>
     {
 
     }

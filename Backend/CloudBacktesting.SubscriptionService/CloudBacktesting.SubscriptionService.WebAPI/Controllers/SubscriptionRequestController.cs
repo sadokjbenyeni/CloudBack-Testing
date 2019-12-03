@@ -8,7 +8,7 @@ using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequest
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Commands;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository;
 using CloudBacktesting.SubscriptionService.WebAPI.Models;
-using CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionRequest;
+using CloudBacktesting.SubscriptionService.WebAPI.Models.Request.Client.SubscriptionRequest;
 using EventFlow;
 using EventFlow.Aggregates.ExecutionResults;
 using EventFlow.Queries;

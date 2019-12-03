@@ -1,6 +1,6 @@
 ﻿using CloudBacktesting.SubscriptionService.WebAPI.Models;
-using CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionAccount;
-using CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionRequest;
+using CloudBacktesting.SubscriptionService.WebAPI.Models.Account.Client.SubscriptionAccount;
+using CloudBacktesting.SubscriptionService.WebAPI.Models.Request.Client.SubscriptionRequest;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using System;

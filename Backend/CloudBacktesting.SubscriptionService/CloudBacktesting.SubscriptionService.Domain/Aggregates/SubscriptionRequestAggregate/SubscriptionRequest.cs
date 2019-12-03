@@ -32,9 +32,16 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
             return ExecutionResult.Success();
         }
 
-        public void Apply(SubscriptionRequestCreatedEvent aggregateEvent) 
+        public IExecutionResult ValidateByAdmin()
         {
-            this.subscriptionAccountId = aggregateEvent.SubscriptionAccountId;
+            Emit(new SubscriptionRequestStatusUpdatedEvent("Validated"));
+            Emit(new SubscriptionRequestValidatedEvent(this.Id.Value));
+            return ExecutionResult.Success();
+        }
+
+        public void Apply(SubscriptionRequestCreatedEvent @event) 
+        {
+            this.subscriptionAccountId = @event.SubscriptionAccountId;
         }
 
         public void Apply(SubscriptionAccountAffectedEvent @event) { }

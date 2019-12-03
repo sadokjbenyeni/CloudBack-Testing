@@ -1,7 +1,5 @@
 ﻿using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
-using CloudBacktesting.SubscriptionService.WebAPI.Models;
-using CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionAccount;
-using EventFlow.Queries;
+using CloudBacktesting.SubscriptionService.WebAPI.Models.Account.Client.SubscriptionAccount;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
@@ -106,7 +104,7 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionAccoun
             var dtoModel = context.Get<SubscriptionAccountReadModelDto>();
             Assert.That(dtoModel, Is.Not.Null);
             Assert.That(dtoModel.Subscriber, Is.EqualTo(customer).Using((IEqualityComparer<string>)StringComparer.InvariantCultureIgnoreCase));
-            Assert.That(dtoModel.SubscriptionDate.Date, Is.EqualTo(DateTime.UtcNow.Date));
+            Assert.That(dtoModel.CreationDate.Date, Is.EqualTo(DateTime.UtcNow.Date));
         }
 
     }

@@ -1,7 +1,4 @@
-﻿using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate;
-using System;
-
-namespace CloudBacktesting.SubscriptionService.WebAPI.Models.SubscriptionRequest
+﻿namespace CloudBacktesting.SubscriptionService.WebAPI.Models.Request.Client.SubscriptionRequest
 {
     public class CreateSubscriptionRequestDto
     {
