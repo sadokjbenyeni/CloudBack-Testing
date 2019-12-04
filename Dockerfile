@@ -12,7 +12,7 @@ RUN npm install
 WORKDIR  /app/site/
 RUN npm install -g @angular/cli
 RUN npm install
-RUN ng build
+RUN ng build --configuration=local
 WORKDIR /app
 # EXPOSE 2368
 VOLUME /app/logs

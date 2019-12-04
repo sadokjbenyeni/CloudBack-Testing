@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: consulpod
+  labels:
+    app: consulpod
+spec:
+  containers:
+    - name: consulservices
+      image: consul
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 8500
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: jsprojpod
+  labels:
+    app: jsprojpod
+spec:
+  containers:
+    - name: jscontainer
+      image: jsprojects
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 9095
