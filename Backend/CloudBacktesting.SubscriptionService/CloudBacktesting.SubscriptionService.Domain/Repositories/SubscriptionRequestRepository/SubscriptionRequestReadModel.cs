@@ -1,5 +1,4 @@
-﻿using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate;
-using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate;
+﻿using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Events;
 using EventFlow.Aggregates;
 using EventFlow.MongoDB.ReadStores;
@@ -13,16 +12,20 @@ namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionR
         , IAmReadModelFor<SubscriptionRequest, SubscriptionRequestId, SubscriptionAccountAffectedEvent>
         , IAmReadModelFor<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestStatusUpdatedEvent>
         , IAmReadModelFor<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestValidatedEvent>
+        , IAmReadModelFor<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestManualValidatedEvent>
+        , IAmReadModelFor<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestManualDeclinedEvent>
     {
         public string Id { get; private set; }
         public string SubscriptionAccountId { get; set; }
-        public string RequestId { get; set; }
         public long? Version { get; set; }
         public string Subscriber { get; set; }
         public string Status { get; set; }
         public string Type { get; set; }
         public DateTime CreationDate { get; set; }
-        public bool IsSystemValidated { get; set; } = false;
+        public bool? IsSystemValidated { get; set; } = null;
+        public bool? IsManualValidated { get; set; } = null;
+        public string DeclineMessage { get; private set; }
+        public DateTime ValidatedOrDeclinedDate { get; private set; }
 
         public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestCreatedEvent> domainEvent)
         {
@@ -30,8 +33,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionR
             SubscriptionAccountId = domainEvent.AggregateEvent.SubscriptionAccountId;
             Status = domainEvent.AggregateEvent.Status;
             Type = domainEvent.AggregateEvent.Type;
-            CreationDate = DateTime.UtcNow;
-            RequestId = domainEvent.AggregateEvent.RequestId;
+            CreationDate = domainEvent.AggregateEvent.CreationDate;
         }
 
         public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionAccountAffectedEvent> domainEvent)
@@ -43,10 +45,22 @@ namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionR
         {
             this.Status = domainEvent.AggregateEvent.Status;
         }
-
         public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestValidatedEvent> domainEvent)
         {
-            this.IsSystemValidated = true; 
+            this.IsSystemValidated = true;
+        }
+
+        public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestManualValidatedEvent> domainEvent)
+        {
+            this.IsManualValidated = true;
+            this.ValidatedOrDeclinedDate = domainEvent.AggregateEvent.ManualValidatedDate;
+        }
+
+        public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestManualDeclinedEvent> domainEvent)
+        {
+            this.IsManualValidated = false;
+            this.DeclineMessage = domainEvent.AggregateEvent.Message;
+            this.ValidatedOrDeclinedDate = domainEvent.AggregateEvent.ManualDeclinedDate;
         }
     }
 }

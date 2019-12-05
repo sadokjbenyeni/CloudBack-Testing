@@ -1,5 +1,6 @@
 ﻿using CloudBacktesting.SubscriptionService.Domain.Sagas;
 using EventFlow.Aggregates;
+using System;
 
 namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Events
 {
@@ -8,14 +9,16 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
         public string Status { get; }
         public string SubscriptionAccountId { get; }
         public string Type { get; }
+        public DateTime CreationDate { get; }
         public string RequestId { get; }
 
-        public SubscriptionRequestCreatedEvent(string requestId, string subscriptionAccountId, string status, string type)
+        public SubscriptionRequestCreatedEvent(string requestId, string subscriptionAccountId, string status, string type, DateTime creationDate)
         {
             RequestId = requestId;
             SubscriptionAccountId = subscriptionAccountId;
             Status = status;
             Type = type;
+            CreationDate = creationDate;
         }
     }
 }

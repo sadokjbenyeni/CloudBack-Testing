@@ -3,8 +3,6 @@
     public class CreateSubscriptionRequestDto
     {
         public string SubscriptionAccountId { get; set; }
-        public string Status { get; set; }
-        public string Subscriber { get; set; }
         public string Type { get; set; }
     }
     public class UpdateSubscriptionRequestDto

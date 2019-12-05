@@ -7,7 +7,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
         public string Status { get; }
 
         public SubscriptionRequestStatusUpdatedEvent(string status)
-        {
+        {  
             Status = status;
         }
     }

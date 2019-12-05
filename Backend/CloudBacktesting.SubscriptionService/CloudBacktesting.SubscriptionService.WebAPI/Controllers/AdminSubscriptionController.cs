@@ -2,8 +2,8 @@
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Commands;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
-using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository;
-using CloudBacktesting.SubscriptionService.WebAPI.Models.Request.Administrator.SubscriptionRequestAdmin;
+using CloudBacktesting.SubscriptionService.WebAPI.Models;
+using CloudBacktesting.SubscriptionService.WebAPI.Models.Request.Admin;
 using EventFlow;
 using EventFlow.Queries;
 using Microsoft.AspNetCore.Mvc;
@@ -48,14 +48,24 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             return Ok(result.ToList());
         }
 
-        [HttpPut]
-        public async Task<ActionResult> Put([FromBody] UpdateSubscriptionRequestAdminDto value)
+        [HttpPut("validate")]
+        public async Task<IActionResult> Validate([FromBody] ValidateSubscriptionRequestDto value)
         {
-            var subscriptionRequestCommand = new SubscriptionRequestAdminValidateSuccessCommand(new SubscriptionRequestId(value.Id), value.SubscriptionAccountId, value.IsAdminValidated);
+            var subscriptionRequestCommand = new SubscriptionRequestManualValidateSuccessCommand(new SubscriptionRequestId(value.Id));
 
-            await commandBus.PublishAsync(subscriptionRequestCommand, CancellationToken.None);
+            var result = await commandBus.PublishAsync(subscriptionRequestCommand, CancellationToken.None);
+            return result.IsSuccess ? Ok() : (IActionResult)BadRequest();
+            //return CreatedAtAction(nameof(Get), new IdentifierDto { Id = subscriptionRequestCommand.AggregateId.Value }, subscriptionRequestCommand);
+        }
 
-            return CreatedAtAction(nameof(Get), new { id = subscriptionRequestCommand.AggregateId.Value }, subscriptionRequestCommand);
+        [HttpPut("decline")]
+        public async Task<IActionResult> Decline([FromBody] DeclineSubscriptionRequestDto value)
+        {
+            var subscriptionRequestCommand = new SubscriptionRequestManualDeclineSuccessCommand(new SubscriptionRequestId(value.Id), value.Message);
+
+            var result = await commandBus.PublishAsync(subscriptionRequestCommand, CancellationToken.None);
+            return result.IsSuccess ? Ok() : (IActionResult)BadRequest();
+            //return CreatedAtAction(nameof(Get), new IdentifierDto { Id = subscriptionRequestCommand.AggregateId.Value, message = subscriptionRequestCommand.DeclineMessage}, subscriptionRequestCommand);
         }
     }
 }
