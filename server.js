@@ -170,6 +170,5 @@ request.put({
     "Address": process.env.HOST
   })
 }, (result) => {
-  
   console.log(`service registred in Consul with service name : ${process.env.SERVICE_NAME}`)
 });

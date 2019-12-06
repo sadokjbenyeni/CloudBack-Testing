@@ -1,0 +1,167 @@
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: hashicorp-consul-server
+  namespace: default
+  selfLink: /apis/apps/v1/namespaces/default/statefulsets/hashicorp-consul-server
+  uid: b7f2666d-2565-4ab0-9420-5bea7d51bb18
+  resourceVersion: "74982"
+  generation: 2
+  creationTimestamp: "2019-12-04T14:19:39Z"
+  labels:
+    app: consul
+    chart: consul-0.1.0
+    heritage: Helm
+    release: hashicorp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: consul
+      chart: consul-0.1.0
+      component: server
+      hasDNS: "true"
+      release: hashicorp
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: consul
+        chart: consul-0.1.0
+        component: server
+        hasDNS: "true"
+        release: hashicorp
+      annotations:
+        consul.hashicorp.com/connect-inject: "true"
+    spec:
+      volumes:
+        - name: config
+          configMap:
+            name: hashicorp-consul-server-config
+            defaultMode: 420
+      containers:
+        - name: consul
+          image: "consul:1.2.2"
+          command:
+            - /bin/sh
+            - "-ec"
+            - |
+              CONSUL_FULLNAME="hashicorp-consul"
+
+              exec /bin/consul agent \
+                -advertise="${POD_IP}" \
+                -bind=0.0.0.0 \
+                -bootstrap-expect=3 \
+                -client=0.0.0.0 \
+                -config-dir=/consul/config \
+                -datacenter=dc1 \
+                -data-dir=/consul/data \
+                -domain=consul \
+                -hcl="connect { enabled = true }" \
+                -ui \
+                -retry-join=${CONSUL_FULLNAME}-server-0.${CONSUL_FULLNAME}-server.${NAMESPACE}.svc \
+                -retry-join=${CONSUL_FULLNAME}-server-1.${CONSUL_FULLNAME}-server.${NAMESPACE}.svc \
+                -retry-join=${CONSUL_FULLNAME}-server-2.${CONSUL_FULLNAME}-server.${NAMESPACE}.svc \
+                -server
+          ports:
+            - name: http
+              containerPort: 8500
+              protocol: TCP
+            - name: serflan
+              containerPort: 8301
+              protocol: TCP
+            - name: serfwan
+              containerPort: 8302
+              protocol: TCP
+            - name: server
+              containerPort: 8300
+              protocol: TCP
+            - name: dns-tcp
+              containerPort: 8600
+              protocol: TCP
+            - name: dns-udp
+              containerPort: 8600
+              protocol: UDP
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+          resources: {}
+          volumeMounts:
+            - name: data
+              mountPath: /consul/data
+            - name: config
+              mountPath: /consul/config
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - "-ec"
+                - |
+                  curl http://127.0.0.1:8500/v1/status/leader 2>/dev/null | \
+                  grep -E '".+"'
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+            periodSeconds: 3
+            successThreshold: 1
+            failureThreshold: 2
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /bin/sh
+                  - "-c"
+                  - consul leave
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 10
+      dnsPolicy: ClusterFirst
+      securityContext:
+        fsGroup: 1000
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: consul
+                  component: server
+                  release: hashicorp
+              topologyKey: kubernetes.io/hostname
+      schedulerName: default-scheduler
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        creationTimestamp: null
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
+        volumeMode: Filesystem
+      status:
+        phase: Pending
+  serviceName: hashicorp-consul-server
+  podManagementPolicy: Parallel
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      partition: 0
+  revisionHistoryLimit: 10
+status:
+  observedGeneration: 2
+  replicas: 3
+  currentReplicas: 2
+  updatedReplicas: 1
+  currentRevision: hashicorp-consul-server-6b5fc6fdfd
+  updateRevision: hashicorp-consul-server-5c6794c8b5
+  collisionCount: 0

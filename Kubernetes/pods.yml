@@ -1,27 +1,77 @@
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: consul
+#   labels:
+#     app: consul
+# spec:
+#   containers:
+#     - name: consulcontainer
+#       image: consul
+#       imagePullPolicy: IfNotPresent
+#       env:
+#         - name: POD_IP
+#           valueFrom:            
+#             fieldRef:
+#               fieldPath: status.podIP
+#       resources:
+#         limits:
+#           cpu: "250m"
+#           memory: "250Mi"
+#       ports:
+#         - name: dns-tcp
+#           containerPort: 8600
+#           protocol: "TCP"
+#         - name: dns-udp
+#           containerPort: 8600
+#           protocol: "UDP"
+#         - name: http
+#           containerPort: 8500
+#           protocol: "TCP"
+#         - name: https
+#           containerPort: 8443
+#           protocol: "TCP"
+#         - name: serf-lan-tcp
+#           containerPort: 8301
+#           protocol: "TCP"
+#         - name: serf-lan-udp
+#           containerPort: 8301
+#           protocol: "UDP"
+#         - name: serf-wan-tcp
+#           containerPort: 8302
+#           protocol: "TCP"
+#         - name: serf-wan-udp
+#           containerPort: 8302
+#           protocol: "UDP"
+#         - name: server-rpc
+#           containerPort: 8300
+#           protocol: "TCP"
+#       args:
+#         - "agent"
+#         - "-advertise=$(POD_IP)"
+#         - "-bind=0.0.0.0"
+#         - "-bootstrap-expect=1"
+#         - "-client=0.0.0.0"
+#         - "-datacenter=dc1"
+#         - "-data-dir=/consul/data"
+#         - "-domain=consul"
+#         - "-retry-join=msservice.svc"
+#         - "-server"
+#         - "-ui"
+# ---
 apiVersion: v1
 kind: Pod
 metadata:
-  name: consulpod
+  name: microservices
   labels:
-    app: consulpod
+    app: microservices
+  annotations:
+    "consul.hashicorp.com/connect-service-upstreams": "counting:9001"
 spec:
   containers:
-    - name: consulservices
-      image: consul
-      imagePullPolicy: IfNotPresent
-      ports:
-        - containerPort: 8500
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: jsprojpod
-  labels:
-    app: jsprojpod
-spec:
-  containers:
-    - name: jscontainer
+    - name: nodejscontainer
       image: jsprojects
       imagePullPolicy: IfNotPresent
       ports:
         - containerPort: 9095
+
