@@ -9,11 +9,13 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
     public class SubscriptionRequestManualDeclinedEvent : AggregateEvent<SubscriptionRequest, SubscriptionRequestId>, ISubscriptionSagaRequestId
     {
         public string RequestId { get; }
+        public string SubscriptionAccountId { get; }
         public string Message { get; }
         public DateTime ManualDeclinedDate { get; }
-        public SubscriptionRequestManualDeclinedEvent(string requestId, string message, DateTime manualDeclinedDate)
+        public SubscriptionRequestManualDeclinedEvent(string requestId, string subscriptionAccountId, string message, DateTime manualDeclinedDate)
         {
             RequestId = requestId;
+            SubscriptionAccountId = subscriptionAccountId;
             Message = message;
             ManualDeclinedDate = manualDeclinedDate;
         }

@@ -61,7 +61,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         [HttpPut("decline")]
         public async Task<IActionResult> Decline([FromBody] DeclineSubscriptionRequestDto value)
         {
-            var subscriptionRequestCommand = new SubscriptionRequestManualDeclineSuccessCommand(new SubscriptionRequestId(value.Id), value.Message);
+            var subscriptionRequestCommand = new SubscriptionRequestManualDeclineSuccessCommand(value.Id, value.Message);
 
             var result = await commandBus.PublishAsync(subscriptionRequestCommand, CancellationToken.None);
             return result.IsSuccess ? Ok() : (IActionResult)BadRequest();

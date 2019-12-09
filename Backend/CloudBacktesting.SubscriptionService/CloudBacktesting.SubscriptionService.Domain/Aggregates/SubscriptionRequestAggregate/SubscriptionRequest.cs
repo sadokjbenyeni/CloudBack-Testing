@@ -9,6 +9,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
     /// This command create a new subscription for one user
     /// <Summary>
     public class SubscriptionRequest : AggregateRoot<SubscriptionRequest, SubscriptionRequestId>, IEmit<SubscriptionRequestCreatedEvent>
+                                        
     {
         public string subscriptionAccountId;
         private string status;
@@ -23,28 +24,27 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult ValidateBySystem(string subscriber)
+        public IExecutionResult ValidateBySystem(SubscriptionRequestId subscriptionRequestId, string subscriber)
         {
             Emit(new SubscriptionAccountAffectedEvent(subscriber));
-            Emit(new SubscriptionRequestStatusUpdatedEvent("Pending"));
+            Emit(new SubscriptionRequestStatusUpdatedEvent("Pending", subscriptionRequestId.ToString()));
             Emit(new SubscriptionRequestValidatedEvent(this.Id.Value));
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult ManualValidate()
+        public IExecutionResult ManualValidate(SubscriptionRequestId subscriptionRequestId)
         {
-            Emit(new SubscriptionRequestStatusUpdatedEvent("Validated"));
+            Emit(new SubscriptionRequestStatusUpdatedEvent("Validated", subscriptionRequestId.ToString()));
             Emit(new SubscriptionRequestManualValidatedEvent(this.Id.Value, DateTime.UtcNow));
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult ManualDecline(string message)
+        public IExecutionResult ManualDecline(SubscriptionRequestId subscriptionRequestId, string message)
         {
-            Emit(new SubscriptionRequestStatusUpdatedEvent("Declined"));
-            Emit(new SubscriptionRequestManualDeclinedEvent(this.Id.Value, message, DateTime.UtcNow));
+            Emit(new SubscriptionRequestStatusUpdatedEvent("Declined", subscriptionRequestId.ToString()));
+            Emit(new SubscriptionRequestManualDeclinedEvent(this.Id.Value, this.subscriptionAccountId, message, DateTime.UtcNow));
             return ExecutionResult.Success();
         }
-
 
         public void Apply(SubscriptionRequestCreatedEvent @event)
         {

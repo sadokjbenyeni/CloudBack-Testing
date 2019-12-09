@@ -11,8 +11,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
 {
     public class SubscriptionCreationSagaLocator : ISagaLocator
     {
-        //private static Dictionary<string, ISagaId> _mapping = new Dictionary<string, ISagaId>();
-        
+      
         public Task<ISagaId> LocateSagaAsync(IDomainEvent domainEvent, CancellationToken cancellationToken)
         {
             if(!(domainEvent.GetAggregateEvent() is ISubscriptionSagaRequestId requestId))
