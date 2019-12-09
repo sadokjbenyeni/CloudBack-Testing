@@ -9,7 +9,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
     /// This command create a new subscription for one user
     /// <Summary>
     public class SubscriptionRequest : AggregateRoot<SubscriptionRequest, SubscriptionRequestId>, IEmit<SubscriptionRequestCreatedEvent>
-                                        
+
     {
         public string subscriptionAccountId;
         private string status;
@@ -32,6 +32,12 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
             return ExecutionResult.Success();
         }
 
+        public IExecutionResult RejectBySystem(SubscriptionRequestId subscriptionRequestId, string subscriber)
+        {
+            Emit(new SubscriptionRequestStatusUpdatedEvent("Rejected", subscriptionRequestId.ToString()));
+            Emit(new SubscriptionRequestRejectedEvent(this.Id.Value, this.subscriptionAccountId, subscriber, "You have been rejected by the system", DateTime.UtcNow));
+            return ExecutionResult.Success();
+        }
         public IExecutionResult ManualValidate(SubscriptionRequestId subscriptionRequestId)
         {
             Emit(new SubscriptionRequestStatusUpdatedEvent("Validated", subscriptionRequestId.ToString()));
@@ -59,6 +65,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
         }
 
         public void Apply(SubscriptionRequestValidatedEvent @event) { }
+        public void Apply(SubscriptionRequestRejectedEvent @event) { }
         public void Apply(SubscriptionRequestManualValidatedEvent @event) { }
         public void Apply(SubscriptionRequestManualDeclinedEvent @event) { }
     }

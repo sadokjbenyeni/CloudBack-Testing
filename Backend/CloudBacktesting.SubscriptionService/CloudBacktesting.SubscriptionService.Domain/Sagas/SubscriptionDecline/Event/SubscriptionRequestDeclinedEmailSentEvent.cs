@@ -11,9 +11,9 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionDecline.
         public string RequestId { get; }
         public string Message { get; }
         public string SubscriptionAccountId { get; }
-        public string ManualDeclinedDate { get; set; }
+        public DateTime ManualDeclinedDate { get; set; }
 
-        public SubscriptionRequestDeclinedEmailSentEvent(string subscriptionRequestId, string message, string subscriptionAccountId, string manualDeclinedDate)
+        public SubscriptionRequestDeclinedEmailSentEvent(string subscriptionRequestId, string message, string subscriptionAccountId, DateTime manualDeclinedDate)
         {
             RequestId = subscriptionRequestId;
             Message = message;
