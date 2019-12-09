@@ -6,13 +6,14 @@ import 'rxjs/Rx';
 import { environment } from '../../environments/environment';
 import { Message } from '../models/message';
 import { Countries, Country } from '../models/Country';
+import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class CountriesService {
 
   constructor(private http: HttpClient) { }
 
-  getCountries() {
+  getCountries() :Observable<Countries>{
     return this.http.get<Countries>( environment.api + '/countries' );
   }
   isUE(id) {

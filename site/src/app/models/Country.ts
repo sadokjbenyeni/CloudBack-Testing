@@ -1,12 +1,12 @@
 
-export interface Country {
+export class Country {
     id: { type: String };
     name: { type: String};
     ue: { type: String};
     rgx: { type: String };
   }
   
-  export interface Countries {
+  export class Countries {
     countries: Country [];
   }
   

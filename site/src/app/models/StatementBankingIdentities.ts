@@ -1,5 +1,5 @@
 
-export interface StatementBankingIdentity {
+export class StatementBankingIdentity {
     id: String;
     device: String;
     name: String;
@@ -12,7 +12,7 @@ export interface StatementBankingIdentity {
     updated: Date;
 }
 
-export interface StatementBankingIdentities {
+export class StatementBankingIdentities {
     currencies: StatementBankingIdentity[];
 }
 

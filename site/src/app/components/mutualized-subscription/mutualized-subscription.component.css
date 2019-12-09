@@ -3,7 +3,6 @@
     text-align: justify;
     max-height: 60vh;
     overflow-y: scroll;
-    border-style: ridge;
 }
 ::ng-deep .mat-checkbox .mat-checkbox-frame {
     border-color: #ea663b;

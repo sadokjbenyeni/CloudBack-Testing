@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TermsService } from '../../services/terms.service';
-import { Term } from '../../models/Terms';
 import { CountriesService } from '../../services/countries.service';
+import { MatStepper } from '@angular/material';
+import { Subscription } from '../../models/Subscription';
+import { Country } from '../../models/Country';
+import { SubscriptionType } from '../../models/SubsriptionType';
 @Component({
   selector: 'app-mutualized-subscription',
   templateUrl: './mutualized-subscription.component.html',
@@ -10,14 +13,20 @@ import { CountriesService } from '../../services/countries.service';
 })
 export class MutualizedSubscriptionComponent implements OnInit {
   CgvFormGroup: FormGroup;
-  PaymentFormGroup: FormGroup;
-  Cgv: Term;
-  Countries: Array<Object>;
-  constructor(private _formBuilder: FormBuilder, private terms: TermsService, private countryService: CountriesService) { }
+  BillingFormGroup: FormGroup;
+  PayementFormGroup: FormGroup;
+  Subscription: Subscription;
+  IscgvAccepted: Boolean=false;
+
+  @ViewChild('subscriptionstepper', { static: false }) stepper: MatStepper;
+  Countries: Country[];
+  constructor(private _formBuilder: FormBuilder, private termsService: TermsService, private countryService: CountriesService) { }
 
   ngOnInit() {
-    this.terms.getLastSaleTerm().subscribe(result => {
-      this.Cgv = result;
+    this.Subscription = new Subscription(SubscriptionType.Mutualized);
+    this.termsService.getLastSaleTerm().subscribe(result => {
+      this.Subscription.cgv = result;
+
     })
     this.countryService.getCountries().subscribe(result => {
       this.Countries = result.countries;
@@ -25,13 +34,24 @@ export class MutualizedSubscriptionComponent implements OnInit {
     this.CgvFormGroup = this._formBuilder.group({
       cgvCrtl: ['', Validators.required]
     });
-    this.PaymentFormGroup = this._formBuilder.group({
+    this.BillingFormGroup = this._formBuilder.group({
       VAT: ['', Validators.required],
       City: ['', Validators.required],
       Postal: ['', Validators.required],
-      Adress: ['', Validators.required],
+      Address: ['', Validators.required],
       Country: ['', Validators.required],
-      
+
     });
+  }
+  goto(step: number) {
+    this.stepper.selectedIndex = step;
+  }
+  showOptions(event) {
+    if (event.checked) {
+      this.IscgvAccepted = true;
+    }
+    else {
+      this.IscgvAccepted = false;
+    }
   }
 }

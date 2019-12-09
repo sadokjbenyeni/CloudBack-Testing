@@ -211,7 +211,7 @@
               <div class="form-group input-group  col-md-12 ">
                 <re-captcha (resolved)="resolved($event)" [siteKey]="key"></re-captcha>
               </div>
-              <a routerLink="/on-boarding" class="btn btn-default">Cancel</a>
+              <a routerLink="/on-boarding" class="border mr-2 btn btn-default">Cancel</a>
               <button (click)="Signup() " class="btn btn-default"
                 [disabled]="userForm.invalid|| !acceptingcgu || userForm.pending || checkrobot || exist">Sign Up
               </button>
@@ -219,7 +219,7 @@
             <div class="col-lg-4 col-lg-offset-4" *ngIf="page ==='/account'">
               <input type="checkbox" name="newcommercial" [(ngModel)]="user.commercial" value="usercommercial" />
               Subscribe to commercial emails
-              <a routerLink="/on-boarding" class="btn btn-default">Cancel</a>
+              <a routerLink="/on-boarding" class="border mr-2 btn btn-default">Cancel</a>
 
               <button class="btn btn-success" [disabled]="userForm.invalid || userForm.pending"
                 (click)="update()">Update</button>
