@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"cloudbacktesting.saleterms"}],"uuid":"598e78297f8f4e7085af8cbae7385f8b"}
