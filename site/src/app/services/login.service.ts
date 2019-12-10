@@ -1,4 +1,3 @@
-import { PasswordComponent } from './../components/login/password/password.component';
 import { GuardGuard } from './../guard.guard';
 import { UserService } from './user.service';
 import { Injectable } from '@angular/core';
@@ -30,7 +29,6 @@ export class LoginService {
     public activatedRoute: ActivatedRoute,
     public authentificationService: AuthentificationService,
     public guardGuard: GuardGuard,
-    public passwordDialog: MatDialog,
 
   ) {
   }
@@ -85,7 +83,5 @@ export class LoginService {
     })
   };
 
-  openPasswordDialog(){
-    this.passwordDialog.open(PasswordComponent,{panelClass: 'no-padding-dialog'});
-  }
+
 }

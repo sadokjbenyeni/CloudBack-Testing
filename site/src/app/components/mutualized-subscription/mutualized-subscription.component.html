@@ -8,15 +8,15 @@
                 <form [formGroup]="CgvFormGroup">
                     <p class="termsofsale border rounded"> {{Subscription.cgv.description}} </p>
                     <ng-template matStepLabel>General condition of sale</ng-template>
-                    <div class="col-12 row text-right">
+                    <div class="col-12 row text-right pr-0">
                         <div class="col mt-2">
-                            <mat-checkbox class="col-12" formControlName="cgvCrtl" (change)="showOptions($event)"
+                            <mat-checkbox class="col-12 pr-0" formControlName="cgvCrtl" (change)="showOptions($event)"
                                 required> I read and I agree with general condition
                                 of
                                 sale</mat-checkbox>
                         </div>
-                        <div class="col-2">
-                            <button class="btn btn-primary col-8 ml-2" matStepperNext>Next</button>
+                        <div class="col-2 pr-0">
+                            <button class="btn btn-primary col-8" matStepperNext>Next</button>
                         </div>
                     </div>
                 </form>
