@@ -12,8 +12,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
 
     {
         public string subscriptionAccountId;
-        private string status;
-
+        public string status;
         public SubscriptionRequest(SubscriptionRequestId aggregateId) : base(aggregateId) { }
 
         public IExecutionResult Create(string subscriptionAccountId, string type)
@@ -55,7 +54,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
         public IExecutionResult ManualConfigure(SubscriptionRequestId subscriptionRequestId, string subscriber)
         {
             Emit(new SubscriptionRequestStatusUpdatedEvent("Active", subscriptionRequestId.ToString()));
-            Emit(new SubscriptionRequestManualConfiguredEvent(this.Id.Value, this.subscriptionAccountId, subscriber, DateTime.UtcNow));
+            Emit(new SubscriptionRequestManualConfiguredEvent(this.Id.Value, this.subscriptionAccountId, subscriber, "Your subscripton has been configured successfully welcome to the big club", DateTime.UtcNow));
             return ExecutionResult.Success();
         }
 

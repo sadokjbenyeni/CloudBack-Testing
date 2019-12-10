@@ -44,6 +44,11 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
             var configMongo = new SubscriptionDatabaseSettings();
             Configuration.Bind("SubscriptionDatabaseSettings", configMongo);
             AddEventFlow(services, configMongo);
+            services.AddCors(options =>
+            options.AddPolicy("AllowAllOrigins", builder =>
+            {
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            }));
             return services.BuildServiceProvider();
         }
 
@@ -83,7 +88,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
             {
                 app.UseHsts();
             }
-
+            app.UseCors("AllowAllOrigins");
             app.UseSwagger();
             app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/V1/swagger.json", "Subscription Api"));
             app.UseHttpsRedirection();

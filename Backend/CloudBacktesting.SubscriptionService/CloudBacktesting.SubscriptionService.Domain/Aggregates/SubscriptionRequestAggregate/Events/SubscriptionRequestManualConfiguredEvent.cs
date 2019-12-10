@@ -11,13 +11,15 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
         public string RequestId { get; }
         public string SubscriptionAccountId { get; }
         public string Subscriber { get; set; }
-        public DateTime ManualConfiguredDate { get; set; }
+        public string Message { get; set; }
+        public DateTime ActivatedDate { get; set; }
 
-        public SubscriptionRequestManualConfiguredEvent(string requestId, string subscriptionAccountId, string subscriber, DateTime manualConfiguredDate)
+        public SubscriptionRequestManualConfiguredEvent(string requestId, string subscriptionAccountId, string subscriber, string message, DateTime activatedDate)
         {
             RequestId = requestId;
             SubscriptionAccountId = subscriptionAccountId;
-            ManualConfiguredDate = manualConfiguredDate;
+            ActivatedDate = activatedDate;
+            Message = message;
             Subscriber = subscriber;
         }
     }

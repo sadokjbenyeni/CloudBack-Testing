@@ -30,6 +30,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionR
         public DateTime ValidatedOrDeclinedDate { get; private set; }
         public DateTime RejectedDate { get; private set; }
         public bool? IsManualConfigured { get; set; } = false;
+        public string ActivationMessage { get; private set; }
         public DateTime ActivatedDate { get; private set; }
 
 
@@ -82,7 +83,8 @@ namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionR
         {
             this.Subscriber = domainEvent.AggregateEvent.Subscriber;
             this.IsManualConfigured = true;
-            this.ActivatedDate = domainEvent.AggregateEvent.ManualConfiguredDate;
+            this.ActivatedDate = domainEvent.AggregateEvent.ActivatedDate;
+            this.ActivationMessage = domainEvent.AggregateEvent.Message;
         }
     }
 }
