@@ -32,8 +32,8 @@ Scenario: Chang browses description for specific subscription
 		| Type              | Mutualized |
 		| IsSystemValidated | true       |
 
-@v1 @subscription @request @creation @ignore
-Scenario: Morgan browses the Chang's subscription account
+@v1 @subscription @request @creation
+Scenario: Chang browses the Chang's subscription account
 	Given the webapi is online
 	And 'Chang' subscription account has been created
 	And 'Mutualized' subscription has been created for 'Chang'

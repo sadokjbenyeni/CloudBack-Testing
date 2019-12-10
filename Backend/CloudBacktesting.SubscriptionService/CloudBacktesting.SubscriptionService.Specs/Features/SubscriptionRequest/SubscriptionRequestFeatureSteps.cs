@@ -43,6 +43,11 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
             context.Get<List<string>>($"{customer}-subscriptionRequest").Add(identifier.Id);
         }
 
+        private IEnumerable<string> GetByCustomer(string customer)
+        {
+            return context.Get<List<string>>($"{customer}-subscriptionRequest");
+        }
+
         [When(@"Chang sends new request of subscription for (.*) service")]
         public async Task WhenChangSendsNewRequestOfSubscriptionForMutualizedService(string typeOfSubscription)
         {
@@ -74,9 +79,12 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
 
 
         [When(@"'(.*)' sends GET request with '(.*)' subscription")]
-        public void WhenSendsGETRequestWithSubscription(string p0, string p1)
+        public async Task WhenSendsGETRequestWithSubscription(string customer, string typeRequest)
         {
-            context.Pending();
+            var identifier = GetByCustomer(customer).First();
+            var httpContext = context.Get<HttpClient>();
+            var result = await httpContext.GetAsync($"api/subscriptionrequest/{identifier}");
+            context.Set(result, "getSubscriptionRequest");
         }
         
         [Then(@"Creation of subscription is successful")]
@@ -107,9 +115,13 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
 
 
         [Then(@"only '(.*)' subscription has been return at '(.*)'")]
-        public void ThenOnlySubscriptionHasBeenReturnAt(string p0, string p1)
+        public async Task ThenOnlySubscriptionHasBeenReturnAt(string typeOfSubscriptionRequest, string customer)
         {
-            context.Pending();
+            var httpResponse = context.Get<HttpResponseMessage>("getSubscriptionRequest");
+            var model = JsonConvert.DeserializeObject<SubscriptionRequestReadModelDto>(await httpResponse.Content.ReadAsStringAsync());
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.Subscriber, Is.EqualTo(customer).Using((IEqualityComparer<string>)StringComparer.InvariantCultureIgnoreCase));
+            Assert.That(model.Type, Is.EqualTo(typeOfSubscriptionRequest).Using((IEqualityComparer<string>)StringComparer.InvariantCultureIgnoreCase));
         }
 
         [Then(@"The subscription required that:")]

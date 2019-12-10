@@ -21,6 +21,7 @@ namespace CloudBacktesting.Infra.EventFlow.Queries.InMemory
         protected override Task<IEnumerable<TReadModel>> FindAsync(Expression<Func<TReadModel, bool>> predicate, FindReadModelQuery<TReadModel> query, CancellationToken cancellationToken)
         {
             var whereClause = predicate.Compile();
+            //var queryClause = query.Predicate.Compile();
             return  readStore.FindAsync(model => whereClause(model), cancellationToken: cancellationToken)
                              .ContinueWith(task => task.Result as IEnumerable<TReadModel>);
         }

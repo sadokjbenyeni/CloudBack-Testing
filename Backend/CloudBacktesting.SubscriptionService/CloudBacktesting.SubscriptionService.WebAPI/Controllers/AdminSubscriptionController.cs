@@ -3,6 +3,7 @@ using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequest
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Commands;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
 using CloudBacktesting.SubscriptionService.WebAPI.Models;
+using CloudBacktesting.SubscriptionService.WebAPI.Models.Account.Client.SubscriptionAccount;
 using CloudBacktesting.SubscriptionService.WebAPI.Models.Request.Admin;
 using EventFlow;
 using EventFlow.Queries;
@@ -45,8 +46,9 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             //return Task.FromResult((IActionResult)Ok(new SubscriptionAccountDto() { Email = userId }));
             var result = await queryProcessor.ProcessAsync(new FindReadModelQuery<SubscriptionAccountReadModel>(model => true), CancellationToken.None);
             //await cursor.MoveNextAsync();
-            return Ok(result.ToList());
+            return Ok(result.Select(ToDto).ToList());
         }
+
 
         [HttpPut("validate")]
         public async Task<IActionResult> Validate([FromBody] ValidateSubscriptionRequestDto value)
@@ -66,6 +68,17 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             var result = await commandBus.PublishAsync(subscriptionRequestCommand, CancellationToken.None);
             return result.IsSuccess ? Ok() : (IActionResult)BadRequest();
             //return CreatedAtAction(nameof(Get), new IdentifierDto { Id = subscriptionRequestCommand.AggregateId.Value, message = subscriptionRequestCommand.DeclineMessage}, subscriptionRequestCommand);
+        }
+
+
+        private static SubscriptionAccountReadModelDto ToDto(SubscriptionAccountReadModel readModel)
+        {
+            return new SubscriptionAccountReadModelDto()
+            {
+                Id = readModel.Id,
+                Subscriber = readModel.Subscriber,
+                CreationDate = readModel.CreationDate
+            };
         }
 
         [HttpPut("configure")]

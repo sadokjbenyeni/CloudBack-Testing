@@ -31,28 +31,6 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionAccoun
             Assert.That(context.Get<HttpClient>(), Is.Not.Null);// ((HttpClient)context.Get<IServiceProvider>().GetService(typeof(HttpClient)));
         }
 
-        [Given(@"'(.*)' subscription account has been created")]
-        public Task GivenSubscriptionAccountHasBeenCreated(string customer)
-        {
-            return CreateNewSubscriptionAccountFor(customer);
-        }
-
-        
-        [When(@"morgan sends the subscription account creation request for '(.*)'")]
-        public Task WhenMorganSendsTheSubscriptionAccountCreationRequestForChang(string customer)
-        {
-            return CreateNewSubscriptionAccountFor(customer);
-        }
-
-        private async Task CreateNewSubscriptionAccountFor(string customer)
-        {
-            var httpContext = context.Get<HttpClient>();
-            var customerCommand = new CreateSubscriptionAccountDto() { Subscriber = customer };
-            context.Set(customerCommand, "creationSubscriptionAccountCommand");
-            var content = new StringContent(JsonConvert.SerializeObject(customerCommand), Encoding.UTF8, "application/json");
-            var result = await httpContext.PostAsync("api/subscriptionaccount", content);
-            context.Set(result, "createSubscriptionCommandResult");
-        }
 
         [When(@"morgan gets the subscription account list")]
         public async Task WhenMorganGetsTheSubscriptionAccountList()

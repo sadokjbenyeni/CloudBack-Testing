@@ -20,22 +20,22 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.1.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Subscription request feature")]
-    public partial class SubscriptionRequestFeatureFeature
+    [NUnit.Framework.DescriptionAttribute("Subscription validation request feature")]
+    public partial class SubscriptionValidationRequestFeatureFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
         private string[] _featureTags = ((string[])(null));
         
-#line 1 "SubscriptionRequest.feature"
+#line 1 "SubscriptionValidationRequest.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Subscription request feature", "\t\tChang can create a new subscription after register on the site", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Subscription validation request feature", "\t\tChang can create a new subscription after register on the site", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -78,7 +78,16 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
 #line 4
 #line hidden
 #line 5
- testRunner.Given("Chang is authentificated", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Morgan is authentificated", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 6
+ testRunner.And("the webapi is online", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 7
+ testRunner.And("\'Chang\' subscription account has been created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 8
+ testRunner.And("\'Mutualized\' subscription has been created for \'Chang\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
         }
         
@@ -100,7 +109,7 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
                         "subscription",
                         "request",
                         "creation"});
-#line 8
+#line 11
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -123,16 +132,10 @@ this.ScenarioInitialize(scenarioInfo);
 #line 4
 this.FeatureBackground();
 #line hidden
-#line 9
- testRunner.Given("the webapi is online", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 10
- testRunner.And("\'Chang\' subscription account has been created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 11
+#line 12
  testRunner.When("Chang sends new request of subscription for Mutualized service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 12
+#line 13
  testRunner.Then("Creation of subscription is successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -157,7 +160,7 @@ this.FeatureBackground();
                         "subscription",
                         "request",
                         "creation"});
-#line 15
+#line 16
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -180,19 +183,10 @@ this.ScenarioInitialize(scenarioInfo);
 #line 4
 this.FeatureBackground();
 #line hidden
-#line 16
- testRunner.Given("the webapi is online", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
 #line 17
- testRunner.And("\'Chang\' subscription account has been created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 18
- testRunner.And("\'Mutualized\' subscription has been created for \'Chang\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 19
  testRunner.When("\'Chang\' sends GET request these subscriptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 20
+#line 18
  testRunner.Then("subscriptions are returned for \'Chang\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -217,7 +211,7 @@ this.FeatureBackground();
                         "subscription",
                         "request",
                         "creation"});
-#line 23
+#line 21
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -240,63 +234,127 @@ this.ScenarioInitialize(scenarioInfo);
 #line 4
 this.FeatureBackground();
 #line hidden
-#line 24
- testRunner.Given("the webapi is online", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 25
- testRunner.And("\'Chang\' subscription account has been created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 26
- testRunner.And("\'Mutualized\' subscription has been created for \'Chang\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 27
+#line 22
  testRunner.When("\'Chang\' sends GET request subscription", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                             "field",
                             "value"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "Status",
                             "Pending"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "Subscriber",
                             "Chang"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "Type",
                             "Mutualized"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "IsSystemValidated",
                             "true"});
-#line 28
- testRunner.Then("The subscription required that:", ((string)(null)), table1, "Then ");
+#line 23
+ testRunner.Then("The subscription required that:", ((string)(null)), table2, "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Chang browses the Chang\'s subscription account")]
+        [NUnit.Framework.DescriptionAttribute("Morgan browses the Chang\'s mutualized subscription account")]
         [NUnit.Framework.CategoryAttribute("v1")]
         [NUnit.Framework.CategoryAttribute("subscription")]
         [NUnit.Framework.CategoryAttribute("request")]
         [NUnit.Framework.CategoryAttribute("creation")]
-        public virtual void ChangBrowsesTheChangsSubscriptionAccount()
+        [NUnit.Framework.CategoryAttribute("validationRequest")]
+        [NUnit.Framework.CategoryAttribute("browse")]
+        [NUnit.Framework.CategoryAttribute("data")]
+        [NUnit.Framework.CategoryAttribute("readModel")]
+        [NUnit.Framework.CategoryAttribute("ignore")]
+        public virtual void MorganBrowsesTheChangsMutualizedSubscriptionAccount()
         {
             string[] tagsOfScenario = new string[] {
                     "v1",
                     "subscription",
                     "request",
                     "creation",
+                    "validationRequest",
+                    "browse",
+                    "data",
+                    "readModel",
                     "ignore"};
-                    "v1",
-                    "subscription",
-                    "request",
-                    "creation"};
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Chang browses the Chang\'s subscription account", null, new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Morgan browses the Chang\'s mutualized subscription account", null, new string[] {
                         "v1",
                         "subscription",
                         "request",
-                        "creation"});
+                        "creation",
+                        "validationRequest",
+                        "browse",
+                        "data",
+                        "readModel",
+                        "ignore"});
+#line 31
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 4
+this.FeatureBackground();
+#line hidden
+#line 32
+ testRunner.When("\'Morgan\' sends GET admin request with \'Mutualized\' subscription", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 33
+ testRunner.Then("only \'Mutualized\' subscription has been return at \'Chang\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Morgan browses subscription requests open")]
+        [NUnit.Framework.CategoryAttribute("v1")]
+        [NUnit.Framework.CategoryAttribute("subscription")]
+        [NUnit.Framework.CategoryAttribute("request")]
+        [NUnit.Framework.CategoryAttribute("creation")]
+        [NUnit.Framework.CategoryAttribute("validationRequest")]
+        [NUnit.Framework.CategoryAttribute("browse")]
+        [NUnit.Framework.CategoryAttribute("data")]
+        [NUnit.Framework.CategoryAttribute("readModel")]
+        public virtual void MorganBrowsesSubscriptionRequestsOpen()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "v1",
+                    "subscription",
+                    "request",
+                    "creation",
+                    "validationRequest",
+                    "browse",
+                    "data",
+                    "readModel"};
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Morgan browses subscription requests open", null, new string[] {
+                        "v1",
+                        "subscription",
+                        "request",
+                        "creation",
+                        "validationRequest",
+                        "browse",
+                        "data",
+                        "readModel"});
 #line 36
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -321,19 +379,13 @@ this.ScenarioInitialize(scenarioInfo);
 this.FeatureBackground();
 #line hidden
 #line 37
- testRunner.Given("the webapi is online", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("populates repositry with subscription account and requests", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 38
- testRunner.And("\'Chang\' subscription account has been created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("\'Morgan\' sends GET request on subscription request which are being created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 39
- testRunner.And("\'Mutualized\' subscription has been created for \'Chang\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 40
- testRunner.When("\'Chang\' sends GET request with \'Mutualized\' subscription", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 41
- testRunner.Then("only \'Mutualized\' subscription has been return at \'Chang\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("all subscription request has been return", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

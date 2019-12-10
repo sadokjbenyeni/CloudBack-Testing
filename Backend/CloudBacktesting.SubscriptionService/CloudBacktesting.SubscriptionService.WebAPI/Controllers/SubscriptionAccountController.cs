@@ -40,12 +40,17 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             //    return BadRequest($"Access error, please contact the administrator with error id: {idError}");
             //}
             var readModel = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<SubscriptionAccountReadModel>(new SubscriptionAccountId(id)), CancellationToken.None);
-            return Ok(new SubscriptionAccountReadModelDto()
+            return base.Ok(ToDto(readModel));
+        }
+
+        private static SubscriptionAccountReadModelDto ToDto(SubscriptionAccountReadModel readModel)
+        {
+            return new SubscriptionAccountReadModelDto()
             {
                 Id = readModel.Id,
                 Subscriber = readModel.Subscriber,
                 CreationDate = readModel.CreationDate
-            });
+            };
         }
 
         [HttpGet]
@@ -62,7 +67,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             //return Task.FromResult((IActionResult)Ok(new SubscriptionAccountDto() { Email = userId }));
             var result = await queryProcessor.ProcessAsync(new FindReadModelQuery<SubscriptionAccountReadModel>(model => true), CancellationToken.None);
             //await cursor.MoveNextAsync();
-            return Ok(result.ToList());
+            return Ok(result.Select(ToDto).ToList());
         }
 
         [HttpPost]
