@@ -52,6 +52,13 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
             return ExecutionResult.Success();
         }
 
+        public IExecutionResult ManualConfigure(SubscriptionRequestId subscriptionRequestId, string subscriber)
+        {
+            Emit(new SubscriptionRequestStatusUpdatedEvent("Active", subscriptionRequestId.ToString()));
+            Emit(new SubscriptionRequestManualConfiguredEvent(this.Id.Value, this.subscriptionAccountId, subscriber, DateTime.UtcNow));
+            return ExecutionResult.Success();
+        }
+
         public void Apply(SubscriptionRequestCreatedEvent @event)
         {
             this.subscriptionAccountId = @event.SubscriptionAccountId;
@@ -68,5 +75,6 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
         public void Apply(SubscriptionRequestRejectedEvent @event) { }
         public void Apply(SubscriptionRequestManualValidatedEvent @event) { }
         public void Apply(SubscriptionRequestManualDeclinedEvent @event) { }
+        public void Apply(SubscriptionRequestManualConfiguredEvent @event) { }
     }
 }

@@ -67,5 +67,14 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             return result.IsSuccess ? Ok() : (IActionResult)BadRequest();
             //return CreatedAtAction(nameof(Get), new IdentifierDto { Id = subscriptionRequestCommand.AggregateId.Value, message = subscriptionRequestCommand.DeclineMessage}, subscriptionRequestCommand);
         }
+
+        [HttpPut("configure")]
+        public async Task<IActionResult> Configure([FromBody] ConfigureSubscriptionRequestDto value)
+        {
+            var subscriptionRequestCommand = new SubscriptionRequestManualConfigurationCommand(new SubscriptionRequestId(value.Id), value.Subscriber);
+
+            var result = await commandBus.PublishAsync(subscriptionRequestCommand, CancellationToken.None);
+            return result.IsSuccess ? Ok() : (IActionResult)BadRequest();
+        }
     }
 }

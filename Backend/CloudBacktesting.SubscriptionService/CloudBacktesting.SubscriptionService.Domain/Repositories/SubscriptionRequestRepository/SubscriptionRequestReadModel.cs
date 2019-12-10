@@ -15,6 +15,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionR
         , IAmReadModelFor<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestRejectedEvent>
         , IAmReadModelFor<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestManualValidatedEvent>
         , IAmReadModelFor<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestManualDeclinedEvent>
+        , IAmReadModelFor<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestManualConfiguredEvent>
     {
         public string Id { get; private set; }
         public string SubscriptionAccountId { get; set; }
@@ -28,6 +29,8 @@ namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionR
         public string DeclineMessage { get; private set; }
         public DateTime ValidatedOrDeclinedDate { get; private set; }
         public DateTime RejectedDate { get; private set; }
+        public bool? IsManualConfigured { get; set; } = false;
+        public DateTime ActivatedDate { get; private set; }
 
 
         public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestCreatedEvent> domainEvent)
@@ -54,7 +57,6 @@ namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionR
         }
         public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestRejectedEvent> domainEvent)
         {
-
             this.Subscriber = domainEvent.AggregateEvent.Subscriber;
             this.DeclineMessage = domainEvent.AggregateEvent.Message;
             this.IsSystemValidated = false;
@@ -74,6 +76,13 @@ namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionR
             this.IsManualValidated = false;
             this.DeclineMessage = domainEvent.AggregateEvent.Message;
             this.ValidatedOrDeclinedDate = domainEvent.AggregateEvent.ManualDeclinedDate;
+        }
+
+        public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestManualConfiguredEvent> domainEvent)
+        {
+            this.Subscriber = domainEvent.AggregateEvent.Subscriber;
+            this.IsManualConfigured = true;
+            this.ActivatedDate = domainEvent.AggregateEvent.ManualConfiguredDate;
         }
     }
 }
