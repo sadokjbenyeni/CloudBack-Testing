@@ -23,6 +23,7 @@ import { LoginPageComponent } from './components/login/login-page/login-page.com
 import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurrency.component';
 import { OnBoardingComponent } from './components/on-boarding/on-boarding.component';
 import { MutualizedSubscriptionComponent } from './components/mutualized-subscription/mutualized-subscription.component';
+import { SubscriptionsComponent } from './components/subscriptions/subscriptions.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -32,6 +33,7 @@ export const routes: Routes = [
   { path: 'subscription/mutualized', component: MutualizedSubscriptionComponent, canActivate: [GuardGuard] },
   // ADMINISTRATOR
   { path: 'admin/profil/:id', component: UserDetailComponent, canActivate: [GuardGuard] },
+  { path: 'subscriptions', component: SubscriptionsComponent, canActivate: [GuardGuard] },
   { path: 'admin/users', component: UsersComponent, canActivate: [GuardGuard] },
   { path: 'admin/role', component: RoleComponent, canActivate: [GuardGuard] },
   { path: 'admin/countries', component: CountriesComponent, canActivate: [GuardGuard] },

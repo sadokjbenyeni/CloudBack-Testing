@@ -78,6 +78,8 @@ import { PasswordResetComponent } from './components/login/password-reset/passwo
 // import { PdfComponent } from './components/commun/pdf/pdf.component';
 import { NotifierModule } from "angular-notifier";
 import { MutualizedSubscriptionComponent } from './components/mutualized-subscription/mutualized-subscription.component';
+import { SubscriptionsComponent } from './components/subscriptions/subscriptions.component';
+import { SubscriptionService } from './services/subscription.service';
 
 @NgModule({
   declarations: [
@@ -117,6 +119,7 @@ import { MutualizedSubscriptionComponent } from './components/mutualized-subscri
     PasswordComponent,
     PasswordResetComponent,
     MutualizedSubscriptionComponent,
+    SubscriptionsComponent,
 
   ],
   entryComponents:[NgbdModalContent, LoginDialogComponent, PasswordComponent,PasswordResetComponent, TermsOfUseComponent],
@@ -151,7 +154,8 @@ import { MutualizedSubscriptionComponent } from './components/mutualized-subscri
     ComplianceService,
     CompanytypesService,
     AuthentificationService,
-    LoginService
+    LoginService,
+    SubscriptionService,
     // FilterPipe
   ],
   bootstrap: [AppComponent]
