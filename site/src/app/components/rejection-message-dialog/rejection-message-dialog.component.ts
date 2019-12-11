@@ -13,7 +13,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class RejectionMessageDialogComponent implements OnInit {
   subscription: Subscription;
   constructor(private _formBuilder: FormBuilder, private snackbar: MatSnackBar, private subscriptionService: SubscriptionService, private dialogRef: MatDialogRef<RejectionMessageDialogComponent>, @Inject(MAT_DIALOG_DATA) public data) { }
-  message: string;
   messageForm: FormGroup;
   ngOnInit() {
     this.subscription = this.data["subscription"];
@@ -23,8 +22,11 @@ export class RejectionMessageDialogComponent implements OnInit {
   }
   DoRejectSubscription() {
     if (this.messageForm.valid) {
-      this.subscriptionService.RejectSubscription(this.subscription.id, this.message).subscribe(
+      debugger;
+      this.subscriptionService.RejectSubscription(this.subscription.id, this.messageForm.get("messagectrl").value
+      ).subscribe(
         () => {
+
           this.dialogRef.close(true);
           this.snackbar.open("Subscription declined successfully", "Ok", { duration: 3000 })
         })

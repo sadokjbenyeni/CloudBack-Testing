@@ -46,7 +46,7 @@ export class MutualizedSubscriptionComponent implements OnInit {
 
     });
     //AddBilling
-    this.getUser();
+    this.SetDefaultBillingInformations();
   }
   goto(step: number) {
     this.stepper.selectedIndex = step;
@@ -59,7 +59,7 @@ export class MutualizedSubscriptionComponent implements OnInit {
       this.IscgvAccepted = false;
     }
   }
-  getUser() {
+  SetDefaultBillingInformations() {
     let id = JSON.parse(sessionStorage.getItem('user'))._id;
     this.userService.getCompte(id).subscribe(res => {
       this.Subscription.Billing.Address = res.addressBilling;
@@ -67,7 +67,6 @@ export class MutualizedSubscriptionComponent implements OnInit {
       this.Subscription.Billing.VAT = res.vat;
       this.Subscription.Billing.PostalCode = res.postalCodeBilling;
       this.Subscription.Billing.Country = this.Countries.find(item => item.id == res.countryBilling)
-      debugger;
 
     });
   }

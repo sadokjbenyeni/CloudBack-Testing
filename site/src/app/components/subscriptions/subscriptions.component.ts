@@ -17,22 +17,37 @@ export class SubscriptionsComponent implements OnInit {
   constructor(private snackbar: MatSnackBar, private dialog: MatDialog, private subscriptionService: SubscriptionService) { }
 
   ngOnInit() {
-    this.subscriptionService.getAllSubscriptions().subscribe
-      (result => {
-        this.dataSource = result;
-        debugger;
-      })
+    this.fillDataSource()
 
   }
   AcceptSubscription(subscription: Subscription) {
     this.subscriptionService.AcceptSubscription(subscription.id).subscribe
       (() => {
         this.snackbar.open("Subscription Accepted Sussesfully", "Ok", { duration: 3000 })
+        this.fillDataSource()
+
       }
       )
   }
   RejectSubscription(subscription: Subscription) {
     this.dialog.open(RejectionMessageDialogComponent, { width: '55vw', data: { subscription: subscription } })
+    .afterClosed().subscribe(
+      result=>
+      {
+        if (result==true)
+         {
+          this.fillDataSource()
+         }
+      }
+    )
   }
+  fillDataSource() {
+    this.subscriptionService.getAllSubscriptions().subscribe
+      (result => {
+        debugger;
+        this.dataSource = result.filter(item => item["status"] == "Pending");
 
+        debugger;
+      })
+  }
 }
