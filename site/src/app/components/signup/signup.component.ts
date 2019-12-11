@@ -114,9 +114,9 @@ export class SignUpComponent implements OnInit {
       this.getUser();
       this.getCurrency();
     }
-    debugger;
+    // debugger;
     this.getCompanyType();
-    debugger;
+    // debugger;
     this.getCountry();
     this.coll = 'col-lg-12';
     this.colg = 'col-lg-6';
@@ -124,7 +124,7 @@ export class SignUpComponent implements OnInit {
     this.termService.getLastUsageTerm().subscribe(result => {
       this.term = result;
     });
-    debugger;
+    // debugger;
 
   }
 
