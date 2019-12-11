@@ -3,7 +3,7 @@ import { Country } from "./Country";
 export class Billing {
 
 
-  VAT: string;
+  VAT: String;
   Address: String;
   City: String;
   PostalCode: String;

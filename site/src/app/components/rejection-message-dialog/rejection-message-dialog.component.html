@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>Declination of subscription number "{{subscription.id}}"</h2>
-<form [formGroup]="messageForm" (ngSubmit)="DoRejectSubscription()">
+<form [formGroup]="messageForm" (ngSubmit)="DoRejectSubscription()" no>
     <mat-dialog-content class="mat-typography">
         <mat-form-field class="col-12">
             <textarea matInput placeholder="Rejection Cause" formControlName="messagectrl" required></textarea>
