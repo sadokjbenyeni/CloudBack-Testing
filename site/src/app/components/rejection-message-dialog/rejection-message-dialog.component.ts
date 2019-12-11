@@ -22,11 +22,13 @@ export class RejectionMessageDialogComponent implements OnInit {
     });
   }
   DoRejectSubscription() {
-    this.subscriptionService.RejectSubscription(this.subscription.id, this.message).subscribe(
-      () => {
-        this.dialogRef.close(true);
-        this.snackbar.open("Subscription declined successfully", "Ok", { duration: 3000 })
-      })
+    if (this.messageForm.valid) {
+      this.subscriptionService.RejectSubscription(this.subscription.id, this.message).subscribe(
+        () => {
+          this.dialogRef.close(true);
+          this.snackbar.open("Subscription declined successfully", "Ok", { duration: 3000 })
+        })
+    }
   }
   onclose() {
     this.dialogRef.close(false);
