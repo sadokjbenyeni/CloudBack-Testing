@@ -80,6 +80,7 @@ import { NotifierModule } from "angular-notifier";
 import { MutualizedSubscriptionComponent } from './components/mutualized-subscription/mutualized-subscription.component';
 import { SubscriptionsComponent } from './components/subscriptions/subscriptions.component';
 import { SubscriptionService } from './services/subscription.service';
+import { RejectionMessageDialogComponent } from './components/rejection-message-dialog/rejection-message-dialog.component';
 
 @NgModule({
   declarations: [
@@ -120,9 +121,10 @@ import { SubscriptionService } from './services/subscription.service';
     PasswordResetComponent,
     MutualizedSubscriptionComponent,
     SubscriptionsComponent,
+    RejectionMessageDialogComponent,
 
   ],
-  entryComponents:[NgbdModalContent, LoginDialogComponent, PasswordComponent,PasswordResetComponent, TermsOfUseComponent],
+  entryComponents: [NgbdModalContent, LoginDialogComponent, PasswordComponent, PasswordResetComponent, TermsOfUseComponent, RejectionMessageDialogComponent],
   imports: [
     MaterialModule,
     BrowserModule,
