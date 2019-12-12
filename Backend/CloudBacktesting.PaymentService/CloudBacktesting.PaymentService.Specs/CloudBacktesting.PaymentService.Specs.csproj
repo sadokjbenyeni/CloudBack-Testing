@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Features\BillingItem\" />
-    <Folder Include="Features\PaymentAccount\" />
     <Folder Include="Infra\" />
   </ItemGroup>
 

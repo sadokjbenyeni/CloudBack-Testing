@@ -34,8 +34,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.Infra.EventFlow", "CloudBacktesting.Infra.EventFlow\CloudBacktesting.Infra.EventFlow.csproj", "{496352CB-C8EA-4CC1-AA8B-4CEF580BAC93}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.Infra.EventFlow.Tests", "CloudBacktesting.Infra.EventFlow.Tests\CloudBacktesting.Infra.EventFlow.Tests.csproj", "{15CB2A58-00E8-47C3-972F-F86663C85ABF}"
-EndProject
+EndProjectProject("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.SubscriptionService.RabbitMQ.EventManager", "CloudBacktesting.SubscriptionService.RabbitMQ.EventManager\CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.csproj", "{DE29B6BB-5B05-48C1-88E8-2502323B41B6}"
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.SubscriptionService.RabbitMQ.EventManager", "CloudBacktesting.SubscriptionService.RabbitMQ.EventManager\CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.csproj", "{DE29B6BB-5B05-48C1-88E8-2502323B41B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.Infra", "CloudBacktesting.Infra\CloudBacktesting.Infra.csproj", "{45E125E3-8BE4-409B-836B-D37B1C8BF213}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.Infra.Tests", "CloudBacktesting.Infra.tests\CloudBacktesting.Infra.Tests.csproj", "{8B06866A-8E2B-49D8-842C-FEDF31138705}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +95,14 @@ Global
 		{DE29B6BB-5B05-48C1-88E8-2502323B41B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE29B6BB-5B05-48C1-88E8-2502323B41B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE29B6BB-5B05-48C1-88E8-2502323B41B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45E125E3-8BE4-409B-836B-D37B1C8BF213}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45E125E3-8BE4-409B-836B-D37B1C8BF213}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45E125E3-8BE4-409B-836B-D37B1C8BF213}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45E125E3-8BE4-409B-836B-D37B1C8BF213}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B06866A-8E2B-49D8-842C-FEDF31138705}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B06866A-8E2B-49D8-842C-FEDF31138705}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B06866A-8E2B-49D8-842C-FEDF31138705}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B06866A-8E2B-49D8-842C-FEDF31138705}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,6 +120,8 @@ Global
 		{496352CB-C8EA-4CC1-AA8B-4CEF580BAC93} = {83D91101-2F73-425F-ADC6-EE50157EB74F}
 		{15CB2A58-00E8-47C3-972F-F86663C85ABF} = {83D91101-2F73-425F-ADC6-EE50157EB74F}
 		{DE29B6BB-5B05-48C1-88E8-2502323B41B6} = {973370EC-3E9C-4E45-95B4-057825FD4DD1}
+		{45E125E3-8BE4-409B-836B-D37B1C8BF213} = {83D91101-2F73-425F-ADC6-EE50157EB74F}
+		{8B06866A-8E2B-49D8-842C-FEDF31138705} = {83D91101-2F73-425F-ADC6-EE50157EB74F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F1F5D219-A2B2-4FFA-8B83-4971E101A9C0}

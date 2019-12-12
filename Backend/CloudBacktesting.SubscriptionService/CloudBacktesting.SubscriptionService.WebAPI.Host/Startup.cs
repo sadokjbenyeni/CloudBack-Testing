@@ -1,4 +1,3 @@
-using System;
 using EventFlow.AspNetCore.Extensions;
 using EventFlow.AspNetCore.Middlewares;
 using EventFlow.Extensions;
@@ -20,6 +19,12 @@ using CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation;
 using CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Publishers;
 using CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Consumers;
 using RabbitMQ.Client;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication;
+using CloudBacktesting.Infra.Security;
+using Microsoft.AspNetCore.Authorization;
+using CloudBacktesting.Infra.Security.Authorization;
+//using Microsoft.Extensions.Hosting;
 
 namespace CloudBacktesting.SubscriptionService.WebAPI.Host
 {
@@ -35,12 +40,22 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc()
                 //.SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 ;
+            services.AddSingleton(new DecoderAuthenticationHandlerOptions() { HeaderName = "token" });
+            
+            services.AddAuthentication("cloudbacktestingAuthentication")
+                    .AddScheme<AuthenticationSchemeOptions, CloudBacktestingAuthenticationHandler>("cloudbacktestingAuthentication", options => { });
 
+            services.AddSingleton<IAuthorizationPolicyProvider, CloudBacktestingAuthorizationPolicyProvider>();
+
+            // As always, handlers must be provided for the requirements of the authorization policies
+            services.AddSingleton<IAuthorizationHandler, CloudBacktestingAuthorizationHandler>();
+
+            services.AddAuthorization();
             services.AddSwaggerGen(options => options.SwaggerDoc("V1", new Microsoft.OpenApi.Models.OpenApiInfo() { Title = "Subscription Api", Version = "V1" }));
 
             var configMongo = new SubscriptionDatabaseSettings();
@@ -51,10 +66,10 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
             {
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
             }));
-            return services.BuildServiceProvider();
+            //return services.BuildServiceProvider();
         }
 
-        private IServiceCollection AddEventFlow(IServiceCollection services, SubscriptionDatabaseSettings configMongo)
+        protected virtual IServiceCollection AddEventFlow(IServiceCollection services, SubscriptionDatabaseSettings configMongo)
         {
             services.AddSingleton<IConnectionFactory>(con =>
             new ConnectionFactory()
@@ -97,11 +112,14 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
             {
                 app.UseHsts();
             }
-            app.UseCors("AllowAllOrigins");
+            app.UseCors("AllowAllOrigins"); 
+            app.UseAuthentication();
+            //app.UseAuthorization();
             app.UseSwagger();
             app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/V1/swagger.json", "Subscription Api"));
             app.UseHttpsRedirection();
-            app.UseMiddleware<CommandPublishMiddleware>();
+            ConfigureEventFlow(app);
+
             app.UseMvc();
             //app.UseRouting();
 
@@ -112,5 +130,15 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
             //    endpoints.MapControllers();
             //});
         }
+
+        protected virtual void ConfigureEventFlow(IApplicationBuilder app)
+        {
+            if(!UseEventFlowOptionsBuilder)
+            {
+                return;
+            }
+            app.UseMiddleware<CommandPublishMiddleware>();
+        }
     }
 }
+

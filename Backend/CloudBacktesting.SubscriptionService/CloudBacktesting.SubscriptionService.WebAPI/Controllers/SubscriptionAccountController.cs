@@ -1,11 +1,14 @@
-﻿using CloudBacktesting.Infra.EventFlow.Queries;
+﻿using CloudBacktesting.Infra.EventFlow.Extensions;
+using CloudBacktesting.Infra.Security.Authorization;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate.Commands;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
+using CloudBacktesting.SubscriptionService.Infra.Security.Claims;
 using CloudBacktesting.SubscriptionService.WebAPI.Models.Account.Client.SubscriptionAccount;
 using EventFlow;
 using EventFlow.Aggregates.ExecutionResults;
 using EventFlow.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -17,6 +20,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [CloudBacktestingAuthorize("Client")]
     public class SubscriptionAccountController : ControllerBase
     {
         private readonly ILogger<SubscriptionAccountController> logger;
@@ -30,21 +34,12 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             this.queryProcessor = queryProcessor;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
-        {
-            //if (this.User != null && this.User.Identity.IsAuthenticated)
-            //{
-            //    var idError = Guid.NewGuid().ToString();
-            //    logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-            //    return BadRequest($"Access error, please contact the administrator with error id: {idError}");
-            //}
-            var readModel = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<SubscriptionAccountReadModel>(new SubscriptionAccountId(id)), CancellationToken.None);
-            return base.Ok(ToDto(readModel));
-        }
-
         private static SubscriptionAccountReadModelDto ToDto(SubscriptionAccountReadModel readModel)
         {
+            if (readModel == null)
+            {
+                return null;
+            }
             return new SubscriptionAccountReadModelDto()
             {
                 Id = readModel.Id,
@@ -53,49 +48,41 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             };
         }
 
-        [HttpGet]
+        [HttpGet()]
         public async Task<IActionResult> Get()
         {
-            //if (this.User == null || !this.User.Identity.IsAuthenticated)
-            //{
-            //    var idError = Guid.NewGuid().ToString();
-            //    logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-            //    return Task.FromResult((IActionResult)BadRequest($"Access error, please contact the administrator with error id: {idError}"));
-            //}
-            //var userId = this.User.Identity.Name;
-            //// TODO: Do Query to get the User in Read Model SubscriptionAccountDto
-            //return Task.FromResult((IActionResult)Ok(new SubscriptionAccountDto() { Email = userId }));
-            var result = await queryProcessor.ProcessAsync(new FindReadModelQuery<SubscriptionAccountReadModel>(model => true), CancellationToken.None);
-            //await cursor.MoveNextAsync();
-            return Ok(result.Select(ToDto).ToList());
+            if (this.User == null || !this.User.Identity.IsAuthenticated)
+            {
+                var idError = Guid.NewGuid().ToString();
+                logger.LogError($"[Security, Error] User not authentificate. Please check the API Gateway log. Id error: {idError}");
+                return BadRequest($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
+            }
+            var subscriptionAccountId = this.User.GetNameIdentifier()?.Value ?? "";
+            if (string.IsNullOrEmpty(subscriptionAccountId))
+            {
+                var idError = Guid.NewGuid().ToString();
+                logger.LogError($"[Security, Error] User not identify (SubcriptionAccountId not found). Please check the API Gateway log. Id error: {idError}");
+                return BadRequest($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
+            }
+            var result = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<SubscriptionAccountReadModel>(new SubscriptionAccountId(subscriptionAccountId)), CancellationToken.None);
+            return Ok(ToDto(result));
         }
 
         [HttpPost]
+        [CloudBacktestingAuthorize("Admin,System")]
         public async Task<ActionResult> Post([FromBody] CreateSubscriptionAccountDto value)
         {
+            if (this.User == null || !this.User.Identity.IsAuthenticated)
+            {
+                var idError = Guid.NewGuid().ToString();
+                logger.LogError($"[Security, Error] User not authentificate. Please check the API Gateway log. Id error: {idError}");
+                return BadRequest($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
+            }
             var command = new SubscriptionAccountCreationCommand(value.Subscriber);
-            //if (this.User == null || !this.User.Identity.IsAuthenticated)
-            //{
-            //    var idError = Guid.NewGuid().ToString();
-            //    _logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-            //    return BadRequest($"Access error, please contact the administrator with error id: {idError}");
-            //}
-            IExecutionResult commandResult = null;
-            try
+            var commandResult = await commandBus.SafePublishAsync(command, CancellationToken.None);
+            if (commandResult.IsSuccess)
             {
-                commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
-                if (commandResult.IsSuccess)
-                {
-                    return Ok(new { id = command.AggregateId.Value });
-                }
-            }
-            catch (AggregateException aggregateEx)
-            {
-                commandResult = new FailedExecutionResult(new[] { aggregateEx.Message }.Union(aggregateEx.InnerExceptions.Select(ex => ex.Message)));
-            }
-            catch (Exception ex)
-            {
-                commandResult = new FailedExecutionResult(new[] { ex.Message });
+                return Ok(new { id = command.AggregateId.Value });
             }
             var errorIdentifier = Guid.NewGuid().ToString();
             logger.LogError($"[Business, Error] | '{errorIdentifier}' | SubscriptionAccount for {command.Subscriber} has not been created.");
