@@ -23,13 +23,14 @@ namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionR
         public string Subscriber { get; set; }
         public string Status { get; set; }
         public string Type { get; set; }
+        public int OrderId { get; set; }
         public DateTime CreationDate { get; set; }
         public bool? IsSystemValidated { get; set; } = null;
         public bool? IsManualValidated { get; set; } = null;
         public string DeclineMessage { get; private set; }
         public DateTime ValidatedOrDeclinedDate { get; private set; }
         public DateTime RejectedDate { get; private set; }
-        public bool? IsManualConfigured { get; set; } = false;
+        public bool IsManualConfigured { get; set; } = false;
         public string ActivationMessage { get; private set; }
         public DateTime ActivatedDate { get; private set; }
 
@@ -61,9 +62,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionR
             this.Subscriber = domainEvent.AggregateEvent.Subscriber;
             this.DeclineMessage = domainEvent.AggregateEvent.Message;
             this.IsSystemValidated = false;
-            this.IsManualValidated = false;
             this.RejectedDate = domainEvent.AggregateEvent.SystemRejectedDate;
-            this.CreationDate = DateTime.Parse("0001-01-01T00:00:00.000+00:00");
         }
 
         public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestManualValidatedEvent> domainEvent)

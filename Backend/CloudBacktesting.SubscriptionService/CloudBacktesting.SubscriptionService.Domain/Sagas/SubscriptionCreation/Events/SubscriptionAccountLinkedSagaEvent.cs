@@ -10,9 +10,10 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
         public string SubscriptionRequestStatus { get; }
         public string SubscriptionRequestType { get; }
         public string RequestId { get; }
-
-        public SubscriptionAccountLinkedSagaEvent(string subscriptionRequestId, string subscriptionRequestStatus, string subscriptionRequestType)
+        public int OrderId { get; set; }
+        public SubscriptionAccountLinkedSagaEvent(string subscriptionRequestId, string subscriptionRequestStatus, string subscriptionRequestType, int orderId)
         {
+            OrderId = orderId;
             RequestId = subscriptionRequestId;
             SubscriptionRequestStatus = subscriptionRequestStatus;
             SubscriptionRequestType = subscriptionRequestType;

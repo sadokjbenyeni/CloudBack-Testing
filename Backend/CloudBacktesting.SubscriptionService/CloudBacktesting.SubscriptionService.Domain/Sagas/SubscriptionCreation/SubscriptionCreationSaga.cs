@@ -30,7 +30,8 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
             var command = new SubscriptionRequestLinkToSubscriptionAccountCommand(new SubscriptionAccountId(domainEvent.AggregateEvent.SubscriptionAccountId), 
                 domainEvent.AggregateIdentity.Value, 
                 domainEvent.AggregateEvent.Status, 
-                domainEvent.AggregateEvent.Type);
+                domainEvent.AggregateEvent.Type,
+                domainEvent.AggregateEvent.OrderId);
             //try
             //{
             this.Publish(command);
@@ -39,7 +40,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
             //{
 
             //}
-            this.Emit(new SubscriptionAccountLinkedSagaEvent(domainEvent.AggregateIdentity.Value, domainEvent.AggregateEvent.Status, domainEvent.AggregateEvent.Type));
+            this.Emit(new SubscriptionAccountLinkedSagaEvent(domainEvent.AggregateIdentity.Value, domainEvent.AggregateEvent.Status, domainEvent.AggregateEvent.Type, domainEvent.AggregateEvent.OrderId));
             return Task.CompletedTask;
         }
 

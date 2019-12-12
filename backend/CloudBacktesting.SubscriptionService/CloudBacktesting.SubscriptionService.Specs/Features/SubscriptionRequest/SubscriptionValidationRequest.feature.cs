@@ -237,23 +237,23 @@ this.FeatureBackground();
 #line 22
  testRunner.When("\'Chang\' sends GET request subscription", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
                             "field",
                             "value"});
-                table2.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "Status",
                             "Pending"});
-                table2.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "Subscriber",
                             "Chang"});
-                table2.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "Type",
                             "Mutualized"});
-                table2.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "IsSystemValidated",
                             "true"});
 #line 23
- testRunner.Then("The subscription required that:", ((string)(null)), table2, "Then ");
+ testRunner.Then("The subscription required that:", ((string)(null)), table3, "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

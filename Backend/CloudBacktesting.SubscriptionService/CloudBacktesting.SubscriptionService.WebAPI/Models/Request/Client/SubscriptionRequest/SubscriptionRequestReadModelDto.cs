@@ -9,6 +9,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Models.Request.Client.Subs
         public string Status { get; set; }
         public string Subscriber { get; set; }
         public string Type { get; set; }
+        public int OrderId { get; set; }
         public DateTime CreationDate { get; set; }
         public bool? IsSystemValidated { get; set; }
         public bool? IsManualValidated { get; set; }

@@ -83,7 +83,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
                 RejectedDate = new DateTime(readModel.RejectedDate.Ticks),
                 IsManualConfigured = readModel.IsManualConfigured,
                 ActivatedDate = new DateTime(readModel.ActivatedDate.Ticks),
-                
+                OrderId = readModel.OrderId,
 
             };
         }

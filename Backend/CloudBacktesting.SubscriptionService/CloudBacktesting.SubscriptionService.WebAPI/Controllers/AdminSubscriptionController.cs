@@ -2,7 +2,6 @@
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Commands;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
-using CloudBacktesting.SubscriptionService.WebAPI.Models;
 using CloudBacktesting.SubscriptionService.WebAPI.Models.Account.Client.SubscriptionAccount;
 using CloudBacktesting.SubscriptionService.WebAPI.Models.Request.Admin;
 using EventFlow;
