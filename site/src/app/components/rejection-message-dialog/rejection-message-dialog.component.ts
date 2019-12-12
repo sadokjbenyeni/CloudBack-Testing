@@ -16,6 +16,7 @@ export class RejectionMessageDialogComponent implements OnInit {
   messageForm: FormGroup;
   ngOnInit() {
     this.subscription = this.data["subscription"];
+    debugger;
     this.messageForm = this._formBuilder.group({
       messagectrl: ['', Validators.required]
     });

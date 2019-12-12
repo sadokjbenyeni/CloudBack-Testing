@@ -4,16 +4,16 @@ import { SubscriptionType } from "./SubsriptionType";
 
 export class Subscription {
     id: string;
-    AccountId: string;
-    Subscriber: string;
-    Billing: Billing;
+    accountId: string;
+    subscriber: string;
+    billing: Billing;
     cgv: Term;
-    SubscriptionType: SubscriptionType;
+    subscriptionType: SubscriptionType;
 
     constructor(subscriptionType: SubscriptionType) {
-        this.Billing = new Billing()
+        this.billing = new Billing()
         this.cgv = new Term();
-        this.SubscriptionType = subscriptionType
+        this.subscriptionType = subscriptionType
         
     }
 }

@@ -21,7 +21,7 @@ export class SubscriptionService {
         result.forEach(element => {
           let subscription = new Subscription(element["type"])
           Object.assign(subscription, element);
-          subscription.AccountId = element["subscriptionAccountId"];
+          subscription.accountId = element["subscriptionAccountId"];
           subscriptions.push(subscription);
         })
         return subscriptions;

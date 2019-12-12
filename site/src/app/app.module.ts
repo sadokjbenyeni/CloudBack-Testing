@@ -81,6 +81,7 @@ import { MutualizedSubscriptionComponent } from './components/mutualized-subscri
 import { SubscriptionsComponent } from './components/subscriptions/subscriptions.component';
 import { SubscriptionService } from './services/subscription.service';
 import { RejectionMessageDialogComponent } from './components/rejection-message-dialog/rejection-message-dialog.component';
+import { ConfirmationPopupComponent } from './components/confirmation-popup/confirmation-popup.component';
 
 @NgModule({
   declarations: [
@@ -122,9 +123,10 @@ import { RejectionMessageDialogComponent } from './components/rejection-message-
     MutualizedSubscriptionComponent,
     SubscriptionsComponent,
     RejectionMessageDialogComponent,
+    ConfirmationPopupComponent,
 
   ],
-  entryComponents: [NgbdModalContent, LoginDialogComponent, PasswordComponent, PasswordResetComponent, TermsOfUseComponent, RejectionMessageDialogComponent],
+  entryComponents: [NgbdModalContent, LoginDialogComponent, PasswordComponent, PasswordResetComponent, TermsOfUseComponent, RejectionMessageDialogComponent,ConfirmationPopupComponent],
   imports: [
     MaterialModule,
     BrowserModule,

@@ -8,7 +8,8 @@ import { Country } from '../../models/Country';
 import { SubscriptionType } from '../../models/SubsriptionType';
 import { User } from '../../models/User';
 import { UserService } from '../../services/user.service';
-import { debug } from 'util';
+import { TimeInterval } from 'rxjs/Rx';
+import { timer } from 'rxjs';
 @Component({
   selector: 'app-mutualized-subscription',
   templateUrl: './mutualized-subscription.component.html',
@@ -33,6 +34,10 @@ export class MutualizedSubscriptionComponent implements OnInit {
     })
     this.countryService.getCountries().subscribe(result => {
       this.Countries = result.countries;
+      
+      //AddBilling
+      this.SetDefaultBillingInformations();
+
     });
     this.CgvFormGroup = this._formBuilder.group({
       cgvCrtl: ['', Validators.required]
@@ -45,8 +50,6 @@ export class MutualizedSubscriptionComponent implements OnInit {
       Country: ['', Validators.required],
 
     });
-    //AddBilling
-    this.SetDefaultBillingInformations();
   }
   goto(step: number) {
     this.stepper.selectedIndex = step;
@@ -62,12 +65,17 @@ export class MutualizedSubscriptionComponent implements OnInit {
   SetDefaultBillingInformations() {
     let id = JSON.parse(sessionStorage.getItem('user'))._id;
     this.userService.getCompte(id).subscribe(res => {
-      this.Subscription.Billing.Address = res.addressBilling;
-      this.Subscription.Billing.City = res.cityBilling;
-      this.Subscription.Billing.VAT = res.vat;
-      this.Subscription.Billing.PostalCode = res.postalCodeBilling;
-      this.Subscription.Billing.Country = this.Countries.find(item => item.id == res.countryBilling)
-
+      this.Subscription.billing.address = res.addressBilling;
+      this.Subscription.billing.city = res.cityBilling;
+      this.Subscription.billing.vat = res.vat;
+      this.Subscription.billing.postalCode = res.postalCodeBilling;
+      this.Subscription.billing.country = this.Countries.find(item => item.id == res.countryBilling)
+    });
+  }
+  oberserableTimer() {
+    const source = timer(1000, 2000);
+    const abc = source.subscribe(val => {
+      console.log(val, '-');
     });
   }
 }

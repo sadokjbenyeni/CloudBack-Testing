@@ -11,3 +11,9 @@
 ::ng-deep .mat-checkbox-checked .mat-checkbox-background {
     background-color: #ea663b !important;
 }
+.putcenter
+{
+    padding-top: 15%;
+    padding-left: 40%;
+
+}

@@ -22,6 +22,7 @@ import { MatDialogModule, MatInputModule, MatCardModule, MatProgressSpinnerModul
     MatStepperModule,
     MatSelectModule,
     MatFormFieldModule,
+    MatProgressSpinnerModule
   ],
   providers: [{ provide: MAT_DIALOG_DATA, useValue: {} },
   { provide: MatDialogRef, useValue: {} }]
