@@ -35,13 +35,13 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            //if (this.User == null || !this.User.Identity.IsAuthenticated)
-            //{
-            //    var idError = Guid.NewGuid().ToString();
-            //    logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-            //    return Task.FromResult((IActionResult)BadRequest($"Access error, please contact the administrator with error id: {idError}"));
-            //}
-            //var userId = this.User.Identity.Name;
+            if (this.User == null || !this.User.Identity.IsAuthenticated)
+            {
+                var idError = Guid.NewGuid().ToString();
+                logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
+                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+            }
+            var userId = this.User.Identity.Name;
             //// TODO: Do Query to get the User in Read Model SubscriptionAccountDto
             //return Task.FromResult((IActionResult)Ok(new SubscriptionAccountDto() { Email = userId }));
             var result = await queryProcessor.ProcessAsync(new FindReadModelQuery<SubscriptionRequestReadModel>(model => true), CancellationToken.None);

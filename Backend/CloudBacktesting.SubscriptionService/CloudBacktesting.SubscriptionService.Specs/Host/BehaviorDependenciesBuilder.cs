@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace CloudBacktesting.SubscriptionService.Specs.Host
@@ -24,7 +26,8 @@ namespace CloudBacktesting.SubscriptionService.Specs.Host
             this.container = container;
             this.startup = new SpecWebApplicationFactory(container);
             container.RegisterInstanceAs((WebApplicationFactory<SpecWebApplicationFactory>)startup);
-            container.RegisterFactoryAs(objContainer => startup.CreateClient());
+            container.RegisterFactoryAs<IHttpClientFactory>(objContainer => new TestHttpClientFactory(startup));
+            container.RegisterFactoryAs(objContainer => new TestHttpClientFactory(startup).Create());
             return this;
         }
 
@@ -35,6 +38,33 @@ namespace CloudBacktesting.SubscriptionService.Specs.Host
             var provider = startup.ServiceCollection.BuildServiceProvider();
             container.RegisterInstanceAs<IServiceProvider>(provider);
             return provider;
+        }
+    }
+
+    public interface IHttpClientFactory
+    {
+        HttpClient Create(IEnumerable<Claim> claims = null);
+    }
+
+    public class TestHttpClientFactory : IHttpClientFactory
+    {
+        private readonly SpecWebApplicationFactory startup;
+
+        public TestHttpClientFactory(SpecWebApplicationFactory startup)
+        {
+            this.startup = startup ?? throw new ArgumentNullException(nameof(startup));
+        }
+
+        public HttpClient Create(IEnumerable<Claim> claims = null)
+        {
+            var client = startup.CreateClient(new WebApplicationFactoryClientOptions
+            {
+                AllowAutoRedirect = false,
+            });
+            claims = claims ?? Enumerable.Empty<Claim>();
+            var claimsParameters = string.Join(",", claims.Select(c => $"{c.Subject}: {c.Value}")) ?? "test_parameter";
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Test", claimsParameters );
+            return client;
         }
     }
 }

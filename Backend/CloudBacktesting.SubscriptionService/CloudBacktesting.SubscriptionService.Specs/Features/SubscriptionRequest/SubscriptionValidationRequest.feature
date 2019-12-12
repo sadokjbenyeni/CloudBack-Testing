@@ -7,10 +7,6 @@ Background:
 	And 'Chang' subscription account has been created
 	And 'Mutualized' subscription has been created for 'Chang'
 
-@v1 @subscription @request @creation 
-Scenario: Chang sends new request of subscription for Mutualized service	
-	When Chang sends new request of subscription for Mutualized service
-	Then Creation of subscription is successful
 
 @v1 @subscription @request @creation 
 Scenario: Chang browses all subscription request

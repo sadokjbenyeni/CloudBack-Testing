@@ -92,25 +92,11 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Chang sends new request of subscription for Mutualized service")]
-        [NUnit.Framework.CategoryAttribute("v1")]
-        [NUnit.Framework.CategoryAttribute("subscription")]
-        [NUnit.Framework.CategoryAttribute("request")]
-        [NUnit.Framework.CategoryAttribute("creation")]
-        public virtual void ChangSendsNewRequestOfSubscriptionForMutualizedService()
-        {
             string[] tagsOfScenario = new string[] {
                     "v1",
                     "subscription",
                     "request",
                     "creation"};
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Chang sends new request of subscription for Mutualized service", null, new string[] {
-                        "v1",
-                        "subscription",
-                        "request",
-                        "creation"});
-#line 11
-this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
             bool isFeatureIgnored = default(bool);
@@ -129,20 +115,9 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 4
-this.FeatureBackground();
 #line hidden
-#line 12
- testRunner.When("Chang sends new request of subscription for Mutualized service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 13
- testRunner.Then("Creation of subscription is successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Chang browses all subscription request")]
         [NUnit.Framework.CategoryAttribute("v1")]
         [NUnit.Framework.CategoryAttribute("subscription")]
@@ -160,7 +135,7 @@ this.FeatureBackground();
                         "subscription",
                         "request",
                         "creation"});
-#line 16
+#line 12
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -183,10 +158,8 @@ this.ScenarioInitialize(scenarioInfo);
 #line 4
 this.FeatureBackground();
 #line hidden
-#line 17
  testRunner.When("\'Chang\' sends GET request these subscriptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 18
  testRunner.Then("subscriptions are returned for \'Chang\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -211,7 +184,7 @@ this.FeatureBackground();
                         "subscription",
                         "request",
                         "creation"});
-#line 21
+#line 17
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -234,7 +207,6 @@ this.ScenarioInitialize(scenarioInfo);
 #line 4
 this.FeatureBackground();
 #line hidden
-#line 22
  testRunner.When("\'Chang\' sends GET request subscription", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
                 TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
@@ -255,7 +227,6 @@ this.FeatureBackground();
                 table3.AddRow(new string[] {
                             "OrderId",
                             "1"});
-#line 23
  testRunner.Then("The subscription required that:", ((string)(null)), table3, "Then ");
 #line hidden
             }

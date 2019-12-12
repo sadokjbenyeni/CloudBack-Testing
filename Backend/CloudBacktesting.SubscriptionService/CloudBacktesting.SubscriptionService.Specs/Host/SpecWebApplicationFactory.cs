@@ -65,13 +65,13 @@ namespace CloudBacktesting.SubscriptionService.Specs.Host
         private void ConfigureServices(IServiceCollection serviceCollection)
         {            
             ServiceCollection = serviceCollection;
+            AddAuthentication(serviceCollection);
             serviceCollection.AddSingleton(container);
             RegisterSpecflowDependecies(serviceCollection);            
             UseCurrentIOCConfiguration(serviceCollection);
             AddTransientBindingAttribute(serviceCollection);
             UseMapController(serviceCollection);
-            UseEventFlowInMemory(serviceCollection);
-            AddAuthentication(serviceCollection);
+            UseEventFlowInMemory(serviceCollection);            
         }
 
         private void UseMapController(IServiceCollection serviceCollection)
@@ -112,13 +112,8 @@ namespace CloudBacktesting.SubscriptionService.Specs.Host
         
         private static void AddAuthentication(IServiceCollection serviceCollection)
         {
-            serviceCollection
-                .AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = "Test Scheme";
-                    options.DefaultChallengeScheme = "Test Scheme";
-                })
-                .AddTestAuth(options => { });
+            serviceCollection.AddAuthentication("Test")
+                             .AddTestAuth(options => { });
         }
 
         private static void UseCurrentIOCConfiguration(IServiceCollection serviceCollection)

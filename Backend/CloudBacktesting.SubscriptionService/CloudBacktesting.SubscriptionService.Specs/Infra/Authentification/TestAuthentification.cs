@@ -12,26 +12,32 @@ namespace CloudBacktesting.SubscriptionService.Specs.Infra.Authentification
 {
     public static class TestAuthencationExtensions
     {
-        public static AuthenticationBuilder AddTestAuth(this AuthenticationBuilder builder, Action<TestAuthenticationOptions> configureOptions)
+        public static AuthenticationBuilder AddTestAuth(this AuthenticationBuilder builder, Action<AuthenticationSchemeOptions> configureOptions)
         {
-            return builder.AddScheme<TestAuthenticationOptions, TestAuthenicationHandler>("Test Scheme", "Test Auth", configureOptions);
+            return builder.AddScheme<AuthenticationSchemeOptions, TestAuthenticationHandler>("Test", options => { });
         }
     }
-    public class TestAuthenticationOptions : AuthenticationSchemeOptions
-    {
-        public virtual ClaimsIdentity Identity { get; } = new ClaimsIdentity(new[] { new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier", Guid.NewGuid().ToString(), "test") });
-    }
+    //public class TestAuthenticationOptions : AuthenticationSchemeOptions
+    //{
+    //    public virtual ClaimsIdentity Identity { get; } = new ClaimsIdentity(new[] { new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier", Guid.NewGuid().ToString(), "test") });
+    //}
 
-    public class TestAuthenicationHandler : AuthenticationHandler<TestAuthenticationOptions>
+    public class TestAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
-        public TestAuthenicationHandler(IOptionsMonitor<TestAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) 
+        public TestAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options,
+            ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
             : base(options, logger, encoder, clock)
         {
         }
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            return Task.FromResult(AuthenticateResult.Success(new AuthenticationTicket(new ClaimsPrincipal(Options.Identity), new AuthenticationProperties(), "Test Scheme")));
+            var claims = new[] { new Claim(ClaimTypes.Name, "Test user") };
+            var identity = new ClaimsIdentity(claims, "Test");
+            var principal = new ClaimsPrincipal(identity);
+            var ticket = new AuthenticationTicket(principal, "Test");
+            var result = AuthenticateResult.Success(ticket);
+            return Task.FromResult(result);
         }
     }
 

@@ -20,7 +20,7 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features
         [Given(@"(.*) is authentificated")]
         public void GivenMorganIsAuthentificated(string user)
         {
-
+            
         }
 
 
