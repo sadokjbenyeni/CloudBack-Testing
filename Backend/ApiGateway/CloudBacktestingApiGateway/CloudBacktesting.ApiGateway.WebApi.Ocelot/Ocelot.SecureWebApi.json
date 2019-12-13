@@ -54,7 +54,6 @@
 
       }
     },
-    //currency
     {
       "DownstreamPathTemplate": "/api/currency",
       "DownstreamScheme": "http",

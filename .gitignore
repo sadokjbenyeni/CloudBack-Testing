@@ -12,6 +12,7 @@ dist/*
 # .NET Core build folders
 bin
 obj
+out
 .vs
 *.user
 */.vs/*
@@ -20,3 +21,5 @@ obj
 **/bin/*
 */obj/*
 **/obj/*
+*/out/*
+**/out/*

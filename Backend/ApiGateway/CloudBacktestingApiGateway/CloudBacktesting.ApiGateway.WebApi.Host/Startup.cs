@@ -44,9 +44,9 @@ namespace CloudBacktesting.ApiGateway.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseRouting();
             app.UseCors("allOrigins");
+            app.UseHealthCkeck();
             app.UseClaimsBuilder();
             await app.UseOcelot();
             app.UseEndpoints(endpoints =>
@@ -55,6 +55,7 @@ namespace CloudBacktesting.ApiGateway.WebApi
                 {
                     await context.Response.WriteAsync("Hello World!");
                 });
+                endpoints.MapControllers();
             });
         }
 

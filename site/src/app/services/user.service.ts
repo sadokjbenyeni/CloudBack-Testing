@@ -31,7 +31,7 @@ export class UserService {
   }
 
   create(user) {
-    return this.http.post(environment.api + '/api/user', user);
+    return this.http.post(environment.api + '/user', user);
   }
 
   activation(token) {
