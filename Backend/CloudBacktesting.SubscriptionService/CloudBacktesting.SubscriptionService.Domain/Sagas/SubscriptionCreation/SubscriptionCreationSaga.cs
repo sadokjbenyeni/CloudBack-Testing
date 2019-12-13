@@ -45,7 +45,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
 
         public Task HandleAsync(IDomainEvent<SubscriptionAccount, SubscriptionAccountId, SubscriptionRequestLinkedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
-            if((string.IsNullOrEmpty(domainEvent.AggregateIdentity.Value) || domainEvent.AggregateEvent.SubscriptionRequestStatus == "Active"))
+            if(domainEvent.AggregateEvent.SubscriptionRequestStatus == "Active")
             {
                 var command = new SubscriptionRequestSystemRejectSuccessCommand(domainEvent.AggregateEvent.RequestId, domainEvent.AggregateEvent.Subscriber, domainEvent.AggregateEvent.OrderId);
                 this.Publish(command);

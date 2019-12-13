@@ -27,12 +27,12 @@ namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionR
         public DateTime CreationDate { get; set; }
         public bool? IsSystemValidated { get; set; } = null;
         public bool? IsManualValidated { get; set; } = null;
-        public string DeclineMessage { get; private set; }
-        public DateTime ValidatedOrDeclinedDate { get; private set; }
-        public DateTime RejectedDate { get; private set; }
+        public string DeclineMessage { get;  set; }
+        public DateTime? ValidatedOrDeclinedDate { get; set; } = null;
+        public DateTime? RejectedDate { get; set; } = null;
         public bool IsManualConfigured { get; set; } = false;
-        public string ActivationMessage { get; private set; }
-        public DateTime ActivatedDate { get; private set; } 
+        public string ActivationMessage { get; set; }
+        public DateTime? ActivatedDate { get; set; } = null;
 
 
         public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestCreatedEvent> domainEvent)

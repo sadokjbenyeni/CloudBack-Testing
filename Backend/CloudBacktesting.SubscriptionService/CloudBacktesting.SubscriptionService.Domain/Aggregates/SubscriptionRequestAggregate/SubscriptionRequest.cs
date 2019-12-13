@@ -1,4 +1,5 @@
 ﻿using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Events;
+using CloudBacktesting.SubscriptionService.Domain.Specifications;
 using EventFlow.Aggregates;
 using EventFlow.Aggregates.ExecutionResults;
 using System;
@@ -17,9 +18,15 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
 
         public IExecutionResult Create(string subscriptionAccountId, string type)
         {
+            var spec = new IsNullOrEmptyAccountIdSpecification();
+            if (spec.IsSatisfiedBy(subscriptionAccountId) == false)
+            {
+                return ExecutionResult.Failed(spec.WhyIsNotSatisfiedBy("Account Id Is Null Or Empty"));
+            }
             var @event = new SubscriptionRequestCreatedEvent(this.Id.Value, subscriptionAccountId, "Creating", type, DateTime.UtcNow);
             Emit(@event);
             return ExecutionResult.Success();
+
         }
 
         public IExecutionResult ValidateBySystem(SubscriptionRequestId subscriptionRequestId, string subscriber, int orderId)

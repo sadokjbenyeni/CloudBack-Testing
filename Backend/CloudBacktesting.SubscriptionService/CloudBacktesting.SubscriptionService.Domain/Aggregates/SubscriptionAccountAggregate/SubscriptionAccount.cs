@@ -2,7 +2,7 @@
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate.Events;
 using EventFlow.Aggregates;
 using EventFlow.Aggregates.ExecutionResults;
-using System;
+using CloudBacktesting.SubscriptionService.Domain.Specifications;
 
 namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate
 {
