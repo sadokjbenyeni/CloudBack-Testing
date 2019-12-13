@@ -79,10 +79,10 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
                 IsSystemValidated = readModel.IsSystemValidated,
                 IsManualValidated = readModel.IsManualValidated,
                 DeclineMessage = readModel.DeclineMessage,
-                ValidatedOrDeclinedDate = new DateTime(readModel.ValidatedOrDeclinedDate.Ticks),
-                RejectedDate = new DateTime(readModel.RejectedDate.Ticks),
+                ValidatedOrDeclinedDate = readModel.ValidatedOrDeclinedDate.Value,
+                RejectedDate = readModel.RejectedDate.Value,
                 IsManualConfigured = readModel.IsManualConfigured,
-                ActivatedDate = new DateTime(readModel.ActivatedDate.Ticks),
+                ActivatedDate = readModel.ActivatedDate.Value,
                 OrderId = readModel.OrderId,
 
             };
