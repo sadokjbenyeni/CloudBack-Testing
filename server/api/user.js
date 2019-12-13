@@ -183,6 +183,7 @@ router.post('/', (req, res) => {
 
             user.save((err, u) => {
                 if (err) return console.error(err);
+                console.log("User successfully created : consuming the mailer api with this endpoint : " + process.env.DOMAIN + '/api/mail/inscription')
                 request.post({ url: process.env.DOMAIN + '/api/mail/inscription', form: { email: req.body.email, token: user.token } }, (err, httpResponse, body) => {
                     if (err) console.error(err);
                     res.status(201).json({ account: true });
