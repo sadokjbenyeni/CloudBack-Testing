@@ -1,10 +1,7 @@
-const app = require('express')();
 const router = require('express').Router();
 const nodemailer = require("nodemailer");
 const config = require('../config/config.js');
 // const domain = config.domain();
-const admin = config.admin();
-const URLS = config.config();
 const SMTP = config.smtpconf();
 const sgMail = require('@sendgrid/mail');
 
@@ -24,6 +21,7 @@ const smtpTransport = nodemailer.createTransport({
 
 router.post('/inscription', (req, res, next) => {
   // sgMail.setApiKey("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");
+  console.log("sending activation mail from the webapi");
   const msg = {
     to: req.body.email,
     from: 'no-replay@cloudbacktesting.com',
@@ -49,8 +47,11 @@ router.post('/inscription', (req, res, next) => {
   };
   try {
     sgMail.send(msg);
+    console.log("Mail sent!");
+
     return res.status(200).json({ mail: true });
-  } catch   {
+  } catch (error) {
+    console.log("error in sending mail for the following reason :" + error)
     return res.status(500).json({ mail: true });
   }
   // let mailOptions = {
