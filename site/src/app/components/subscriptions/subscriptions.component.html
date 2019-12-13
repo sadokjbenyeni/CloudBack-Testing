@@ -2,12 +2,8 @@
 <!-- <app-configuration></app-configuration> -->
 <div class="container  col-8 pt-4 mt-4  d-block">
     <h1 class="py-3 my-3 text-center">Subscriptions</h1>
-    <div class="col-12">
+    <div class="col-12" *ngIf="dataSource!=null;else loading">
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-            <ng-container matColumnDef="Id">
-                <th mat-header-cell *matHeaderCellDef> Subscription Id </th>
-                <td mat-cell class="truncate-cell" *matCellDef="let element"> {{element.id}} </td>
-            </ng-container>
             <ng-container matColumnDef="Subscriber">
                 <th mat-header-cell *matHeaderCellDef> Subscriber</th>
                 <td mat-cell class="truncate-cell" *matCellDef="let element"> {{element.subscriber}} </td>
@@ -27,4 +23,9 @@
             <tr mat-row *matRowDef="let row; columns: DisplayedColumns;"></tr>
         </table>
     </div>
+    <ng-template #loading>
+        <div class="putcenter">
+            <mat-spinner diameter="200"></mat-spinner>
+        </div>
+    </ng-template>
 </div>

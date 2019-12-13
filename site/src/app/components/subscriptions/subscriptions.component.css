@@ -6,4 +6,7 @@ table {
   overflow: hidden;
   text-overflow: ellipsis;
 }
- 
+.putcenter {
+  padding-top: 15%;
+  padding-left: 40%;
+}

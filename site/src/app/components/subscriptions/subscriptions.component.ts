@@ -13,7 +13,7 @@ import { ConfirmationPopupService } from '../../services/confirmation-popup.serv
 })
 
 export class SubscriptionsComponent implements OnInit {
-  DisplayedColumns: string[] = ['Id', 'Subscriber', 'SubscriptionType', 'Actions'];
+  DisplayedColumns: string[] = [ 'Subscriber', 'SubscriptionType', 'Actions'];
   dataSource;
   constructor(private confirmationService: ConfirmationPopupService, private snackbar: MatSnackBar, private dialog: MatDialog, private subscriptionService: SubscriptionService) { }
 
@@ -47,10 +47,7 @@ export class SubscriptionsComponent implements OnInit {
   fillDataSource() {
     this.subscriptionService.getAllSubscriptions().subscribe
       (result => {
-        debugger;
         this.dataSource = result.filter(item => item["status"] == "Pending");
-
-        debugger;
       })
   }
 }
