@@ -73,9 +73,9 @@ export class MenuComponent implements OnInit {
     });
   }
   goto(element) {
-    var a = this.router.parseUrl(this.router.url).root;
-    if (this.router.url.includes("/home")) {
-      element = document.getElementById(element).scrollIntoView({behavior:'smooth'} );
+    // var a = this.router.parseUrl(this.router.url).root;
+    if (this.router.url.includes("/on-boarding")) {
+      element = document.getElementById(element).scrollIntoView({ behavior: 'smooth' });
     }
   }
 }

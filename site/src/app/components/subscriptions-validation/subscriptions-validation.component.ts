@@ -4,16 +4,17 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 import { RejectionMessageDialogComponent } from '../rejection-message-dialog/rejection-message-dialog.component';
 import { Subscription } from '../../models/Subscription';
 import { ConfirmationPopupService } from '../../services/confirmation-popup.service';
+import { SubscriptionResult } from '../../models/SubscriptionResult';
 
 
 @Component({
   selector: 'app-subscriptions',
-  templateUrl: './subscriptions.component.html',
-  styleUrls: ['./subscriptions.component.css']
+  templateUrl: './subscriptions-validation.component.html',
+  styleUrls: ['./subscriptions-validation.component.css']
 })
 
-export class SubscriptionsComponent implements OnInit {
-  DisplayedColumns: string[] = [ 'Subscriber', 'SubscriptionType', 'Actions'];
+export class SubscriptionsValidationComponent implements OnInit {
+  DisplayedColumns: string[] = ['Subscriber', 'OrderId', 'SubscriptionType', 'Actions'];
   dataSource;
   constructor(private confirmationService: ConfirmationPopupService, private snackbar: MatSnackBar, private dialog: MatDialog, private subscriptionService: SubscriptionService) { }
 
@@ -21,8 +22,8 @@ export class SubscriptionsComponent implements OnInit {
     this.fillDataSource()
 
   }
-  AcceptSubscription(subscription: Subscription) {
-    this.confirmationService.openPopup('Are you sure to accept the ' + subscription.subscriptionType + ' subsciption of ' + subscription.subscriber, "Accept Subscription")
+  AcceptSubscription(subscription: SubscriptionResult) {
+    this.confirmationService.openPopup('Are you sure to accept the ' + subscription.subscriptionType + ' subsciption number ' + subscription.orderId + ' of ' + subscription.subscriber + '?', "Accept Subscription")
       .subscribe((result: Boolean) => {
         debugger;
         if (result == true)

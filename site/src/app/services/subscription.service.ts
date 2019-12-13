@@ -2,9 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Subscription } from '../models/Subscription';
-import { map } from 'rxjs-compat/operator/map';
-import { SubscriptionsComponent } from '../components/subscriptions/subscriptions.component';
-import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

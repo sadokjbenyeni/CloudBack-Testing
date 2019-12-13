@@ -12,7 +12,7 @@ export class ConfigurationComponent implements OnInit {
 
   ngOnInit() {
     this.pageConfig = [
-      {page:'Subscriptions',active:false,link:'/subscriptions'},
+      {page:'Subscriptions validation',active:false,link:'/subscriptions-validation'},
       {page: 'Roles', active: false, link: '/admin/role'},
       {page: 'Users', active: false, link: '/admin/users'},
       {page: 'Countries', active: false, link: '/admin/countries'},

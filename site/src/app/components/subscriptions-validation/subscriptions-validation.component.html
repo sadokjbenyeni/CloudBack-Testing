@@ -1,7 +1,7 @@
 <app-menu></app-menu>
 <!-- <app-configuration></app-configuration> -->
 <div class="container  col-8 pt-4 mt-4  d-block">
-    <h1 class="py-3 my-3 text-center">Subscriptions</h1>
+    <h1 class="py-3 my-3 text-center">Subscriptions validation</h1>
     <div class="col-12" *ngIf="dataSource!=null;else loading">
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
             <ng-container matColumnDef="Subscriber">
@@ -11,6 +11,10 @@
             <ng-container matColumnDef="SubscriptionType">
                 <th mat-header-cell *matHeaderCellDef> Subscription Type </th>
                 <td mat-cell *matCellDef="let element"> {{element.subscriptionType}} </td>
+            </ng-container>
+            <ng-container matColumnDef="OrderId">
+                <th mat-header-cell *matHeaderCellDef> Order Id </th>
+                <td mat-cell *matCellDef="let element"> {{element.orderId}} </td>
             </ng-container>
             <ng-container matColumnDef="Actions">
                 <th mat-header-cell *matHeaderCellDef> Actions </th>

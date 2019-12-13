@@ -78,7 +78,7 @@ import { PasswordResetComponent } from './components/login/password-reset/passwo
 // import { PdfComponent } from './components/commun/pdf/pdf.component';
 import { NotifierModule } from "angular-notifier";
 import { MutualizedSubscriptionComponent } from './components/mutualized-subscription/mutualized-subscription.component';
-import { SubscriptionsComponent } from './components/subscriptions/subscriptions.component';
+import { SubscriptionsValidationComponent } from './components/subscriptions-validation/subscriptions-validation.component';
 import { SubscriptionService } from './services/subscription.service';
 import { RejectionMessageDialogComponent } from './components/rejection-message-dialog/rejection-message-dialog.component';
 import { ConfirmationPopupComponent } from './components/confirmation-popup/confirmation-popup.component';
@@ -121,7 +121,7 @@ import { ConfirmationPopupComponent } from './components/confirmation-popup/conf
     PasswordComponent,
     PasswordResetComponent,
     MutualizedSubscriptionComponent,
-    SubscriptionsComponent,
+    SubscriptionsValidationComponent,
     RejectionMessageDialogComponent,
     ConfirmationPopupComponent,
 

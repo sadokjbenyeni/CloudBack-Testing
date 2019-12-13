@@ -23,17 +23,17 @@ import { LoginPageComponent } from './components/login/login-page/login-page.com
 import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurrency.component';
 import { OnBoardingComponent } from './components/on-boarding/on-boarding.component';
 import { MutualizedSubscriptionComponent } from './components/mutualized-subscription/mutualized-subscription.component';
-import { SubscriptionsComponent } from './components/subscriptions/subscriptions.component';
+import { SubscriptionsValidationComponent } from './components/subscriptions-validation/subscriptions-validation.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/on-boarding', pathMatch: 'full' },
 
   // CLIENT
   { path: 'account', component: SignUpComponent, canActivate: [GuardGuard] },
   { path: 'subscription/mutualized', component: MutualizedSubscriptionComponent, canActivate: [GuardGuard] },
   // ADMINISTRATOR
   { path: 'admin/profil/:id', component: UserDetailComponent, canActivate: [GuardGuard] },
-  { path: 'subscriptions', component: SubscriptionsComponent, canActivate: [GuardGuard] },
+  { path: 'subscriptions-validation', component: SubscriptionsValidationComponent, canActivate: [GuardGuard] },
   { path: 'admin/users', component: UsersComponent, canActivate: [GuardGuard] },
   { path: 'admin/role', component: RoleComponent, canActivate: [GuardGuard] },
   { path: 'admin/countries', component: CountriesComponent, canActivate: [GuardGuard] },
@@ -47,7 +47,6 @@ export const routes: Routes = [
   { path: 'help', component: HelpPageComponent },
   { path: 'signup', component: SignUpComponent },
   { path: 'login', component: LoginPageComponent },
-  { path: 'home', component: HomeComponent },
   { path: 'activation/:token', component: ActivationComponent },
   { path: 'mdp/:token', component: PasswordResetComponent },
   { path: '**', component: OnBoardingComponent }

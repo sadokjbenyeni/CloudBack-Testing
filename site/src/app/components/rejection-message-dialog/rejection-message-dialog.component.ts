@@ -4,6 +4,7 @@ import { SubscriptionService } from '../../services/subscription.service';
 import { Subscription } from '../../models/Subscription';
 import { debug } from 'util';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { SubscriptionResult } from '../../models/SubscriptionResult';
 
 @Component({
   selector: 'app-rejection-message-dialog',
@@ -11,7 +12,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./rejection-message-dialog.component.css']
 })
 export class RejectionMessageDialogComponent implements OnInit {
-  subscription: Subscription;
+  subscription: SubscriptionResult;
   constructor(private _formBuilder: FormBuilder, private snackbar: MatSnackBar, private subscriptionService: SubscriptionService, private dialogRef: MatDialogRef<RejectionMessageDialogComponent>, @Inject(MAT_DIALOG_DATA) public data) { }
   messageForm: FormGroup;
   ngOnInit() {
