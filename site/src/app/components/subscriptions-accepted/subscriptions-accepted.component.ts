@@ -8,12 +8,12 @@ import { SubscriptionResult } from '../../models/SubscriptionResult';
 
 
 @Component({
-  selector: 'app-subscriptions-validation',
-  templateUrl: './subscriptions-validation.component.html',
-  styleUrls: ['./subscriptions-validation.component.css']
+  selector: 'app-subscriptions-accepted',
+  templateUrl: './subscriptions-accepted.component.html',
+  styleUrls: ['./subscriptions-accepted.component.css']
 })
 
-export class SubscriptionsValidationComponent implements OnInit {
+export class SubscriptionsacceptedComponent implements OnInit {
   DisplayedColumns: string[] = ['Subscriber', 'OrderId', 'SubscriptionType', 'Actions'];
   dataSource;
   constructor(private confirmationService: ConfirmationPopupService, private snackbar: MatSnackBar, private dialog: MatDialog, private subscriptionService: SubscriptionService) { }
@@ -48,7 +48,7 @@ export class SubscriptionsValidationComponent implements OnInit {
   fillDataSource() {
     this.subscriptionService.getAllSubscriptions().subscribe
       (result => {
-        this.dataSource = result.filter(item => item["status"] == "Pending");
+        this.dataSource = result.filter(item => item["status"] == "Accepted");
       })
   }
 }

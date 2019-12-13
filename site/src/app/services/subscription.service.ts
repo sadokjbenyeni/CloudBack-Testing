@@ -25,10 +25,10 @@ export class SubscriptionService {
       });
   }
   AcceptSubscription(id: string): Observable<any> {
-    return this.http.put("https://localhost:5001/api/AdminSubscription/validate", { id: id })
+    return this.http.put("https://localhost:5001/api/AdminSubscription/validate", { subscriptionId: id })
   }
   RejectSubscription(id: string, message: string): Observable<any> {
-    return this.http.put("https://localhost:5001/api/AdminSubscription/decline", { id: id, message: message });
+    return this.http.put("https://localhost:5001/api/AdminSubscription/decline", { subscriptionId: id, message: message });
   }
 }
 

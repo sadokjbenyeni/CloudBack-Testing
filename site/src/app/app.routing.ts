@@ -24,6 +24,7 @@ import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurre
 import { OnBoardingComponent } from './components/on-boarding/on-boarding.component';
 import { MutualizedSubscriptionComponent } from './components/mutualized-subscription/mutualized-subscription.component';
 import { SubscriptionsValidationComponent } from './components/subscriptions-validation/subscriptions-validation.component';
+import { SubscriptionsacceptedComponent } from './components/subscriptions-accepted/subscriptions-accepted.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/on-boarding', pathMatch: 'full' },
@@ -34,10 +35,13 @@ export const routes: Routes = [
   // ADMINISTRATOR
   { path: 'admin/profil/:id', component: UserDetailComponent, canActivate: [GuardGuard] },
   { path: 'subscriptions-validation', component: SubscriptionsValidationComponent, canActivate: [GuardGuard] },
+  { path: 'Subscriptions-accepted', component: SubscriptionsacceptedComponent, canActivate: [GuardGuard] },
+
   { path: 'admin/users', component: UsersComponent, canActivate: [GuardGuard] },
   { path: 'admin/role', component: RoleComponent, canActivate: [GuardGuard] },
   { path: 'admin/countries', component: CountriesComponent, canActivate: [GuardGuard] },
   { path: 'admin/terms', component: TermsComponent, canActivate: [GuardGuard] },
+
   // NO LOGIN NEEDED
   { path: 'on-boarding', component: OnBoardingComponent },
   { path: 'cryptocurrency', component: CryptocurrencyComponent },

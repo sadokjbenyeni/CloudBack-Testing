@@ -8,15 +8,16 @@ import { Component, OnInit } from '@angular/core';
 export class ConfigurationComponent implements OnInit {
 
   pageConfig: { page: string; active: boolean; link: string; }[];
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
     this.pageConfig = [
-      {page:'Subscriptions validation',active:false,link:'/subscriptions-validation'},
-      {page: 'Roles', active: false, link: '/admin/role'},
-      {page: 'Users', active: false, link: '/admin/users'},
-      {page: 'Countries', active: false, link: '/admin/countries'},
-      {page: 'Terms', active: false, link: '/admin/terms'},
+      { page: 'Subscriptions validation', active: false, link: '/subscriptions-validation' },
+      { page: 'Subscriptions configuration ', active: false, link: '/subscriptions-accepted' },
+      { page: 'Roles', active: false, link: '/admin/role' },
+      { page: 'Users', active: false, link: '/admin/users' },
+      { page: 'Countries', active: false, link: '/admin/countries' },
+      { page: 'Terms', active: false, link: '/admin/terms' },
     ];
   }
 }
