@@ -13,28 +13,27 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
     {
         public string subscriptionAccountId;
         public string status;
-        public int orderId;
         public SubscriptionRequest(SubscriptionRequestId aggregateId) : base(aggregateId) { }
 
         public IExecutionResult Create(string subscriptionAccountId, string type)
         {
-            var @event = new SubscriptionRequestCreatedEvent(this.Id.Value, subscriptionAccountId, "Creating", type, DateTime.UtcNow, orderId);
+            var @event = new SubscriptionRequestCreatedEvent(this.Id.Value, subscriptionAccountId, "Creating", type, DateTime.UtcNow);
             Emit(@event);
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult ValidateBySystem(SubscriptionRequestId subscriptionRequestId, string subscriber)
+        public IExecutionResult ValidateBySystem(SubscriptionRequestId subscriptionRequestId, string subscriber, int orderId)
         {
-            Emit(new SubscriptionAccountAffectedEvent(subscriber));
+            Emit(new SubscriptionAccountAffectedEvent(subscriber, orderId));
             Emit(new SubscriptionRequestStatusUpdatedEvent("Pending", subscriptionRequestId.ToString()));
             Emit(new SubscriptionRequestValidatedEvent(this.Id.Value));
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult RejectBySystem(SubscriptionRequestId subscriptionRequestId, string subscriber)
+        public IExecutionResult RejectBySystem(SubscriptionRequestId subscriptionRequestId, string subscriber, int orderId)
         {
             Emit(new SubscriptionRequestStatusUpdatedEvent("Rejected", subscriptionRequestId.ToString()));
-            Emit(new SubscriptionRequestRejectedEvent(this.Id.Value, this.subscriptionAccountId, subscriber, "You have been rejected by the system", DateTime.UtcNow));
+            Emit(new SubscriptionRequestRejectedEvent(this.Id.Value, this.subscriptionAccountId, subscriber, orderId, "You have been rejected by the system", DateTime.UtcNow));
             return ExecutionResult.Success();
         }
         public IExecutionResult ManualValidate(SubscriptionRequestId subscriptionRequestId)

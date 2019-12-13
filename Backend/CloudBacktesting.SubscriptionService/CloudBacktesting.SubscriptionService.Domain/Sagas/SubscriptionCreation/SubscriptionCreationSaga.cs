@@ -30,8 +30,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
             var command = new SubscriptionRequestLinkToSubscriptionAccountCommand(new SubscriptionAccountId(domainEvent.AggregateEvent.SubscriptionAccountId), 
                 domainEvent.AggregateIdentity.Value, 
                 domainEvent.AggregateEvent.Status, 
-                domainEvent.AggregateEvent.Type,
-                domainEvent.AggregateEvent.OrderId);
+                domainEvent.AggregateEvent.Type);
             //try
             //{
             this.Publish(command);
@@ -40,7 +39,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
             //{
 
             //}
-            this.Emit(new SubscriptionAccountLinkedSagaEvent(domainEvent.AggregateIdentity.Value, domainEvent.AggregateEvent.Status, domainEvent.AggregateEvent.Type, domainEvent.AggregateEvent.OrderId));
+            this.Emit(new SubscriptionAccountLinkedSagaEvent(domainEvent.AggregateIdentity.Value, domainEvent.AggregateEvent.Status, domainEvent.AggregateEvent.Type));
             return Task.CompletedTask;
         }
 
@@ -48,12 +47,12 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
         {
             if((string.IsNullOrEmpty(domainEvent.AggregateIdentity.Value) || domainEvent.AggregateEvent.SubscriptionRequestStatus == "Active"))
             {
-                var command = new SubscriptionRequestSystemRejectSuccessCommand(domainEvent.AggregateEvent.RequestId, domainEvent.AggregateEvent.Subscriber);
+                var command = new SubscriptionRequestSystemRejectSuccessCommand(domainEvent.AggregateEvent.RequestId, domainEvent.AggregateEvent.Subscriber, domainEvent.AggregateEvent.OrderId);
                 this.Publish(command);
             }
             else
             {
-                var command = new SubscriptionRequestSystemValidateSuccessCommand(new SubscriptionRequestId(domainEvent.AggregateEvent.RequestId), domainEvent.AggregateEvent.Subscriber);
+                var command = new SubscriptionRequestSystemValidateSuccessCommand(new SubscriptionRequestId(domainEvent.AggregateEvent.RequestId), domainEvent.AggregateEvent.Subscriber, domainEvent.AggregateEvent.OrderId);
                 this.Publish(command);
             }
             return Task.CompletedTask;

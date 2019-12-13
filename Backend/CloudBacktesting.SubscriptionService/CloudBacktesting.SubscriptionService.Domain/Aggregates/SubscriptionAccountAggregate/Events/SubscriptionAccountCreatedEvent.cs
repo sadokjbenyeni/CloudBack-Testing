@@ -7,11 +7,9 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAcc
     public class SubscriptionAccountCreatedEvent : AggregateEvent<SubscriptionAccount, SubscriptionAccountId>
     {
         public string Subscriber { get; }
-        public int OrderId { get; }
 
-        public SubscriptionAccountCreatedEvent(string subscriber, int orderId)
+        public SubscriptionAccountCreatedEvent(string subscriber)
         {
-            OrderId = orderId;
             Subscriber = subscriber;
         }
     }

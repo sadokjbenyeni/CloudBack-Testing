@@ -12,9 +12,8 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAcc
         public string RequestId { get; }
         public string SubscriptionRequestStatus { get; }
         public string SubscriptionRequestType { get; }
-        public int OrderId { get; }
 
-        public SubscriptionRequestLinkToSubscriptionAccountCommand(SubscriptionAccountId subscriptionAccountId, string subscriptionRequestId, string subscriptionRequestStatus, string subscriptionRequestType, int orderId ) : base(subscriptionAccountId)
+        public SubscriptionRequestLinkToSubscriptionAccountCommand(SubscriptionAccountId subscriptionAccountId, string subscriptionRequestId, string subscriptionRequestStatus, string subscriptionRequestType ) : base(subscriptionAccountId)
         {
             if (string.IsNullOrEmpty(subscriptionRequestId))
             {
@@ -30,7 +29,6 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAcc
             {
                 throw new ArgumentException("Cannot be null or empty", nameof(subscriptionRequestType));
             }
-            OrderId = orderId;
             RequestId = subscriptionRequestId;
             SubscriptionRequestStatus = subscriptionRequestStatus;
             SubscriptionRequestType = subscriptionRequestType;

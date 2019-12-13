@@ -10,10 +10,13 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
     {
         public string RequestId { get; set; }
         public string Subscriber { get; set; }
-        public SubscriptionRequestSystemRejectSuccessCommand(string aggregateId, string subscriber) : base(new SubscriptionRequestId(aggregateId))
+        public int OrderId { get; set; }
+
+        public SubscriptionRequestSystemRejectSuccessCommand(string aggregateId, string subscriber, int orderId) : base(new SubscriptionRequestId(aggregateId))
         {
             RequestId = aggregateId;
             Subscriber = subscriber;
+            OrderId = orderId;
         }
     }
 }

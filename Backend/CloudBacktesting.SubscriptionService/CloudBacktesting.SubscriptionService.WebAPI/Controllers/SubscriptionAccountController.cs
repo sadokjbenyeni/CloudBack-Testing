@@ -49,7 +49,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             {
                 Id = readModel.Id,
                 Subscriber = readModel.Subscriber,
-                CreationDate = readModel.CreationDate
+                CreationDate = readModel.CreationDate,
             };
         }
 
@@ -73,7 +73,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CreateSubscriptionAccountDto value)
         {
-            var command = new SubscriptionAccountCreationCommand(value.Subscriber, 0);
+            var command = new SubscriptionAccountCreationCommand(value.Subscriber);
             //if (this.User == null || !this.User.Identity.IsAuthenticated)
             //{
             //    var idError = Guid.NewGuid().ToString();

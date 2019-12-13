@@ -52,5 +52,9 @@ Scenario: The order id has been incremented when chang requested multiple resque
 	When 'Chang' sends GET request subscription
 	Then The subscription required that:
 		| field             | value      |
+		| Status            | Pending    |
+		| Type              | Premium    |
+		| Subscriber        | Chang      |
+		| IsSystemValidated | true       |
 		| OrderId		    | 3          |
 

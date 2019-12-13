@@ -136,12 +136,13 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
             Assert.That(actual.Type, Is.EqualTo(expected.Type));
             Assert.That(actual.Subscriber, Is.EqualTo(expected.Subscriber));
             Assert.That(actual.IsSystemValidated, Is.EqualTo(expected.IsSystemValidated));
+            Assert.That(actual.OrderId, Is.EqualTo(expected.OrderId));
         }
 
         [When(@"'(.*)' sends GET request subscription")]
         public async Task WhenSendsGETRequestSubscription(string customer)
         {
-            var id = context.Get<List<string>>($"{customer}-subscriptionRequest")?.First();
+            var id = context.Get<List<string>>($"{customer}-subscriptionRequest")?.Last();
             var httpClient = context.ScenarioContainer.Resolve<HttpClient>();
             var result = await httpClient.GetAsync($"api/subscriptionrequest/{id}");
             context.Set(result, $"getSubscriptionRequestById");

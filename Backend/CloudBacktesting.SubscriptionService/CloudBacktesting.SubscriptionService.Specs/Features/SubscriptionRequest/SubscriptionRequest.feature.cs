@@ -402,6 +402,18 @@ this.FeatureBackground();
                             "field",
                             "value"});
                 table2.AddRow(new string[] {
+                            "Status",
+                            "Pending"});
+                table2.AddRow(new string[] {
+                            "Type",
+                            "Premium"});
+                table2.AddRow(new string[] {
+                            "Subscriber",
+                            "Chang"});
+                table2.AddRow(new string[] {
+                            "IsSystemValidated",
+                            "true"});
+                table2.AddRow(new string[] {
                             "OrderId",
                             "3"});
 #line 53

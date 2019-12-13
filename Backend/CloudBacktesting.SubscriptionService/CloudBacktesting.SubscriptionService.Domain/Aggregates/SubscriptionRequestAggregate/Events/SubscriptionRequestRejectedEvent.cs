@@ -8,14 +8,17 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
 {
     public class SubscriptionRequestRejectedEvent : AggregateEvent<SubscriptionRequest, SubscriptionRequestId>, ISubscriptionSagaRequestId
     {
+        public int OrderId { get; set; }
         public string RequestId { get; }
         public string SubscriptionAccountId { get; }
         public string Subscriber { get; set; }
         public string Message { get; set; }
         public DateTime SystemRejectedDate { get; }
+        
 
-        public SubscriptionRequestRejectedEvent(string requestId, string subscriptionAccountId, string subscriber, string message, DateTime systemRejectedDate)
+        public SubscriptionRequestRejectedEvent(string requestId, string subscriptionAccountId, string subscriber, int orderId, string message, DateTime systemRejectedDate)
         {
+            OrderId = orderId;
             RequestId = requestId;
             Subscriber = subscriber;
             Message = message;

@@ -11,11 +11,9 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
         public string Type { get; }
         public DateTime CreationDate { get; }
         public string RequestId { get; }
-        public int OrderId { get; }
 
-        public SubscriptionRequestCreatedEvent(string requestId, string subscriptionAccountId, string status, string type, DateTime creationDate, int orderId)
+        public SubscriptionRequestCreatedEvent(string requestId, string subscriptionAccountId, string status, string type, DateTime creationDate)
         {
-            OrderId = orderId;
             RequestId = requestId;
             SubscriptionAccountId = subscriptionAccountId;
             Status = status;

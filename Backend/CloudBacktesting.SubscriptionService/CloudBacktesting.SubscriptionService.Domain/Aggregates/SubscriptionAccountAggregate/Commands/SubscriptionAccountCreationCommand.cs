@@ -8,11 +8,10 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAcc
     public class SubscriptionAccountCreationCommand : Command<SubscriptionAccount, SubscriptionAccountId, IExecutionResult>
     {
         public string Subscriber { get; set; }
-        public int OrderId { get; set; }
-        public SubscriptionAccountCreationCommand(string subscriber, int orderId) : base(SubscriptionAccountId.New)
+
+        public SubscriptionAccountCreationCommand(string subscriber) : base(SubscriptionAccountId.New)
         {
             Subscriber = subscriber ?? throw new ArgumentNullException(nameof(subscriber));
-            OrderId = orderId;
         }
     }
 }
