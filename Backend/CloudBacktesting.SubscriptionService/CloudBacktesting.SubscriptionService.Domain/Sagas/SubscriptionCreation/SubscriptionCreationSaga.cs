@@ -72,12 +72,4 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
         }
 
     }
-    //public class SubscriptionCreationSagaUpdater : ISagaUpdater<SubscriptionAccount, SubscriptionAccountId, SubscriptionRequestLinkedEvent, SubscriptionCreationSaga>
-    //{
-    //    public Task ProcessAsync(ISaga saga, IDomainEvent domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
-    //    {
-    //        var @event = (IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestCreatedEvent>)domainEvent;
-    //        return ((SubscriptionCreationSaga)saga).HandleAsync(@event, sagaContext, cancellationToken);
-    //    }
-    //}
 }

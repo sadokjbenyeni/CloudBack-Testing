@@ -22,7 +22,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionConfigur
 
         public Task HandleAsync(IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestManualConfiguredEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
-            var command = new SubscriptionRequestManualConfigurationCommand(new SubscriptionRequestId(domainEvent.AggregateIdentity.Value), domainEvent.AggregateEvent.Subscriber);
+            var command = new SubscriptionRequestManualConfigurationCommand(new SubscriptionRequestId(domainEvent.AggregateIdentity.Value));
             this.Publish(command);
 
             this.Emit(new SubscriptionRequestConfiguredEmailSentEvent(domainEvent.AggregateIdentity.Value, domainEvent.AggregateEvent.Message, domainEvent.AggregateEvent.SubscriptionAccountId, domainEvent.AggregateEvent.ActivatedDate));

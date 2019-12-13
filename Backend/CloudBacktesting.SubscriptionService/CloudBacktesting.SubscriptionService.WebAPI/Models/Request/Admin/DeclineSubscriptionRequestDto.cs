@@ -7,7 +7,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Models.Request.Admin
 {
     public class DeclineSubscriptionRequestDto
     {
-        public string Id { get; set; }
+        public string SubscriptionId { get; set; }
         public string Message { get; set; }
     }
 }

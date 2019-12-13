@@ -7,10 +7,8 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
 {
     public class SubscriptionRequestManualConfigurationCommand : Command<SubscriptionRequest, SubscriptionRequestId>
     {
-        public string Subscriber { get; set; }
-        public SubscriptionRequestManualConfigurationCommand(SubscriptionRequestId aggregateId, string subscriber) : base(aggregateId)
+        public SubscriptionRequestManualConfigurationCommand(SubscriptionRequestId aggregateId) : base(aggregateId)
         {
-            Subscriber = subscriber;
         }
     }
 }

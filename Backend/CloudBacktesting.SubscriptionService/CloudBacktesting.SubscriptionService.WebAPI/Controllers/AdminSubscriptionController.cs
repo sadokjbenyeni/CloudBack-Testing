@@ -52,21 +52,19 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         [HttpPut("validate")]
         public async Task<IActionResult> Validate([FromBody] ValidateSubscriptionRequestDto value)
         {
-            var subscriptionRequestCommand = new SubscriptionRequestManualValidateSuccessCommand(new SubscriptionRequestId(value.Id));
+            var subscriptionRequestCommand = new SubscriptionRequestManualValidateSuccessCommand(new SubscriptionRequestId(value.SubscriptionId));
 
             var result = await commandBus.PublishAsync(subscriptionRequestCommand, CancellationToken.None);
             return result.IsSuccess ? Ok() : (IActionResult)BadRequest();
-            //return CreatedAtAction(nameof(Get), new IdentifierDto { Id = subscriptionRequestCommand.AggregateId.Value }, subscriptionRequestCommand);
         }
 
         [HttpPut("decline")]
         public async Task<IActionResult> Decline([FromBody] DeclineSubscriptionRequestDto value)
         {
-            var subscriptionRequestCommand = new SubscriptionRequestManualDeclineSuccessCommand(value.Id, value.Message);
+            var subscriptionRequestCommand = new SubscriptionRequestManualDeclineSuccessCommand(value.SubscriptionId, value.Message);
 
             var result = await commandBus.PublishAsync(subscriptionRequestCommand, CancellationToken.None);
             return result.IsSuccess ? Ok() : (IActionResult)BadRequest();
-            //return CreatedAtAction(nameof(Get), new IdentifierDto { Id = subscriptionRequestCommand.AggregateId.Value, message = subscriptionRequestCommand.DeclineMessage}, subscriptionRequestCommand);
         }
 
 
@@ -83,7 +81,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         [HttpPut("configure")]
         public async Task<IActionResult> Configure([FromBody] ConfigureSubscriptionRequestDto value)
         {
-            var subscriptionRequestCommand = new SubscriptionRequestManualConfigurationCommand(new SubscriptionRequestId(value.Id), value.Subscriber);
+            var subscriptionRequestCommand = new SubscriptionRequestManualConfigurationCommand(new SubscriptionRequestId(value.SubscriptionId));
 
             var result = await commandBus.PublishAsync(subscriptionRequestCommand, CancellationToken.None);
             return result.IsSuccess ? Ok() : (IActionResult)BadRequest();

@@ -10,17 +10,15 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
     {
         public string RequestId { get; }
         public string SubscriptionAccountId { get; }
-        public string Subscriber { get; set; }
         public string Message { get; set; }
         public DateTime ActivatedDate { get; set; }
 
-        public SubscriptionRequestManualConfiguredEvent(string requestId, string subscriptionAccountId, string subscriber, string message, DateTime activatedDate)
+        public SubscriptionRequestManualConfiguredEvent(string requestId, string subscriptionAccountId, string message, DateTime activatedDate)
         {
             RequestId = requestId;
             SubscriptionAccountId = subscriptionAccountId;
             ActivatedDate = activatedDate;
             Message = message;
-            Subscriber = subscriber;
         }
     }
 }

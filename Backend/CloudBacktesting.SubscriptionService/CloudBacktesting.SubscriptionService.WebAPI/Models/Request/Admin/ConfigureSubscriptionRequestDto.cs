@@ -7,7 +7,6 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Models.Request.Admin
 {
     public class ConfigureSubscriptionRequestDto
     {
-        public string Id { get; set; }
-        public string Subscriber { get; set; }
+        public string SubscriptionId { get; set; }
     }
 }

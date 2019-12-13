@@ -11,7 +11,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
     {
         public override Task ExecuteAsync(SubscriptionRequest aggregate, SubscriptionRequestManualConfigurationCommand command, CancellationToken cancellationToken)
         {
-            var executionResult = aggregate.ManualConfigure(command.AggregateId, command.Subscriber);
+            var executionResult = aggregate.ManualConfigure(command.AggregateId);
             return Task.FromResult(executionResult);
         }
     }

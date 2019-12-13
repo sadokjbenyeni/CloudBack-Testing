@@ -10,6 +10,5 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Models.Account.Client.Subs
         public string Id { get; set; }
         public string Subscriber { get; set; }
         public DateTime CreationDate { get; set; }
-        public int OrderId { get; set; }
     }
 }
