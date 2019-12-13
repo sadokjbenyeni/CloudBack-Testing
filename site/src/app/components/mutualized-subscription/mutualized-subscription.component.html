@@ -3,7 +3,7 @@
     <h1 class="py-3 my-3 text-center">Mutualized subscription</h1>
     <div class="col-12">
 
-        <mat-horizontal-stepper *ngIf='Subscription.billing.country!=undefined; else loading' linerar #stepper
+        <mat-horizontal-stepper *ngIf='Countries!=undefined; else loading' linerar #stepper
             class="col-12" [linear]="true" #subscriptionstepper>
             <mat-step [stepControl]="CgvFormGroup" class="col-12">
                 <form [formGroup]="CgvFormGroup">

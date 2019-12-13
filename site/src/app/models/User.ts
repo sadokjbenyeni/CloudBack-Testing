@@ -14,7 +14,6 @@ export class User {
     region: String;
     idCountry: String;
     country: String;
-    cgv: Boolean;
     cgu: string[];
     commercial: Boolean;
     phone: String;

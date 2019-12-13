@@ -18,7 +18,6 @@ let UserSchema = new mongoose.Schema({
   region: { type: String, maxlength: 200 },
   idCountry: { type: String, maxlength: 200 },
   country: { type: String, maxlength: 200 },
-  cgv: { type: Boolean, default: false },
   cgu: { type: [String] },
   commercial: { type: Boolean, default: false },
   phone: { type: String, maxlength: 200 },
