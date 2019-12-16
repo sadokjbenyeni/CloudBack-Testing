@@ -81,7 +81,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         [HttpPut("configure")]
         public async Task<IActionResult> Configure([FromBody] ConfigureSubscriptionRequestDto value)
         {
-            var subscriptionRequestCommand = new SubscriptionRequestManualConfigurationCommand(new SubscriptionRequestId(value.SubscriptionId));
+            var subscriptionRequestCommand = new SubscriptionRequestManualConfigurationCommand(new SubscriptionRequestId(value.SubscriptionId), value.Message) ;
 
             var result = await commandBus.PublishAsync(subscriptionRequestCommand, CancellationToken.None);
             return result.IsSuccess ? Ok() : (IActionResult)BadRequest();
