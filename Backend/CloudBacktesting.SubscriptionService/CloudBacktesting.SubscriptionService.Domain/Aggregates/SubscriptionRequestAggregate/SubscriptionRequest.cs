@@ -57,10 +57,10 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult ManualConfigure(SubscriptionRequestId subscriptionRequestId)
+        public IExecutionResult ManualConfigure(SubscriptionRequestId subscriptionRequestId, string message)
         {
             Emit(new SubscriptionRequestStatusUpdatedEvent("Active", subscriptionRequestId.ToString()));
-            Emit(new SubscriptionRequestManualConfiguredEvent(this.Id.Value, this.subscriptionAccountId, "Your subscripton has been configured successfully welcome to the big club", DateTime.UtcNow));
+            Emit(new SubscriptionRequestManualConfiguredEvent(this.Id.Value, this.subscriptionAccountId, message, DateTime.UtcNow));
             return ExecutionResult.Success();
         }
 
