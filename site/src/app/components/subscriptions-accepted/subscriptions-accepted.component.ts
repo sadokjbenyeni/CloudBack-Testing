@@ -14,7 +14,7 @@ import { SubscriptionConfigurationPopupComponent } from '../subscription-configu
 export class SubscriptionsacceptedComponent implements OnInit {
   DisplayedColumns: string[] = ['Subscriber', 'OrderId', 'SubscriptionType', 'Actions'];
   dataSource;
-  constructor(private snackbar: MatSnackBar, private dialog: MatDialog, private subscriptionService: SubscriptionService) { }
+  constructor(private dialog: MatDialog, private subscriptionService: SubscriptionService) { }
 
   ngOnInit() {
     this.fillDataSource()
