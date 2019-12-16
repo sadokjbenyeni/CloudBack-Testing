@@ -30,5 +30,8 @@ export class SubscriptionService {
   RejectSubscription(id: string, message: string): Observable<any> {
     return this.http.put("https://localhost:5001/api/AdminSubscription/decline", { subscriptionId: id, message: message });
   }
+  ConfigureSubscription(id: string, message: string): Observable<any> {
+    return this.http.put("https://localhost:5001/api/AdminSubscription/configure", { subscriptionId: id, message: message });
+  }
 }
 

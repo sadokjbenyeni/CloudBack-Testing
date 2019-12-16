@@ -35,7 +35,7 @@ export const routes: Routes = [
   // ADMINISTRATOR
   { path: 'admin/profil/:id', component: UserDetailComponent, canActivate: [GuardGuard] },
   { path: 'subscriptions-validation', component: SubscriptionsValidationComponent, canActivate: [GuardGuard] },
-  { path: 'Subscriptions-accepted', component: SubscriptionsacceptedComponent, canActivate: [GuardGuard] },
+  { path: 'subscriptions-accepted', component: SubscriptionsacceptedComponent, canActivate: [GuardGuard] },
 
   { path: 'admin/users', component: UsersComponent, canActivate: [GuardGuard] },
   { path: 'admin/role', component: RoleComponent, canActivate: [GuardGuard] },

@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Declination of the {{subscription.subscriptionType}} subscription number {{subscription.orderId}}
+    of {{subscription.subscriber}}</h2>
+<form [formGroup]="messageForm">
+    <mat-dialog-content class="mat-typography">
+        <mat-form-field class="col-12">
+            <textarea matInput placeholder="Configuration informations" formControlName="messagectrl"
+                required></textarea>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions class="float-right">
+        <button type="button" class="btn btn-default border " (click)="onclose()">Close</button>
+        <button type="submit" default class="btn btn-primary ml-2" (click)="DoRejectSubscription()">Submit</button>
+    </mat-dialog-actions>
+</form>

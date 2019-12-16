@@ -1,4 +1,3 @@
-<p>subscriptionsaccepted works!</p>
 <app-menu></app-menu>
 <!-- <app-configuration></app-configuration> -->
 <div class="container  col-8 pt-4 mt-4  d-block">
@@ -20,7 +19,7 @@
             <ng-container matColumnDef="Actions">
                 <th mat-header-cell *matHeaderCellDef> Actions </th>
                 <td mat-cell class="truncate-cell" *matCellDef="let element">
-
+                    <Button class="btn btn-primary" (click)="configure(element)">Configure</Button>
                 </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="DisplayedColumns"></tr>

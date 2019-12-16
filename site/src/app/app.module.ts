@@ -83,6 +83,7 @@ import { SubscriptionService } from './services/subscription.service';
 import { RejectionMessageDialogComponent } from './components/rejection-message-dialog/rejection-message-dialog.component';
 import { ConfirmationPopupComponent } from './components/confirmation-popup/confirmation-popup.component';
 import { SubscriptionsacceptedComponent } from './components/subscriptions-accepted/subscriptions-accepted.component';
+import { SubscriptionConfigurationPopupComponent } from './components/subscription-configuration-popup/subscription-configuration-popup';
 
 @NgModule({
   declarations: [
@@ -126,9 +127,10 @@ import { SubscriptionsacceptedComponent } from './components/subscriptions-accep
     RejectionMessageDialogComponent,
     ConfirmationPopupComponent,
     SubscriptionsacceptedComponent,
+    SubscriptionConfigurationPopupComponent,
 
   ],
-  entryComponents: [NgbdModalContent, LoginDialogComponent, PasswordComponent, PasswordResetComponent, TermsOfUseComponent, RejectionMessageDialogComponent,ConfirmationPopupComponent],
+  entryComponents: [NgbdModalContent, LoginDialogComponent, PasswordComponent, PasswordResetComponent, TermsOfUseComponent, RejectionMessageDialogComponent,ConfirmationPopupComponent,SubscriptionConfigurationPopupComponent],
   imports: [
     MaterialModule,
     BrowserModule,
