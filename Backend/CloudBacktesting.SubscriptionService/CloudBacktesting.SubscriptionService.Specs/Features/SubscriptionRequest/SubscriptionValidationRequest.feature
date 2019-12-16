@@ -26,6 +26,8 @@ Scenario: Chang browses description for specific subscription
 		| Subscriber        | Chang      |
 		| Type              | Mutualized |
 		| IsSystemValidated | true       |
+		| OrderId           | 1          |
+
 
 @v1 @subscription @request @creation @validationRequest @browse @data @readModel @ignore 
 Scenario: Morgan browses the Chang's mutualized subscription account
