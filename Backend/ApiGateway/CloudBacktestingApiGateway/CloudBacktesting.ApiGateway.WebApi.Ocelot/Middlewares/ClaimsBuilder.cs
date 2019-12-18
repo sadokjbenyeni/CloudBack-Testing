@@ -4,6 +4,7 @@ using CloudBacktesting.ApiGateway.WebApi.Ocelot.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -28,6 +29,10 @@ namespace CloudBacktesting.ApiGateway.WebApi.Ocelot.Middlewares
                 var user = await _userService.GetuserByTokenAsync(token);
                 if (user != null)
                 {
+                    var stringuser = JsonConvert.SerializeObject(user);
+                    //httpContext.Request.Headers.Remove("Authorization");
+                    httpContext.Request.Headers.Remove("Authorization");
+                    httpContext.Request.Headers.Add("Authorization", stringuser);
                     var appIdentity = BuildClaimsIdentity(user);
                     httpContext.User.AddIdentity(appIdentity);
                 }
