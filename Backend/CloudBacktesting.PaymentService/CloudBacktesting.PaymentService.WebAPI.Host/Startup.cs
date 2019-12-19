@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using EventFlow.AspNetCore.Extensions;
 using EventFlow.AspNetCore.Middlewares;
 using EventFlow.Extensions;
@@ -14,6 +14,8 @@ using CloudBacktesting.Infra.EventFlow.Queries.InMemory;
 using CloudBacktesting.Infra.EventFlow.Queries;
 using CloudBacktesting.Infra.EventFlow.ReadStores;
 using CloudBacktesting.PaymentService.WebAPI.Host.DatabaseSettings;
+using CloudBacktesting.PaymentService.Infra.Security;
+using Microsoft.AspNetCore.Authentication;
 
 namespace CloudBacktesting.PaymentService.WebAPI.Host
 {
@@ -29,11 +31,22 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc()
                 //.SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 ;
+
+            services.AddAuthentication("cloudbacktestingAuthentication")
+                    .AddScheme<AuthenticationSchemeOptions, CloudBacktestingAuthenticationHandler>("cloudbacktestingAuthentication", options => { });
+            
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Client", policy => policy.RequireClaim("Client"));
+                options.AddPolicy("Admin", policy => policy.RequireClaim("Admin"));
+                //options.AddPolicy("System", policy => policy.RequireClaim("Sytem"));
+                //options.AddPolicy("System, Admin", policy => policy.RequireClaim("Admin"));
+            });
 
             services.AddSwaggerGen(options => options.SwaggerDoc("V1", new Microsoft.OpenApi.Models.OpenApiInfo() { Title = "Payment Api", Version = "V1" }));
 
@@ -45,7 +58,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
             {
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
             }));
-            return services.BuildServiceProvider();
+            //return services.BuildServiceProvider();
         }
 
         private IServiceCollection AddEventFlow(IServiceCollection services, PaymentDatabaseSettings configMongo)
@@ -83,7 +96,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
             app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/V1/swagger.json", "Payment Api"));
             app.UseHttpsRedirection();
             app.UseMiddleware<CommandPublishMiddleware>();
-            app.UseMvc();
+            //app.UseMvc();
             //app.UseRouting();
 
             //app.UseAuthorization();
@@ -92,6 +105,15 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
             //{
             //    endpoints.MapControllers();
             //});
+        }
+
+        protected virtual void ConfigureEventFlow(IApplicationBuilder app)
+        {
+            if (!UseEventFlowOptionsBuilder)
+            {
+                return;
+            }
+            app.UseMiddleware<CommandPublishMiddleware>();
         }
     }
 }

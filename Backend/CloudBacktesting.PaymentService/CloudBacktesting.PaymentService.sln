@@ -15,25 +15,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "9.Hosting", "9.Hosting", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.PaymentService.Domain", "CloudBacktesting.PaymentService.Domain\CloudBacktesting.PaymentService.Domain.csproj", "{C4E83DC7-7A39-4819-939D-A363706E01BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.PaymentService.Domain.Tests", "CloudBacktesting.PaymentService.Domain.Tests\CloudBacktesting.PaymentService.Domain.Tests.csproj", "{B01B5A16-9884-4F3A-9392-339A6D786F97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.PaymentService.Domain.Tests", "CloudBacktesting.PaymentService.Domain.Tests\CloudBacktesting.PaymentService.Domain.Tests.csproj", "{B01B5A16-9884-4F3A-9392-339A6D786F97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.PaymentService.WebAPI.Host", "CloudBacktesting.PaymentService.WebAPI.Host\CloudBacktesting.PaymentService.WebAPI.Host.csproj", "{74F978C2-6FB6-48D3-B56F-5D48867867DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.PaymentService.WebAPI.Host", "CloudBacktesting.PaymentService.WebAPI.Host\CloudBacktesting.PaymentService.WebAPI.Host.csproj", "{74F978C2-6FB6-48D3-B56F-5D48867867DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.PaymentService.WebAPI", "CloudBacktesting.PaymentService.WebAPI\CloudBacktesting.PaymentService.WebAPI.csproj", "{0D517804-6B1E-4289-ABD4-C674E8CC3939}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.PaymentService.WebAPI", "CloudBacktesting.PaymentService.WebAPI\CloudBacktesting.PaymentService.WebAPI.csproj", "{0D517804-6B1E-4289-ABD4-C674E8CC3939}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.PaymentService.WebAPI.Tests", "CloudBacktesting.PaymentService.WebAPI.Tests\CloudBacktesting.PaymentService.WebAPI.Tests.csproj", "{C9E97A4A-71EE-407B-A8F4-D31922C4BB96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.PaymentService.WebAPI.Tests", "CloudBacktesting.PaymentService.WebAPI.Tests\CloudBacktesting.PaymentService.WebAPI.Tests.csproj", "{C9E97A4A-71EE-407B-A8F4-D31922C4BB96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.PaymentService.Specs", "CloudBacktesting.PaymentService.Specs\CloudBacktesting.PaymentService.Specs.csproj", "{C3B5D1DC-4B50-41F1-8DA8-A1B30F031AC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.PaymentService.Specs", "CloudBacktesting.PaymentService.Specs\CloudBacktesting.PaymentService.Specs.csproj", "{C3B5D1DC-4B50-41F1-8DA8-A1B30F031AC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.Infra.EventFlow", "CloudBacktesting.PaymentService.Infra.EventFlow\CloudBacktesting.Infra.EventFlow.csproj", "{9838FDEF-F4B3-4156-A56F-93801BB071A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.Infra.EventFlow", "CloudBacktesting.PaymentService.Infra.EventFlow\CloudBacktesting.Infra.EventFlow.csproj", "{9838FDEF-F4B3-4156-A56F-93801BB071A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.Infra.EventFlow.Tests", "CloudBacktesting.PaymentService.Infra.EventFlow.Tests\CloudBacktesting.Infra.EventFlow.Tests.csproj", "{32431B3F-5CF4-48C2-A660-639AEFE1A016}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.Infra.EventFlow.Tests", "CloudBacktesting.PaymentService.Infra.EventFlow.Tests\CloudBacktesting.Infra.EventFlow.Tests.csproj", "{32431B3F-5CF4-48C2-A660-639AEFE1A016}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.MongoDb", "CloudBacktesting.MongoDb\CloudBacktesting.MongoDb.csproj", "{FF6BFE3D-E3D3-4759-89D5-74F2D8BF9BC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.MongoDb", "CloudBacktesting.MongoDb\CloudBacktesting.MongoDb.csproj", "{FF6BFE3D-E3D3-4759-89D5-74F2D8BF9BC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.PaymentService.Infra", "CloudBacktesting.PaymentService.Infra\CloudBacktesting.PaymentService.Infra.csproj", "{8DD6AA80-6BB2-4F99-A60B-BAF3840A6AEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.PaymentService.Infra", "CloudBacktesting.PaymentService.Infra\CloudBacktesting.PaymentService.Infra.csproj", "{8DD6AA80-6BB2-4F99-A60B-BAF3840A6AEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.PaymentService.Infra.Tests", "CloudBacktesting.PaymentService.Infra.Tests\CloudBacktesting.PaymentService.Infra.Tests.csproj", "{E05DD7C3-D0BE-4C51-B809-8244506505CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.PaymentService.Infra.Tests", "CloudBacktesting.PaymentService.Infra.Tests\CloudBacktesting.PaymentService.Infra.Tests.csproj", "{E05DD7C3-D0BE-4C51-B809-8244506505CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
