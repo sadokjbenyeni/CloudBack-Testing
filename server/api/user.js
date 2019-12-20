@@ -3,6 +3,7 @@ const router = require('express').Router();
 const mongoose = require('mongoose');
 const crypto = require("crypto");
 const request = require('request');
+const eventpublisher = require('../Events/Publishers/AccountActiveEventPublisher')
 const User = mongoose.model('User');
 const Order = mongoose.model('Order');
 const Role = mongoose.model('Role');
@@ -174,7 +175,7 @@ router.post('/', (req, res) => {
 
             user.save((err, u) => {
                 if (err) return console.error(err);
-                request.post({ url: process.env.DOMAIN+'/api/mail/inscription', form: { email: req.body.email, token: user.token } }, (err, httpResponse, body) => {
+                request.post({ url: process.env.DOMAIN + '/api/mail/inscription', form: { email: req.body.email, token: user.token } }, (err, httpResponse, body) => {
                     if (err) console.error(err);
                     res.status(201).json({ account: true });
                 });
@@ -253,15 +254,29 @@ router.post('/check/', (req, res) => {
         });
 });
 
-router.post('/activation/', (req, res) => {
-    User.update({ token: req.body.token }, { $set: { state: 1 } })
-        .then((user) => {
-            if (user.nModified === 0) { res.status(200).json({ message: "User Not Found" }) }
-            res.status(200).json({ message: "Your account is activated. You can connect" });
-        })
-        .catch(err => {
-            console.error(err);
-        });
+router.post('/activation/', async (req, res) => {
+    await User.findOne({ token: req.body.token }).then(async (result) => {
+        if (result == undefined) {
+            console.log("user not found");
+            res.status(200).json({ message: "User Not Found" })
+        }
+        if (result.state == 0) {
+            await User.update({ token: req.body.token }, { $set: { state: 1 } })
+                .then(async (user) => {
+                    console.log("account activated");
+                    res.status(200).json({ message: "Your account is activated. You can connect" });
+                    await eventpublisher.AccountActivation(result.email)
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+        }
+        else {
+            console.log("account already active");
+            res.status(200).json({ message: "Your account is already active" })
+        }
+    })
+
 });
 
 router.post('/suspendre/', (req, res) => {

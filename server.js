@@ -3,24 +3,24 @@ const express = require('express');
 const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
-const request = require('request');
 const mongoose = require('mongoose');
+const Connection = require('./server/Events/Connection')
+
 
 //const cron = require('node-cron');
 var resultEnv = false;
-process.argv.forEach(function(item) {
-  if(item.substr(0, 4) === "env="){
+process.argv.forEach(function (item) {
+  if (item.substr(0, 4) === "env=") {
     let environement = item.replace("env=", "");
-    require('dotenv').config({ path: "environment/"+environement+".env" });
+    require('dotenv').config({ path: "environment/" + environement + ".env" });
     resultEnv = true;
   }
   // return false;
 });
-if(resultEnv)
-{
+if (resultEnv) {
   console.log("Environment variables has been loaded");
 }
-else{
+else {
   console.log("An error has been detected during the Environment variable loading");
   throw new Exception("Environment variables is not found.");
 }
@@ -36,10 +36,10 @@ else{
 //     client.close();
 //  });
 //
-console.log("the connectionstring is "+process.env.MONGODB_CONNECTIONSTRING);
+console.log("the connectionstring is " + process.env.MONGODB_CONNECTIONSTRING);
 mongoose.connect(process.env.MONGODB_CONNECTIONSTRING, {
   // useMongoClient: true,
-  useNewUrlParser:true,
+  useNewUrlParser: true,
   /* other options */
 });
 mongoose.set('debug', true);
@@ -58,7 +58,6 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   next();
 });
-
 //Cookie and session
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
@@ -141,6 +140,9 @@ console.log(" port number is " + process.env.PORT);
 //Get environment port or use 9095
 const port = process.env.PORT || '9095';
 app.set('port', port);
+
+//connecting to rabbitmq
+Connection.Connect();
 
 //Create HTTP server.
 const server = http.createServer(app);
