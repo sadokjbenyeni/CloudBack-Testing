@@ -78,7 +78,7 @@ namespace CloudBacktesting.PaymentService.Specs.Features.PaymentAccount
 #line 4
 #line hidden
 #line 5
- testRunner.Given("Morgan is authentificated", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Morgan is authentificated with roles \'Admin\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
@@ -126,7 +126,7 @@ this.FeatureBackground();
  testRunner.Given("the webapi is online", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 10
- testRunner.When("morgan sends the payment account creation request for \'Chang\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Morgan sends the payment account creation request for \'Chang\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 11
  testRunner.Then("Creation of payment account is successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -180,7 +180,7 @@ this.FeatureBackground();
  testRunner.Given("the webapi is online", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 17
- testRunner.And("\'Chang\' is authentificated", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Chang is authentificated with roles \'Client\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 18
  testRunner.And("\'Chang\' payment account has been created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");

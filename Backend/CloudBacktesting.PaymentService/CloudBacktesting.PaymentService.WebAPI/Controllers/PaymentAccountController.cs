@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CloudBacktesting.Infra.Security.Authorization;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Commands;
+using CloudBacktesting.PaymentService.WebAPI.Models;
 using CloudBacktesting.PaymentService.WebAPI.Models.PaymentAccount;
 using EventFlow;
 using EventFlow.Aggregates.ExecutionResults;
@@ -18,6 +20,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
     //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
+    [CloudBacktestingAuthorize("Admin")] // PEUT-ÊTRE QUE GET doit être dans un autre controller ? ???
     public class PaymentAccountController : ControllerBase
     {
         private readonly ILogger<PaymentAccountController> logger;
@@ -35,19 +38,19 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
         public async Task<ActionResult> Post([FromBody] CreatePaymentAccountDto value)
         {
             var command = new PaymentAccountCreationCommand(value.Client);
-            //if (this.User == null || !this.User.Identity.IsAuthenticated)
-            //{
-            //    var idError = Guid.NewGuid().ToString();
-            //    logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-            //    return BadRequest($"Access error, please contact the administrator with error id: {idError}");
-            //}
+            if (this.User == null || !this.User.Identity.IsAuthenticated)
+            {
+                var idError = Guid.NewGuid().ToString();
+                logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
+                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+            }
             IExecutionResult commandResult = null;
             try
             {
                 commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
                 if (commandResult.IsSuccess)
                 {
-                    return Ok(new { id = command.AggregateId.Value });
+                    return Ok(new IdentifierDto{ Id = command.AggregateId.Value });
                 }
             }
             catch (AggregateException aggregateEx)

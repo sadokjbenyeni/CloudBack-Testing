@@ -9,15 +9,12 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Text;
 
-namespace CloudBacktesting.PaymentService.Infra.Security
+namespace CloudBacktesting.Infra.Security
 {
+
     public class CloudBacktestingAuthentificationEngine
     {
-        public CloudBacktestingAuthentificationEngine()
-        {
-
-        }
-
+        
         public Task<AuthenticateResult> HandleAsync(ILogger logger, HttpRequest request, AuthenticationScheme scheme)
         {
             if (!request.Headers.ContainsKey("Authorization"))
@@ -34,9 +31,10 @@ namespace CloudBacktesting.PaymentService.Infra.Security
             var user = DecodeHeaderAuthenticate(Encoding.UTF8.GetString(Convert.FromBase64String(token)));
             var claims = user.Additionals.Select(kp => new Claim(kp.Key, kp.Value))
                                               .Union(new[] {
-                                                    new Claim(ClaimTypes.Name, user.Name),
                                                     new Claim(ClaimTypes.Email, user.Email),
-                                                    new Claim(ClaimTypes.Role, string.Join(", ", user.Roles))
+                                                    new Claim(ClaimTypes.Name, user.Name),
+                                                    new Claim(ClaimTypes.Role, string.Join(", ", user.Roles)),
+                                                    new Claim("Connected", "Connected")
                                               })
                                               .Union(user.Roles.Select(role => new Claim(role, role))).ToArray();
             var identity = new ClaimsIdentity(claims, scheme.Name);

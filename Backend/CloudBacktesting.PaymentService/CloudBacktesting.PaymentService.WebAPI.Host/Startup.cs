@@ -1,21 +1,24 @@
-﻿using System;
+﻿using CloudBacktesting.Infra.EventFlow.MongoDb.Queries;
+using CloudBacktesting.Infra.EventFlow.Queries;
+using CloudBacktesting.Infra.EventFlow.ReadStores;
+using CloudBacktesting.Infra.Security;
+using CloudBacktesting.Infra.Security.Authorization;
+using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Commands;
+using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Events;
+using CloudBacktesting.PaymentService.Domain.Repositories.PaymentAccountRepository;
+using CloudBacktesting.PaymentService.WebAPI.Host.DatabaseSettings;
 using EventFlow.AspNetCore.Extensions;
 using EventFlow.AspNetCore.Middlewares;
+using EventFlow.DependencyInjection.Extensions;
 using EventFlow.Extensions;
+using EventFlow.MongoDB.Extensions;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using EventFlow.DependencyInjection.Extensions;
-using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Events;
-using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Commands;
-using CloudBacktesting.PaymentService.Domain.Repositories.PaymentAccountRepository;
-using CloudBacktesting.Infra.EventFlow.Queries.InMemory;
-using CloudBacktesting.Infra.EventFlow.Queries;
-using CloudBacktesting.Infra.EventFlow.ReadStores;
-using CloudBacktesting.PaymentService.WebAPI.Host.DatabaseSettings;
-using EventFlow.MongoDB.Extensions;
-using CloudBacktesting.Infra.EventFlow.MongoDb.Queries;
+using Microsoft.Extensions.Hosting;
 
 namespace CloudBacktesting.PaymentService.WebAPI.Host
 {
@@ -31,26 +34,24 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider configureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddMvc()
-            //    //.SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-            //    ;
+            services.AddControllers();
+            services.AddAuthentication("cloudbacktestingAuthentication")
+                    .AddScheme<AuthenticationSchemeOptions, CloudBacktestingAuthenticationHandler>("cloudbacktestingAuthentication", options => { });
+            //services.AddAuthorization();
+
+            services.AddSingleton<IAuthorizationPolicyProvider, CloudBacktestingAuthorizationPolicyProvider>();
+            services.AddSingleton<IAuthorizationHandler, CloudBacktestingAuthorizationHandler>();
 
             services.AddSwaggerGen(options => options.SwaggerDoc("V1", new Microsoft.OpenApi.Models.OpenApiInfo() { Title = "Payment Api", Version = "V1" }));
 
             var configMongo = new PaymentDatabaseSettings();
             Configuration.Bind("PaymentDatabaseSettings", configMongo);
             AddEventFlow(services, configMongo);
-            services.AddCors(options =>
-            options.AddPolicy("AllowAllOrigins", builder =>
-            {
-                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-            }));
-            return services.BuildServiceProvider();
         }
 
-        private IServiceCollection AddEventFlow(IServiceCollection services, PaymentDatabaseSettings configMongo)
+        protected virtual IServiceCollection AddEventFlow(IServiceCollection services, PaymentDatabaseSettings configMongo)
         {
             if (UseEventFlowOptionsBuilder)
             {
@@ -73,31 +74,24 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
             return services;
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
-            app.UseCors("AllowAllOrigins");
+
+            app.UseHttpsRedirection();
             app.UseSwagger();
             app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/V1/swagger.json", "Payment Api"));
-            app.UseHttpsRedirection();
-            app.UseMiddleware<CommandPublishMiddleware>();
-            app.UseMvc();
-            //app.UseRouting();
-
-            //app.UseAuthorization();
-
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllers();
-            //});
+            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            ConfigureEventFlow(app);
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
 
         protected virtual void ConfigureEventFlow(IApplicationBuilder app)

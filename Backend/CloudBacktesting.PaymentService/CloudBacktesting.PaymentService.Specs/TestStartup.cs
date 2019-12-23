@@ -3,24 +3,24 @@ using TechTalk.SpecFlow;
 
 namespace CloudBacktesting.PaymentService.Specs
 {
-    //[Binding]
-    //public class TestStartup
-    //{
-    //    private readonly ScenarioContext context;
+    [Binding]
+    public class TestStartup
+    {
+        private readonly ScenarioContext context;
 
-    //    public TestStartup(ScenarioContext context)
-    //    {
-    //        this.context = context;
-    //    }
+        public TestStartup(ScenarioContext context)
+        {
+            this.context = context;
+        }
 
-    //    [BeforeScenario]
-    //    public void BeforeScenario()
-    //    {
-    //        var serviceProvider = new BehaviorDependenciesBuilder()
-    //                                .CreateServiceCollection(context.ScenarioContainer)
-    //                                .Build();
-    //        context.Set(serviceProvider);
+        [BeforeScenario]
+        public void BeforeScenario()
+        {
+            var serviceProvider = new BehaviorDependenciesBuilder()
+                                    .CreateServiceCollection(context.ScenarioContainer)
+                                    .Build();
+            context.Set(serviceProvider);
 
-    //    }
-    //}
+        }
+    }
 }

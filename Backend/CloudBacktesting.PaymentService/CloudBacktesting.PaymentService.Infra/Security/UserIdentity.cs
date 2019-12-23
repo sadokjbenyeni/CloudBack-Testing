@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace CloudBacktesting.PaymentService.Infra.Security
+namespace CloudBacktesting.Infra.Security
 {
+
     public class UserIdentity
     {
         public string Name { get; set; }
