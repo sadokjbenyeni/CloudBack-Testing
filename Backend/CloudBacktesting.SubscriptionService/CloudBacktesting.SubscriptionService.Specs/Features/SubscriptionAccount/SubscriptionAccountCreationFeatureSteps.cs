@@ -1,4 +1,6 @@
-﻿using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
+﻿using CloudBacktesting.Infra.Security;
+using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
+using CloudBacktesting.SubscriptionService.Specs.Host;
 using CloudBacktesting.SubscriptionService.WebAPI.Models.Account.Client.SubscriptionAccount;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -28,19 +30,19 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionAccoun
         [Given(@"the webapi is online")]
         public void GivenTheWebapiIsOnline()
         {
-            Assert.That(context.Get<HttpClient>(), Is.Not.Null);// ((HttpClient)context.Get<IServiceProvider>().GetService(typeof(HttpClient)));
+            //Assert.That(context.Get<HttpClient>(), Is.Not.Null);// ((HttpClient)context.Get<IServiceProvider>().GetService(typeof(HttpClient)));
         }
 
 
-        [When(@"morgan gets the subscription account list")]
-        public async Task WhenMorganGetsTheSubscriptionAccountList()
-        {
-            var httpClient = context.Get<HttpClient>();
-            var request = await httpClient.GetAsync("api/subscriptionaccount");
-            var bodyString = await request.Content.ReadAsStringAsync();
-            var models = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<SubscriptionAccountReadModel>>(bodyString);
-            context.Set(models.ToList(), "GetSubscriptionAccountList");
-        }
+        //[When(@"morgan gets the subscription account list")]
+        //public async Task WhenMorganGetsTheSubscriptionAccountList()
+        //{
+        //    var httpClient = context.Get<HttpClient>();
+        //    var request = await httpClient.GetAsync("api/subscriptionaccount");
+        //    var bodyString = await request.Content.ReadAsStringAsync();
+        //    var models = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<SubscriptionAccountReadModel>>(bodyString);
+        //    context.Set(models.ToList(), "GetSubscriptionAccountList");
+        //}
 
         [When(@"'(.*)' gets his subscription account")]
         public async Task WhenMorganGetsTheSubscriptionAccountFor(string customer)
@@ -50,8 +52,10 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionAccoun
             var content = await resultCommand.Content.ReadAsStringAsync();
             var identifierContainer = JsonConvert.DeserializeObject<SubscriptionAccountIdDto>(content);
 
-            var httpClient = context.ScenarioContainer.Resolve<HttpClient>();
-            var request = await httpClient.GetAsync($"api/SubscriptionAccount/{HttpUtility.UrlEncode(identifierContainer.Id)}");
+            var identity = context.Get<UserIdentity>(customer);
+            var httpClient = context.ScenarioContainer.Resolve<ITestHttpClientFactory>().Create(identity);
+
+            var request = await httpClient.GetAsync($"api/SubscriptionAccount");
             var bodyString = await request.Content.ReadAsStringAsync();
             var customerReadModel = JsonConvert.DeserializeObject<SubscriptionAccountReadModelDto>(bodyString);
 
@@ -64,16 +68,11 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionAccoun
             var resultCommand = context.Get<HttpResponseMessage>("createSubscriptionCommandResult");
             Assert.That(resultCommand.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             var content = await resultCommand.Content.ReadAsStringAsync();
-            var identifierContainer = JsonConvert.DeserializeObject<SubscriptionAccountIdDto>(content);
+            var subscriptionAccountId = JsonConvert.DeserializeObject<SubscriptionAccountIdDto>(content);
 
-            //var httpClient = context.ScenarioContainer.Resolve<HttpClient>();
-            var httpClient = context.ScenarioContainer.Resolve<HttpClient>();
-            var request = await httpClient.GetAsync($"api/SubscriptionAccount/{HttpUtility.UrlEncode(identifierContainer.Id)}");
-            var bodyString = await request.Content.ReadAsStringAsync();
-            var customerReadModel = JsonConvert.DeserializeObject<SubscriptionAccountReadModelDto>(bodyString);
-            Assert.That(customerReadModel, Is.Not.Null);
-            Assert.That(customerReadModel.Id, Is.EqualTo(identifierContainer.Id));
-            Assert.That(customerReadModel.Subscriber, Is.EqualTo(context.Get<CreateSubscriptionAccountDto>("creationSubscriptionAccountCommand").Subscriber));
+            Assert.That(resultCommand.IsSuccessStatusCode, Is.True, resultCommand.ReasonPhrase);
+            Assert.That(subscriptionAccountId, Is.Not.Null);
+            Assert.That(subscriptionAccountId.Id, Is.Not.Null.And.Not.Empty);
         }
 
         [Then(@"get request return '(.*)' subscription account description")]

@@ -8,7 +8,7 @@ namespace CloudBacktesting.SubscriptionService.Infra.Security.Claims
 {
     public static class ClaimsPrincipalExtensions
     {
-        public static Claim GetNameIdentifier(this ClaimsPrincipal principal)
+        public static Claim GetUserIdentifier(this ClaimsPrincipal principal)
         {
             return principal.FindFirst("subscriptionaccountid");
             //return principal.Claims.FirstOrDefault(claim => string.Equals(claim.Type, ClaimTypes.NameIdentifier));

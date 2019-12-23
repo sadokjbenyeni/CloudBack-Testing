@@ -1,4 +1,6 @@
-﻿using CloudBacktesting.SubscriptionService.WebAPI.Models.Account.Client.SubscriptionAccount;
+﻿using CloudBacktesting.Infra.Security;
+using CloudBacktesting.SubscriptionService.Specs.Host;
+using CloudBacktesting.SubscriptionService.WebAPI.Models.Account.Client.SubscriptionAccount;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
@@ -37,10 +39,11 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
         }
         
         [When(@"'(.*)' sends GET request on subscription request which are being created")]
-        public async Task WhenSendsGETRequestOnSubscriptionRequestWhichAreBeingCreated(string adminUser)
+        public async Task WhenSendsGETRequestOnSubscriptionRequestWhichAreBeingCreated(string customer)
         {
-            var httpContext = context.Get<HttpClient>();
-            var result = await httpContext.GetAsync("api/adminsubscription");
+            var identity = context.Get<UserIdentity>(customer);
+            var httpClient = context.ScenarioContainer.Resolve<ITestHttpClientFactory>().Create(identity);
+            var result = await httpClient.GetAsync("api/adminsubscription");
             context.Set(result, "getAllSubscriptionAccount");
         }
         

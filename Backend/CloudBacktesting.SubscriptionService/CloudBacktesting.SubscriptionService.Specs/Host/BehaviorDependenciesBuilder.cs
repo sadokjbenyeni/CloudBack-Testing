@@ -1,12 +1,15 @@
 ﻿using BoDi;
+using CloudBacktesting.Infra.Security;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CloudBacktesting.SubscriptionService.Specs.Host
@@ -24,9 +27,8 @@ namespace CloudBacktesting.SubscriptionService.Specs.Host
                 throw new ArgumentNullException(nameof(container));
             }
             this.container = container;
-            this.startup = new SpecWebApplicationFactory(container);
-            container.RegisterInstanceAs((WebApplicationFactory<SpecWebApplicationFactory>)startup);
-            container.RegisterFactoryAs<IHttpClientFactory>(objContainer => new TestHttpClientFactory(startup));
+            this.startup = SpecWebApplicationFactory.RegisterInstanceAs(container);
+            container.RegisterFactoryAs<ITestHttpClientFactory>(objContainer => new TestHttpClientFactory(startup));
             container.RegisterFactoryAs(objContainer => new TestHttpClientFactory(startup).Create());
             return this;
         }
@@ -35,18 +37,17 @@ namespace CloudBacktesting.SubscriptionService.Specs.Host
         public IServiceProvider Build()
         {
             container.Resolve<HttpClient>();
-            var provider = startup.ServiceCollection.BuildServiceProvider();
-            container.RegisterInstanceAs<IServiceProvider>(provider);
-            return provider;
+            container.RegisterInstanceAs(startup.Server.Host.Services);
+            return startup.Server.Host.Services;
         }
     }
 
-    public interface IHttpClientFactory
+    public interface ITestHttpClientFactory
     {
-        HttpClient Create(IEnumerable<Claim> claims = null);
+        HttpClient Create(UserIdentity user = null);
     }
 
-    public class TestHttpClientFactory : IHttpClientFactory
+    public class TestHttpClientFactory : ITestHttpClientFactory
     {
         private readonly SpecWebApplicationFactory startup;
 
@@ -55,16 +56,45 @@ namespace CloudBacktesting.SubscriptionService.Specs.Host
             this.startup = startup ?? throw new ArgumentNullException(nameof(startup));
         }
 
-        public HttpClient Create(IEnumerable<Claim> claims = null)
+        public HttpClient Create(UserIdentity user = null)
         {
-            var client = startup.CreateClient(new WebApplicationFactoryClientOptions
+            var client = startup.CreateClient();
+            client.BaseAddress = new Uri("https://localhost");
+            if (user == null) 
             {
-                AllowAutoRedirect = false,
-            });
-            claims = claims ?? Enumerable.Empty<Claim>();
-            var claimsParameters = string.Join(",", claims.Select(c => $"{c.Subject}: {c.Value}")) ?? "test_parameter";
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Test", claimsParameters );
+                return client;
+            }
+            client.DefaultRequestHeaders.Authorization = BuildAuthorizationValue(user);
             return client;
         }
+
+        private AuthenticationHeaderValue BuildAuthorizationValue(UserIdentity user)
+        {
+            var userStr = JsonConvert.SerializeObject(user);
+            var token = Convert.ToBase64String(Encoding.UTF8.GetBytes(userStr));
+            return new AuthenticationHeaderValue("Basic", token);
+        }
     }
+
+    //public class TestHttpClientFactory : IHttpClientFactory
+    //{
+    //    private readonly SpecWebApplicationFactory startup;
+
+    //    public TestHttpClientFactory(SpecWebApplicationFactory startup)
+    //    {
+    //        this.startup = startup ?? throw new ArgumentNullException(nameof(startup));
+    //    }
+
+    //    public HttpClient Create(IEnumerable<Claim> claims = null)
+    //    {
+    //        var client = startup.CreateClient(new WebApplicationFactoryClientOptions
+    //        {
+    //            AllowAutoRedirect = false,
+    //        });
+    //        claims = claims ?? Enumerable.Empty<Claim>();
+    //        var claimsParameters = string.Join(",", claims.Select(c => $"{c.Subject}: {c.Value}")) ?? "test_parameter";
+    //        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Test", claimsParameters );
+    //        return client;
+    //    }
+    //}
 }

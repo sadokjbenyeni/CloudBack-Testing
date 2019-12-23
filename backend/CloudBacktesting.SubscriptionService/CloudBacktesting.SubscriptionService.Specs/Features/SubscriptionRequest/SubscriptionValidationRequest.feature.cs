@@ -78,46 +78,23 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
 #line 4
 #line hidden
 #line 5
- testRunner.Given("Morgan is authentificated", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Morgan is authentificated with roles \'Admin\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 6
- testRunner.And("the webapi is online", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Chang is authentificated with roles \'Client\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 7
- testRunner.And("\'Chang\' subscription account has been created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the webapi is online", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 8
+ testRunner.And("\'Chang\' subscription account has been created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 9
  testRunner.And("\'Mutualized\' subscription has been created for \'Chang\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
         }
         
         [NUnit.Framework.TestAttribute()]
-            string[] tagsOfScenario = new string[] {
-                    "v1",
-                    "subscription",
-                    "request",
-                    "creation"};
-#line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line hidden
-#line hidden
-            }
         [NUnit.Framework.DescriptionAttribute("Chang browses all subscription request")]
         [NUnit.Framework.CategoryAttribute("v1")]
         [NUnit.Framework.CategoryAttribute("subscription")]
@@ -158,8 +135,10 @@ this.ScenarioInitialize(scenarioInfo);
 #line 4
 this.FeatureBackground();
 #line hidden
+#line 13
  testRunner.When("\'Chang\' sends GET request these subscriptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
+#line 14
  testRunner.Then("subscriptions are returned for \'Chang\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -207,6 +186,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 4
 this.FeatureBackground();
 #line hidden
+#line 18
  testRunner.When("\'Chang\' sends GET request subscription", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
                 TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
@@ -227,6 +207,7 @@ this.FeatureBackground();
                 table3.AddRow(new string[] {
                             "OrderId",
                             "1"});
+#line 19
  testRunner.Then("The subscription required that:", ((string)(null)), table3, "Then ");
 #line hidden
             }
@@ -266,7 +247,7 @@ this.FeatureBackground();
                         "data",
                         "readModel",
                         "ignore"});
-#line 29
+#line 28
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -289,10 +270,10 @@ this.ScenarioInitialize(scenarioInfo);
 #line 4
 this.FeatureBackground();
 #line hidden
-#line 30
+#line 29
  testRunner.When("\'Morgan\' sends GET admin request with \'Mutualized\' subscription", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 31
+#line 30
  testRunner.Then("only \'Mutualized\' subscription has been return at \'Chang\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -329,7 +310,7 @@ this.FeatureBackground();
                         "browse",
                         "data",
                         "readModel"});
-#line 34
+#line 33
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -352,12 +333,13 @@ this.ScenarioInitialize(scenarioInfo);
 #line 4
 this.FeatureBackground();
 #line hidden
-#line 35
+#line 34
  testRunner.Given("populates repositry with subscription account and requests", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 36
+#line 35
  testRunner.When("\'Morgan\' sends GET request on subscription request which are being created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
+#line 36
  testRunner.Then("all subscription request has been return", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

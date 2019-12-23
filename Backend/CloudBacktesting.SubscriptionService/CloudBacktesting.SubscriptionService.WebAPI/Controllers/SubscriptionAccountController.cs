@@ -4,6 +4,7 @@ using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccount
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate.Commands;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
 using CloudBacktesting.SubscriptionService.Infra.Security.Claims;
+using CloudBacktesting.SubscriptionService.WebAPI.Models;
 using CloudBacktesting.SubscriptionService.WebAPI.Models.Account.Client.SubscriptionAccount;
 using EventFlow;
 using EventFlow.Aggregates.ExecutionResults;
@@ -57,7 +58,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
                 logger.LogError($"[Security, Error] User not authentificate. Please check the API Gateway log. Id error: {idError}");
                 return BadRequest($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
             }
-            var subscriptionAccountId = this.User.GetNameIdentifier()?.Value ?? "";
+            var subscriptionAccountId = this.User.GetUserIdentifier()?.Value ?? "";
             if (string.IsNullOrEmpty(subscriptionAccountId))
             {
                 var idError = Guid.NewGuid().ToString();
@@ -82,7 +83,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             var commandResult = await commandBus.SafePublishAsync(command, CancellationToken.None);
             if (commandResult.IsSuccess)
             {
-                return Ok(new { id = command.AggregateId.Value });
+                return Ok(new IdentifierDto { Id = command.AggregateId.Value });
             }
             var errorIdentifier = Guid.NewGuid().ToString();
             logger.LogError($"[Business, Error] | '{errorIdentifier}' | SubscriptionAccount for {command.Subscriber} has not been created.");

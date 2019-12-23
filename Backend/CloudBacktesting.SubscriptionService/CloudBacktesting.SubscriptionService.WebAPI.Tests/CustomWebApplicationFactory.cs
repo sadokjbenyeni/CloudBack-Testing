@@ -1,22 +1,11 @@
 ﻿using EventFlow;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using EventFlow.Queries;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.Options;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using System.Security.Claims;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore;
 
 namespace CloudBacktesting.SubscriptionService.WebAPI.Tests

@@ -41,11 +41,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
                 return BadRequest($"Access error, please contact the administrator with error id: {idError}");
             }
-            //var userId = this.User.Identity.Name;
-            //// TODO: Do Query to get the User in Read Model SubscriptionAccountDto
-            //return Task.FromResult((IActionResult)Ok(new SubscriptionAccountDto() { Email = userId }));
             var result = await queryProcessor.ProcessAsync(new FindReadModelQuery<SubscriptionAccountReadModel>(model => true), CancellationToken.None);
-            //await cursor.MoveNextAsync();
             return Ok(result.Select(ToDto).ToList());
         }
 
@@ -54,7 +50,6 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         public async Task<IActionResult> Validate([FromBody] ValidateSubscriptionRequestDto value)
         {
             var subscriptionRequestCommand = new SubscriptionRequestManualValidateSuccessCommand(new SubscriptionRequestId(value.SubscriptionId));
-
             var result = await commandBus.PublishAsync(subscriptionRequestCommand, CancellationToken.None);
             return result.IsSuccess ? Ok() : (IActionResult)BadRequest();
         }
@@ -63,11 +58,9 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         public async Task<IActionResult> Decline([FromBody] DeclineSubscriptionRequestDto value)
         {
             var subscriptionRequestCommand = new SubscriptionRequestManualDeclineSuccessCommand(value.SubscriptionId, value.Message);
-
             var result = await commandBus.PublishAsync(subscriptionRequestCommand, CancellationToken.None);
             return result.IsSuccess ? Ok() : (IActionResult)BadRequest();
         }
-
 
         private static SubscriptionAccountReadModelDto ToDto(SubscriptionAccountReadModel readModel)
         {
@@ -82,8 +75,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         [HttpPut("configure")]
         public async Task<IActionResult> Configure([FromBody] ConfigureSubscriptionRequestDto value)
         {
-            var subscriptionRequestCommand = new SubscriptionRequestManualConfigurationCommand(new SubscriptionRequestId(value.SubscriptionId), value.Message) ;
-
+            var subscriptionRequestCommand = new SubscriptionRequestManualConfigurationCommand(new SubscriptionRequestId(value.SubscriptionId), value.Message);
             var result = await commandBus.PublishAsync(subscriptionRequestCommand, CancellationToken.None);
             return result.IsSuccess ? Ok() : (IActionResult)BadRequest();
         }

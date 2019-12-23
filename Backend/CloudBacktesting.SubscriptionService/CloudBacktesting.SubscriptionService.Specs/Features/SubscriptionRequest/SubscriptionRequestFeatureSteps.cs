@@ -1,4 +1,6 @@
-﻿using CloudBacktesting.SubscriptionService.WebAPI.Models;
+﻿using CloudBacktesting.Infra.Security;
+using CloudBacktesting.SubscriptionService.Specs.Host;
+using CloudBacktesting.SubscriptionService.WebAPI.Models;
 using CloudBacktesting.SubscriptionService.WebAPI.Models.Account.Client.SubscriptionAccount;
 using CloudBacktesting.SubscriptionService.WebAPI.Models.Request.Client.SubscriptionRequest;
 using Newtonsoft.Json;
@@ -10,6 +12,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
@@ -28,7 +31,7 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
         [Given(@"'(.*)' subscription has been created for '(.*)'")]
         public async Task GivenSubscriptionHasBeenCreatedFor(string typeOfSubscription, string customer)
         {
-            await CreateSubscriptionRequest(typeOfSubscription);
+            await CreateSubscriptionRequest(customer, typeOfSubscription);
             var result = context.Get<HttpResponseMessage>("subscriptionRequestCommandResult");
             var identifier = JsonConvert.DeserializeObject<IdentifierDto>(await result.Content.ReadAsStringAsync());
             SetInContextInList(customer, identifier);
@@ -51,14 +54,17 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
         [When(@"Chang sends new request of subscription for (.*) service")]
         public async Task WhenChangSendsNewRequestOfSubscriptionForMutualizedService(string typeOfSubscription)
         {
-            await CreateSubscriptionRequest(typeOfSubscription);
+            await CreateSubscriptionRequest("Chang", typeOfSubscription);
         }
 
-        private async Task CreateSubscriptionRequest(string typeOfSubscription)
+        private async Task CreateSubscriptionRequest(string customer, string typeOfSubscription)
         {
             var resultSubscriptionAccountCreate = context.Get<HttpResponseMessage>("createSubscriptionCommandResult");
             var subscriptionAccountIdentifier = JsonConvert.DeserializeObject<SubscriptionAccountIdDto>((await resultSubscriptionAccountCreate.Content.ReadAsStringAsync()));
-            var httpClient = context.ScenarioContainer.Resolve<HttpClient>();
+
+            var identity = context.Get<UserIdentity>(customer);
+            var httpClient = context.ScenarioContainer.Resolve<ITestHttpClientFactory>().Create(identity);
+
             var dtoModel = new CreateSubscriptionRequestDto()
             {
                 SubscriptionAccountId = subscriptionAccountIdentifier.Id,
@@ -72,18 +78,20 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
         [When(@"'(.*)' sends GET request these subscriptions")]
         public async Task WhenSendsGETRequestTheseSubscriptions(string customer)
         {
-            var httpClient = context.ScenarioContainer.Resolve<HttpClient>();
+            var identity = context.Get<UserIdentity>(customer);
+            var httpClient = context.ScenarioContainer.Resolve<ITestHttpClientFactory>().Create(identity);
+
             var result = await httpClient.GetAsync("api/subscriptionrequest");
             context.Set(result, "getSubscriptionRequestAll");
         }
 
-
-        [When(@"'(.*)' sends GET request with '(.*)' subscription")]
-        public async Task WhenSendsGETRequestWithSubscription(string customer, string typeRequest)
+        [When(@"'(.*)' sends GET request for '(.*)' subscription")]
+        public async Task WhenSendsGETRequestForSubscription(string customer, string typeRequest)
         {
-            var identifier = GetByCustomer(customer).First();
-            var httpContext = context.Get<HttpClient>();
-            var result = await httpContext.GetAsync($"api/subscriptionrequest/{identifier}");
+            var identifier = GetByCustomer(customer).Last();
+            var identity = context.Get<UserIdentity>(customer);
+            var httpClient = context.ScenarioContainer.Resolve<ITestHttpClientFactory>().Create(identity);
+            var result = await httpClient.GetAsync($"api/subscriptionrequest/{HttpUtility.UrlEncode(identifier)}");
             context.Set(result, "getSubscriptionRequest");
         }
         
@@ -129,7 +137,8 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
         {
             var httpMessage = context.Get<HttpResponseMessage>("getSubscriptionRequestById");
             Assert.That(httpMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            var actual = JsonConvert.DeserializeObject<SubscriptionRequestReadModelDto>(await httpMessage.Content.ReadAsStringAsync());
+            var messageContent = await httpMessage.Content.ReadAsStringAsync();
+            var actual = JsonConvert.DeserializeObject<IEnumerable<SubscriptionRequestReadModelDto>>(messageContent).Last();
             var expected = table.CreateInstance<SubscriptionRequestReadModelDto>();
 
             Assert.That(actual.Status, Is.EqualTo(expected.Status));
@@ -142,12 +151,10 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
         [When(@"'(.*)' sends GET request subscription")]
         public async Task WhenSendsGETRequestSubscription(string customer)
         {
-            var id = context.Get<List<string>>($"{customer}-subscriptionRequest")?.Last();
-            var httpClient = context.ScenarioContainer.Resolve<HttpClient>();
-            var result = await httpClient.GetAsync($"api/subscriptionrequest/{id}");
+            var identity = context.Get<UserIdentity>(customer);
+            var httpClient = context.ScenarioContainer.Resolve<ITestHttpClientFactory>().Create(identity);
+            var result = await httpClient.GetAsync($"api/subscriptionrequest");
             context.Set(result, $"getSubscriptionRequestById");
         }
-
-
     }
 }
