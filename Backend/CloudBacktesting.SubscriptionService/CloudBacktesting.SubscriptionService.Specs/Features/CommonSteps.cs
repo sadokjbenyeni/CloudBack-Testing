@@ -1,8 +1,5 @@
 ﻿using CloudBacktesting.SubscriptionService.WebAPI.Models.Account.Client.SubscriptionAccount;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +22,6 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features
         {
 
         }
-
 
 
         [Given(@"'(.*)' subscription account has been created")]

@@ -1,4 +1,14 @@
-﻿using System;
+﻿using CloudBacktesting.PaymentService.Domain.Repositories.PaymentAccountRepository;
+using CloudBacktesting.PaymentService.WebAPI.Models.PaymentAccount;
+using Newtonsoft.Json;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web;
 using TechTalk.SpecFlow;
 
 namespace CloudBacktesting.PaymentService.Specs.Features.PaymentAccount
@@ -6,57 +16,72 @@ namespace CloudBacktesting.PaymentService.Specs.Features.PaymentAccount
     [Binding]
     public class PaymentAccountCreationFeatureSteps
     {
-        [Given(@"Morgan is authentificated")]
-        public void GivenMorganIsAuthentificated()
+        private readonly ScenarioContext context;
+
+        public PaymentAccountCreationFeatureSteps(ScenarioContext injectedContext, HttpClient httpClient)
         {
-            
+            context = injectedContext;
+            context.Set(httpClient);
         }
-        
+   
         [Given(@"the webapi is online")]
         public void GivenTheWebapiIsOnline()
         {
-            
-        }
-        
-        [Given(@"'(.*)' is authentificated")]
-        public void GivenIsAuthentificated(string p0)
-        {
-            
-        }
-        
-        [Given(@"'(.*)' payment account has been created")]
-        public void GivenPaymentAccountHasBeenCreated(string p0)
-        {
-            ScenarioContext.Current.Pending();
-        }
-        
-        [When(@"morgan sends the payment account creation request for '(.*)'")]
-        public void WhenMorganSendsThePaymentAccountCreationRequestFor(string client)
-        {
-            var url = "api/paymentaccount"; // POST 
-            //var client = "clientIdentifier";
-            
-            // httpClient.PostAync(url, "{ 'client': 'Chang' } }";
+            Assert.That(context.Get<HttpClient>(), Is.Not.Null);// ((HttpClient)context.Get<IServiceProvider>().GetService(typeof(HttpClient)));
 
         }
-        
-        [When(@"'(.*)' gets his payment account")]
-        public void WhenGetsHisPaymentAccount(string client)
+
+        [When(@"morgan gets the payment account list")]
+        public async Task WhenMorganGetsThePaymentAccountList()
         {
-            var url = "api/paymentaccount"; // GET
-            // httpClient.GetAsync(url);
+            var httpClient = context.Get<HttpClient>();
+            var request = await httpClient.GetAsync("api/paymentaccount");
+            var bodyString = await request.Content.ReadAsStringAsync();
+            var models = JsonConvert.DeserializeObject<IEnumerable<PaymentAccountReadModel>>(bodyString);
+            context.Set(models.ToList(), "GetPaymentAccountList");
+        }
+
+        [When(@"'(.*)' gets his payment account")]
+        public async Task WhenGetsHisPaymentAccount(string customer)
+        {
+            var resultCommand = context.Get<HttpResponseMessage>("createPaymentCommandResult");
+            Assert.That(resultCommand.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            var content = await resultCommand.Content.ReadAsStringAsync();
+            var identifierContainer = JsonConvert.DeserializeObject<PaymentAccountIdDto>(content);
+
+            var httpClient = context.ScenarioContainer.Resolve<HttpClient>();
+            var request = await httpClient.GetAsync($"api/PaymentAccount/{HttpUtility.UrlEncode(identifierContainer.Id)}");
+            var bodyString = await request.Content.ReadAsStringAsync();
+            var customerReadModel = JsonConvert.DeserializeObject<PaymentAccountReadModelDto>(bodyString);
+
+            context.Set(customerReadModel);
         }
 
         [Then(@"Creation of payment account is successful")]
-        public void ThenCreationOfPaymentAccountIsSuccessful()
+        public async Task ThenCreationOfPaymentAccountIsSuccessful()
         {
-            ScenarioContext.Current.Pending();
+            var resultCommand = context.Get<HttpResponseMessage>("createPaymentCommandResult");
+            Assert.That(resultCommand.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            var content = await resultCommand.Content.ReadAsStringAsync();
+            var identifierContainer = JsonConvert.DeserializeObject<PaymentAccountIdDto>(content);
+
+            //var httpClient = context.ScenarioContainer.Resolve<HttpClient>();
+            var httpClient = context.ScenarioContainer.Resolve<HttpClient>();
+            var request = await httpClient.GetAsync($"api/PaymentAccount/{HttpUtility.UrlEncode(identifierContainer.Id)}");
+            var bodyString = await request.Content.ReadAsStringAsync();
+            var customerReadModel = JsonConvert.DeserializeObject<PaymentAccountReadModelDto>(bodyString);
+            Assert.That(customerReadModel, Is.Not.Null);
+            Assert.That(customerReadModel.Id, Is.EqualTo(identifierContainer.Id));
+            Assert.That(customerReadModel.Client, Is.EqualTo(context.Get<CreatePaymentAccountDto>("creationPaymentAccountCommand").Client));
         }
-        
+
         [Then(@"get request return '(.*)' payment account description")]
-        public void ThenGetRequestReturnPaymentAccountDescription(string p0)
+        public void ThenGetRequestReturnPaymentAccountDescription(string customer)
         {
-            ScenarioContext.Current.Pending();
+            var dtoModel = context.Get<PaymentAccountReadModelDto>();
+            Assert.That(dtoModel, Is.Not.Null);
+            Assert.That(dtoModel.Client, Is.EqualTo(customer).Using((IEqualityComparer<string>)StringComparer.InvariantCultureIgnoreCase));
+            Assert.That(dtoModel.CreationDate.Date, Is.EqualTo(DateTime.UtcNow.Date));
         }
     }
 }

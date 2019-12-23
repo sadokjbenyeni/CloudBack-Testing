@@ -8,9 +8,11 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggreg
 {
     public class PaymentAccountCreationCommand : Command<PaymentAccount, PaymentAccountId, IExecutionResult>
     {
-        public PaymentAccountCreationCommand() : base(PaymentAccountId.New)
-        {
+        public string Client { get; set; }
 
+        public PaymentAccountCreationCommand(string client) : base(PaymentAccountId.New)
+        {
+            Client = client;
         }
     }
 }
