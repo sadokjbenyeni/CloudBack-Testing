@@ -1,6 +1,6 @@
 //Configuration MODEL
 const mongoose = require('mongoose');
-const bcrypt   = require('bcrypt-nodejs');
+const bcrypt = require('bcrypt-nodejs');
 
 let UserSchema = new mongoose.Schema({
   id: { type: Number },
@@ -31,14 +31,15 @@ let UserSchema = new mongoose.Schema({
   currencyBilling: { type: String, maxlength: 200 },
   vat: { type: String, maxlength: 200 },
   checkvat: { type: Boolean, default: false },
-  currency: { type: String, maxlength: 4, default:"eur" },
+  currency: { type: String, maxlength: 4, default: "eur" },
   payment: { type: String, maxlength: 30 },
   islogin: { type: Boolean, default: false },
   token: { type: String },
   nbSession: { type: Number, default: 0 },
-  roleName: { type: [String], default:["Client"] }, // Client, Administrator, Product, Compliance, Finance
-  role: { type: String, maxlength: 24 }, 
+  roleName: { type: [String], default: ["Client"] }, // Client, Administrator, Product, Compliance, Finance
+  role: { type: String, maxlength: 24 },
   state: { type: Number, default: 0 }, // 0 : non actif, 1 : actif, -1 : suspendu. Active after email validation
+  subscriptionAccountId: { type: String, default: null }
 }, { timestamps: true });
 
 
@@ -56,17 +57,17 @@ UserSchema.methods.AllUser = function () {
 
 // methods ======================
 // generating a hash
-UserSchema.methods.generateHash = function(password) {
+UserSchema.methods.generateHash = function (password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
 // checking if password is valid
-UserSchema.methods.validPassword = function(password) {
+UserSchema.methods.validPassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
-UserSchema.methods.findById = function(id, cb) {
- return this.find({ _id: Object(id) }, cb);
+UserSchema.methods.findById = function (id, cb) {
+  return this.find({ _id: Object(id) }, cb);
 };
 
 mongoose.model('User', UserSchema);

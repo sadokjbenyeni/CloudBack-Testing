@@ -4,7 +4,6 @@ const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const Connection = require('./server/Events/Connection')
 
 
 //const cron = require('node-cron');
@@ -141,11 +140,21 @@ console.log(" port number is " + process.env.PORT);
 const port = process.env.PORT || '9095';
 app.set('port', port);
 
-//connecting to rabbitmq
-Connection.Connect();
+
 
 //Create HTTP server.
 const server = http.createServer(app);
+
+//initalizing rmq event listeners
+// var listenerinitialisers = new eventsgetter();
+// listenerinitialisers.on('connected', function () {
+//   console.log("connected")
+// })
+
+//connecting to rabbitmq
+// the connection declaration must be set after the database.connect to load schema
+const Connection = require('./server/Events/Connection')
+Connection.Connect();
 
 //Listen on port
 server.listen(port, () => console.log(`API running on localhost:${port}`));

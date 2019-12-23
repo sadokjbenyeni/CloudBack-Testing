@@ -29,11 +29,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "9.Hosting", "9.Hosting", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.SubscriptionService.WebAPI.Host", "CloudBacktesting.SubscriptionService.WebAPI.Host\CloudBacktesting.SubscriptionService.WebAPI.Host.csproj", "{DF1E2429-8E9C-411F-9359-C30A1E49209C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.MongoDb", "CloudBacktesting.MongoDb\CloudBacktesting.MongoDb.csproj", "{5C21CAF5-E176-4E75-ADF9-C966CA2BA287}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.MongoDb", "CloudBacktesting.MongoDb\CloudBacktesting.MongoDb.csproj", "{5C21CAF5-E176-4E75-ADF9-C966CA2BA287}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.Infra.EventFlow", "CloudBacktesting.Infra.EventFlow\CloudBacktesting.Infra.EventFlow.csproj", "{496352CB-C8EA-4CC1-AA8B-4CEF580BAC93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.Infra.EventFlow", "CloudBacktesting.Infra.EventFlow\CloudBacktesting.Infra.EventFlow.csproj", "{496352CB-C8EA-4CC1-AA8B-4CEF580BAC93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.Infra.EventFlow.Tests", "CloudBacktesting.Infra.EventFlow.Tests\CloudBacktesting.Infra.EventFlow.Tests.csproj", "{15CB2A58-00E8-47C3-972F-F86663C85ABF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.Infra.EventFlow.Tests", "CloudBacktesting.Infra.EventFlow.Tests\CloudBacktesting.Infra.EventFlow.Tests.csproj", "{15CB2A58-00E8-47C3-972F-F86663C85ABF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.SubscriptionService.RabbitMQ.EventManager", "CloudBacktesting.SubscriptionService.RabbitMQ.EventManager\CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.csproj", "{DE29B6BB-5B05-48C1-88E8-2502323B41B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +87,10 @@ Global
 		{15CB2A58-00E8-47C3-972F-F86663C85ABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15CB2A58-00E8-47C3-972F-F86663C85ABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15CB2A58-00E8-47C3-972F-F86663C85ABF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE29B6BB-5B05-48C1-88E8-2502323B41B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE29B6BB-5B05-48C1-88E8-2502323B41B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE29B6BB-5B05-48C1-88E8-2502323B41B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE29B6BB-5B05-48C1-88E8-2502323B41B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,6 +107,7 @@ Global
 		{5C21CAF5-E176-4E75-ADF9-C966CA2BA287} = {83D91101-2F73-425F-ADC6-EE50157EB74F}
 		{496352CB-C8EA-4CC1-AA8B-4CEF580BAC93} = {83D91101-2F73-425F-ADC6-EE50157EB74F}
 		{15CB2A58-00E8-47C3-972F-F86663C85ABF} = {83D91101-2F73-425F-ADC6-EE50157EB74F}
+		{DE29B6BB-5B05-48C1-88E8-2502323B41B6} = {973370EC-3E9C-4E45-95B4-057825FD4DD1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F1F5D219-A2B2-4FFA-8B83-4971E101A9C0}

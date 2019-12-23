@@ -1,8 +1,18 @@
-const EventEmitter = require('events');
-const Connection = require('../Connection')
-class MyEmmitter extends EventEmitter {}
-exports.wait()
-channel.consume(subscriptionaccountqueue,
+const mongoose = require('mongoose');
+const channel = require('../Connection')
+const User = mongoose.model('User');
+exports.SubscriptionAccountCreated = () => {
+  channel.ConsumeMessage("SubscriptionAccountCreation",
     function (message) {
-      console.log("message received : ", message.content.toString())
-    }, { noAck: true })
+     var stringmessage=message.content;
+      var messagebody=JSON.parse(stringmessage);
+      console.log("message received from SubscriptionAccountCreation " + message.content.toString())
+      User.update({ email: messagebody.subscriber }, { $set: { subscriptionAccountId: messagebody.subscriptionAccountId } })
+        .then(async () => {
+          console.log("subscription account created");
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    })
+}

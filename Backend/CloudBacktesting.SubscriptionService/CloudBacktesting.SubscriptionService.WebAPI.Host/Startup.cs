@@ -9,7 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using EventFlow.DependencyInjection.Extensions;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Events;
-using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Commands;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository;
 using CloudBacktesting.SubscriptionService.WebAPI.Host.DatabaseSettings;
 using CloudBacktesting.Infra.EventFlow.Queries;
@@ -18,6 +17,9 @@ using CloudBacktesting.Infra.EventFlow.ReadStores;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate.Commands;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
 using CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation;
+using CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Publishers;
+using CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Consumers;
+using RabbitMQ.Client;
 
 namespace CloudBacktesting.SubscriptionService.WebAPI.Host
 {
@@ -54,6 +56,13 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
 
         private IServiceCollection AddEventFlow(IServiceCollection services, SubscriptionDatabaseSettings configMongo)
         {
+            services.AddSingleton<IConnectionFactory>(con =>
+            new ConnectionFactory()
+            {
+                HostName = "localhost"
+            });
+            services.AddSingleton<IRabbitMQEventPublisher, RabbitMQEventPublisher>();
+            services.AddHostedService<AccountCreatedListener>();
             if (UseEventFlowOptionsBuilder)
             {
                 services.AddEventFlow(options => options.AddAspNetCore()
