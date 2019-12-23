@@ -1,4 +1,5 @@
 ﻿using CloudBacktesting.Infra.EventFlow.Queries;
+using CloudBacktesting.Infra.Security.Authorization;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Commands;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
@@ -17,7 +18,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    // TODO : Only administrator can access it
+    [CloudBacktestingAuthorize("Admin")]
     public class AdminSubscriptionController : ControllerBase
     {
         private readonly ILogger<AdminSubscriptionController> logger;

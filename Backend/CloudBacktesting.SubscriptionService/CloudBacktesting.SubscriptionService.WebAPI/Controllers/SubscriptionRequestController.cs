@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CloudBacktesting.Infra.EventFlow.Queries;
+using CloudBacktesting.Infra.Security.Authorization;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Commands;
@@ -19,6 +20,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [CloudBacktestingAuthorize("Client")]
     public class SubscriptionRequestController : ControllerBase
     {
         private readonly ILogger<SubscriptionRequestController> logger;

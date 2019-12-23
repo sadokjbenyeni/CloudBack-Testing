@@ -20,7 +20,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [CloudBacktestingAuthorize("Client")]
+    [CloudBacktestingAuthorize("Connected,Client")]
     public class SubscriptionAccountController : ControllerBase
     {
         private readonly ILogger<SubscriptionAccountController> logger;
@@ -69,7 +69,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         }
 
         [HttpPost]
-        [CloudBacktestingAuthorize("Admin,System")]
+        [CloudBacktestingAuthorize("Admin")]
         public async Task<ActionResult> Post([FromBody] CreateSubscriptionAccountDto value)
         {
             if (this.User == null || !this.User.Identity.IsAuthenticated)

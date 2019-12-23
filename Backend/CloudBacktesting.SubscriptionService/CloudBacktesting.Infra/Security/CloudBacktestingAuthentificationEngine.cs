@@ -40,7 +40,8 @@ namespace CloudBacktesting.Infra.Security
                                               .Union(new[] {
                                                     new Claim(ClaimTypes.Email, user.Email),
                                                     new Claim(ClaimTypes.Name, user.Name),
-                                                    new Claim(ClaimTypes.Role, string.Join(", ", user.Roles))
+                                                    new Claim(ClaimTypes.Role, string.Join(", ", user.Roles)),
+                                                    new Claim("Connected", "Connected")
                                               })
                                               .Union(user.Roles.Select(role => new Claim(role, role))).ToArray();
             var identity = new ClaimsIdentity(claims, scheme.Name);
