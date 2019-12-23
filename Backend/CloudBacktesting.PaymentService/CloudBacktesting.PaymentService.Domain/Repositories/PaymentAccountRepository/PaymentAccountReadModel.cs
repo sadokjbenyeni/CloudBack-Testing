@@ -3,17 +3,23 @@ using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.
 using EventFlow.Aggregates;
 using EventFlow.MongoDB.ReadStores;
 using EventFlow.ReadStores;
+using System;
 
 namespace CloudBacktesting.PaymentService.Domain.Repositories.PaymentAccountRepository
 {
-    public class PaymentAccountReadModel : IReadModel, IAmReadModelFor<PaymentAccount, PaymentAccountId, PaymentAccountCreatedEvent>, IMongoDbReadModel
+    public class PaymentAccountReadModel : IReadModel, IMongoDbReadModel
+        , IAmReadModelFor<PaymentAccount, PaymentAccountId, PaymentAccountCreatedEvent>
     {
-        public string Id => throw new System.NotImplementedException();
-
-        public long? Version { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public string Id { get; private set; }
+        public long? Version { get; set; }
+        public string Client { get; set; }
+        public DateTime CreationDate { get; set; }
 
         public void Apply(IReadModelContext context, IDomainEvent<PaymentAccount, PaymentAccountId, PaymentAccountCreatedEvent> domainEvent)
         {
+            Id = string.IsNullOrEmpty(Id) ? domainEvent.AggregateIdentity.Value : Id;
+            Client = domainEvent.AggregateEvent.Client;
+            CreationDate = DateTime.UtcNow;
         }
     }
 }

@@ -14,8 +14,8 @@ using CloudBacktesting.Infra.EventFlow.Queries.InMemory;
 using CloudBacktesting.Infra.EventFlow.Queries;
 using CloudBacktesting.Infra.EventFlow.ReadStores;
 using CloudBacktesting.PaymentService.WebAPI.Host.DatabaseSettings;
-using CloudBacktesting.PaymentService.Infra.Security;
-using Microsoft.AspNetCore.Authentication;
+using EventFlow.MongoDB.Extensions;
+using CloudBacktesting.Infra.EventFlow.MongoDb.Queries;
 
 namespace CloudBacktesting.PaymentService.WebAPI.Host
 {
@@ -31,22 +31,11 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider configureServices(IServiceCollection services)
         {
-            services.AddMvc()
-                //.SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                ;
-
-            services.AddAuthentication("cloudbacktestingAuthentication")
-                    .AddScheme<AuthenticationSchemeOptions, CloudBacktestingAuthenticationHandler>("cloudbacktestingAuthentication", options => { });
-            
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Client", policy => policy.RequireClaim("Client"));
-                options.AddPolicy("Admin", policy => policy.RequireClaim("Admin"));
-                //options.AddPolicy("System", policy => policy.RequireClaim("Sytem"));
-                //options.AddPolicy("System, Admin", policy => policy.RequireClaim("Admin"));
-            });
+            //services.AddMvc()
+            //    //.SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            //    ;
 
             services.AddSwaggerGen(options => options.SwaggerDoc("V1", new Microsoft.OpenApi.Models.OpenApiInfo() { Title = "Payment Api", Version = "V1" }));
 
@@ -58,7 +47,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
             {
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
             }));
-            //return services.BuildServiceProvider();
+            return services.BuildServiceProvider();
         }
 
         private IServiceCollection AddEventFlow(IServiceCollection services, PaymentDatabaseSettings configMongo)
@@ -69,13 +58,17 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
                                        .AddEvents(typeof(PaymentAccountCreatedEvent).Assembly)
                                        .AddCommands(typeof(PaymentAccountCreationCommand).Assembly, type => true)
                                        .AddCommandHandlers(typeof(PaymentAccountCreationCommandHandler).Assembly)
-                                       //.AddSagas(typeof(PaymentAccountCreationSaga).Assembly)
-                                       //.AddSagaLocators(typeof(PaymentAccountCreationSagaLocator).Assembly)
+                                       //.AddSagas(typeof(SubscriptionCreationSaga).Assembly)
+                                       //.AddSagaLocators(typeof(SubscriptionCreationSagaLocator).Assembly)
+                                       //.AddEvents(typeof(SubscriptionRequestCreatedEvent))
+                                       //.AddCommands(typeof(SubscriptionRequestCreationCommand))
+                                       //.AddCommandHandlers(typeof(SubscriptionRequestCreationCommandHandler))
+                                       .UseMongoDbEventStore()
+                                       .ConfigureMongoDb(configMongo.ConnectionString, configMongo.DatabaseName)
                                        .UseConsoleLog()
-                                       .UseInMemoryReadStoreFor<PaymentAccountReadModel>()
-                                       .AddQueryHandler<InMemoryFindReadModelQueryHandler<PaymentAccountReadModel>, FindReadModelQuery<PaymentAccountReadModel>, ICollectionReadModel<PaymentAccountReadModel>>()
-
-                    );
+                                       .UseMongoDbReadModel<PaymentAccountReadModel>()
+                                       .AddQueryHandler<MongoDbFindReadModelQueryHandler<PaymentAccountReadModel>, FindReadModelQuery<PaymentAccountReadModel>, ICollectionReadModel<PaymentAccountReadModel>>()
+                                       );
             }
             return services;
         }
@@ -96,7 +89,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
             app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/V1/swagger.json", "Payment Api"));
             app.UseHttpsRedirection();
             app.UseMiddleware<CommandPublishMiddleware>();
-            //app.UseMvc();
+            app.UseMvc();
             //app.UseRouting();
 
             //app.UseAuthorization();

@@ -12,7 +12,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggreg
 
         public PaymentAccountCreationCommand(string client) : base(PaymentAccountId.New)
         {
-            Client = client;
+            Client = client ?? throw new ArgumentNullException(nameof(client));
         }
     }
 }

@@ -9,7 +9,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggreg
     {
         public override Task<IExecutionResult> ExecuteCommandAsync(PaymentAccount aggregate, PaymentAccountCreationCommand command, CancellationToken cancellationToken)
         {
-            return Task.FromResult(aggregate.Create());
+            return Task.FromResult(aggregate.Create(command.Client));
         }
     }
 }

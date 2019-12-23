@@ -7,9 +7,11 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggreg
 {
     public class PaymentAccountCreatedEvent : AggregateEvent<PaymentAccount, PaymentAccountId>
     {
-        public PaymentAccountCreatedEvent()
-        {
+        public string Client { get; }
 
+        public PaymentAccountCreatedEvent(string client)
+        {
+            Client = client;
         }
     }
 }
