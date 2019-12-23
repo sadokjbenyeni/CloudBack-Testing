@@ -25,5 +25,10 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Tests
         {
             
         }
+
+        protected override void AddRabbitMQ(IServiceCollection services)
+        {
+            
+        }
     }
 }

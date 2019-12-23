@@ -24,6 +24,7 @@ using Microsoft.AspNetCore.Authentication;
 using CloudBacktesting.Infra.Security;
 using Microsoft.AspNetCore.Authorization;
 using CloudBacktesting.Infra.Security.Authorization;
+using System;
 //using Microsoft.Extensions.Hosting;
 
 namespace CloudBacktesting.SubscriptionService.WebAPI.Host
@@ -60,6 +61,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
 
             var configMongo = new SubscriptionDatabaseSettings();
             Configuration.Bind("SubscriptionDatabaseSettings", configMongo);
+            AddRabbitMQ(services);
             AddEventFlow(services, configMongo);
             services.AddCors(options =>
             options.AddPolicy("AllowAllOrigins", builder =>
@@ -69,15 +71,16 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
             //return services.BuildServiceProvider();
         }
 
-        protected virtual IServiceCollection AddEventFlow(IServiceCollection services, SubscriptionDatabaseSettings configMongo)
+        protected virtual void AddRabbitMQ(IServiceCollection services)
         {
-            services.AddSingleton<IConnectionFactory>(con =>
-            new ConnectionFactory()
-            {
-                HostName = "localhost"
-            });
+            services.AddSingleton<IConnectionFactory>(con => new ConnectionFactory() { HostName = "localhost" });
             services.AddSingleton<IRabbitMQEventPublisher, RabbitMQEventPublisher>();
             services.AddHostedService<AccountCreatedListener>();
+        }
+
+        protected virtual IServiceCollection AddEventFlow(IServiceCollection services, SubscriptionDatabaseSettings configMongo)
+        {
+            
             if (UseEventFlowOptionsBuilder)
             {
                 services.AddEventFlow(options => options.AddAspNetCore()

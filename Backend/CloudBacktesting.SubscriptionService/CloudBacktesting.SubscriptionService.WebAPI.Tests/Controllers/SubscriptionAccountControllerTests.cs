@@ -49,30 +49,12 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Tests.Controllers
             var response = await client.GetAsync("/api/subscriptionaccount");
             Assert.That(response.IsSuccessStatusCode);
 
-            client = factory.CreateClient(options);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", token);
-            response = await client.GetAsync("/api/subscriptionaccount");
-            Assert.That(response.IsSuccessStatusCode);
             SetUpBusCommand(factory, new SuccessExecutionResult());
             client = factory.CreateClient(options);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", token);
             var content = new StringContent(JsonConvert.SerializeObject(new CreateSubscriptionAccountDto() { Subscriber = "Morgan" }), Encoding.UTF8, "application/json");
             response = await client.PostAsync("/api/subscriptionaccount", content);
             Assert.That(response.IsSuccessStatusCode);
-
-            user = new UserIdentity()
-            {
-                Name = "Name",
-                Email = "email@quanthouse.com",
-                Roles = new[] { "Client" },
-                Additionals = new Dictionary<string, string>() { { "subcriptionaccountid", $"subscriptionaccount-{Guid.NewGuid().ToString()}" } },
-            };
-            userStr = JsonConvert.SerializeObject(user);
-            token = Convert.ToBase64String(Encoding.UTF8.GetBytes(userStr));
-            client = factory.CreateClient(options);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", token);
-            response = await client.PostAsync("/api/subscriptionaccount", content);
-            Assert.That(response.IsSuccessStatusCode, Is.False);
 
             user = new UserIdentity()
             {
@@ -88,6 +70,101 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Tests.Controllers
             response = await client.PostAsync("/api/subscriptionaccount", content);
             Assert.That(response.IsSuccessStatusCode, Is.True);
 
+        }
+        [Test]
+        public async Task Should_success_call_post_when_user_is_admin()
+        {
+            var user = new UserIdentity()
+            {
+                Name = "Name",
+                Email = "email@quanthouse.com",
+                Roles = new[] { "Client", "Admin" },
+                Additionals = new Dictionary<string, string>() { { "subcriptionaccountid", $"subscriptionaccount-{Guid.NewGuid().ToString()}" } },
+            };
+            var userStr = JsonConvert.SerializeObject(user);
+            var token = Convert.ToBase64String(Encoding.UTF8.GetBytes(userStr));
+
+            var factory = new CustomWebApplicationFactory<TestStartup>();
+            var options = new WebApplicationFactoryClientOptions();
+            options.AllowAutoRedirect = true;
+            options.BaseAddress = new Uri("https://localhost");
+            var client = factory.CreateClient(options);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", token);
+            var content = new StringContent(JsonConvert.SerializeObject(new CreateSubscriptionAccountDto() { Subscriber = "Morgan" }), Encoding.UTF8, "application/json");
+            var response = await client.PostAsync("/api/subscriptionaccount", content);
+            Assert.That(response.IsSuccessStatusCode, Is.True);
+        }
+
+        [Test]
+        public async Task Should_success_call_post_when_user_is_system()
+        {
+            var user = new UserIdentity()
+            {
+                Name = "Name",
+                Email = "email@quanthouse.com",
+                Roles = new[] { "Client", "System" },
+                Additionals = new Dictionary<string, string>() { { "subcriptionaccountid", $"subscriptionaccount-{Guid.NewGuid().ToString()}" } },
+            };
+            var userStr = JsonConvert.SerializeObject(user);
+            var token = Convert.ToBase64String(Encoding.UTF8.GetBytes(userStr));
+
+            var factory = new CustomWebApplicationFactory<TestStartup>();
+            var options = new WebApplicationFactoryClientOptions();
+            options.AllowAutoRedirect = true;
+            options.BaseAddress = new Uri("https://localhost");
+            var client = factory.CreateClient(options);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", token);
+            var content = new StringContent(JsonConvert.SerializeObject(new CreateSubscriptionAccountDto() { Subscriber = "Morgan" }), Encoding.UTF8, "application/json");
+            var response = await client.PostAsync("/api/subscriptionaccount", content);
+            Assert.That(response.IsSuccessStatusCode, Is.True);
+        }
+
+        [Test]
+        public async Task Should_fail_call_post_when_user_is_only_system()
+        {
+            var user = new UserIdentity()
+            {
+                Name = "Name",
+                Email = "email@quanthouse.com",
+                Roles = new[] { "System" },
+                Additionals = new Dictionary<string, string>() { { "subcriptionaccountid", $"subscriptionaccount-{Guid.NewGuid().ToString()}" } },
+            };
+            var userStr = JsonConvert.SerializeObject(user);
+            var token = Convert.ToBase64String(Encoding.UTF8.GetBytes(userStr));
+
+            var factory = new CustomWebApplicationFactory<TestStartup>();
+            var options = new WebApplicationFactoryClientOptions();
+            options.AllowAutoRedirect = true;
+            options.BaseAddress = new Uri("https://localhost");
+            var client = factory.CreateClient(options);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", token);
+            var content = new StringContent(JsonConvert.SerializeObject(new CreateSubscriptionAccountDto() { Subscriber = "Morgan" }), Encoding.UTF8, "application/json");
+            var response = await client.PostAsync("/api/subscriptionaccount", content);
+            Assert.That(response.IsSuccessStatusCode, Is.True);
+        }
+
+        [Test]
+        public async Task Should_fail_call_post_when_user_is_not_admin_and_not_system()
+        {
+            var user = new UserIdentity()
+            {
+                Name = "Name",
+                Email = "email@quanthouse.com",
+                Roles = new[] { "Client" },
+                Additionals = new Dictionary<string, string>() { { "subcriptionaccountid", $"subscriptionaccount-{Guid.NewGuid().ToString()}" } },
+            };
+            var userStr = JsonConvert.SerializeObject(user);
+            var token = Convert.ToBase64String(Encoding.UTF8.GetBytes(userStr));
+
+            var factory = new CustomWebApplicationFactory<TestStartup>();
+            var options = new WebApplicationFactoryClientOptions();
+            options.AllowAutoRedirect = true;
+            options.BaseAddress = new Uri("https://localhost");
+            var client = factory.CreateClient(options);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", token);
+            var content = new StringContent(JsonConvert.SerializeObject(new CreateSubscriptionAccountDto() { Subscriber = "Morgan" }), Encoding.UTF8, "application/json");
+            var response = await client.PostAsync("/api/subscriptionaccount", content);
+            Assert.That(response.IsSuccessStatusCode, Is.False);
         }
 
         private void SetUpBusCommand(CustomWebApplicationFactory<TestStartup> factory, IExecutionResult result)

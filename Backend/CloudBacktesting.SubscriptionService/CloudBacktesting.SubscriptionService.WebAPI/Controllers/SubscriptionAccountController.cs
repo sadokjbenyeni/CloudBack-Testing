@@ -47,7 +47,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
                 CreationDate = readModel.CreationDate,
             };
         }
-
+        
         [HttpGet()]
         public async Task<IActionResult> Get()
         {

@@ -16,12 +16,12 @@ namespace CloudBacktesting.Infra.Security.Authorization
 
         public static string BuildToPolicy(this CloudBacktestingAuthorizeAttribute source, string value)
         {
-            return $"{POLICY_PREFIX}{value}";
+            return $"{POLICY_PREFIX}{value}"; //  [CloudBacktestingAuthorize("Client")] => "CloudBacktestingPoliciesClient"
         }
 
         public static string ExtractFromPolicy(this IAuthorizationPolicyProvider provider, string policyName)
         {
-            return ExtractPolicies(POLICY_PREFIX, policyName);
+            return ExtractPolicies(POLICY_PREFIX, policyName); // input "CloudBacktestingPoliciesClient" => return "Client"
         }
 
         public static bool IsCloudBacktestingPolicy(this IAuthorizationPolicyProvider provider, string policyName)
