@@ -1,17 +1,12 @@
-﻿using CloudBacktesting.Infra.EventFlow.MongoDb.Queries;
-using CloudBacktesting.Infra.EventFlow.Queries;
-using CloudBacktesting.Infra.EventFlow.ReadStores;
-using CloudBacktesting.Infra.Security;
+﻿using CloudBacktesting.Infra.Security;
 using CloudBacktesting.Infra.Security.Authorization;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Commands;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Events;
-using CloudBacktesting.PaymentService.Domain.Repositories.PaymentAccountRepository;
 using CloudBacktesting.PaymentService.WebAPI.Host.DatabaseSettings;
 using EventFlow.AspNetCore.Extensions;
 using EventFlow.AspNetCore.Middlewares;
 using EventFlow.DependencyInjection.Extensions;
 using EventFlow.Extensions;
-using EventFlow.MongoDB.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -64,11 +59,11 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
                                        //.AddEvents(typeof(SubscriptionRequestCreatedEvent))
                                        //.AddCommands(typeof(SubscriptionRequestCreationCommand))
                                        //.AddCommandHandlers(typeof(SubscriptionRequestCreationCommandHandler))
-                                       .UseMongoDbEventStore()
-                                       .ConfigureMongoDb(configMongo.ConnectionString, configMongo.DatabaseName)
-                                       .UseConsoleLog()
-                                       .UseMongoDbReadModel<PaymentAccountReadModel>()
-                                       .AddQueryHandler<MongoDbFindReadModelQueryHandler<PaymentAccountReadModel>, FindReadModelQuery<PaymentAccountReadModel>, ICollectionReadModel<PaymentAccountReadModel>>()
+                                       //.UseMongoDbEventStore()
+                                       //.ConfigureMongoDb(configMongo.ConnectionString, configMongo.DatabaseName)
+                                       //.UseConsoleLog()
+                                       //.UseMongoDbReadModel<PaymentAccountReadModel>()
+                                       //.AddQueryHandler<MongoDbFindReadModelQueryHandler<PaymentAccountReadModel>, FindReadModelQuery<PaymentAccountReadModel>, ICollectionReadModel<PaymentAccountReadModel>>()
                                        );
             }
             return services;

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CloudBacktesting.Infra.Security.Authorization;
@@ -10,17 +8,14 @@ using CloudBacktesting.PaymentService.WebAPI.Models.PaymentAccount;
 using EventFlow;
 using EventFlow.Aggregates.ExecutionResults;
 using EventFlow.Queries;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace CloudBacktesting.PaymentService.WebAPI.Controllers
 {
-    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    [CloudBacktestingAuthorize("Admin")] // PEUT-ÊTRE QUE GET doit être dans un autre controller ? ???
+    [CloudBacktestingAuthorize("Connected,Client")] // PEUT-ÊTRE QUE GET doit être dans un autre controller ? ???
     public class PaymentAccountController : ControllerBase
     {
         private readonly ILogger<PaymentAccountController> logger;
@@ -37,29 +32,17 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CreatePaymentAccountDto value)
         {
-            var command = new PaymentAccountCreationCommand(value.Client);
             if (this.User == null || !this.User.Identity.IsAuthenticated)
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
                 return BadRequest($"Access error, please contact the administrator with error id: {idError}");
             }
-            IExecutionResult commandResult = null;
-            try
+            var command = new PaymentAccountCreationCommand(value.Client);
+            var commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
+            if (commandResult.IsSuccess)
             {
-                commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
-                if (commandResult.IsSuccess)
-                {
-                    return Ok(new IdentifierDto{ Id = command.AggregateId.Value });
-                }
-            }
-            catch (AggregateException aggregateEx)
-            {
-                commandResult = new FailedExecutionResult(new[] { aggregateEx.Message }.Union(aggregateEx.InnerExceptions.Select(ex => ex.Message)));
-            }
-            catch (Exception ex)
-            {
-                commandResult = new FailedExecutionResult(new[] { ex.Message });
+                return Ok(new IdentifierDto { Id = command.AggregateId.Value });
             }
             var errorIdentifier = Guid.NewGuid().ToString();
             logger.LogError($"[Business, Error] | '{errorIdentifier}' | PaymentAccount for {command.Client} has not been created.");
