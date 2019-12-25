@@ -2,7 +2,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CloudBacktesting.Infra.Security.Authorization;
+using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Commands;
+using CloudBacktesting.PaymentService.Domain.Repositories.PaymentAccountRepository;
+using CloudBacktesting.PaymentService.Infra.Security.Claims;
 using CloudBacktesting.PaymentService.WebAPI.Models;
 using CloudBacktesting.PaymentService.WebAPI.Models.PaymentAccount;
 using EventFlow;
@@ -27,6 +30,41 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.commandBus = commandBus;
             this.queryProcessor = queryProcessor;
+        }
+
+        private static PaymentAccountReadModelDto ToDto(PaymentAccountReadModel readModel)
+        {
+            if (readModel == null)
+            {
+                return null;
+            }
+            return new PaymentAccountReadModelDto()
+            {
+                Id = readModel.Id,
+                Client = readModel.Client,
+                CreationDate = readModel.CreationDate,
+            };
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            if(this.User == null || !this.User.Identity.IsAuthenticated)
+            {
+                var idError = Guid.NewGuid().ToString();
+                logger.LogError($"[Security, Error] User not authentificate. Please check the API Gateway log. Id error: {idError}");
+                return BadRequest($"You are not authorized to use this request, please contact the administrator with error id: {idError}, if the problem persists");
+            }
+
+            var paymentAccountId = this.User.GetUserIdentifier()?.Value ?? "";
+            if (string.IsNullOrEmpty(paymentAccountId))
+            {
+                var idError = Guid.NewGuid().ToString();
+                logger.LogError($"[Security, Error] User not authentificatted. Please check the API Gateway log. Id error: {idError}");
+                return BadRequest($"You are not authorized to use this request, please contact the administator with error id: {idError}, if the problem persists");
+            }
+            var result = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<PaymentAccountReadModel>(new PaymentAccountId(paymentAccountId)), CancellationToken.None);
+            return Ok(ToDto(result));
         }
 
         [HttpPost]

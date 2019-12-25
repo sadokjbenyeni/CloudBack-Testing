@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CloudBacktesting.PaymentService.Domain.Sagas
 {
-    public class IPaymentSagaMethodId
+    public interface IPaymentSagaMethodId
     {
         string MethodId { get; }
     }
