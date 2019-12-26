@@ -110,9 +110,9 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post()
+        public ActionResult Post([FromBody] CreatePaymentAccountDto value)
         {
-            return Ok(new IdentifierDto { Id = "PaymentAccount-123456789" });
+            return Ok(value.Client);
         }
     }
 }

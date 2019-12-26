@@ -30,14 +30,21 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
                 CardType = "Visa",
                 ExpirationDate = DateTime.UtcNow
             }};
-           
+
             return Ok(result);
         }
 
         [HttpPost]
-        public ActionResult Post()
+        public ActionResult Post([FromBody] PaymentMethodDto value)
         {
-            return Ok(new IdentifierDto { Id = "PaymentMethod-987654321" });
+            return Ok(new PaymentMethodDto
+            {
+                CardNumber = value.CardNumber,
+                CardType = value.CardType,
+                Cryptogram = value.Cryptogram,
+                PaymentAccountId = value.PaymentAccountId,
+                ExpirationDate = value.ExpirationDate
+            });
         }
     }
 }
