@@ -19,13 +19,13 @@
 
   <ItemGroup>
     <Folder Include="Models\BillingItem\" />
-    <Folder Include="Models\PaymentResource\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CloudBacktesting.MongoDb\CloudBacktesting.MongoDb.csproj" />
     <ProjectReference Include="..\CloudBacktesting.PaymentService.Domain\CloudBacktesting.PaymentService.Domain.csproj" />
     <ProjectReference Include="..\CloudBacktesting.PaymentService.Infra.EventFlow\CloudBacktesting.Infra.EventFlow.csproj" />
+    <ProjectReference Include="..\CloudBacktesting.PaymentService.Infra\CloudBacktesting.PaymentService.Infra.csproj" />
   </ItemGroup>
 
 </Project>

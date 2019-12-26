@@ -8,7 +8,6 @@
     <Folder Include="Aggregates\BillingItemAggregate\Commands\" />
     <Folder Include="Aggregates\BillingItemAggregate\Events\" />
     <Folder Include="Repositories\BillingItemRepository\" />
-    <Folder Include="Sagas\PaymentCreation\" />
     <Folder Include="Specifications\" />
   </ItemGroup>
 

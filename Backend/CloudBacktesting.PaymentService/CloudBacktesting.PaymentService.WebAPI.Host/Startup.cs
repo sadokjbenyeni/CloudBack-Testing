@@ -32,12 +32,12 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddAuthentication("cloudbacktestingAuthentication")
-                    .AddScheme<AuthenticationSchemeOptions, CloudBacktestingAuthenticationHandler>("cloudbacktestingAuthentication", options => { });
-            //services.AddAuthorization();
+            //services.AddAuthentication("cloudbacktestingAuthentication")
+            //        .AddScheme<AuthenticationSchemeOptions, CloudBacktestingAuthenticationHandler>("cloudbacktestingAuthentication", options => { });
+            ////services.AddAuthorization();
 
-            services.AddSingleton<IAuthorizationPolicyProvider, CloudBacktestingAuthorizationPolicyProvider>();
-            services.AddSingleton<IAuthorizationHandler, CloudBacktestingAuthorizationHandler>();
+            //services.AddSingleton<IAuthorizationPolicyProvider, CloudBacktestingAuthorizationPolicyProvider>();
+            //services.AddSingleton<IAuthorizationHandler, CloudBacktestingAuthorizationHandler>();
 
             services.AddSwaggerGen(options => options.SwaggerDoc("V1", new Microsoft.OpenApi.Models.OpenApiInfo() { Title = "Payment Api", Version = "V1" }));
 
@@ -80,8 +80,8 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
             app.UseSwagger();
             app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/V1/swagger.json", "Payment Api"));
             app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthentication();
+            //app.UseAuthorization();
             ConfigureEventFlow(app);
             app.UseEndpoints(endpoints =>
             {
