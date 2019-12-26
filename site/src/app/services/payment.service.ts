@@ -9,8 +9,10 @@ export class PaymentService {
 
   constructor(private http: HttpClient) { }
   AddPaymentCard(card: Payment) {
-    return this.http.post("dzaodjzaio", { card });
-    return "ok";
+    return this.http.post("https://localhost:4001/api/PaymentMethod", { card });
+  }
+  getPaymentCards() {
+    return this.http.get("https://localhost:4001/api/PaymentMethod");
   }
 
 }

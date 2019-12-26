@@ -44,6 +44,11 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
             var configMongo = new PaymentDatabaseSettings();
             Configuration.Bind("PaymentDatabaseSettings", configMongo);
             AddEventFlow(services, configMongo);
+            services.AddCors(options =>
+           options.AddPolicy("AllowAllOrigins", builder =>
+           {
+               builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+           }));
         }
 
         protected virtual IServiceCollection AddEventFlow(IServiceCollection services, PaymentDatabaseSettings configMongo)
@@ -78,6 +83,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
 
             app.UseHttpsRedirection();
             app.UseSwagger();
+            app.UseCors("AllowAllOrigins");
             app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/V1/swagger.json", "Payment Api"));
             app.UseRouting();
             //app.UseAuthentication();

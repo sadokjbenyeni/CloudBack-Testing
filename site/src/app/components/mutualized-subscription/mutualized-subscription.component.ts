@@ -10,6 +10,7 @@ import { User } from '../../models/User';
 import { UserService } from '../../services/user.service';
 import { TimeInterval } from 'rxjs/Rx';
 import { timer } from 'rxjs';
+import { Payment } from '../../models/Payment';
 @Component({
   selector: 'app-mutualized-subscription',
   templateUrl: './mutualized-subscription.component.html',
@@ -28,13 +29,14 @@ export class MutualizedSubscriptionComponent implements OnInit {
 
   ngOnInit() {
     this.Subscription = new Subscription(SubscriptionType.Mutualized);
+    debugger;
     this.termsService.getLastSaleTerm().subscribe(result => {
       this.Subscription.cgv = result;
 
     })
     this.countryService.getCountries().subscribe(result => {
       this.Countries = result.countries;
-      
+
       //AddBilling
       this.SetDefaultBillingInformations();
 
@@ -72,10 +74,16 @@ export class MutualizedSubscriptionComponent implements OnInit {
       this.Subscription.billing.country = this.Countries.find(item => item.id == res.countryBilling)
     });
   }
-  oberserableTimer() {
-    const source = timer(1000, 2000);
-    const abc = source.subscribe(val => {
-      console.log(val, '-');
-    });
+
+  GetPaymentMethod($event) {
+    this.Subscription.paymentCard = $event as Payment;
+    debugger;
+
+  }
+  goNext(stepper: MatStepper) {
+    if (this.Subscription.paymentCard == null)
+      alert("please choose a valid card")
+    else
+      stepper.next();
   }
 }

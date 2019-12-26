@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Payment } from '../../models/Payment';
-import { CardType } from '../../models/CardType';
+import { MatRadioChange } from '@angular/material';
 
 @Component({
   selector: 'app-get-payment-cards',
@@ -8,24 +8,17 @@ import { CardType } from '../../models/CardType';
   styleUrls: ['./get-payment-cards.component.css']
 })
 export class GetPaymentCardsComponent implements OnInit {
+  @Input() cards: Payment[] = [];
+  @Input() radio: boolean = false;
+  SelectedItem: Payment;
+  @Output() choosingNewCard = new EventEmitter<Payment>();
 
   constructor() { }
-  cards: Payment[] = []
   ngOnInit() {
-    let payment1 = new Payment();
-    let payment2 = new Payment();
-    payment1.expirationDate = new Date();
-    payment1.cardType = CardType.MasterCard
-    payment1.cardNumber = "1234123412341234"
-    payment1.client = "yassin ben abderrabba"
-    this.cards.push(payment1)
-    let date2 = new Date()
-    date2.setMonth(date2.getMonth() + 1)
-    payment2.expirationDate = date2;
-    payment2.cardType = CardType.Visa;
-    payment2.cardNumber = "4321432143214321"
-    payment2.client = "Sadok Jbenyani"
-    this.cards.push(payment2)
+
+  }
+  PaymentChanged(event: MatRadioChange) {
+    this.choosingNewCard.emit(event.value as Payment);
   }
 
 }

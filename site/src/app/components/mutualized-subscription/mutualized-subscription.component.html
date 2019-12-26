@@ -25,10 +25,10 @@
             <mat-step [stepControl]="PayementFormGroup">
                 <!-- <form class="col-12" [formGroup]="PayementFormGroup"> -->
                 <ng-template matStepLabel>Payement informations</ng-template>
-                Payement Informations Here
-                <div class=" col-12 text-right">
-                    <button class="border mr-2 btn col-1 btn-default" matStepperPrevious>Back</button>
-                    <button class="btn btn-primary col-1 " matStepperNext>Next</button>
+                <app-payment [showradio]="true" (emitTomother)="GetPaymentMethod($event)"></app-payment>
+                <div class=" col-12 text-right mt-2">
+                    <button class="border mr-2 btn col-1 btn-default"   matStepperPrevious>Back</button>
+                    <button class="btn btn-primary col-1 " (click)="goNext(stepper)" >Next</button>
                 </div>
                 <!-- </form> -->
             </mat-step>

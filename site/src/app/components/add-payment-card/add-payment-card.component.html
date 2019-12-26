@@ -1,5 +1,5 @@
 <h4 class="text-center"> Add new payment card</h4>
-<form [formGroup]="controlPaymentgrp" class="mt-3" [class.mat-elevation-z2]="!isActive" (ngSubmit)="onSubmitForm()">
+<form [formGroup]="controlPaymentgrp" class="mt-3" [class.mat-elevation-z2]="true" (ngSubmit)="onSubmitForm()">
     <mat-form-field class="col-12 mt-3">
         <mat-label>Card holder name</mat-label>
         <input matInput required type="text" id="cardholerctl" [(ngModel)]="Payment.client"  formControlName="cardholerctl"

@@ -1,11 +1,11 @@
 <app-menu></app-menu>
-<div class="container col-8 pt-5 mt-5">
+<div [ngClass]="!showradio?'container col-8 pt-5 mt-5':''">
     <div class="col-12 row">
         <div class="col-lg-6 col-sm-12">
-            <app-get-payment-cards></app-get-payment-cards>
+            <app-get-payment-cards [cards]="cards" [radio]="showradio" (choosingNewCard)="paymentchoosed($event)"></app-get-payment-cards>
         </div>
         <div class="col-lg-6 col-sm-12">
-            <app-add-payment-card></app-add-payment-card>
+            <app-add-payment-card (eventMessage)="receivemessage($event)"></app-add-payment-card>
         </div>
     </div>
 </div>

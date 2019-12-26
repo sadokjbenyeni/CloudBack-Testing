@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Payment } from '../../models/Payment';
 import { CardType } from '../../models/CardType';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PaymentService } from '../../services/payment.service';
 import { ConfirmationPopupService } from '../../services/confirmation-popup.service';
+import { MatSnackBar } from '@angular/material';
 
 
 @Component({
@@ -13,8 +14,9 @@ import { ConfirmationPopupService } from '../../services/confirmation-popup.serv
 })
 export class AddPaymentCardComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private paymentService: PaymentService, private confirmationpopupservice: ConfirmationPopupService) { }
+  constructor(private matsnackbar: MatSnackBar, private formBuilder: FormBuilder, private paymentService: PaymentService, private confirmationpopupservice: ConfirmationPopupService) { }
   cardNumber: string;
+  @Output() eventMessage = new EventEmitter<Payment>()
   Payment: Payment = new Payment();
   cardTypes: CardType[] = [];
   controlPaymentgrp: FormGroup;
@@ -55,15 +57,18 @@ export class AddPaymentCardComponent implements OnInit {
         return;
       }
       this.Payment.cardType = this.getCardType();
-      this.Payment.cardNumber = this.cardNumber.replace(/ /gi, '');;
-      this.confirmationpopupservice.openPopup("Are you sure you want to add this card?", "Add PaymentCard").subscribe
-        (result => {
-          if (result == true) {
-            this.paymentService.AddPaymentCard(this.Payment);
-          }
-        })
+      this.Payment.cardNumber = this.cardNumber.replace(/ /gi, '');
+      this.confirmationpopupservice.openPopup("Are you sure you want to add this card?", "Add PaymentCard")
+        .subscribe(result => {
+          if (result == true)
+            this.paymentService.AddPaymentCard(this.Payment).subscribe(() => {
+              this.eventMessage.emit(this.Payment);
+              this.matsnackbar.open("Card Successfully Added", "Ok", { duration: 2000 });
+              this.Payment = new Payment();
+              this.controlPaymentgrp.reset();
+            });
+        });
     }
-
   }
   addWhiteSpaces() {
     let realnumber = this.cardNumber.replace(/ /gi, '');
