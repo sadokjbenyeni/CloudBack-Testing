@@ -13,7 +13,6 @@ import { CountriesComponent } from './components/admin/countries/countries.compo
 import { TermsComponent } from './components/admin/terms/terms.component';
 
 // Site Clients
-import { HomeComponent } from './components/home/home.component';
 import { AboutComponent } from './components/about/about.component';
 import { HelpPageComponent } from './components/help-page/help-page.component';
 import { SignUpComponent } from './components/signup/signup.component';
@@ -25,6 +24,7 @@ import { OnBoardingComponent } from './components/on-boarding/on-boarding.compon
 import { MutualizedSubscriptionComponent } from './components/mutualized-subscription/mutualized-subscription.component';
 import { SubscriptionsValidationComponent } from './components/subscriptions-validation/subscriptions-validation.component';
 import { SubscriptionsacceptedComponent } from './components/subscriptions-accepted/subscriptions-accepted.component';
+import { PaymentComponent } from './components/payment/payment.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/on-boarding', pathMatch: 'full' },
@@ -32,6 +32,11 @@ export const routes: Routes = [
   // CLIENT
   { path: 'account', component: SignUpComponent, canActivate: [GuardGuard] },
   { path: 'subscription/mutualized', component: MutualizedSubscriptionComponent, canActivate: [GuardGuard] },
+  // { path: 'AddPaymentCard', component: AddPaymentCardComponent, canActivate: [GuardGuard] },
+  // { path: 'GetPaymentCards', component: GetPaymentCardsComponent, canActivate: [GuardGuard] },
+  { path: 'payment', component: PaymentComponent, canActivate: [GuardGuard] },
+
+
   // ADMINISTRATOR
   { path: 'admin/profil/:id', component: UserDetailComponent, canActivate: [GuardGuard] },
   { path: 'subscriptions-validation', component: SubscriptionsValidationComponent, canActivate: [GuardGuard] },

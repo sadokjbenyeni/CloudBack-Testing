@@ -1,4 +1,4 @@
-import { MatDialogRef, MatCheckboxModule, MAT_DIALOG_DATA, MatSnackBarModule, MatStepperModule, MatSelectModule, MatTableModule, MatSidenavModule, MatFormField, MatFormFieldModule } from '@angular/material';
+import { MatDialogRef, MatCheckboxModule, MAT_DIALOG_DATA, MatSnackBarModule, MatStepperModule, MatSelectModule, MatTableModule, MatSidenavModule, MatFormField, MatFormFieldModule, MatAccordion, MatExpansionModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -11,6 +11,7 @@ import { MatDialogModule, MatInputModule, MatCardModule, MatProgressSpinnerModul
     CommonModule
   ],
   exports: [
+    MatExpansionModule,
     MatSidenavModule,
     MatDialogModule,
     MatTableModule,
@@ -22,7 +23,7 @@ import { MatDialogModule, MatInputModule, MatCardModule, MatProgressSpinnerModul
     MatStepperModule,
     MatSelectModule,
     MatFormFieldModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ],
   providers: [{ provide: MAT_DIALOG_DATA, useValue: {} },
   { provide: MatDialogRef, useValue: {} }]

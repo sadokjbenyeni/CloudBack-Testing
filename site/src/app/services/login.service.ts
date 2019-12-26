@@ -2,7 +2,6 @@ import { GuardGuard } from './../guard.guard';
 import { UserService } from './user.service';
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import {  MatDialog } from '@angular/material/dialog';
 import { AuthentificationService } from './authentification.service';
 
 @Injectable({

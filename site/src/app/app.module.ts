@@ -84,6 +84,11 @@ import { RejectionMessageDialogComponent } from './components/rejection-message-
 import { ConfirmationPopupComponent } from './components/confirmation-popup/confirmation-popup.component';
 import { SubscriptionsacceptedComponent } from './components/subscriptions-accepted/subscriptions-accepted.component';
 import { SubscriptionConfigurationPopupComponent } from './components/subscription-configuration-popup/subscription-configuration-popup';
+import { GetPaymentCardsComponent } from './components/get-payment-cards/get-payment-cards.component';
+import { AddPaymentCardComponent } from './components/add-payment-card/add-payment-card.component';
+import { PaymentComponent } from './components/payment/payment.component';
+import { EnumToArrayPipe } from './EnumToList';
+import { PaymentService } from './services/payment.service';
 
 @NgModule({
   declarations: [
@@ -112,8 +117,8 @@ import { SubscriptionConfigurationPopupComponent } from './components/subscripti
     RoleComponent,
     CountriesComponent,
     TermsComponent,
-
     CeilPipe,
+    EnumToArrayPipe,
     SafeHtmlPipePipe,
     NgbdModalContent,
     ComCountriesComponent,
@@ -128,6 +133,9 @@ import { SubscriptionConfigurationPopupComponent } from './components/subscripti
     ConfirmationPopupComponent,
     SubscriptionsacceptedComponent,
     SubscriptionConfigurationPopupComponent,
+    GetPaymentCardsComponent,
+    AddPaymentCardComponent,
+    PaymentComponent,
 
   ],
   entryComponents: [NgbdModalContent, LoginDialogComponent, PasswordComponent, PasswordResetComponent, TermsOfUseComponent, RejectionMessageDialogComponent,ConfirmationPopupComponent,SubscriptionConfigurationPopupComponent],
@@ -164,6 +172,7 @@ import { SubscriptionConfigurationPopupComponent } from './components/subscripti
     AuthentificationService,
     LoginService,
     SubscriptionService,
+    PaymentService,
     // FilterPipe
   ],
   bootstrap: [AppComponent]
