@@ -1,4 +1,4 @@
-<app-menu></app-menu>
+<app-menu *ngIf="!showradio"></app-menu>
 <div [ngClass]="!showradio?'container col-8 pt-5 mt-5':''">
     <div class="col-12 row">
         <div class="col-lg-6 col-sm-12">

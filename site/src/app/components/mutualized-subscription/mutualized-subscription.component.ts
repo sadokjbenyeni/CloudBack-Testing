@@ -77,8 +77,6 @@ export class MutualizedSubscriptionComponent implements OnInit {
 
   GetPaymentMethod($event) {
     this.Subscription.paymentCard = $event as Payment;
-    debugger;
-
   }
   goNext(stepper: MatStepper) {
     if (this.Subscription.paymentCard == null)
