@@ -10,7 +10,7 @@ using EventFlow.DependencyInjection.Extensions;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Events;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository;
 using CloudBacktesting.SubscriptionService.WebAPI.Host.DatabaseSettings;
-using CloudBacktesting.Infra.EventFlow.Queries;
+using CloudBacktesting.Infra.EventFlow.Queries;*
 using CloudBacktesting.Infra.EventFlow.MongoDb.Queries;
 using CloudBacktesting.Infra.EventFlow.ReadStores;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate.Commands;

@@ -95,14 +95,14 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
             var result = new List<PaymentAccountReadModelDto>()
             { new PaymentAccountReadModelDto
             {
-                Id = "PaymentAccount-987654321",
-                Client = "user@iress.com",
+                Id = PaymentAccountId.New.ToString(),
+                Client = "philip.country@iress.com",
                 CreationDate = DateTime.UtcNow
             },
             new PaymentAccountReadModelDto
             {
-                Id = "PaymentAccount-123456789",
-                Client = "user2@iress.com",
+                Id = PaymentAccountId.New.ToString(),
+                Client = "james.simpson@iress.com",
                 CreationDate = DateTime.UtcNow
             }};
             return Ok(result);

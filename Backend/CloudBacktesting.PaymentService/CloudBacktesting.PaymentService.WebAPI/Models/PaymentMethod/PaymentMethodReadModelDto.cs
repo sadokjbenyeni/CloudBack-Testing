@@ -11,6 +11,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Models.PaymentMethod
         public string PaymentAccountId { get; set; }
         public string CardNumber { get; set; }
         public string CardType { get; set; }
+        public string CardHolder { get; set; }
         public DateTime ExpirationDate { get; set; }
     }
 }

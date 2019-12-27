@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate;
+using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate;
 using CloudBacktesting.PaymentService.WebAPI.Models;
 using CloudBacktesting.PaymentService.WebAPI.Models.PaymentMethod;
 using Microsoft.AspNetCore.Mvc;
@@ -16,16 +18,18 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
             var result = new List<PaymentMethodReadModelDto>()
             { new PaymentMethodReadModelDto
             {
-                MethodId = "PaymentMethod-987654321",
-                PaymentAccountId = "PaymentAccount-987654321",
+                MethodId = PaymentMethodId.New.ToString(),
+                PaymentAccountId = PaymentAccountId.New.ToString(),
+                CardHolder = "TIM COOK",
                 CardNumber = " ***-6279",
                 CardType = "Visa",
                 ExpirationDate = DateTime.UtcNow
             },
             new PaymentMethodReadModelDto
             {
-                MethodId = "PaymentMethod-123456789",
-                PaymentAccountId = "PaymentAccount-123456789",
+                MethodId = PaymentMethodId.New.ToString(),
+                PaymentAccountId = PaymentAccountId.New.ToString(),
+                CardHolder = "ELON MUSK",
                 CardNumber = " ***-9842",
                 CardType = "Visa",
                 ExpirationDate = DateTime.UtcNow
@@ -41,7 +45,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
             {
                 CardNumber = value.CardNumber,
                 CardType = value.CardType,
-                Cryptogram = value.Cryptogram,
+                CardHolder = value.CardHolder,
                 PaymentAccountId = value.PaymentAccountId,
                 ExpirationDate = value.ExpirationDate
             });
