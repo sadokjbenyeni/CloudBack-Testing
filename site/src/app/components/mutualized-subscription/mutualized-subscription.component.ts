@@ -8,8 +8,6 @@ import { Country } from '../../models/Country';
 import { SubscriptionType } from '../../models/SubsriptionType';
 import { User } from '../../models/User';
 import { UserService } from '../../services/user.service';
-import { TimeInterval } from 'rxjs/Rx';
-import { timer } from 'rxjs';
 import { Payment } from '../../models/Payment';
 @Component({
   selector: 'app-mutualized-subscription',
@@ -29,7 +27,6 @@ export class MutualizedSubscriptionComponent implements OnInit {
 
   ngOnInit() {
     this.Subscription = new Subscription(SubscriptionType.Mutualized);
-    debugger;
     this.termsService.getLastSaleTerm().subscribe(result => {
       this.Subscription.cgv = result;
 

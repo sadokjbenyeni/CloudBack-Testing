@@ -3,8 +3,8 @@
     <h1 class="py-3 my-3 text-center">Mutualized subscription</h1>
     <div class="col-12">
 
-        <mat-horizontal-stepper *ngIf='Countries!=undefined; else loading' linerar #stepper
-            class="col-12" [linear]="true" #subscriptionstepper>
+        <mat-horizontal-stepper *ngIf='Countries!=undefined; else loading' linerar #stepper class="col-12"
+            [linear]="true" #subscriptionstepper>
             <mat-step [stepControl]="CgvFormGroup" class="col-12">
                 <form [formGroup]="CgvFormGroup">
                     <p class="termsofsale border rounded"> {{Subscription.cgv.description}} </p>
@@ -27,8 +27,8 @@
                 <ng-template matStepLabel>Payement informations</ng-template>
                 <app-payment [showradio]="true" (emitTomother)="GetPaymentMethod($event)"></app-payment>
                 <div class=" col-12 text-right mt-2">
-                    <button class="border mr-2 btn col-1 btn-default"   matStepperPrevious>Back</button>
-                    <button class="btn btn-primary col-1 " (click)="goNext(stepper)" >Next</button>
+                    <button class="border mr-2 btn col-1 btn-default" matStepperPrevious>Back</button>
+                    <button class="btn btn-primary col-1 " (click)="goNext(stepper)">Next</button>
                 </div>
                 <!-- </form> -->
             </mat-step>
@@ -107,6 +107,43 @@
                         <ng-template class="col-sm-12 col-lg-8" #rejected>
                             Rejected
                         </ng-template>
+                    </div>
+                </mat-card>
+                <mat-card *ngIf="Subscription.paymentCard != undefined" class="mt-3">
+                    <mat-card-title class=" col-12 px-0">
+                        <div class="row col-12 mx-0 px-0">
+                            <div class="col-10 mx-0 px-0">
+                                Payment informations
+                            </div>
+                            <div class="col-2 mx-0 px-0">
+                                <button class="btn btn-primary pull-right col-lg-6 col-sm-4"
+                                    (click)=goto(1)>Edit</button>
+                            </div>
+                        </div>
+                    </mat-card-title>
+                    <div class="row col-12  mt-3">
+                        <div class="col-lg-4 col-sm-12">
+                            Card number
+                        </div>
+                        <div class="  col-sm-12 col-lg-6">
+                            {{Subscription.paymentCard.cardNumber}}
+                        </div>
+                    </div>
+                    <div class="row col-12  mt-3">
+                        <div class="col-lg-4 col-sm-12">
+                            Card Holder
+                        </div>
+                        <div class="  col-sm-12 col-lg-6">
+                            {{Subscription.paymentCard.client}}
+                        </div>
+                    </div>
+                    <div class="row col-12  mt-3">
+                        <div class="col-lg-4 col-sm-12">
+                            Expiration Date
+                        </div>
+                        <div class="  col-sm-12 col-lg-6">
+                            {{Subscription.paymentCard.expirationDate}}
+                        </div>
                     </div>
                 </mat-card>
                 <mat-card class="mt-3">
