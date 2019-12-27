@@ -1,19 +1,17 @@
-.termsofsale
-{
-    text-align: justify;
-    max-height: 60vh;
-    overflow-y: scroll;
+.termsofsale {
+  text-align: justify;
+  max-height: 60vh;
+  overflow-y: scroll;
 }
 ::ng-deep .mat-checkbox .mat-checkbox-frame {
-    border-color: #ea663b;
+  border-color: #ea663b;
 }
 
 ::ng-deep .mat-checkbox-checked .mat-checkbox-background {
-    background-color: #ea663b !important;
+  background-color: #ea663b !important;
 }
-.putcenter
-{
-    padding-top: 15%;
-    padding-left: 40%;
+.putcenter {
+  padding-top: 15%;
+  padding-left: 40%;
+}
 
-}

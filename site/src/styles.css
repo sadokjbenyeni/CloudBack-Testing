@@ -664,3 +664,17 @@ body {
 .mat-content > mat-panel-title, .mat-content > mat-panel-description {
 flex: 0 0 auto;
 }   
+
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+  border-color:#ea663b ; 
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle{
+  color:rgb(66, 134, 244);
+  background-color:#ea663b  ;
+}
+
+.mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+    background-color:rgb(255, 37, 37,.26)
+}

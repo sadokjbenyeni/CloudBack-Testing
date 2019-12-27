@@ -123,6 +123,27 @@
                     </mat-card-title>
                     <div class="row col-12  mt-3">
                         <div class="col-lg-4 col-sm-12">
+                            Card Type
+                        </div>
+                        <div class="  col-sm-12 col-lg-6">
+                            <img *ngIf="Subscription.paymentCard.cardType=='Master Card'"
+                                src="https://images-eu.ssl-images-amazon.com/images/G/01/payments-portal/r1/issuer-images/mc._CB393363241_.gif"
+                                class="rounded mx-auto" alt="...">
+                            <img *ngIf="Subscription.paymentCard.cardType=='Visa'"
+                                src="https://images-eu.ssl-images-amazon.com/images/G/01/payments-portal/r1/issuer-images/visa._CB393363241_.png"
+                                class="rounded mx-auto " alt="...">
+                            <img *ngIf="Subscription.paymentCard.cardType=='Discover Card'"
+                                src="https://images-eu.ssl-images-amazon.com/images/G/01/payments-portal/r1/issuer-images/discover._CB393363241_.png"
+                                class="rounded mx-auto  " alt="...">
+                            <img *ngIf="Subscription.paymentCard.cardType=='American Express'"
+                                src="https://images-eu.ssl-images-amazon.com/images/G/08/payments-portal/r1/issuer-images/amex._CB291302739_.gif"
+                                class="rounded mx-auto " alt="...">
+                            <p *ngIf="Subscription.paymentCard.cardType=='Other'"
+                                class="rounded mx-auto " >Other</p>
+                        </div>
+                    </div>
+                    <div class="row col-12  mt-3">
+                        <div class="col-lg-4 col-sm-12">
                             Card number
                         </div>
                         <div class="  col-sm-12 col-lg-6">
@@ -134,7 +155,7 @@
                             Card Holder
                         </div>
                         <div class="  col-sm-12 col-lg-6">
-                            {{Subscription.paymentCard.client}}
+                            {{Subscription.paymentCard.cardHolder}}
                         </div>
                     </div>
                     <div class="row col-12  mt-3">
@@ -142,7 +163,7 @@
                             Expiration Date
                         </div>
                         <div class="  col-sm-12 col-lg-6">
-                            {{Subscription.paymentCard.expirationDate}}
+                            {{Subscription.paymentCard.expirationDate | date: 'MM/yyyy' }}
                         </div>
                     </div>
                 </mat-card>
