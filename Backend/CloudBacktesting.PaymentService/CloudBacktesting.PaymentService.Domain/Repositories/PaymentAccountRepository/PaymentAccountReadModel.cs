@@ -9,6 +9,8 @@ namespace CloudBacktesting.PaymentService.Domain.Repositories.PaymentAccountRepo
 {
     public class PaymentAccountReadModel : IReadModel, IMongoDbReadModel
         , IAmReadModelFor<PaymentAccount, PaymentAccountId, PaymentAccountCreatedEvent>
+        , IAmReadModelFor<PaymentAccount, PaymentAccountId, PaymentMethodLinkedEvent>
+
     {
         public string Id { get; private set; }
         public long? Version { get; set; }
@@ -20,6 +22,11 @@ namespace CloudBacktesting.PaymentService.Domain.Repositories.PaymentAccountRepo
             Id = string.IsNullOrEmpty(Id) ? domainEvent.AggregateIdentity.Value : Id;
             Client = domainEvent.AggregateEvent.Client;
             CreationDate = DateTime.UtcNow;
+        }
+
+        public void Apply(IReadModelContext context, IDomainEvent<PaymentAccount, PaymentAccountId, PaymentMethodLinkedEvent> domainEvent)
+        {
+            throw new NotImplementedException();
         }
     }
 }

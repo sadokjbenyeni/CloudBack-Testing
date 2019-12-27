@@ -10,7 +10,7 @@ using EventFlow.DependencyInjection.Extensions;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Events;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository;
 using CloudBacktesting.SubscriptionService.WebAPI.Host.DatabaseSettings;
-using CloudBacktesting.Infra.EventFlow.Queries;*
+using CloudBacktesting.Infra.EventFlow.Queries;
 using CloudBacktesting.Infra.EventFlow.MongoDb.Queries;
 using CloudBacktesting.Infra.EventFlow.ReadStores;
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate.Commands;
@@ -19,12 +19,10 @@ using CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation;
 using CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Publishers;
 using CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Consumers;
 using RabbitMQ.Client;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
 using CloudBacktesting.Infra.Security;
 using Microsoft.AspNetCore.Authorization;
 using CloudBacktesting.Infra.Security.Authorization;
-using System;
 //using Microsoft.Extensions.Hosting;
 
 namespace CloudBacktesting.SubscriptionService.WebAPI.Host

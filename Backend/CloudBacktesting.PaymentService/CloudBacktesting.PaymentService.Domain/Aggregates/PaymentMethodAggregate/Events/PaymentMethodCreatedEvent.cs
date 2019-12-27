@@ -12,16 +12,16 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
         public string PaymentAccountId { get; set; }
         public string CardNumber { get; set; }
         public string CardType { get; set; }
-        public string Cryptogram { get; set; }
+        public string CardHolder { get; set; }
         public DateTime ExpirationDate { get; set; }
 
-        public PaymentMethodCreatedEvent(string methodId, string paymentAccountId, string cardNumber, string cardType, string cryptogram, DateTime expirationDate)
+        public PaymentMethodCreatedEvent(string methodId, string paymentAccountId, string cardNumber, string cardType, string cardHolder, DateTime expirationDate)
         {
             MethodId = methodId;
             PaymentAccountId = paymentAccountId;
             CardNumber = cardNumber;
             CardType = cardType;
-            Cryptogram = cryptogram;
+            CardHolder = cardHolder;
             ExpirationDate = expirationDate;
         }
     }

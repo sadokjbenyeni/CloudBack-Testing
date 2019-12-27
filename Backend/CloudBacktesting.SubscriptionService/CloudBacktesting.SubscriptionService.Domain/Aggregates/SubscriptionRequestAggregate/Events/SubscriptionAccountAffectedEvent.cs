@@ -8,7 +8,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
         public SubscriptionAccountAffectedEvent(string subscriber, int orderId)
         {
             OrderId = orderId;
-            this.Subscriber = subscriber;
+            Subscriber = subscriber;
         }
 
         public int OrderId { get; set; }

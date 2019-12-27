@@ -26,7 +26,7 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation
                 domainEvent.AggregateIdentity.Value,
                 domainEvent.AggregateEvent.CardNumber,
                 domainEvent.AggregateEvent.CardType,
-                domainEvent.AggregateEvent.Cryptogram,
+                domainEvent.AggregateEvent.CardHolder,
                 domainEvent.AggregateEvent.ExpirationDate);
 
             this.Publish(command);
@@ -34,7 +34,7 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation
             this.Emit(new PaymentAccountLinkedSagaEvent(domainEvent.AggregateIdentity.Value,
                                                         domainEvent.AggregateEvent.CardNumber,
                                                         domainEvent.AggregateEvent.CardType,
-                                                        domainEvent.AggregateEvent.Cryptogram,
+                                                        domainEvent.AggregateEvent.CardHolder,
                                                         domainEvent.AggregateEvent.ExpirationDate));
             return Task.CompletedTask;
         }

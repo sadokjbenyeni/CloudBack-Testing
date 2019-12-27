@@ -46,45 +46,45 @@ namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionR
 
         public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionAccountAffectedEvent> domainEvent)
         {
-            this.Subscriber = domainEvent.AggregateEvent.Subscriber;
+            Subscriber = domainEvent.AggregateEvent.Subscriber;
             OrderId = domainEvent.AggregateEvent.OrderId;
         }
 
         public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestStatusUpdatedEvent> domainEvent)
         {
-            this.Status = domainEvent.AggregateEvent.Status;
+            Status = domainEvent.AggregateEvent.Status;
         }
         public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestValidatedEvent> domainEvent)
         {
-            this.IsSystemValidated = true;
+            IsSystemValidated = true;
         }
         public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestRejectedEvent> domainEvent)
         {
-            this.Subscriber = domainEvent.AggregateEvent.Subscriber;
-            this.DeclineMessage = domainEvent.AggregateEvent.Message;
-            this.IsSystemValidated = false;
-            this.RejectedDate = domainEvent.AggregateEvent.SystemRejectedDate;
+            Subscriber = domainEvent.AggregateEvent.Subscriber;
+            DeclineMessage = domainEvent.AggregateEvent.Message;
+            IsSystemValidated = false;
+            RejectedDate = domainEvent.AggregateEvent.SystemRejectedDate;
             OrderId = domainEvent.AggregateEvent.OrderId;
         }
 
         public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestManualValidatedEvent> domainEvent)
         {
-            this.IsManualValidated = true;
-            this.ValidatedOrDeclinedDate = domainEvent.AggregateEvent.ManualValidatedDate;
+            IsManualValidated = true;
+            ValidatedOrDeclinedDate = domainEvent.AggregateEvent.ManualValidatedDate;
         }
 
         public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestManualDeclinedEvent> domainEvent)
         {
-            this.IsManualValidated = false;
-            this.DeclineMessage = domainEvent.AggregateEvent.Message;
-            this.ValidatedOrDeclinedDate = domainEvent.AggregateEvent.ManualDeclinedDate;
+            IsManualValidated = false;
+            DeclineMessage = domainEvent.AggregateEvent.Message;
+            ValidatedOrDeclinedDate = domainEvent.AggregateEvent.ManualDeclinedDate;
         }
 
         public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestManualConfiguredEvent> domainEvent)
         {
-            this.IsManualConfigured = true;
-            this.ActivatedDate = domainEvent.AggregateEvent.ActivatedDate;
-            this.ActivationMessage = domainEvent.AggregateEvent.Message;
+            IsManualConfigured = true;
+            ActivatedDate = domainEvent.AggregateEvent.ActivatedDate;
+            ActivationMessage = domainEvent.AggregateEvent.Message;
         }
     }
 }
