@@ -18,10 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\BillingItem\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CloudBacktesting.MongoDb\CloudBacktesting.MongoDb.csproj" />
     <ProjectReference Include="..\CloudBacktesting.PaymentService.Domain\CloudBacktesting.PaymentService.Domain.csproj" />
     <ProjectReference Include="..\CloudBacktesting.PaymentService.Infra.EventFlow\CloudBacktesting.Infra.EventFlow.csproj" />

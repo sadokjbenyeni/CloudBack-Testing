@@ -66,7 +66,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
                 return BadRequest($"Access error, please contact the administrator with error id: {idError}");
             }
             var readModel = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<SubscriptionRequestReadModel>(new SubscriptionRequestId(id)), CancellationToken.None);
-            if(!string.Equals(readModel.SubscriptionAccountId, this.User.GetUserIdentifier()?.Value, StringComparison.InvariantCultureIgnoreCase)) // FAIL => If the ID is not for subscription account defined
+            if (!string.Equals(readModel.SubscriptionAccountId, this.User.GetUserIdentifier()?.Value, StringComparison.InvariantCultureIgnoreCase)) // FAIL => If the ID is not for subscription account defined
             {
                 return NotFound("This subscription request is not found");
             }
@@ -75,7 +75,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
 
         private static SubscriptionRequestReadModelDto ToDto(SubscriptionRequestReadModel readModel)
         {
-            if(readModel == null)
+            if (readModel == null)
             {
                 return null;
             }
@@ -95,7 +95,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
                 RejectedDate = readModel.RejectedDate,
                 IsManualConfigured = readModel.IsManualConfigured,
                 ActivatedDate = readModel.ActivatedDate,
-    };
+            };
         }
 
         [HttpPost]
@@ -121,7 +121,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
                 commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
                 if (commandResult.IsSuccess)
                 {
-                    return Ok(new IdentifierDto{ Id = command.AggregateId.Value });
+                    return Ok(new IdentifierDto { Id = command.AggregateId.Value });
                 }
             }
             catch (AggregateException aggregateEx)
@@ -135,7 +135,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             var errorIdentifier = Guid.NewGuid().ToString();
             logger.LogError($"[Business, Error] | '{errorIdentifier}' | SubscriptionRequest for {this.User?.Identity?.Name} has not been created.");
             logger.LogDebug($"[Business, Error, Message] | '{errorIdentifier}' | Error messages:{Environment.NewLine}{string.Join(Environment.NewLine, ((FailedExecutionResult)commandResult).Errors)}");
-            return BadRequest($"Creation of subscription failed. Please contact support with error's identifier {errorIdentifier}");
+            return BadRequest($"Creation of subscription failed. Please contact support with error's identifier {errorIdentifier}");                                                            
         }
 
     }
