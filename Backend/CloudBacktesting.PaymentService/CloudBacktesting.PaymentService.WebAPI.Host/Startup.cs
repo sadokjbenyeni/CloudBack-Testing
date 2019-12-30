@@ -1,14 +1,11 @@
-﻿using CloudBacktesting.Infra.Security;
-using CloudBacktesting.Infra.Security.Authorization;
-using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Commands;
+﻿using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Commands;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Events;
+using CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation;
 using CloudBacktesting.PaymentService.WebAPI.Host.DatabaseSettings;
 using EventFlow.AspNetCore.Extensions;
 using EventFlow.AspNetCore.Middlewares;
 using EventFlow.DependencyInjection.Extensions;
 using EventFlow.Extensions;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -59,11 +56,11 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
                                        .AddEvents(typeof(PaymentAccountCreatedEvent).Assembly)
                                        .AddCommands(typeof(PaymentAccountCreationCommand).Assembly, type => true)
                                        .AddCommandHandlers(typeof(PaymentAccountCreationCommandHandler).Assembly)
-                                       //.AddSagas(typeof(SubscriptionCreationSaga).Assembly)
-                                       //.AddSagaLocators(typeof(SubscriptionCreationSagaLocator).Assembly)
-                                       //.AddEvents(typeof(SubscriptionRequestCreatedEvent))
-                                       //.AddCommands(typeof(SubscriptionRequestCreationCommand))
-                                       //.AddCommandHandlers(typeof(SubscriptionRequestCreationCommandHandler))
+                                       .AddSagas(typeof(PaymentCreationSaga).Assembly)
+                                       .AddSagaLocators(typeof(PaymentCreationSagaLocator).Assembly)
+                                       ////.AddEvents(typeof(PaymentMethodCreatedEvent))
+                                       ////.AddCommands(typeof(PaymentMethodCreationCommand))
+                                       ////.AddCommandHandlers(typeof(PaymentMethodCreationCommandHandler))
                                        //.UseMongoDbEventStore()
                                        //.ConfigureMongoDb(configMongo.ConnectionString, configMongo.DatabaseName)
                                        //.UseConsoleLog()
