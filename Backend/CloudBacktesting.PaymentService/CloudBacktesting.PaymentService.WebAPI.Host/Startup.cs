@@ -1,16 +1,22 @@
-﻿using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Commands;
+﻿using CloudBacktesting.Infra.Security;
+using CloudBacktesting.Infra.Security.Authorization;
+using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Commands;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Events;
 using CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation;
+using CloudBacktesting.PaymentService.Infra.Security;
 using CloudBacktesting.PaymentService.WebAPI.Host.DatabaseSettings;
 using EventFlow.AspNetCore.Extensions;
 using EventFlow.AspNetCore.Middlewares;
 using EventFlow.DependencyInjection.Extensions;
 using EventFlow.Extensions;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Serialization;
 
 namespace CloudBacktesting.PaymentService.WebAPI.Host
 {
@@ -28,13 +34,22 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddMvc();
+            services.AddRazorPages();
+            services.AddMvc().AddNewtonsoftJson();
+            services.AddControllers().AddNewtonsoftJson();
+            services.AddMvc().AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
             services.AddControllers();
-            //services.AddAuthentication("cloudbacktestingAuthentication")
-            //        .AddScheme<AuthenticationSchemeOptions, CloudBacktestingAuthenticationHandler>("cloudbacktestingAuthentication", options => { });
-            ////services.AddAuthorization();
+            services.AddSingleton(new DecoderAuthentificationHandlerOptions() { HeaderName = "token" });
 
-            //services.AddSingleton<IAuthorizationPolicyProvider, CloudBacktestingAuthorizationPolicyProvider>();
-            //services.AddSingleton<IAuthorizationHandler, CloudBacktestingAuthorizationHandler>();
+            services.AddAuthentication("cloudbacktestingAuthentication")
+                    .AddScheme<AuthenticationSchemeOptions, CloudBacktestingAuthenticationHandler>("cloudbacktestingAuthentication", options => { });
+
+
+            services.AddSingleton<IAuthorizationPolicyProvider, CloudBacktestingAuthorizationPolicyProvider>();
+            services.AddSingleton<IAuthorizationHandler, CloudBacktestingAuthorizationHandler>();
+
+            services.AddAuthorization();
 
             services.AddSwaggerGen(options => options.SwaggerDoc("V1", new Microsoft.OpenApi.Models.OpenApiInfo() { Title = "Payment Api", Version = "V1" }));
 
@@ -77,18 +92,23 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseHsts();
+            }
 
-            app.UseHttpsRedirection();
-            app.UseSwagger();
             app.UseCors("AllowAllOrigins");
+            app.UseAuthentication();
+            app.UseSwagger();
             app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/V1/swagger.json", "Payment Api"));
-            app.UseRouting();
-            //app.UseAuthentication();
-            //app.UseAuthorization();
+            app.UseHttpsRedirection();
             ConfigureEventFlow(app);
+
+            app.UseRouting();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapRazorPages();
             });
         }
 

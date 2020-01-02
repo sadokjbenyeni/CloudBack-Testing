@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using System.IO;
 
 namespace CloudBacktesting.PaymentService.WebAPI.Host
 {
@@ -15,16 +16,45 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
         //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
         //    WebHost.CreateDefaultBuilder(args)
         //           .UseStartup<Startup>();
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+        //public static void Main(string[] args)
+        //{
+        //    CreateHostBuilder(args).Build().Run();
+        //}
+
+        //public static IHostBuilder CreateHostBuilder(string[] args) =>
+        //    Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
+        //        .ConfigureWebHostDefaults(webBuilder =>
+        //        {
+        //            webBuilder.UseStartup<Startup>();
+        //        });
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
+               Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(webBuilder =>
+        {
+            webBuilder.ConfigureKestrel(serverOptions =>
+            {
+                // Set properties and call methods on options
+            })
+            .UseStartup<Startup>();
+        });
+
+        public static void Main(string[] args)
+        {
+            var host = new HostBuilder()
+                .UseContentRoot(Directory.GetCurrentDirectory())
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
-                });
+                    webBuilder.UseKestrel(serverOptions =>
+                    {
+                // Set properties and call methods on options
+                    })
+                    .UseIISIntegration()
+                    .UseStartup<Startup>();
+                })
+                .Build();
+
+            host.Run();
+        }
     }
 }
