@@ -34,33 +34,15 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddMvc();
-            services.AddRazorPages();
-            services.AddMvc().AddNewtonsoftJson();
-            services.AddControllers().AddNewtonsoftJson();
-            services.AddMvc().AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
             services.AddControllers();
-            services.AddSingleton(new DecoderAuthentificationHandlerOptions() { HeaderName = "token" });
-
             services.AddAuthentication("cloudbacktestingAuthentication")
                     .AddScheme<AuthenticationSchemeOptions, CloudBacktestingAuthenticationHandler>("cloudbacktestingAuthentication", options => { });
-
-
             services.AddSingleton<IAuthorizationPolicyProvider, CloudBacktestingAuthorizationPolicyProvider>();
             services.AddSingleton<IAuthorizationHandler, CloudBacktestingAuthorizationHandler>();
-
-            services.AddAuthorization();
-
             services.AddSwaggerGen(options => options.SwaggerDoc("V1", new Microsoft.OpenApi.Models.OpenApiInfo() { Title = "Payment Api", Version = "V1" }));
-
             var configMongo = new PaymentDatabaseSettings();
             Configuration.Bind("PaymentDatabaseSettings", configMongo);
             AddEventFlow(services, configMongo);
-            services.AddCors(options =>
-           options.AddPolicy("AllowAllOrigins", builder =>
-           {
-               builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-           }));
         }
 
         protected virtual IServiceCollection AddEventFlow(IServiceCollection services, PaymentDatabaseSettings configMongo)
@@ -92,23 +74,17 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
 
-            app.UseCors("AllowAllOrigins");
-            app.UseAuthentication();
+            app.UseHttpsRedirection();
             app.UseSwagger();
             app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/V1/swagger.json", "Payment Api"));
-            app.UseHttpsRedirection();
-            ConfigureEventFlow(app);
-
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
+            ConfigureEventFlow(app);
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
         }
 

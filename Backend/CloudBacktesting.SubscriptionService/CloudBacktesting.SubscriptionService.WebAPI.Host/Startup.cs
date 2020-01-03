@@ -113,6 +113,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
             {
                 app.UseHsts();
             }
+
             app.UseCors("AllowAllOrigins"); 
             app.UseAuthentication();
             //app.UseAuthorization();

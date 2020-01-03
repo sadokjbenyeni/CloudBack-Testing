@@ -55,7 +55,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
             return Ok(result.Select(ToDto).ToList());
         }
 
-        [HttpGet("{id")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
             if (this.User == null || !this.User.Identity.IsAuthenticated)
