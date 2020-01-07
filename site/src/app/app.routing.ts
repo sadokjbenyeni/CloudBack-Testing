@@ -1,6 +1,5 @@
-import { LoginPageComponent } from './components/login-page/login-page.component';
-import { MenuComponent } from './components/menu/menu.component';
-import { DialogEntryComponent } from './components/dialog-entry/dialog-entry.component';
+import { PasswordResetComponent } from './components/login/password-reset/password-reset.component';
+import { ActivationComponent } from './components/activation/activation.component';
 import { Routes } from '@angular/router';
 
 // Guards
@@ -14,41 +13,51 @@ import { CountriesComponent } from './components/admin/countries/countries.compo
 import { TermsComponent } from './components/admin/terms/terms.component';
 
 // Site Clients
-import { HomeComponent } from './components/home/home.component';
 import { AboutComponent } from './components/about/about.component';
 import { HelpPageComponent } from './components/help-page/help-page.component';
-import { LoginComponent } from './components/login/login.component';
 import { SignUpComponent } from './components/signup/signup.component';
-import { OurMissionComponent } from './components/our-mission/our-mission.component';
 import { ProductsComponent } from './components/products/products.component';
 import { PricingComponent } from './components/pricing/pricing.component';
-import { Component } from '@angular/core';
+import { LoginPageComponent } from './components/login/login-page/login-page.component';
 import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurrency.component';
+import { OnBoardingComponent } from './components/on-boarding/on-boarding.component';
+import { MutualizedSubscriptionComponent } from './components/mutualized-subscription/mutualized-subscription.component';
+import { SubscriptionsValidationComponent } from './components/subscriptions-validation/subscriptions-validation.component';
+import { SubscriptionsacceptedComponent } from './components/subscriptions-accepted/subscriptions-accepted.component';
+import { PaymentComponent } from './components/payment/payment.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/on-boarding', pathMatch: 'full' },
 
   // CLIENT
   { path: 'account', component: SignUpComponent, canActivate: [GuardGuard] },
+  { path: 'subscription/mutualized', component: MutualizedSubscriptionComponent, canActivate: [GuardGuard] },
+  // { path: 'AddPaymentCard', component: AddPaymentCardComponent, canActivate: [GuardGuard] },
+  // { path: 'GetPaymentCards', component: GetPaymentCardsComponent, canActivate: [GuardGuard] },
+  { path: 'payment', component: PaymentComponent, canActivate: [GuardGuard] },
+
 
   // ADMINISTRATOR
   { path: 'admin/profil/:id', component: UserDetailComponent, canActivate: [GuardGuard] },
+  { path: 'subscriptions-validation', component: SubscriptionsValidationComponent, canActivate: [GuardGuard] },
+  { path: 'subscriptions-accepted', component: SubscriptionsacceptedComponent, canActivate: [GuardGuard] },
+
   { path: 'admin/users', component: UsersComponent, canActivate: [GuardGuard] },
   { path: 'admin/role', component: RoleComponent, canActivate: [GuardGuard] },
   { path: 'admin/countries', component: CountriesComponent, canActivate: [GuardGuard] },
   { path: 'admin/terms', component: TermsComponent, canActivate: [GuardGuard] },
+
   // NO LOGIN NEEDED
+  { path: 'on-boarding', component: OnBoardingComponent },
   { path: 'cryptocurrency', component: CryptocurrencyComponent },
-  { path: 'our-missions', component: OurMissionComponent },
   { path: 'products', component: ProductsComponent },
   { path: 'pricing', component: PricingComponent },
   { path: 'about', component: AboutComponent },
   { path: 'help', component: HelpPageComponent },
   { path: 'signup', component: SignUpComponent },
   { path: 'login', component: LoginPageComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'activation/:token', component: LoginComponent },
-  { path: 'mdp/:token', component: LoginComponent },
-  { path: '**', component: HomeComponent }
+  { path: 'activation/:token', component: ActivationComponent },
+  { path: 'mdp/:token', component: PasswordResetComponent },
+  { path: '**', component: OnBoardingComponent }
 
 ];

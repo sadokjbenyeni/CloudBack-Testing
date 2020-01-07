@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-xl navbar-fixed-top navbar-light bg-light pt-0 pb-0 navbarontop">
+<nav class="navbar navbar-expand-xl fixed-top navbar-light bg-light pt-0 pb-0 navbarontop">
   <img id="logo" src="assets/img/quanthouse_logo.png" class="pr-2 mr-2 navbarbrandheight" title="Quanthouse"
-    alt="logo Quanthouse" (click)="ToHome()">
+    alt="logo Quanthouse" [routerLink]="['/on-boarding']">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
     aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -8,19 +8,26 @@
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto respfontsize">
       <li class="nav-item ">
-        <a class="nav-link  mr-0 ml-0" routerLink="/">Home</a>
+        <a class="nav-link  mr-0 ml-0" (click)="goto('home')" [routerLink]="['/on-boarding']"
+          [queryParams]="{'scrollTo':'home'}">Home</a>
       </li>
       <li class="nav-item ">
-        <a class="nav-link   mr-0 ml-0 " routerLink="/pricing">Pricing</a>
+        <a class="nav-link   mr-0 ml-0 " (click)="goto('pricing')" [routerLink]="['/on-boarding']"
+          [queryParams]="{'scrollTo':'pricing'}">Pricing</a>
       </li>
       <li class="nav-item ">
-        <a class="nav-link   mr-0 ml-0 " routerLink="/cryptocurrency">Cryptocurrency</a>
+        <a class="nav-link   mr-0 ml-0 " (click)="goto('cryptocurrency')" [routerLink]="['/on-boarding']"
+          [queryParams]="{'scrollTo':'cryptocurrency'}">Cryptocurrency</a>
       </li>
       <li class="nav-item ">
-        <a class="nav-link   mr-0 ml-0 " routerLink="/about">About QH</a>
+        <a class="nav-link   mr-0 ml-0 " (click)="goto('products')" [routerLink]="['/on-boarding']"
+          [queryParams]="{'scrollTo':'products'}">Products</a>
       </li>
       <li class="nav-item ">
-        <a class="nav-link  mr-0 ml-0 " routerLink="/help">Help</a>
+        <a class="nav-link   mr-0 ml-0 " [routerLink]="['/about']">About QH</a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link  mr-0 ml-0 " [routerLink]="['/help']">Help</a>
       </li>
     </ul>
     <span class="navbar-left ">
@@ -42,6 +49,7 @@
           </a>
           <div class=" dropdown-menu dropdown-menu-right col-sm-12 respfontsize" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" routerLink="/account">My Profile</a>
+            <a class="dropdown-item" routerLink="/payment">My cards</a>
             <a class="dropdown-item" (click)="logout()">Logout</a>
           </div>
         </li>

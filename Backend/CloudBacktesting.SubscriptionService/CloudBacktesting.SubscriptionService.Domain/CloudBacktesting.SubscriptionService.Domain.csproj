@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Sagas\SubscriptionAccountSaga\**" />
+    <Compile Remove="Sagas\SubscriptionRequestSaga\**" />
+    <EmbeddedResource Remove="Sagas\SubscriptionAccountSaga\**" />
+    <EmbeddedResource Remove="Sagas\SubscriptionRequestSaga\**" />
+    <None Remove="Sagas\SubscriptionAccountSaga\**" />
+    <None Remove="Sagas\SubscriptionRequestSaga\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EventFlow" Version="0.76.4014" />
+    <PackageReference Include="EventFlow.MongoDB" Version="0.76.4014" />
+    <PackageReference Include="MongoDB.Driver" Version="2.10.0-beta1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CloudBacktesting.MongoDb\CloudBacktesting.MongoDb.csproj" />
+    <ProjectReference Include="..\CloudBacktesting.SubscriptionService.Infra\CloudBacktesting.SubscriptionService.Infra.csproj" />
+  </ItemGroup>
+
+</Project>

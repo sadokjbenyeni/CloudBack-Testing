@@ -8,17 +8,17 @@ import { DataService } from '../../data.service';
 })
 export class HomeComponent implements OnInit {
 
-  search: string;
+  // search: string;
 
   constructor(private data: DataService) {
-     }
+  }
 
   ngOnInit() {
-    this.data.currentSearch.subscribe(search => this.search = search);
+    // this.data.currentSearch.subscribe(search => this.search = search);
   }
 
-  changeSearch(dataset, search) {
-    sessionStorage.setItem('dataset', JSON.stringify({ dataset: dataset, title: search }));
-    this.data.changeSearch(search);
-  }
+  // changeSearch(dataset, search) {
+  //   sessionStorage.setItem('dataset', JSON.stringify({ dataset: dataset, title: search }));
+  //   this.data.changeSearch(search);
+  // }
 }

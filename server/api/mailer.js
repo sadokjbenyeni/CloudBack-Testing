@@ -1,12 +1,11 @@
-const app = require('express')();
 const router = require('express').Router();
 const nodemailer = require("nodemailer");
 const config = require('../config/config.js');
 // const domain = config.domain();
-const admin = config.admin();
-const URLS = config.config();
 const SMTP = config.smtpconf();
 const sgMail = require('@sendgrid/mail');
+
+sgMail.setApiKey("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");
 
 const smtpTransport = nodemailer.createTransport({
   host: SMTP.host,
@@ -21,7 +20,8 @@ const smtpTransport = nodemailer.createTransport({
 });
 
 router.post('/inscription', (req, res, next) => {
-  sgMail.setApiKey("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");
+  // sgMail.setApiKey("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");
+  console.log("sending activation mail from the webapi");
   const msg = {
     to: req.body.email,
     from: 'no-replay@cloudbacktesting.com',
@@ -47,9 +47,12 @@ router.post('/inscription', (req, res, next) => {
   };
   try {
     sgMail.send(msg);
-    return res.json({ mail: true }).statusCode(200);
-  } catch   {
-    return res.json({ mail: true }).statusCode(500);
+    console.log("Mail sent!");
+
+    return res.status(200).json({ mail: true });
+  } catch (error) {
+    console.log("error in sending mail for the following reason :" + error)
+    return res.status(500).json({ mail: true });
   }
   // let mailOptions = {
   //   from: 'no-reply@quanthouse.com',
@@ -179,12 +182,19 @@ router.post('/mdp', (req, res, next) => {
     If you have received this email by error, you do not need to take any action. Your password will remain unchanged.<br><br>
     <b>The Quanthouse team</b>`
   };
-  smtpTransport.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return console.log(error);
-    }
-    return res.json({ mail: true }).statusCode(200);
-  });
+  // smtpTransport.sendMail(mailOptions, (error, info) => {
+  //   if (error) {
+  //     return console.log(error);
+  //   }
+  //   return res.json({ mail: true }).statusCode(200);
+  // });
+  try {
+    sgMail.send(mailOptions);
+    return res.status(200).json({ mail: true });
+  } catch
+  {
+    return res.status(500).json({ mail: true });
+  }
 });
 
 router.post('/newOrder', (req, res, next) => {

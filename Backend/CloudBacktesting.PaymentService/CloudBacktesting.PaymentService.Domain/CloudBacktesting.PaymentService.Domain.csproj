@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Specifications\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EventFlow" Version="0.77.4077" />
+    <PackageReference Include="EventFlow.MongoDB" Version="0.77.4077" />
+    <PackageReference Include="MongoDB.Driver" Version="2.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CloudBacktesting.MongoDb\CloudBacktesting.MongoDb.csproj" />
+    <ProjectReference Include="..\CloudBacktesting.PaymentService.Infra\CloudBacktesting.PaymentService.Infra.csproj" />
+  </ItemGroup>
+
+</Project>

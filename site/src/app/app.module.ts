@@ -1,12 +1,11 @@
 import { LoginService } from './services/login.service';
-import { MatDialogRef } from '@angular/material';
 import { AuthentificationService } from './services/authentification.service';
 import { MaterialModule } from './components/material/material.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { routes } from './app.routing';
 // Guard
 import { GuardGuard } from './guard.guard';
@@ -18,15 +17,13 @@ import { TelephoneValidatorDirective } from './validators/telephone-validator.di
 import { MdpValidatorDirective } from './validators/mdp-validator.directive';
 import { DateValidatorDirective } from './validators/date-validator.directive';
 // Components
-  // All
+// All
 import { MenuComponent } from './components/menu/menu.component';
-  // Clients
+// Clients
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/login/login.component';
+import { LoginDialogComponent } from './components/login/login-dialog/login-dialog.component';
 import { SignUpComponent } from './components/signup/signup.component';
-import { AboutComponent } from './components/about/about.component';
-import { HelpPageComponent } from './components/help-page/help-page.component';
+
 // Administrators
 import { ConfigurationComponent } from './components/admin/configuration/configuration.component';
 import { RoleComponent } from './components/admin/role/role.component';
@@ -66,23 +63,48 @@ import { NgbdModalContent } from './modal-content';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { CdkTableModule } from '@angular/cdk/table';
 import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.component';
-import { OurMissionComponent } from './components/our-mission/our-mission.component';
-import { DialogEntryComponent } from './components/dialog-entry/dialog-entry.component';
-import { ProductsComponent } from './components/products/products.component';
-import { LoginPageComponent } from './components/login-page/login-page.component';
+import { LoginPageComponent } from './components/login/login-page/login-page.component';
+import { HomeComponent } from './components/home/home.component';
 import { PricingComponent } from './components/pricing/pricing.component';
+import { ProductsComponent } from './components/products/products.component';
+import { ActivationComponent } from './components/activation/activation.component';
+import { AboutComponent } from './components/about/about.component';
+import { HelpPageComponent } from './components/help-page/help-page.component';
 import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurrency.component';
+import { OnBoardingComponent } from './components/on-boarding/on-boarding.component';
+
+import { PasswordComponent } from './components/login/password/password.component';
+import { PasswordResetComponent } from './components/login/password-reset/password-reset.component';
 // import { PdfComponent } from './components/commun/pdf/pdf.component';
+import { NotifierModule } from "angular-notifier";
+import { MutualizedSubscriptionComponent } from './components/mutualized-subscription/mutualized-subscription.component';
+import { AuthInterceptor } from './services/auth.interceptor';
+import { SubscriptionsValidationComponent } from './components/subscriptions-validation/subscriptions-validation.component';
+import { SubscriptionService } from './services/subscription.service';
+import { RejectionMessageDialogComponent } from './components/rejection-message-dialog/rejection-message-dialog.component';
+import { ConfirmationPopupComponent } from './components/confirmation-popup/confirmation-popup.component';
+import { SubscriptionsacceptedComponent } from './components/subscriptions-accepted/subscriptions-accepted.component';
+import { SubscriptionConfigurationPopupComponent } from './components/subscription-configuration-popup/subscription-configuration-popup';
+import { GetPaymentCardsComponent } from './components/get-payment-cards/get-payment-cards.component';
+import { AddPaymentCardComponent } from './components/add-payment-card/add-payment-card.component';
+import { PaymentComponent } from './components/payment/payment.component';
+import { EnumToArrayPipe } from './EnumToList';
+import { PaymentService } from './services/payment.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
+    LoginDialogComponent,
     SignUpComponent,
     MenuComponent,
-    HomeComponent,
     LoginPageComponent,
-    
+    HomeComponent,
+    PricingComponent,
+    CryptocurrencyComponent,
+    OnBoardingComponent,
+    ProductsComponent,
+    AboutComponent,
+    HelpPageComponent,
     UsersComponent,
     UserDetailComponent,
     ShowErrorsComponent,
@@ -96,21 +118,28 @@ import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurre
     RoleComponent,
     CountriesComponent,
     TermsComponent,
-    AboutComponent,
-    HelpPageComponent,
     CeilPipe,
+    EnumToArrayPipe,
     SafeHtmlPipePipe,
     NgbdModalContent,
     ComCountriesComponent,
     TermsOfUseComponent,
-    OurMissionComponent,
-    DialogEntryComponent,
     LoginPageComponent,
-    ProductsComponent,
-    PricingComponent,
-    CryptocurrencyComponent,
+    ActivationComponent,
+    PasswordComponent,
+    PasswordResetComponent,
+    MutualizedSubscriptionComponent,
+    SubscriptionsValidationComponent,
+    RejectionMessageDialogComponent,
+    ConfirmationPopupComponent,
+    SubscriptionsacceptedComponent,
+    SubscriptionConfigurationPopupComponent,
+    GetPaymentCardsComponent,
+    AddPaymentCardComponent,
+    PaymentComponent,
+
   ],
-  entryComponents:[NgbdModalContent, HomeComponent, LoginComponent, TermsOfUseComponent],
+  entryComponents: [NgbdModalContent, LoginDialogComponent, PasswordComponent, PasswordResetComponent, TermsOfUseComponent, RejectionMessageDialogComponent,ConfirmationPopupComponent,SubscriptionConfigurationPopupComponent],
   imports: [
     MaterialModule,
     BrowserModule,
@@ -120,17 +149,17 @@ import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurre
     DataTablesModule,
     CdkTableModule,
     BrowserAnimationsModule,
-
     // NgbModule.forRoot(),
     NgbModule,
-
+    ReactiveFormsModule,
     //Ng2BootstrapModule,
     RecaptchaModule.forRoot(),
     PdfViewerModule,
-    FormsModule,    
+    FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
-    ],
+    NotifierModule.withConfig({}),
+  ],
   providers: [
     GuardGuard,
     ConfigService,
@@ -142,9 +171,17 @@ import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurre
     ComplianceService,
     CompanytypesService,
     AuthentificationService,
-    LoginService
+    LoginService,
+    SubscriptionService,
+    PaymentService,
+    {
+      provide:HTTP_INTERCEPTORS,
+      useClass:AuthInterceptor,
+      multi:true
+    }
     // FilterPipe
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

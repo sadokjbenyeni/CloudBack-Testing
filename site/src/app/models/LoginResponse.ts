@@ -1,4 +1,4 @@
-export interface LoginResponse {
+export class LoginResponse {
     valid: boolean;
     message: String;
     token: String;

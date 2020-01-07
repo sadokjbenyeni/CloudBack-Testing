@@ -1,0 +1,236 @@
+<app-menu></app-menu>
+<div class="container  col-8 pt-4 mt-4  d-block">
+    <h1 class="py-3 my-3 text-center">Mutualized subscription</h1>
+    <div class="col-12">
+
+        <mat-horizontal-stepper *ngIf='Countries!=undefined; else loading' linerar #stepper class="col-12"
+            [linear]="true" #subscriptionstepper>
+            <mat-step [stepControl]="CgvFormGroup" class="col-12">
+                <form [formGroup]="CgvFormGroup">
+                    <p class="termsofsale border rounded"> {{Subscription.cgv.description}} </p>
+                    <ng-template matStepLabel>General condition of sale</ng-template>
+                    <div class="col-12 row text-right pr-0">
+                        <div class="col mt-2">
+                            <mat-checkbox class="col-12 pr-0" formControlName="cgvCrtl" (change)="showOptions($event)"
+                                required> I read and I agree with general condition
+                                of
+                                sale</mat-checkbox>
+                        </div>
+                        <div class="col-2 pr-0">
+                            <button class="btn btn-primary col-8" matStepperNext>Next</button>
+                        </div>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="PayementFormGroup">
+                <!-- <form class="col-12" [formGroup]="PayementFormGroup"> -->
+                <ng-template matStepLabel>Payement informations</ng-template>
+                <app-payment [showradio]="true" (emitTomother)="GetPaymentMethod($event)"></app-payment>
+                <div class=" col-12 text-right mt-2">
+                    <button class="border mr-2 btn col-1 btn-default" matStepperPrevious>Back</button>
+                    <button class="btn btn-primary col-1 " (click)="goNext(stepper)">Next</button>
+                </div>
+                <!-- </form> -->
+            </mat-step>
+            <mat-step [stepControl]="BillingFormGroup" class="col-12">
+                <form class="col-12" [formGroup]="BillingFormGroup">
+                    <ng-template matStepLabel>Billing informations</ng-template>
+                    <mat-form-field class="col-12">
+                        <input class="col-12" matInput formControlName="VAT" [(ngModel)]="Subscription.billing.vat"
+                            placeholder="VAT Number" required>
+                    </mat-form-field><br>
+                    <mat-form-field class="col-12">
+                        <input class="col-12" matInput formControlName="Address"
+                            [(ngModel)]="Subscription.billing.address" placeholder="Address" required>
+                    </mat-form-field><br>
+                    <mat-form-field class="col-12">
+                        <input class="col-12" matInput formControlName="City" [(ngModel)]="Subscription.billing.city"
+                            placeholder="City" required>
+                    </mat-form-field><br>
+                    <mat-form-field class="col-12">
+                        <input class="col-12" matInput formControlName="Postal"
+                            [(ngModel)]="Subscription.billing.postalCode" placeholder="Postal Code" required>
+                    </mat-form-field><br>
+                    <mat-form-field class="col-12">
+                        <mat-label>Select country</mat-label>
+                        <mat-select class="col-12" name="countryBilling" [(ngModel)]="Subscription.billing.country"
+                            formControlName="Country" required>
+                            <mat-option *ngFor='let country of Countries' [value]="country ">{{country.name}}
+                            </mat-option>
+                        </mat-select><br>
+                    </mat-form-field>
+
+                    <div class=" col-12 text-right">
+                        <button class="border mr-2 btn btn-default col-1" matStepperPrevious>Back</button>
+                        <button class="btn btn-primary col-1" matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Review and validation</ng-template>
+                <mat-card>
+                    <mat-card-title class="col-12 px-0">
+                        <div class="col-12 px-0">General Informations</div>
+                    </mat-card-title>
+                    <div class="row col-12">
+                        <div class="col-sm-12 col-lg-4">
+                            Subscription Type :
+                        </div>
+                        <div class="col-sm-12 col-lg-8">
+                            {{Subscription.subscriptionType}}
+                        </div>
+                    </div>
+                    <div class="row col-12 mt-3">
+                        <div class="col-sm-12 col-lg-4">
+                            Amount :
+                        </div>
+                        <div class="col-sm-12 col-lg-8">
+                            100 $ /Mounth
+                        </div>
+                    </div>
+                    <div class="row col-12 mt-3">
+                        <div class="col-sm-12 col-lg-4">
+                            Description :
+                        </div>
+                        <div class="col-sm-12 col-lg-8">
+                            this is a good description of the mutualized Subsription , it's cool, fun but not
+                            Dedicated.....
+                        </div>
+                    </div>
+                    <div class="row col-12 mt-3">
+                        <div class="col-sm-12 col-lg-4">
+                            General Conditions of Sale :
+                        </div>
+                        <div *ngIf="IscgvAccepted; else rejected" class="col-sm-12 col-lg-8">
+                            Accepted
+                        </div>
+                        <ng-template class="col-sm-12 col-lg-8" #rejected>
+                            Rejected
+                        </ng-template>
+                    </div>
+                </mat-card>
+                <mat-card *ngIf="Subscription.paymentCard != undefined" class="mt-3">
+                    <mat-card-title class=" col-12 px-0">
+                        <div class="row col-12 mx-0 px-0">
+                            <div class="col-10 mx-0 px-0">
+                                Payment informations
+                            </div>
+                            <div class="col-2 mx-0 px-0">
+                                <button class="btn btn-primary pull-right col-lg-6 col-sm-4"
+                                    (click)=goto(1)>Edit</button>
+                            </div>
+                        </div>
+                    </mat-card-title>
+                    <div class="row col-12  mt-3">
+                        <div class="col-lg-4 col-sm-12">
+                            Card Type
+                        </div>
+                        <div class="  col-sm-12 col-lg-6">
+                            <img *ngIf="Subscription.paymentCard.cardType=='Master Card'"
+                                src="https://images-eu.ssl-images-amazon.com/images/G/01/payments-portal/r1/issuer-images/mc._CB393363241_.gif"
+                                class="rounded mx-auto" alt="...">
+                            <img *ngIf="Subscription.paymentCard.cardType=='Visa'"
+                                src="https://images-eu.ssl-images-amazon.com/images/G/01/payments-portal/r1/issuer-images/visa._CB393363241_.png"
+                                class="rounded mx-auto " alt="...">
+                            <img *ngIf="Subscription.paymentCard.cardType=='Discover Card'"
+                                src="https://images-eu.ssl-images-amazon.com/images/G/01/payments-portal/r1/issuer-images/discover._CB393363241_.png"
+                                class="rounded mx-auto  " alt="...">
+                            <img *ngIf="Subscription.paymentCard.cardType=='American Express'"
+                                src="https://images-eu.ssl-images-amazon.com/images/G/08/payments-portal/r1/issuer-images/amex._CB291302739_.gif"
+                                class="rounded mx-auto " alt="...">
+                            <p *ngIf="Subscription.paymentCard.cardType=='Other'"
+                                class="rounded mx-auto " >Other</p>
+                        </div>
+                    </div>
+                    <div class="row col-12  mt-3">
+                        <div class="col-lg-4 col-sm-12">
+                            Card number
+                        </div>
+                        <div class="  col-sm-12 col-lg-6">
+                            {{Subscription.paymentCard.cardNumber}}
+                        </div>
+                    </div>
+                    <div class="row col-12  mt-3">
+                        <div class="col-lg-4 col-sm-12">
+                            Card Holder
+                        </div>
+                        <div class="  col-sm-12 col-lg-6">
+                            {{Subscription.paymentCard.cardHolder}}
+                        </div>
+                    </div>
+                    <div class="row col-12  mt-3">
+                        <div class="col-lg-4 col-sm-12">
+                            Expiration Date
+                        </div>
+                        <div class="  col-sm-12 col-lg-6">
+                            {{Subscription.paymentCard.expirationDate | date: 'MM/yyyy' }}
+                        </div>
+                    </div>
+                </mat-card>
+                <mat-card class="mt-3">
+                    <mat-card-title class=" col-12 px-0">
+                        <div class="row col-12 mx-0 px-0">
+                            <div class="col-10 mx-0 px-0">
+                                Billing Informations
+                            </div>
+                            <div class="col-2 mx-0 px-0">
+                                <button class="btn btn-primary pull-right col-lg-6 col-sm-4"
+                                    (click)=goto(2)>Edit</button>
+                            </div>
+                        </div>
+                    </mat-card-title>
+                    <div class="row col-12  mt-3">
+                        <div class="col-lg-4 col-sm-12">
+                            VAT :
+                        </div>
+                        <div class="  col-sm-12 col-lg-6">
+                            {{Subscription.billing.vat}}
+                        </div>
+                    </div>
+                    <div class="row col-12  mt-3">
+                        <div class="col-lg-4 col-sm-12">
+                            City :
+                        </div>
+                        <div class="col-lg-6 col-sm-12">
+                            {{Subscription.billing.city}}
+                        </div>
+                    </div>
+                    <div class="row col-12  mt-3">
+                        <div class="col-lg-4 col-sm-12">
+                            Country :
+                        </div>
+                        <div *ngIf=Subscription.billing.country class="col-lg-6 col-sm-12">
+                            {{Subscription.billing.country.name}}
+                        </div>
+                    </div>
+                    <div class="row col-12  mt-3">
+                        <div class="col-lg-4 col-sm-12">
+                            Address :
+                        </div>
+                        <div class="col-lg-6 col-sm-12">
+                            {{Subscription.billing.address}}
+                        </div>
+                    </div>
+                    <div class="row col-12  mt-3">
+                        <div class="col-lg-4 col-sm-12">
+                            Postal Code :
+                        </div>
+                        <div class="col-lg-6 col-sm-12">
+                            {{Subscription.billing.postalCode}}
+                        </div>
+                    </div>
+                </mat-card>
+                <!-- <button (click)="goto(0)">Edit</button> -->
+                <div class="col-12 mt-3 text-right">
+                    <button class="col-lg-1 col-sm-12 border mr-2  btn btn-default" matStepperPrevious>Back</button>
+                    <button class="col-lg-1 col-sm-12 btn btn-primary" matStepperAcceptance>Submit</button>
+                </div>
+            </mat-step>
+        </mat-horizontal-stepper>
+        <ng-template #loading>
+            <div class="putcenter">
+                <mat-spinner diameter="200"></mat-spinner>
+            </div>
+        </ng-template>
+    </div>
+</div>

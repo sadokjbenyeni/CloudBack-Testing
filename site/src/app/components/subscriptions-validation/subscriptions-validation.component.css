@@ -1,0 +1,12 @@
+table {
+  width: 100%;
+}
+.truncate-cell {
+  max-width: 60px; /* feel free to include any other value */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.putcenter {
+  padding-top: 15%;
+  padding-left: 40%;
+}

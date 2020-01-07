@@ -1,14 +1,14 @@
 
-export interface Role {
+export class Role {
     name: String;
     slug: String;
     pages: Array<object>;
 }
 
-export interface Roles {
+export class Roles {
     roles: Role[];
 }
 
-export interface Pages {
+export class Pages {
     pages: Array<string>;
 }

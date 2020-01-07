@@ -4,7 +4,7 @@
   "description": "Site HistoData pour QuantHouse créé par Christophe LEFLOCH - Power4Web - powerforweb@gmail.com",
   "main": "server.js",
   "scripts": {
-    "debug":"node --inspect-brk=46728 server.js env=local",
+    "debug": "node --inspect-brk=46728 server.js env=local",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js env=local",
     "local": "node server.js env=local",
@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^6.4.0",
+    "amqplib": "^0.5.5",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
@@ -23,7 +24,7 @@
     "elasticsearch": "^14.2.2",
     "express": "^4.17.1",
     "express-session": "^1.15.6",
-    "mongoose": "^5.3.14",
+    "mongoose": "^5.8.1",
     "morgan": "^1.9.1",
     "multer": "^1.4.1",
     "node-cron": "^1.2.1",

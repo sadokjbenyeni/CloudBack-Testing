@@ -1,12 +1,11 @@
 
-export interface Terms {
+export class Terms {
   terms: Term[];
 }
 
-export interface Term {
+export class Term {
   _id: string;
-  id: { type: String };
-  name: { type: String };
+  name: String
   description: string;
   version: string;
 }

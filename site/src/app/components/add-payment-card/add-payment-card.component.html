@@ -1,0 +1,68 @@
+<h4 class="text-center"> Add new payment card</h4>
+<form [formGroup]="controlPaymentgrp" class="mt-3" [class.mat-elevation-z2]="true" (ngSubmit)="onSubmitForm()">
+    <mat-form-field class="col-12 mt-3">
+        <mat-label>Card holder name</mat-label>
+        <input matInput required type="text" id="cardholerctl" [(ngModel)]="Payment.cardHolder"  formControlName="cardholerctl"
+            placeholder="Card holder name">
+        <mat-error
+            *ngIf="controlPaymentgrp.controls['cardholerctl'].touched && controlPaymentgrp.controls['cardholerctl'].hasError('required')">
+            this field is required</mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-12 mt-3">
+        <mat-label>Card number</mat-label>
+        <input maxlength="23" matInput (keyup)="addWhiteSpaces()" type="text" id="number" required
+            [(ngModel)]="cardNumber" formControlName="numberctl" placeholder="Card number" autocompletetype="cc-number">
+        <mat-error
+            *ngIf="controlPaymentgrp.controls['numberctl'].touched && controlPaymentgrp.controls['numberctl'].hasError('required')">
+            this field is required</mat-error>
+        <mat-error
+            *ngIf="controlPaymentgrp.controls['numberctl'].touched && controlPaymentgrp.controls['numberctl'].hasError('pattern')">
+            This field must be composed of 16 numbers (example: 0000 0000 0000 0000)</mat-error>
+        <mat-error *ngIf=" controlPaymentgrp.controls['numberctl'].hasError('incorrect')">
+            Invalid credit card </mat-error>
+
+    </mat-form-field>
+    <div class="row col-12 mx-0 mt-3">
+        <mat-form-field class="col-6  pl-0">
+            <mat-label>expiration month</mat-label>
+            <mat-select class="col-12" name="card-type" [(ngModel)]="expirationmonth" formControlName="expmonthctl"
+                required>
+                <mat-option *ngFor='let month of mounths ' [value]="month">{{month}}</mat-option>
+            </mat-select>
+            <mat-error
+                *ngIf="controlPaymentgrp.controls['expmonthctl'].touched && controlPaymentgrp.controls['expmonthctl'].hasError('required')">
+                this field is required</mat-error>
+            <mat-error
+                *ngIf="controlPaymentgrp.controls['exptearctl'].hasError('incorrect')">
+                expiration date is not valid</mat-error>
+
+        </mat-form-field>
+        <mat-form-field class="col-6 pr-0">
+            <mat-label>expiration year</mat-label>
+            <mat-select class="col-12 " name="card-type" [(ngModel)]="expirationyear" formControlName="exptearctl"
+                required>
+                <mat-option *ngFor='let year of years ' [value]="year">{{year}}</mat-option>
+            </mat-select>
+            <mat-error
+                *ngIf="controlPaymentgrp.controls['exptearctl'].touched && controlPaymentgrp.controls['exptearctl'].hasError('required')">
+                this field is required</mat-error>
+        </mat-form-field>
+
+    </div>
+    <mat-form-field class="col-12 mt-3">
+        <mat-label>Visual Cryptogram</mat-label>
+        <input matInput maxlength="3" type="password" [(ngModel)]="Payment.cryptogram" formControlName="visialcryptoctl"
+            required placeholder="Visual Cryptogram">
+        <mat-error
+            *ngIf="controlPaymentgrp.controls['visialcryptoctl'].touched && controlPaymentgrp.controls['visialcryptoctl'].hasError('required')">
+            this field is required</mat-error>
+        <mat-error
+            *ngIf="controlPaymentgrp.controls['visialcryptoctl'].touched && controlPaymentgrp.controls['visialcryptoctl'].hasError('pattern')">
+            This field must be composed of 3 numbers (example: 000)</mat-error>
+
+    </mat-form-field>
+    <div class="text-center mt-3 pb-2">
+        <button amt type="reset" class="btn btn-default border mr-1" required>Clear fields</button>
+        <button amt type="submit" class="btn btn-primary" required>Add my card</button>
+    </div>
+</form>
