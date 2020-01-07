@@ -86,6 +86,7 @@ require('./server/models/companytype');
 require('./server/models/payment');
 require('./server/models/termsofuse');
 require('./server/models/termsofsale')
+require('./server/models/termsofuse');
 
 
 
@@ -151,8 +152,7 @@ const server = http.createServer(app);
 //   console.log("connected")
 // })
 
-//connecting to rabbitmq
-// the connection declaration must be set after the database.connect to load schema
+
 //Consul Service Registry
 server.on('close', function () {
   request.put({
@@ -162,25 +162,15 @@ server.on('close', function () {
     console.log("Service Unregistred in Consul")
     //killing process after deregistring service in consul//
     process.exit(0);
-const Connection = require('./server/Events/Connection')
-Connection.Connect();
-
   });
 });
 process.on('SIGINT', function () {
   server.close()
 });
+
+//connecting to rabbitmq
+// the connection declaration must be set after the database.connect to load schema
+const Connection = require('./server/Events/Connection')
+Connection.Connect();
 //Listen on port
 server.listen(port, () => console.log(`API running on localhost:${port}`));
-//register nodeservice
-request.put({
-  "headers": { "content-type": "application/json" },
-  "url": process.env.CONSUL_BASEURL + "/agent/service/register",
-  "body": JSON.stringify({
-    "name": process.env.SERVICE_NAME,
-    "port": (port!=undefined)?parseInt(port):80,
-    "Address": process.env.HOST
-  })
-}, (result) => {
-  console.log(`service registred in Consul with service name : ${process.env.SERVICE_NAME}`)
-});
