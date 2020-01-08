@@ -2,10 +2,13 @@ FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build-env
 WORKDIR /app
 
 COPY . ./
-RUN dotnet publish CloudBacktesting.SubscriptionService.WebApi.Host -c Release -o out --runtime linux-x64
+RUN dotnet publish CloudBacktesting.SubscriptionService.WebAPI.Host -c Release -o ../out --runtime linux-x64
+RUN dir
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
 WORKDIR /app
-COPY --from=build-env /app/out .
 
-ENTRYPOINT ["dotnet", "CloudBacktesting.SubscriptionService.WebApi.Host.dll"]
+COPY --from=build-env /app/out .
+ENV ASPNETCORE_ENVIRONMENT Docker
+
+ENTRYPOINT ["dotnet", "CloudBacktesting.SubscriptionService.WebAPI.Host.dll"]

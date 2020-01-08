@@ -1,0 +1,138 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29418.71
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.SubscriptionService.WebAPI.Tests", "CloudBacktesting.SubscriptionService.WebAPI.Tests\CloudBacktesting.SubscriptionService.WebAPI.Tests.csproj", "{4C0360E6-1235-4D45-AFE7-97550B83ED4E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.API", "3.API", "{A7E233A0-1764-48C9-8668-1E18B5A488DF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Infrastructure", "1.Infrastructure", "{83D91101-2F73-425F-ADC6-EE50157EB74F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Business", "2.Business", "{973370EC-3E9C-4E45-95B4-057825FD4DD1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.SubscriptionService.Infra", "CloudBacktesting.SubscriptionService.Infra\CloudBacktesting.SubscriptionService.Infra.csproj", "{45463496-C23D-498B-B0A7-E6B8AA12ED20}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.SubscriptionService.Domain", "CloudBacktesting.SubscriptionService.Domain\CloudBacktesting.SubscriptionService.Domain.csproj", "{88D717A8-B836-42CB-8BD7-8A518030E6C5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.SubscriptionService.Domain.Tests", "CloudBacktesting.SubscriptionService.Domain.Tests\CloudBacktesting.SubscriptionService.Domain.Tests.csproj", "{CB6FA4D5-7CAA-4E52-91C1-32023F5C418E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.SubscriptionService.Infra.Tests", "CloudBacktesting.SubscriptionService.Infra.Tests\CloudBacktesting.SubscriptionService.Infra.Tests.csproj", "{EED84E9A-FE39-410A-A331-507C889FA3BF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.SubscriptionService.WebAPI", "CloudBacktesting.SubscriptionService.WebAPI\CloudBacktesting.SubscriptionService.WebAPI.csproj", "{D0EAAEF9-4A3B-4BDC-B490-736DD11CD2A1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.Specs", "0.Specs", "{6DEB1B25-48D5-411A-830D-653ADB736CCE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.SubscriptionService.Specs", "CloudBacktesting.SubscriptionService.Specs\CloudBacktesting.SubscriptionService.Specs.csproj", "{8590F7A5-3E5B-4881-A7BD-CCA9E976E310}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "9.Hosting", "9.Hosting", "{B9C384B7-6F82-423A-96D3-7E9B7ABC6D6C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.SubscriptionService.WebAPI.Host", "CloudBacktesting.SubscriptionService.WebAPI.Host\CloudBacktesting.SubscriptionService.WebAPI.Host.csproj", "{DF1E2429-8E9C-411F-9359-C30A1E49209C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.MongoDb", "CloudBacktesting.MongoDb\CloudBacktesting.MongoDb.csproj", "{5C21CAF5-E176-4E75-ADF9-C966CA2BA287}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.Infra.EventFlow", "CloudBacktesting.Infra.EventFlow\CloudBacktesting.Infra.EventFlow.csproj", "{496352CB-C8EA-4CC1-AA8B-4CEF580BAC93}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.Infra.EventFlow.Tests", "CloudBacktesting.Infra.EventFlow.Tests\CloudBacktesting.Infra.EventFlow.Tests.csproj", "{15CB2A58-00E8-47C3-972F-F86663C85ABF}"
+<<<<<<< .merge_file_a09548
+EndProjectProject("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.SubscriptionService.RabbitMQ.EventManager", "CloudBacktesting.SubscriptionService.RabbitMQ.EventManager\CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.csproj", "{DE29B6BB-5B05-48C1-88E8-2502323B41B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.SubscriptionService.RabbitMQ.EventManager", "CloudBacktesting.SubscriptionService.RabbitMQ.EventManager\CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.csproj", "{DE29B6BB-5B05-48C1-88E8-2502323B41B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.Infra", "CloudBacktesting.Infra\CloudBacktesting.Infra.csproj", "{45E125E3-8BE4-409B-836B-D37B1C8BF213}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.Infra.Tests", "CloudBacktesting.Infra.tests\CloudBacktesting.Infra.Tests.csproj", "{8B06866A-8E2B-49D8-842C-FEDF31138705}"
+=======
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.SubscriptionService.RabbitMQ.EventManager", "CloudBacktesting.SubscriptionService.RabbitMQ.EventManager\CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.csproj", "{DE29B6BB-5B05-48C1-88E8-2502323B41B6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.Infra", "CloudBacktesting.Infra\CloudBacktesting.Infra.csproj", "{45E125E3-8BE4-409B-836B-D37B1C8BF213}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.Infra.Tests", "CloudBacktesting.Infra.tests\CloudBacktesting.Infra.Tests.csproj", "{8B06866A-8E2B-49D8-842C-FEDF31138705}"
+>>>>>>> .merge_file_a18408
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4C0360E6-1235-4D45-AFE7-97550B83ED4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C0360E6-1235-4D45-AFE7-97550B83ED4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C0360E6-1235-4D45-AFE7-97550B83ED4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C0360E6-1235-4D45-AFE7-97550B83ED4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45463496-C23D-498B-B0A7-E6B8AA12ED20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45463496-C23D-498B-B0A7-E6B8AA12ED20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45463496-C23D-498B-B0A7-E6B8AA12ED20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45463496-C23D-498B-B0A7-E6B8AA12ED20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88D717A8-B836-42CB-8BD7-8A518030E6C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88D717A8-B836-42CB-8BD7-8A518030E6C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88D717A8-B836-42CB-8BD7-8A518030E6C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88D717A8-B836-42CB-8BD7-8A518030E6C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB6FA4D5-7CAA-4E52-91C1-32023F5C418E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB6FA4D5-7CAA-4E52-91C1-32023F5C418E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB6FA4D5-7CAA-4E52-91C1-32023F5C418E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB6FA4D5-7CAA-4E52-91C1-32023F5C418E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EED84E9A-FE39-410A-A331-507C889FA3BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EED84E9A-FE39-410A-A331-507C889FA3BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EED84E9A-FE39-410A-A331-507C889FA3BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EED84E9A-FE39-410A-A331-507C889FA3BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0EAAEF9-4A3B-4BDC-B490-736DD11CD2A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0EAAEF9-4A3B-4BDC-B490-736DD11CD2A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0EAAEF9-4A3B-4BDC-B490-736DD11CD2A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0EAAEF9-4A3B-4BDC-B490-736DD11CD2A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8590F7A5-3E5B-4881-A7BD-CCA9E976E310}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8590F7A5-3E5B-4881-A7BD-CCA9E976E310}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8590F7A5-3E5B-4881-A7BD-CCA9E976E310}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8590F7A5-3E5B-4881-A7BD-CCA9E976E310}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF1E2429-8E9C-411F-9359-C30A1E49209C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF1E2429-8E9C-411F-9359-C30A1E49209C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF1E2429-8E9C-411F-9359-C30A1E49209C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF1E2429-8E9C-411F-9359-C30A1E49209C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C21CAF5-E176-4E75-ADF9-C966CA2BA287}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C21CAF5-E176-4E75-ADF9-C966CA2BA287}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C21CAF5-E176-4E75-ADF9-C966CA2BA287}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C21CAF5-E176-4E75-ADF9-C966CA2BA287}.Release|Any CPU.Build.0 = Release|Any CPU
+		{496352CB-C8EA-4CC1-AA8B-4CEF580BAC93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{496352CB-C8EA-4CC1-AA8B-4CEF580BAC93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{496352CB-C8EA-4CC1-AA8B-4CEF580BAC93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{496352CB-C8EA-4CC1-AA8B-4CEF580BAC93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15CB2A58-00E8-47C3-972F-F86663C85ABF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15CB2A58-00E8-47C3-972F-F86663C85ABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15CB2A58-00E8-47C3-972F-F86663C85ABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15CB2A58-00E8-47C3-972F-F86663C85ABF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE29B6BB-5B05-48C1-88E8-2502323B41B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE29B6BB-5B05-48C1-88E8-2502323B41B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE29B6BB-5B05-48C1-88E8-2502323B41B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE29B6BB-5B05-48C1-88E8-2502323B41B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45E125E3-8BE4-409B-836B-D37B1C8BF213}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45E125E3-8BE4-409B-836B-D37B1C8BF213}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45E125E3-8BE4-409B-836B-D37B1C8BF213}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45E125E3-8BE4-409B-836B-D37B1C8BF213}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B06866A-8E2B-49D8-842C-FEDF31138705}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B06866A-8E2B-49D8-842C-FEDF31138705}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B06866A-8E2B-49D8-842C-FEDF31138705}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B06866A-8E2B-49D8-842C-FEDF31138705}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4C0360E6-1235-4D45-AFE7-97550B83ED4E} = {A7E233A0-1764-48C9-8668-1E18B5A488DF}
+		{45463496-C23D-498B-B0A7-E6B8AA12ED20} = {83D91101-2F73-425F-ADC6-EE50157EB74F}
+		{88D717A8-B836-42CB-8BD7-8A518030E6C5} = {973370EC-3E9C-4E45-95B4-057825FD4DD1}
+		{CB6FA4D5-7CAA-4E52-91C1-32023F5C418E} = {973370EC-3E9C-4E45-95B4-057825FD4DD1}
+		{EED84E9A-FE39-410A-A331-507C889FA3BF} = {83D91101-2F73-425F-ADC6-EE50157EB74F}
+		{D0EAAEF9-4A3B-4BDC-B490-736DD11CD2A1} = {A7E233A0-1764-48C9-8668-1E18B5A488DF}
+		{8590F7A5-3E5B-4881-A7BD-CCA9E976E310} = {6DEB1B25-48D5-411A-830D-653ADB736CCE}
+		{DF1E2429-8E9C-411F-9359-C30A1E49209C} = {B9C384B7-6F82-423A-96D3-7E9B7ABC6D6C}
+		{5C21CAF5-E176-4E75-ADF9-C966CA2BA287} = {83D91101-2F73-425F-ADC6-EE50157EB74F}
+		{496352CB-C8EA-4CC1-AA8B-4CEF580BAC93} = {83D91101-2F73-425F-ADC6-EE50157EB74F}
+		{15CB2A58-00E8-47C3-972F-F86663C85ABF} = {83D91101-2F73-425F-ADC6-EE50157EB74F}
+		{DE29B6BB-5B05-48C1-88E8-2502323B41B6} = {973370EC-3E9C-4E45-95B4-057825FD4DD1}
+		{45E125E3-8BE4-409B-836B-D37B1C8BF213} = {83D91101-2F73-425F-ADC6-EE50157EB74F}
+		{8B06866A-8E2B-49D8-842C-FEDF31138705} = {83D91101-2F73-425F-ADC6-EE50157EB74F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F1F5D219-A2B2-4FFA-8B83-4971E101A9C0}
+	EndGlobalSection
+EndGlobal

@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Authentication;
 using CloudBacktesting.Infra.Security;
 using Microsoft.AspNetCore.Authorization;
 using CloudBacktesting.Infra.Security.Authorization;
+using System;
 //using Microsoft.Extensions.Hosting;
 
 namespace CloudBacktesting.SubscriptionService.WebAPI.Host
@@ -59,6 +60,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
 
             var configMongo = new SubscriptionDatabaseSettings();
             Configuration.Bind("SubscriptionDatabaseSettings", configMongo);
+            Console.WriteLine(configMongo.ConnectionString);
             AddRabbitMQ(services);
             AddEventFlow(services, configMongo);
             services.AddCors(options =>

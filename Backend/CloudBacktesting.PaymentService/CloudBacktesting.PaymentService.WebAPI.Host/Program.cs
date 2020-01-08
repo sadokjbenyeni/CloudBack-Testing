@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System.IO;
 
@@ -6,39 +7,6 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
 {
     public class Program
     {
-        //public static void Main(string[] args)
-        //{
-        //    CreateWebHostBuilder(args)
-        //        .Build()
-        //        .Run();
-        //}
-
-        //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-        //    WebHost.CreateDefaultBuilder(args)
-        //           .UseStartup<Startup>();
-        //public static void Main(string[] args)
-        //{
-        //    CreateHostBuilder(args).Build().Run();
-        //}
-
-        //public static IHostBuilder CreateHostBuilder(string[] args) =>
-        //    Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
-        //        .ConfigureWebHostDefaults(webBuilder =>
-        //        {
-        //            webBuilder.UseStartup<Startup>();
-        //        });
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-               Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
-        .ConfigureWebHostDefaults(webBuilder =>
-        {
-            webBuilder.ConfigureKestrel(serverOptions =>
-            {
-                // Set properties and call methods on options
-            })
-            .UseStartup<Startup>();
-        });
-
         public static void Main(string[] args)
         {
             var host = new HostBuilder()
@@ -47,7 +15,6 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
                 {
                     webBuilder.UseKestrel(serverOptions =>
                     {
-                // Set properties and call methods on options
                     })
                     .UseIISIntegration()
                     .UseStartup<Startup>();
@@ -56,5 +23,20 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
 
             host.Run();
         }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+               Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(webBuilder =>
+        {
+            webBuilder.ConfigureKestrel(serverOptions =>
+            {
+            })
+            .ConfigureAppConfiguration((host, config) =>
+            {
+                config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                      .AddJsonFile($"appsettings.{host.HostingEnvironment.EnvironmentName}.json", optional: false, reloadOnChange: true);
+            })
+            .UseStartup<Startup>();
+        });
     }
 }
