@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Ocelot.DependencyInjection;
+using System;
 using System.IO;
 
 namespace CloudBacktesting.ApiGateway.WebApi.Host
@@ -23,6 +24,7 @@ namespace CloudBacktesting.ApiGateway.WebApi.Host
              WebHost.CreateDefaultBuilder(args)
                      .ConfigureAppConfiguration((host, config) =>
                      {
+                         Console.WriteLine($"The Hosting environment name is : {host.HostingEnvironment.EnvironmentName}");
                          config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                                .AddJsonFile($"appsettings.{host.HostingEnvironment.EnvironmentName}.json", optional: false, reloadOnChange: true)
                                .AddOcelot(host.HostingEnvironment);
