@@ -17,4 +17,4 @@ WORKDIR /app
 # EXPOSE 2368
 VOLUME /app/logs
 
-CMD npm start
+CMD npm run docker

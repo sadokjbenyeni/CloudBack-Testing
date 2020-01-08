@@ -4,7 +4,7 @@
       "DownstreamPathTemplate": "/api/user/isLogin",
       "DownstreamScheme": "http",
       "UpstreamPathTemplate": "/api/user/isLogin",
-      "ServiceName": "nodeservices"
+      "ServiceName": "msservice"
     },
     {
       "DownstreamPathTemplate": "/api/user/logout",
@@ -21,7 +21,7 @@
     {
       "DownstreamPathTemplate": "/api/role/{url}",
       "DownstreamScheme": "http",
-      "ServiceName": "nodeservices",
+      "ServiceName": "msservice",
       "UpstreamPathTemplate": "/api/role/{url}",
       "UpstreamHttpMethod": [ "GET" ],
       "RouteClaimsRequirement": {
@@ -33,7 +33,7 @@
     {
       "DownstreamPathTemplate": "/api/role",
       "DownstreamScheme": "http",
-      "ServiceName": "nodeservices",
+      "ServiceName": "msservice",
       "UpstreamPathTemplate": "/api/role",
       "UpstreamHttpMethod": [ "GET" ],
       "RouteClaimsRequirement": {
@@ -45,7 +45,7 @@
     {
       "DownstreamPathTemplate": "/api/user/info",
       "DownstreamScheme": "http",
-      "ServiceName": "nodeservices",
+      "ServiceName": "msservice",
       "UpstreamPathTemplate": "/api/user/info",
       "UpstreamHttpMethod": [ "GET", "POST" ],
       "RouteClaimsRequirement": {
@@ -57,7 +57,7 @@
     {
       "DownstreamPathTemplate": "/api/currency",
       "DownstreamScheme": "http",
-      "ServiceName": "nodeservices",
+      "ServiceName": "msservice",
       "UpstreamPathTemplate": "/api/currency",
       "UpstreamHttpMethod": [ "GET" ],
       "RouteClaimsRequirement": {

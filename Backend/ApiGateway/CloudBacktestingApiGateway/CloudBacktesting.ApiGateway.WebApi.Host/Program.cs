@@ -1,12 +1,9 @@
-using CloudBacktesting.ApiGateway.WebApi.Host.KestrelConfigurationModel;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
 using Ocelot.DependencyInjection;
 using System;
-using System.IO;
 
 namespace CloudBacktesting.ApiGateway.WebApi.Host
 {

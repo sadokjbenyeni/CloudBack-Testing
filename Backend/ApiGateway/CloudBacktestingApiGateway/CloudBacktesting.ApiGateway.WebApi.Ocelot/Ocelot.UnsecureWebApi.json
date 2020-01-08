@@ -3,45 +3,45 @@
     {
       "DownstreamPathTemplate": "/api/countries",
       "DownstreamScheme": "http",
-      "ServiceName": "nodeservices",
+      "ServiceName": "msservice",
       "UpstreamPathTemplate": "/api/countries"
     },
     {
       "DownstreamPathTemplate": "/api/companytype",
       "DownstreamScheme": "http",
-      "ServiceName": "nodeservices",
+      "ServiceName": "msservice",
       "UpstreamPathTemplate": "/api/companytype"
     },
     {
       "DownstreamPathTemplate": "/api/terms/{url}",
       "DownstreamScheme": "http",
-      "ServiceName": "nodeservices",
+      "ServiceName": "msservice",
       "UpstreamPathTemplate": "/api/terms/{url}"
     },
     {
       "DownstreamPathTemplate": "/api/user/verifmail",
       "DownstreamScheme": "http",
-      "ServiceName": "nodeservices",
+      "ServiceName": "msservice",
       "UpstreamPathTemplate": "/api/user/verifmail"
     },
     {
       "DownstreamPathTemplate": "/api/user/activation",
       "DownstreamScheme": "http",
-      "ServiceName": "nodeservices",
+      "ServiceName": "msservice",
       "UpstreamPathTemplate": "/api/user/activation",
       "UpstreamHttpMethod": [ "Post" ]
     },
     {
       "DownstreamPathTemplate": "/api/user",
       "DownstreamScheme": "http",
-      "ServiceName": "nodeservices",
+      "ServiceName": "msservice",
       "UpstreamPathTemplate": "/api/user",
       "UpstreamHttpMethod": [ "Post" ]
     },
     {
       "DownstreamPathTemplate": "/api/user/check",
       "DownstreamScheme": "http",
-      "ServiceName": "nodeservices",
+      "ServiceName": "msservice",
       "UpstreamPathTemplate": "/api/user/check",
       "UpstreamHttpMethod": [ "Post" ]
     }

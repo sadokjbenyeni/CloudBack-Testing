@@ -1,6 +1,7 @@
 
 using CloudBacktesting.ApiGateway.WebApi.Ocelot.Middlewares;
 using CloudBacktesting.ApiGateway.WebApi.Ocelot.Services;
+using Consul;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Provider.Consul;
+using System;
 
 namespace CloudBacktesting.ApiGateway.WebApi
 {
@@ -25,6 +27,11 @@ namespace CloudBacktesting.ApiGateway.WebApi
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IConsulClient, ConsulClient>(p => new ConsulClient(consulConfig =>
+            {
+                var address = Configuration.GetSection("Consul").GetValue<string>("Host");
+                consulConfig.Address = new Uri(address);
+            }));
             services.AddTransient<IUserService, UserService>();
             services.AddOcelot(Configuration).AddConsul();
             services.AddCors(options =>

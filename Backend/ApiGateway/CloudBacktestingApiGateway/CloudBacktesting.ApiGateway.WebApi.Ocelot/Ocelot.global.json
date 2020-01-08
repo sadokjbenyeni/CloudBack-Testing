@@ -1,8 +1,8 @@
 {
   "GlobalConfiguration": {
     "ServiceDiscoveryProvider": {
-      "Host": "localhost",
-      "Port": 8500  ,
+      "Host": "172.22.241.249",
+      "Port": 31901,
       "Type": "Consul"
     }
   }

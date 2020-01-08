@@ -8,6 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js env=local",
     "local": "node server.js env=local",
+    "docker": "node server.js env=docker",
     "production": "node server.js env=production",
     "development": "node server.js env=development"
   },
