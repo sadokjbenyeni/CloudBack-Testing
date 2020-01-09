@@ -17,7 +17,6 @@ namespace CloudBacktesting.ApiGateway.WebApi.Host
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         =>
-            //var settingsfile = File.ReadAllText("appsettings.json");
              WebHost.CreateDefaultBuilder(args)
                      .ConfigureAppConfiguration((host, config) =>
                      {

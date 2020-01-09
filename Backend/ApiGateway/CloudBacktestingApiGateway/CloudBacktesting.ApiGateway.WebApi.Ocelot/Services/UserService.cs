@@ -19,16 +19,13 @@ namespace CloudBacktesting.ApiGateway.WebApi.Ocelot.Services
         }
         public async Task<User> GetuserByTokenAsync(string token)
         {
-            
+            var services = _consulClient.Catalog.Service("msservice").Result.Response;
+            var msservice = services.ToList().First();
+            var basadressmsservice = $"http://{msservice.ServiceAddress}:{msservice.ServicePort}";
             var client = new HttpClient();
-            var semaabik = _consulClient.Catalog.Nodes().Result.Response;
-            semaabik.ToList().ForEach(element =>
-            {
-                var a = element;
-            });
-            client.BaseAddress = new Uri("http://localhost:9095/api/");
+            client.BaseAddress = new Uri(basadressmsservice);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(token);
-            var result = await client.GetAsync("user/info");
+            var result = await client.GetAsync("api/user/info");
             if (result.IsSuccessStatusCode)
             {
                 var user = JsonConvert.DeserializeObject<User>(await result.Content.ReadAsStringAsync());
