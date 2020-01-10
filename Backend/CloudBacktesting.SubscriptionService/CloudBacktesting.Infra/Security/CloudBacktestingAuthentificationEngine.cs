@@ -52,6 +52,10 @@ namespace CloudBacktesting.Infra.Security
 
         private UserIdentity DecodeHeaderAuthenticate(string token)
         {
+            if (token.Last() == ':')
+            {
+                token = token.Remove(token.Length - 1);
+            }
             return JsonConvert.DeserializeObject<UserIdentity>(token);
         }
     }

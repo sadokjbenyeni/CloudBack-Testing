@@ -1,7 +1,11 @@
-﻿using CloudBacktesting.Infra.Security;
+﻿using CloudBacktesting.Infra.EventFlow.MongoDb.Queries;
+using CloudBacktesting.Infra.EventFlow.Queries;
+using CloudBacktesting.Infra.EventFlow.ReadStores;
+using CloudBacktesting.Infra.Security;
 using CloudBacktesting.Infra.Security.Authorization;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Commands;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Events;
+using CloudBacktesting.PaymentService.Domain.Repositories.PaymentAccountRepository;
 using CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation;
 using CloudBacktesting.PaymentService.Infra.Security;
 using CloudBacktesting.PaymentService.WebAPI.Host.DatabaseSettings;
@@ -9,6 +13,7 @@ using EventFlow.AspNetCore.Extensions;
 using EventFlow.AspNetCore.Middlewares;
 using EventFlow.DependencyInjection.Extensions;
 using EventFlow.Extensions;
+using EventFlow.MongoDB.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -16,6 +21,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 
 namespace CloudBacktesting.PaymentService.WebAPI.Host
@@ -39,7 +45,17 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
                     .AddScheme<AuthenticationSchemeOptions, CloudBacktestingAuthenticationHandler>("cloudbacktestingAuthentication", options => { });
             services.AddSingleton<IAuthorizationPolicyProvider, CloudBacktestingAuthorizationPolicyProvider>();
             services.AddSingleton<IAuthorizationHandler, CloudBacktestingAuthorizationHandler>();
-            services.AddSwaggerGen(options => options.SwaggerDoc("V1", new Microsoft.OpenApi.Models.OpenApiInfo() { Title = "Payment Api", Version = "V1" }));
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("V1", new Microsoft.OpenApi.Models.OpenApiInfo() { Title = "Payment Api", Version = "V1" });
+                options.AddSecurityDefinition("Basic", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Basic"
+                });
+            });
             var configMongo = new PaymentDatabaseSettings();
             Configuration.Bind("PaymentDatabaseSettings", configMongo);
             AddEventFlow(services, configMongo);

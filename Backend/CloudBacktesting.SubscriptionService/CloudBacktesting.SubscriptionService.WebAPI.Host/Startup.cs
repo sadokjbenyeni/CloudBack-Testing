@@ -2,6 +2,7 @@ using EventFlow.AspNetCore.Extensions;
 using EventFlow.AspNetCore.Middlewares;
 using EventFlow.Extensions;
 using EventFlow.MongoDB.Extensions;
+using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,8 @@ using CloudBacktesting.Infra.Security;
 using Microsoft.AspNetCore.Authorization;
 using CloudBacktesting.Infra.Security.Authorization;
 using System;
+using Microsoft.OpenApi.Models;
+using System.Collections.Generic;
 //using Microsoft.Extensions.Hosting;
 
 namespace CloudBacktesting.SubscriptionService.WebAPI.Host
@@ -46,7 +49,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
                 //.SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 ;
             services.AddSingleton(new DecoderAuthenticationHandlerOptions() { HeaderName = "token" });
-            
+
             services.AddAuthentication("cloudbacktestingAuthentication")
                     .AddScheme<AuthenticationSchemeOptions, CloudBacktestingAuthenticationHandler>("cloudbacktestingAuthentication", options => { });
 
@@ -56,7 +59,19 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
             services.AddSingleton<IAuthorizationHandler, CloudBacktestingAuthorizationHandler>();
 
             services.AddAuthorization();
-            services.AddSwaggerGen(options => options.SwaggerDoc("V1", new Microsoft.OpenApi.Models.OpenApiInfo() { Title = "Subscription Api", Version = "V1" }));
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("V1", new Microsoft.OpenApi.Models.OpenApiInfo() { Title = "Subscription Api", Version = "V1" });
+                OpenApiSecurityScheme securityScheme = new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Basic"
+                };
+                options.AddSecurityDefinition("Basic", securityScheme);
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement() { { securityScheme, new List<string>() } });
+            });
 
             var configMongo = new SubscriptionDatabaseSettings();
             Configuration.Bind("SubscriptionDatabaseSettings", configMongo);
@@ -80,7 +95,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
 
         protected virtual IServiceCollection AddEventFlow(IServiceCollection services, SubscriptionDatabaseSettings configMongo)
         {
-            
+
             if (UseEventFlowOptionsBuilder)
             {
                 services.AddEventFlow(options => options.AddAspNetCore()
@@ -116,7 +131,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
                 app.UseHsts();
             }
 
-            app.UseCors("AllowAllOrigins"); 
+            app.UseCors("AllowAllOrigins");
             app.UseAuthentication();
             //app.UseAuthorization();
             app.UseSwagger();
@@ -137,7 +152,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
 
         protected virtual void ConfigureEventFlow(IApplicationBuilder app)
         {
-            if(!UseEventFlowOptionsBuilder)
+            if (!UseEventFlowOptionsBuilder)
             {
                 return;
             }

@@ -7,7 +7,6 @@ using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequest
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository;
 using CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation;
-using CloudBacktesting.SubscriptionService.Specs.Infra.Authentification;
 using CloudBacktesting.SubscriptionService.WebAPI.Controllers;
 using CloudBacktesting.SubscriptionService.WebAPI.Host;
 using CloudBacktesting.SubscriptionService.WebAPI.Host.DatabaseSettings;

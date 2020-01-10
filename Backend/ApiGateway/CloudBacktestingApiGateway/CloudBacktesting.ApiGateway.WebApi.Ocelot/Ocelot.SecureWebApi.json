@@ -65,7 +65,83 @@
         "State": "1"
 
       }
+    },
+    {
+      "DownstreamPathTemplate": "/api/subscriptionaccount",
+      "DownstreamScheme": "http",
+      "ServiceName": "subservices",
+      "UpstreamPathTemplate": "/api/subscriptionaccount",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "RouteClaimsRequirement": {
+        "IsLogin": "True",
+        "State": "1"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/adminsubscription",
+      "DownstreamScheme": "http",
+      "ServiceName": "subservices",
+      "UpstreamPathTemplate": "/api/adminsubscription",
+      "UpstreamHttpMethod": [ "GET", "PUT" ],
+      "RouteClaimsRequirement": {
+        "IsLogin": "True",
+        "State": "1"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/subscriptionrequest/{url}",
+      "DownstreamScheme": "http",
+      "ServiceName": "subservices",
+      "UpstreamPathTemplate": "/api/subscriptionrequest/{url}",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "RouteClaimsRequirement": {
+        "IsLogin": "True",
+        "State": "1"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/adminpayment",
+      "DownstreamScheme": "http",
+      "ServiceName": "payservices",
+      "UpstreamPathTemplate": "/api/adminpayment",
+      "UpstreamHttpMethod": [ "GET" ],
+      "RouteClaimsRequirement": {
+        "IsLogin": "True",
+        "State": "1"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/billingitem/{url}",
+      "DownstreamScheme": "http",
+      "ServiceName": "payservices",
+      "UpstreamPathTemplate": "/api/billingitem/{url}",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "RouteClaimsRequirement": {
+        "IsLogin": "True",
+        "State": "1"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/paymentaccount",
+      "DownstreamScheme": "http",
+      "ServiceName": "payservices",
+      "UpstreamPathTemplate": "/api/paymentaccount",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "RouteClaimsRequirement": {
+        "IsLogin": "True",
+        "State": "1"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/paymentmethod/{url}",
+      "DownstreamScheme": "http",
+      "ServiceName": "payservices",
+      "UpstreamPathTemplate": "/api/paymentmethod/{url}",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "RouteClaimsRequirement": {
+        "IsLogin": "True",
+        "State": "1"
+      }
     }
-    
   ]
 }
