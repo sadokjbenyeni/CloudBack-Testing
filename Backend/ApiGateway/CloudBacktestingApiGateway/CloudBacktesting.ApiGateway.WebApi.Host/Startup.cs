@@ -29,7 +29,7 @@ namespace CloudBacktesting.ApiGateway.WebApi
         {
             services.AddSingleton<IConsulClient, ConsulClient>(p => new ConsulClient(consulConfig =>
             {
-                var address = Configuration.GetSection("Consul").GetValue<string>("Host");
+                var address = $"http://{Environment.GetEnvironmentVariable("ConsulHost")}:{Environment.GetEnvironmentVariable("ConsulPort")}";
                 consulConfig.Address = new Uri(address);
             }));
             services.AddTransient<IUserService, UserService>();

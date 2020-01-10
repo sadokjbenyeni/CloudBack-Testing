@@ -4,7 +4,10 @@
       "commandName": "Project",
       "workingDirectory": "$(TargetDir)",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConsulHost": "172.22.241.249",
+        "ConsulPort": "32024"
+
       },
       "applicationUrl": "https://localhost:5001"
     },
@@ -12,7 +15,10 @@
       "commandName": "Project",
       "workingDirectory": "$(TargetDir)",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Local"
+        "ASPNETCORE_ENVIRONMENT": "Local",
+        "ConsulHost": "172.22.241.249",
+        "ConsulPort": "32024"
+
       },
       "applicationUrl": "https://localhost:5001"
     }
