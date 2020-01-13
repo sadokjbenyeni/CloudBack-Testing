@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Publishers

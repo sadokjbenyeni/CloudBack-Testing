@@ -88,7 +88,8 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
 
         protected virtual void AddRabbitMQ(IServiceCollection services)
         {
-            services.AddSingleton<IConnectionFactory>(con => new ConnectionFactory() { HostName = "localhost" });
+            var endpoint = Configuration.GetSection("RabbitMq").GetValue<string>("endpoint");
+            services.AddSingleton<IConnectionFactory>(con => new ConnectionFactory() { Endpoint = new AmqpTcpEndpoint(new Uri(endpoint)) });
             services.AddSingleton<IRabbitMQEventPublisher, RabbitMQEventPublisher>();
             services.AddHostedService<AccountCreatedListener>();
         }

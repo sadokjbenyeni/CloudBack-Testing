@@ -2,4 +2,5 @@ const subscriptionaccountslistner = require('./Listeners/SubscriptionscreatedLis
 
 exports.InitializeListeners = () => {
     subscriptionaccountslistner.SubscriptionAccountCreated();
+    console.log("RabbitMQ listeners initialized");
 }

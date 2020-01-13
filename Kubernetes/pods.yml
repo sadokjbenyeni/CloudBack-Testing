@@ -14,22 +14,22 @@ spec:
       ports:
         - containerPort: 9095
 ---
-#   apiVersion: v1
-#   kind: Pod
-#   metadata:
-#     name: subscriptionservice
-#     labels:
-#       app: subscriptionservice
-#     annotations:
-#       "consul.hashicorp.com/connect-service-upstreams": "subservices:80"
-#   spec:
-#     containers:
-#       - name: subscriptioncontainer
-#         image: subscriptionmicro
-#         imagePullPolicy: IfNotPresent
-#         ports:
-#           - containerPort: 80
-# ---
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    name: subscriptionservice
+    labels:
+      app: subscriptionservice
+    annotations:
+      "consul.hashicorp.com/connect-service-upstreams": "subservices:80"
+  spec:
+    containers:
+      - name: subscriptioncontainer
+        image: subscriptionmicro
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 80
+---
   apiVersion: v1
   kind: Pod
   metadata:

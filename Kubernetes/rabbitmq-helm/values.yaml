@@ -61,13 +61,13 @@ definitions:
 #     "name": "test"
 #   }
   permissions: |-
-#   {
-#     "user": "myUsername",
-#     "vhost": "/rabbit",
-#     "configure": ".*",
-#     "write": ".*",
-#     "read": ".*"
-#   }
+    {
+      "user": "management",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
   queues: |-
    {
       "name":"AccountActivation",

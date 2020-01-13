@@ -7,10 +7,7 @@ var ch = null;
 var rabbitmqcreation = new EventEmitter()
 rabbitmqcreation.on("connected", () => {
     console.log("connecting successfully initializing listeners");
-    mongoose.connection.on("connected", () => {
         initializer.InitializeListeners();
-    })
-
 })
 exports.Connect = async () =>
     amqp.connect(process.env.RABBITMQURL, function (errorconnect, connection) {

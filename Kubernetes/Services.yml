@@ -27,24 +27,24 @@ spec:
   - port: 9095
     targetPort: 9095
     nodePort: 30002
-# ---
+---
 
-#   apiVersion: v1
-#   kind: Service
-#   metadata:
-#     name: subservice
-#     annotations:
-#      "consul.hashicorp.com/service-name": subservice
-#      "consul.hashicorp.com/service-port": "http"
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: subservice
+    annotations:
+     "consul.hashicorp.com/service-name": subservice
+     "consul.hashicorp.com/service-port": "http"
   
-#   spec:
-#     type: NodePort
-#     selector:
-#       app: subscriptionservice
-#     ports:
-#     - port: 80
-#       targetPort: 80
-#       nodePort: 30012
+  spec:
+    type: NodePort
+    selector:
+      app: subscriptionservice
+    ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30012
 ---
 apiVersion: v1
 kind: Service
