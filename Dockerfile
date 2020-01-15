@@ -14,6 +14,8 @@ RUN npm install -g @angular/cli
 RUN npm install
 RUN ng build --configuration=local
 WORKDIR /app
+ENV NODEJSENVIRONMENT dockerLocal
+
 # EXPOSE 2368
 VOLUME /app/logs
 

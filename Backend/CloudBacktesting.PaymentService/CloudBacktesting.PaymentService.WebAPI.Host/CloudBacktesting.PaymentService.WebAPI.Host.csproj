@@ -23,6 +23,6 @@
     <ProjectReference Include="..\CloudBacktesting.PaymentService.WebAPI\CloudBacktesting.PaymentService.WebAPI.csproj" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties appsettings_1docker_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

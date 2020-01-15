@@ -8,14 +8,21 @@ const mongoose = require('mongoose');
 
 //const cron = require('node-cron');
 var resultEnv = false;
-process.argv.forEach(function (item) {
-  if (item.substr(0, 4) === "env=") {
-    let environement = item.replace("env=", "");
-    require('dotenv').config({ path: "environment/" + environement + ".env" });
-    resultEnv = true;
-  }
-  // return false;
-});
+if (process.env.NODEJSENVIRONMENT != undefined) {
+  console.log ("retrieving config file from environment variable and it's "+  process.env.NODEJSENVIRONMENT )
+  require('dotenv').config({ path: "environment/" + process.env.NODEJSENVIRONMENT + ".env" });
+  resultEnv = true;
+}
+else {
+  console.log ("retrieving config file from arguments")
+  process.argv.forEach(function (item) {
+    if (item.substr(0, 4) === "env=") {
+      let environement = item.replace("env=", "");
+      require('dotenv').config({ path: "environment/" + environement + ".env" });
+      resultEnv = true;
+    }
+  });
+}
 if (resultEnv) {
   console.log("Environment variables has been loaded");
 }

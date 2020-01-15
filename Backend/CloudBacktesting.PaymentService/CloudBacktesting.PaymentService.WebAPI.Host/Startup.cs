@@ -22,6 +22,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
 
 namespace CloudBacktesting.PaymentService.WebAPI.Host
 {
@@ -57,9 +58,8 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
                 });
             });
             var configMongo = new PaymentDatabaseSettings();
-            configMongo.ConnectionString = "mongodb://localhost:27017";
-            configMongo.DatabaseName = "PaymentDb";
-            //Configuration.Bind("PaymentDatabaseSettings", configMongo);
+            Console.WriteLine($"Connecting to db connectionstring : {configMongo.ConnectionString} to the collection {configMongo.DatabaseName}");
+            Configuration.Bind("PaymentDatabaseSettings", configMongo);
             AddEventFlow(services, configMongo);
         }
 

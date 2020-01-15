@@ -75,7 +75,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
 
             var configMongo = new SubscriptionDatabaseSettings();
             Configuration.Bind("SubscriptionDatabaseSettings", configMongo);
-            Console.WriteLine(configMongo.ConnectionString);
+            Console.WriteLine($"Connecting to db connectionstring : {configMongo.ConnectionString} to the collection {configMongo.DatabaseName}");
             AddRabbitMQ(services);
             AddEventFlow(services, configMongo);
             services.AddCors(options =>

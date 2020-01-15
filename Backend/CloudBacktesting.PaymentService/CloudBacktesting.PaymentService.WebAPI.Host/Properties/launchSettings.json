@@ -27,14 +27,26 @@
         "ASPNETCORE_ENVIRONMENT": "Local"
       }
     },
-    "DockerRun": {
+    "DockerLocalRun": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "applicationUrl": "https://localhost:4001",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Docker"
+        "ASPNETCORE_ENVIRONMENT": "dockerLocal"
+      }
+    },
+    "DockerRemoteRun": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "https://localhost:4001",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "dockerDev"
       }
     }
+
+
+
   }
 }

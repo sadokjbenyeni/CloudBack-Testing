@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.IO;
 
 namespace CloudBacktesting.PaymentService.WebAPI.Host
@@ -9,19 +10,9 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
     {
         public static void Main(string[] args)
         {
-            var host = new HostBuilder()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseKestrel(serverOptions =>
-                    {
-                    })
-                    .UseIISIntegration()
-                    .UseStartup<Startup>();
-                })
-                .Build();
-
-            host.Run();
+            CreateHostBuilder(args)
+                .Build()
+                .Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -33,6 +24,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
             })
             .ConfigureAppConfiguration((host, config) =>
             {
+                Console.WriteLine($"the running environment is {host.HostingEnvironment.EnvironmentName }");
                 config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                       .AddJsonFile($"appsettings.{host.HostingEnvironment.EnvironmentName}.json", optional: false, reloadOnChange: true);
             })
