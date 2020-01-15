@@ -83,8 +83,8 @@ global:
 server:
   enabled: "-"
   image: null
-  replicas: 3
-  bootstrapExpect: 3 # Should <= replicas count
+  replicas: 1
+  bootstrapExpect: 1 # Should <= replicas count
 
   # enterpriseLicense refers to a Kubernetes secret that you have created that
   # contains your enterprise license. It is required if you are using an
@@ -126,7 +126,7 @@ server:
 
     # maxUnavailable will default to (n/2)-1 where n is the number of
     # replicas. If you'd like a custom value, you can specify an override here.
-    maxUnavailable: null
+    maxUnavailable: 0
 
   # extraConfig is a raw string of extra configuration to set with the
   # server. This should be JSON.
@@ -188,7 +188,7 @@ server:
 # within the Kube cluster. The current deployment model follows a traditional
 # DC where a single agent is deployed per node.
 client:
-  enabled: "-"
+  enabled: true
   image: null
   join: null
 
@@ -344,7 +344,7 @@ ui:
   # balancer (for supported K8S installations) to access the UI.
   service:
     enabled: true
-    type: null
+    type: "NodePort"
     # This should be a multi-line string mapping directly to the a map of
     # the annotations to apply to the UI service
     annotations: null
@@ -364,7 +364,7 @@ ui:
 syncCatalog:
   # True if you want to enable the catalog sync. Set to "-" to inherit from
   # global.enabled.
-  enabled: false
+  enabled: true
   image: null
   default: true # true will sync by default, otherwise requires annotation
 
@@ -444,7 +444,7 @@ connectInject:
   # True if you want to enable connect injection. Set to "-" to inherit from
   # global.enabled.
   # Requires consul-k8s >= 0.10.1.
-  enabled: false
+  enabled: true
   image: null # image for consul-k8s that contains the injector
   default: false # true will inject by default, otherwise requires annotation
 
