@@ -335,7 +335,7 @@ ui:
   # on the server nodes. This makes UI access via the service below (if
   # enabled) predictable rather than "any node" if you're running Consul
   # clients as well.
-  enabled: "-"
+  enabled: true
 
   # True if you want to create a Service entry for the Consul UI.
   #
