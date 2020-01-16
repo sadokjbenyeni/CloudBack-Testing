@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: microservices
+  labels:
+    app: microservices
+  annotations:
+    "consul.hashicorp.com/connect-service-upstreams": "jsservices:9095"
+spec:
+  containers:
+    - name: nodejscontainer
+      image: jsprojects
+      env:
+      - name: NODEJSENVIRONMENT
+        value: "dockerDev"
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 9095
+
+---
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    name: subscriptionservice
+    labels:
+      app: subscriptionservice
+    annotations:
+      "consul.hashicorp.com/connect-service-upstreams": "subservices:80"
+  spec:
+    containers:
+      - name: subscriptioncontainer
+        image: subscriptionmicro
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "dockerDev"
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 80
+---
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    name: paymentservice
+    labels:
+      app: paymentservice
+    annotations:
+      "consul.hashicorp.com/connect-service-upstreams": "payservices:80"
+  spec:
+    containers:
+      - name: paymentcontainer
+        image: paymentmicro
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "dockerDev"
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 80
