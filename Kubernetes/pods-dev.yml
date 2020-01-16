@@ -16,6 +16,8 @@ spec:
       imagePullPolicy: IfNotPresent
       ports:
         - containerPort: 9095
+  imagePullSecrets:
+  - name: my-secret
 
 ---
   apiVersion: v1
@@ -36,6 +38,9 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
           - containerPort: 80
+    imagePullSecrets:
+    - name: my-secret
+
 ---
   apiVersion: v1
   kind: Pod
@@ -55,3 +60,5 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
           - containerPort: 80
+    imagePullSecrets:
+    - name: my-secret
