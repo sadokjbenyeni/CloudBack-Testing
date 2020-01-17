@@ -7,7 +7,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Models.Payment
 {
     public class PaymentMethod
     {
-        public string MethodId { get; set; }
+        public string Id { get; set; }
         public string PaymentAccountId { get; set; }
         public string CardNumber { get; set; }
         public string CardType { get; set; }
