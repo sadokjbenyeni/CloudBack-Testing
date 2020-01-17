@@ -20,13 +20,13 @@ metadata:
    "consul.hashicorp.com/service-port": "http"
 
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: microservices
   ports:
   - port: 9095
     targetPort: 9095
-    # nodePort: 30002
+    nodePort: 30002
 ---
 
   apiVersion: v1
@@ -38,13 +38,13 @@ spec:
      "consul.hashicorp.com/service-port": "http"
   
   spec:
-    type: LoadBalancer
+    type: NodePort
     selector:
       app: subscriptionservice
     ports:
     - port: 80
       targetPort: 80
-      # nodePort: 30012
+      nodePort: 30012
 ---
 apiVersion: v1
 kind: Service
@@ -55,12 +55,12 @@ metadata:
    "consul.hashicorp.com/service-port": "http"
 
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: paymentservice
   ports:
   - port: 80
     targetPort: 80
-    # nodePort: 30022
+    nodePort: 30022
 
 
