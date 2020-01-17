@@ -1,4 +1,5 @@
-﻿using CloudBacktesting.SubscriptionService.Domain.Sagas;
+﻿using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository;
+using CloudBacktesting.SubscriptionService.Domain.Sagas;
 using EventFlow.Aggregates;
 using System;
 
@@ -11,14 +12,16 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
         public string Type { get; }
         public DateTime CreationDate { get; }
         public string RequestId { get; }
+        public string PaymentMethodId { get; set; }
 
-        public SubscriptionRequestCreatedEvent(string requestId, string subscriptionAccountId, string status, string type, DateTime creationDate)
+        public SubscriptionRequestCreatedEvent(string requestId, string subscriptionAccountId, string status, string type, DateTime creationDate, string paymentMethodId)
         {
             RequestId = requestId;
             SubscriptionAccountId = subscriptionAccountId;
             Status = status;
             Type = type;
             CreationDate = creationDate;
+            PaymentMethodId = paymentMethodId;
         }
     }
 }

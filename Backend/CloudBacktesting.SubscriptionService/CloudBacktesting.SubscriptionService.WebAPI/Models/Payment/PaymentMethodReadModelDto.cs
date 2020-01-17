@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CloudBacktesting.SubscriptionService.WebAPI.Models.Payment
 {
-    public class PaymentMethod
+    public class PaymentMethodReadModelDto
     {
         public string Id { get; set; }
         public string PaymentAccountId { get; set; }

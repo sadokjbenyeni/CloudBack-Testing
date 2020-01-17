@@ -1,4 +1,5 @@
 ﻿using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate;
+using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository;
 using EventFlow.Aggregates.ExecutionResults;
 using EventFlow.Commands;
 using EventFlow.Core;
@@ -10,10 +11,11 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
     {
         public string Type { get; set; }
         public string SubscriptionAccountId { get; set; }
+        public string PaymentMethodId { get; set; }
 
-        public SubscriptionRequestCreationCommand(string subscriptionAccountId, string type) : base(SubscriptionRequestId.New)
+        public SubscriptionRequestCreationCommand(string subscriptionAccountId, string type, string paymentMethodId) : base(SubscriptionRequestId.New)
         {
-            if (subscriptionAccountId == null)
+            if (string.IsNullOrEmpty(subscriptionAccountId))
             {
                 throw new ArgumentException("Cannot be null or empty", nameof(subscriptionAccountId));
             }
@@ -23,8 +25,14 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
                 throw new ArgumentException("Cannot be null or empty", nameof(type));
             }
 
+            if (string.IsNullOrEmpty(paymentMethodId))
+            {
+                throw new ArgumentNullException("Cannot be null or empty", nameof(paymentMethodId));
+            }
+
             SubscriptionAccountId = subscriptionAccountId;
             Type = type;
+            PaymentMethodId = paymentMethodId;
         }
     }
 }

@@ -21,6 +21,6 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Models.Request.Client.Subs
         public bool IsManualConfigured { get; set; } = false;
         public string ActivationMessage { get; set; }
         public DateTime? ActivatedDate { get; set; } = null;
-        public PaymentMethod PaymentMethod { get; set; }
+        public string PaymentMethodId { get; set; }
     }
 }

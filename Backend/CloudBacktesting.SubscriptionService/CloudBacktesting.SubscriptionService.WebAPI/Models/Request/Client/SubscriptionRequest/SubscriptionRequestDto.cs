@@ -4,6 +4,7 @@
     {
         public string SubscriptionAccountId { get; set; }
         public string Type { get; set; }
+        public string PaymentMethodId { get; set; }
     }
     public class UpdateSubscriptionRequestDto
     {
