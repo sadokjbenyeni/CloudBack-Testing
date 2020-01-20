@@ -1,10 +1,12 @@
-﻿namespace CloudBacktesting.SubscriptionService.WebAPI.Models.Request.Client.SubscriptionRequest
+﻿using CloudBacktesting.SubscriptionService.Domain;
+
+namespace CloudBacktesting.SubscriptionService.WebAPI.Models.Request.Client.SubscriptionRequest
 {
     public class CreateSubscriptionRequestDto
     {
         public string SubscriptionAccountId { get; set; }
         public string Type { get; set; }
-        public string PaymentMethodId { get; set; }
+        public PaymentAction PaymentAction { get; set; }
     }
     public class UpdateSubscriptionRequestDto
     {

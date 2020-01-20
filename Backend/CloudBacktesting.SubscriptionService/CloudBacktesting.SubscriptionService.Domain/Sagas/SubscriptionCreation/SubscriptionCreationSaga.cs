@@ -30,7 +30,8 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
             var command = new SubscriptionRequestLinkToSubscriptionAccountCommand(new SubscriptionAccountId(domainEvent.AggregateEvent.SubscriptionAccountId), 
                 domainEvent.AggregateIdentity.Value, 
                 domainEvent.AggregateEvent.Status, 
-                domainEvent.AggregateEvent.Type);
+                domainEvent.AggregateEvent.Type,
+                domainEvent.AggregateEvent.PaymentAction);
             //try
             //{
             this.Publish(command);

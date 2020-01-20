@@ -11,9 +11,9 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
     {
         public string Type { get; set; }
         public string SubscriptionAccountId { get; set; }
-        public string PaymentMethodId { get; set; }
+        public PaymentAction PaymentAction { get; set; }
 
-        public SubscriptionRequestCreationCommand(string subscriptionAccountId, string type, string paymentMethodId) : base(SubscriptionRequestId.New)
+        public SubscriptionRequestCreationCommand(string subscriptionAccountId, string type, PaymentAction paymentAction) : base(SubscriptionRequestId.New)
         {
             if (string.IsNullOrEmpty(subscriptionAccountId))
             {
@@ -25,14 +25,19 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
                 throw new ArgumentException("Cannot be null or empty", nameof(type));
             }
 
-            if (string.IsNullOrEmpty(paymentMethodId))
+            if (string.IsNullOrEmpty(paymentAction.PaymentAccountId))
             {
-                throw new ArgumentNullException("Cannot be null or empty", nameof(paymentMethodId));
+                throw new ArgumentNullException("Cannot be null or empty", nameof(PaymentAction.PaymentAccountId));
+            }
+
+            if (string.IsNullOrEmpty(paymentAction.PaymentMethodId))
+            {
+                throw new ArgumentNullException("Cannot be null or empty", nameof(paymentAction.PaymentMethodId));
             }
 
             SubscriptionAccountId = subscriptionAccountId;
             Type = type;
-            PaymentMethodId = paymentMethodId;
+            PaymentAction = paymentAction;
         }
     }
 }

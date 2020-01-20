@@ -10,6 +10,8 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggreg
     public class PaymentAccount : AggregateRoot<PaymentAccount, PaymentAccountId>, IEmit<PaymentAccountCreatedEvent>, IEmit<PaymentMethodLinkedEvent>
     {
         private string client;
+        private string cardNumber;
+        private string cardType;
         
         public PaymentAccount(PaymentAccountId aggregateId) : base(aggregateId) { }
 
@@ -19,9 +21,9 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggreg
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult LinkPaymentMethod(string paymentMethodId)
+        public IExecutionResult LinkPaymentMethod(string paymentMethodId, string cardNumber, string cardType)
         {
-            Emit(new PaymentMethodLinkedEvent(paymentMethodId, this.client));
+            Emit(new PaymentMethodLinkedEvent(paymentMethodId, this.client, cardNumber, cardType));
             return ExecutionResult.Success();
         }
 
@@ -32,7 +34,8 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggreg
 
         public void Apply(PaymentMethodLinkedEvent aggregateEvent)
         {
-            throw new NotImplementedException();
+            this.cardNumber = aggregateEvent.CardNumber;
+            this.cardType = aggregateEvent.CardType;
         }
     }
 }

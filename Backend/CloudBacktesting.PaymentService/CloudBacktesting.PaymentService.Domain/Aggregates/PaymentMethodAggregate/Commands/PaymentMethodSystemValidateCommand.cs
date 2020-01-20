@@ -10,11 +10,15 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
     {
         public string MethodId { get; set; }
         public string Client { get; set; }
+        public string CardNumber { get; set; }
+        public string CardType { get; set; }
 
-        public PaymentMethodSystemValidateCommand(string aggregateId, string client) : base(new PaymentMethodId(aggregateId))
+        public PaymentMethodSystemValidateCommand(string aggregateId, string client, string cardNumber, string cardType) : base(new PaymentMethodId(aggregateId))
         {
             MethodId = aggregateId;
             Client = client;
+            CardNumber = cardNumber;
+            CardType = cardType;
         }
     }
 }

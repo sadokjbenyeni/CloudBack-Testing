@@ -17,14 +17,14 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
         public string status;
         public SubscriptionRequest(SubscriptionRequestId aggregateId) : base(aggregateId) { }
 
-        public IExecutionResult Create(string subscriptionAccountId, string type, string paymentMethodId)
+        public IExecutionResult Create(string subscriptionAccountId, string type, PaymentAction paymentAction)
         {
             var spec = new IsNullOrEmptyAccountIdSpecification();
             if (spec.IsSatisfiedBy(subscriptionAccountId) == false)
             {
                 return ExecutionResult.Failed(spec.WhyIsNotSatisfiedBy("Account Id Is Null Or Empty"));
             }
-            var @event = new SubscriptionRequestCreatedEvent(this.Id.Value, subscriptionAccountId, "Creating", type, DateTime.UtcNow, paymentMethodId);
+            var @event = new SubscriptionRequestCreatedEvent(this.Id.Value, subscriptionAccountId, "Creating", type, DateTime.UtcNow, paymentAction);
             Emit(@event);
             return ExecutionResult.Success();
 
