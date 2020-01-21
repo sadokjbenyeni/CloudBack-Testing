@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-using static CloudBacktesting.PaymentService.Domain.Specifications.IsNumberValidSpecification;
+﻿using System.Text.RegularExpressions;
+using static CloudBacktesting.PaymentService.Domain.Specifications.PassesLuhenTestSpecification;
 
 namespace CloudBacktesting.PaymentService.Domain.Specifications
 {

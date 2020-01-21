@@ -25,11 +25,6 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
 
         public IExecutionResult SystemValidate(PaymentMethodId paymentMethodId, string cardNumber, string cardType)
         {
-            var isValidSpec = new IsNumberValidSpecification();
-            if (isValidSpec.IsSatisfiedBy(cardNumber) == false)
-            {
-                return ExecutionResult.Failed(isValidSpec.WhyIsNotSatisfiedBy("Card is not valid"));
-            }
             var passLuhenSpec = new PassesLuhenTestSpecification();
             if (passLuhenSpec.IsSatisfiedBy(cardNumber) == false)
             {

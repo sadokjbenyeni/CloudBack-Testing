@@ -9,18 +9,6 @@ namespace CloudBacktesting.PaymentService.Domain.Tests
     [TestFixture]
     public class CreditCardTests
     {
-        [TestCase("4111-1111-1111-1111")]
-        [TestCase("4111 1111 1111 1111")]
-        [TestCase("4111111111111111")]
-        [TestCase("4111.1111.1111.1111")]
-        [TestCase("4111-1111-1111-111")]
-        public void Should_be_a_valid_card_number(string cardNumber)
-        {
-            var isValidVerifier = new IsNumberValidSpecification();
-
-            Assert.IsTrue(isValidVerifier.IsSatisfiedBy(cardNumber));
-        }
-
         [TestCase("4111 1111 1111 1111")]
         [TestCase("5500 0000 0000 0004")]
         [TestCase("3400 0000 0000 009")]
