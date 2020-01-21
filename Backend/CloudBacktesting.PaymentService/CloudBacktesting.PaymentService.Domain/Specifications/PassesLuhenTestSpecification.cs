@@ -39,7 +39,7 @@ namespace CloudBacktesting.PaymentService.Domain.Specifications
 
         protected override IEnumerable<string> IsNotSatisfiedBecause(string cardNumber)
         {
-            if (IsSatisfiedBy(cardNumber) is true)
+            if (IsSatisfiedBy(cardNumber) is false)
             {
                 yield return string.Format("{0} is not valid by Luhen algorithm", cardNumber);
             }

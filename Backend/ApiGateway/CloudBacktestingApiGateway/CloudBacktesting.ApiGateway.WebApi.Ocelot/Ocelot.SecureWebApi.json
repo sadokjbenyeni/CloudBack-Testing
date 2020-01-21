@@ -84,6 +84,7 @@
       "UpstreamPathTemplate": "/api/adminsubscription",
       "UpstreamHttpMethod": [ "GET", "PUT" ],
       "RouteClaimsRequirement": {
+        "Role": "Administrator",
         "IsLogin": "True",
         "State": "1"
       }
