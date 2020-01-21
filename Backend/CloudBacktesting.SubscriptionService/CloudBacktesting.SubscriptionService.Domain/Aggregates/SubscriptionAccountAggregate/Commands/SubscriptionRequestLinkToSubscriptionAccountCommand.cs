@@ -18,7 +18,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAcc
         {
             if (string.IsNullOrEmpty(subscriptionRequestId))
             {
-                throw new ArgumentException("message", nameof(subscriptionRequestId));
+                throw new ArgumentException("Cannot ve empty", nameof(subscriptionRequestId));
             }
 
             if (string.IsNullOrEmpty(subscriptionRequestStatus))

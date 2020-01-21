@@ -14,13 +14,28 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggreg
         public string PaymentMethodCryptogram { get; }
         public DateTime PaymentMethodExpirationDate { get; }
 
-        public PaymentMethodLinkToPaymentAccountCommand(PaymentAccountId paymentAccountId
-            , string methodId
-            , string paymentMethodCardNumber
-            , string paymentMethodCardType
-            , string paymentMethodCryptogram
-            , DateTime paymentMethodeExpirationDate) : base(paymentAccountId)
+        public PaymentMethodLinkToPaymentAccountCommand(PaymentAccountId paymentAccountId, string methodId, string paymentMethodCardNumber, string paymentMethodCardType, string paymentMethodCryptogram, DateTime paymentMethodeExpirationDate) : base(paymentAccountId)
         {
+            if (string.IsNullOrEmpty(methodId))
+            {
+                throw new ArgumentException("Cannot be empty", nameof(methodId));
+            }
+
+            if (string.IsNullOrEmpty(paymentMethodCardNumber))
+            {
+                throw new ArgumentException("Cannot be empty", nameof(paymentMethodCardNumber));
+            }
+
+            if (string.IsNullOrEmpty(paymentMethodCardType))
+            {
+                throw new ArgumentException("Cannot be empty", nameof(paymentMethodCardType));
+            }
+
+            if (string.IsNullOrEmpty(paymentMethodCryptogram))
+            {
+                throw new ArgumentException("Cannot be empty", nameof(paymentMethodCryptogram));
+            }
+
             MethodId = methodId;
             PaymentMethodCardNumber = paymentMethodCardNumber;
             PaymentMethodCardType = paymentMethodCardType;

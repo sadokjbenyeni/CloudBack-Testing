@@ -1,5 +1,4 @@
 ﻿using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Events;
-using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository;
 using CloudBacktesting.SubscriptionService.Domain.Specifications;
 using EventFlow.Aggregates;
 using EventFlow.Aggregates.ExecutionResults;
@@ -65,6 +64,12 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
             return ExecutionResult.Success();
         }
 
+        public IExecutionResult LinktoPaymentMethod(PaymentAction subscriptionRequestPaymentAction)
+        {
+            Emit(new PaymentMethodLinkedEvent(subscriptionRequestPaymentAction));
+            return ExecutionResult.Success();
+        }
+
         public void Apply(SubscriptionRequestCreatedEvent @event)
         {
             this.subscriptionAccountId = @event.SubscriptionAccountId;
@@ -82,5 +87,6 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
         public void Apply(SubscriptionRequestManualValidatedEvent @event) { }
         public void Apply(SubscriptionRequestManualDeclinedEvent @event) { }
         public void Apply(SubscriptionRequestManualConfiguredEvent @event) { }
+
     }
 }

@@ -15,7 +15,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionConfigur
 {
     public class SubscriptionConfigurationSaga : AggregateSaga<SubscriptionConfigurationSaga, SubscriptionConfigurationSagaId, SubscriptionConfigurationSagaLocator>,
                                                  ISagaIsStartedBy<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestManualConfiguredEvent>,
-                                                 ISagaHandles<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestStatusUpdatedEvent>
+                                                 ISagaIsStartedBy<SubscriptionRequest, SubscriptionRequestId, PaymentMethodLinkedEvent>
 
     {
         public SubscriptionConfigurationSaga(SubscriptionConfigurationSagaId id) : base(id) { }
@@ -29,8 +29,11 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionConfigur
             return Task.CompletedTask;
         }
 
-        public Task HandleAsync(IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestStatusUpdatedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
+        public Task HandleAsync(IDomainEvent<SubscriptionRequest, SubscriptionRequestId, PaymentMethodLinkedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
+            var command = new PaymentMethodLinkToSubscriptionRequestCommand(new SubscriptionRequestId(domainEvent.AggregateIdentity.Value), domainEvent.AggregateEvent.SubscriptionRequestPaymentAction);
+            this.Publish(command);
+
             Emit(new SubscriptionConfigurationSagaCompletedEvent());
             return Task.CompletedTask;
         }
@@ -43,5 +46,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionConfigur
         {
             Complete();
         }
+
+
     }
 }
