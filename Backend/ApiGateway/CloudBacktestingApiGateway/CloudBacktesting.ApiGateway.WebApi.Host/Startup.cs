@@ -30,7 +30,7 @@ namespace CloudBacktesting.ApiGateway.WebApi
             services.AddSingleton<IConsulClient, ConsulClient>(p => new ConsulClient(consulConfig =>
             {
                 var address = $"http://{Configuration.GetSection("ConsulEndpoint").GetValue<string>("IPAdress")}:{Configuration.GetSection("ConsulEndpoint").GetValue<string>("Port")}";
-                Console.WriteLine($"cloud rmq endpoint is ${address}");
+                Console.WriteLine($"consul endpoint is ${address}");
                 consulConfig.Address = new Uri(address);
             }));
             services.AddTransient<IUserService, UserService>();

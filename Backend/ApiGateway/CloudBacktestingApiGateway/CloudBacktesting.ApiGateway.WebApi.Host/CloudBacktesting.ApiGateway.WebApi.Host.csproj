@@ -25,5 +25,7 @@
     <ProjectReference Include="..\CloudBacktesting.ApiGateway.WebApi.Ocelot\CloudBacktesting.ApiGateway.WebApi.Ocelot.csproj" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1local_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
 
 </Project>
