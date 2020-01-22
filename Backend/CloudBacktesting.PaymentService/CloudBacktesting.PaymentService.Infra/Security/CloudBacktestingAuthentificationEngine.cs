@@ -34,7 +34,8 @@ namespace CloudBacktesting.Infra.Security
             var claims = additonalClaims.Union(new[] {
                                                     new Claim(ClaimTypes.Email, user.Email),
                                                     new Claim(ClaimTypes.Name, user.Name),
-                                                    new Claim(ClaimTypes.Role, string.Join(", ", user.Roles)),
+                                                    new Claim(ClaimTypes
+                                                    .Role, string.Join(", ", user?.Roles)),
                                                     new Claim("Connected", "Connected")
                                               })
                                               .Union(roleClaims).ToArray();
