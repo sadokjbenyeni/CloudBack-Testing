@@ -89,30 +89,5 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
             return BadRequest($"Creation of account for payment failed. Please contact support with error's identifier {errorIdentifier}");
         }
 
-        //[HttpGet]
-        //public IActionResult Get()
-        //{
-        //    var result = new List<PaymentAccountReadModelDto>()
-        //    { new PaymentAccountReadModelDto
-        //    {
-        //        Id = PaymentAccountId.New.ToString(),
-        //        Client = "philip.country@iress.com",
-        //        CreationDate = DateTime.UtcNow
-        //    },
-        //    new PaymentAccountReadModelDto
-        //    {
-        //        Id = PaymentAccountId.New.ToString(),
-        //        Client = "james.simpson@iress.com",
-        //        CreationDate = DateTime.UtcNow
-        //    }};
-        //    return Ok(result);
-
-        //}
-
-        //[HttpPost]
-        //public ActionResult Post([FromBody] CreatePaymentAccountDto value)
-        //{
-        //    return Ok(value.Client);
-        //}
     }
 }
