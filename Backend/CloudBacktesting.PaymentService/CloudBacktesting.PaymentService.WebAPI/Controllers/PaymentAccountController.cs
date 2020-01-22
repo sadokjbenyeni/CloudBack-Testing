@@ -19,7 +19,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[CloudBacktestingAuthorize("Connected,Client")] // PEUT-ÊTRE QUE GET doit être dans un autre controller ? ???
+    [CloudBacktestingAuthorize("Connected,Client")] // PEUT-ÊTRE QUE GET doit être dans un autre controller ? ???
     public class PaymentAccountController : ControllerBase
     {
         private readonly ILogger<PaymentAccountController> logger;
@@ -69,6 +69,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
         }
 
         [HttpPost]
+        [CloudBacktestingAuthorize("Admin")]
         public async Task<ActionResult> Post([FromBody] CreatePaymentAccountDto value)
         {
             if (this.User == null || !this.User.Identity.IsAuthenticated)
