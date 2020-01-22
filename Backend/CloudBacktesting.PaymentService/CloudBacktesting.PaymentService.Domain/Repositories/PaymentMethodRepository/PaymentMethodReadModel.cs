@@ -31,7 +31,7 @@ namespace CloudBacktesting.PaymentService.Domain.Repositories.PaymentMethodRepos
             CardNumber = domainEvent.AggregateEvent.CardNumber;
             CardHolder = domainEvent.AggregateEvent.CardHolder;
             CardType = domainEvent.AggregateEvent.CardType;
-            ExpirationDate = domainEvent.AggregateEvent.ExpirationDate;
+            ExpirationDate = domainEvent.AggregateEvent.ExpirationDate.ToString();
         }
 
         public void Apply(IReadModelContext context, EventFlow.Aggregates.IDomainEvent<PaymentMethod, PaymentMethodId, PaymentAccountAffectedEvent> domainEvent)

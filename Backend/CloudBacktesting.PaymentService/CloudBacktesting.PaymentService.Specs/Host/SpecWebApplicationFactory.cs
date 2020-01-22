@@ -5,6 +5,7 @@ using CloudBacktesting.Infra.EventFlow.ReadStores;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Commands;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Events;
 using CloudBacktesting.PaymentService.Domain.Repositories.PaymentAccountRepository;
+using CloudBacktesting.PaymentService.Domain.Repositories.PaymentMethodRepository;
 using CloudBacktesting.PaymentService.WebAPI.Controllers;
 using CloudBacktesting.PaymentService.WebAPI.Host;
 using CloudBacktesting.PaymentService.WebAPI.Host.DatabaseSettings;
@@ -89,7 +90,9 @@ namespace CloudBacktesting.PaymentService.Specs.Host
                                                 //.AddSagaLocators(typeof(PaymentAccountCreationSagaLocator).Assembly)
                                                 .UseConsoleLog()
                                                 .UseInMemoryReadStoreFor<PaymentAccountReadModel>()
+                                                .UseInMemoryReadStoreFor<PaymentMethodReadModel>()
                                                 .AddQueryHandler<InMemoryFindReadModelQueryHandler<PaymentAccountReadModel>, FindReadModelQuery<PaymentAccountReadModel>, ICollectionReadModel<PaymentAccountReadModel>>()
+                                                .AddQueryHandler<InMemoryFindReadModelQueryHandler<PaymentMethodReadModel>, FindReadModelQuery<PaymentMethodReadModel>, ICollectionReadModel<PaymentMethodReadModel>>()
 
                     );
         }

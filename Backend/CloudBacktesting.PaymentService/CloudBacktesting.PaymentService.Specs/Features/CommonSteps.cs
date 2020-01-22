@@ -40,28 +40,35 @@ namespace CloudBacktesting.PaymentService.Specs.Features
         [Given(@"'(.*)' payment account has been created")]
         public Task GivenPaymentAccountHasBeenCreated(string customer)
         {
-            return CreateNewPaymentAccountFor(customer);
+            return CreateNewPaymentAccountFor("Morgan", customer);
         }
 
         [When(@"Morgan sends the payment account creation request for '(.*)'")]
         public Task WhenMorganSendsThePaymentAccountCreationRequestFor(string customer)
         {
-            return CreateNewPaymentAccountFor(customer);
+            return CreateNewPaymentAccountFor("Morgan", customer);
         }
 
-        private async Task CreateNewPaymentAccountFor(string customer)
+
+        [When(@"'(.*)' sends the payment account creation request for '(.*)'")]
+        public Task WhenSendsThePaymentAccountCreationRequestFor(string requestor, string subscriber)
         {
-            var adminUser = context.Get<UserIdentity>("Morgan");
+            return CreateNewPaymentAccountFor(requestor, subscriber);
+        }
+
+        private async Task CreateNewPaymentAccountFor(string requestor, string subscriber)
+        {
+            var adminUser = context.Get<UserIdentity>(requestor);
             var httpClient = context.ScenarioContainer.Resolve<ITestHttpClientFactory>().Create(adminUser);
-            var customerCommand = new CreatePaymentAccountDto() { Client = customer };
+            var customerCommand = new CreatePaymentAccountDto() { Client = subscriber };
             context.Set(customerCommand, "creationPaymentAccountCommand");
             var content = new StringContent(JsonConvert.SerializeObject(customerCommand), Encoding.UTF8, "application/json");
             var result = await httpClient.PostAsync("api/paymentaccount", content);
             context.Set(result, "createPaymentCommandResult");
-            if (result.IsSuccessStatusCode && context.TryGetValue(customer, out UserIdentity customerIdentity))
+            if (result.IsSuccessStatusCode && context.TryGetValue<UserIdentity>(subscriber, out var customerIdentity))
             {
                 var id = JsonConvert.DeserializeObject<IdentifierDto>(await result.Content.ReadAsStringAsync());
-                ((Dictionary<string, string>)customerIdentity.Additionals).Add("subscriptionaccountid", id.Id);
+                ((Dictionary<string, string>)customerIdentity.Additionals).Add("paymentaccountid", id.Id);
             }
         }
 

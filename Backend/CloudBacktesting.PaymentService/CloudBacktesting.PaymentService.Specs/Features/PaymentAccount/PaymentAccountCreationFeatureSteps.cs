@@ -62,5 +62,20 @@ namespace CloudBacktesting.PaymentService.Specs.Features.PaymentAccount
             Assert.That(dtoModel.Client, Is.EqualTo(customer).Using((IEqualityComparer<string>)StringComparer.InvariantCultureIgnoreCase));
             Assert.That(dtoModel.CreationDate.Date, Is.EqualTo(DateTime.UtcNow.Date));
         }
+
+        [Then(@"Creation of payment account is not successful")]
+        public async Task ThenCreationOfPaymentAccountIsNotSuccessful()
+        {
+            var resultCommand = context.Get<HttpResponseMessage>("createPaymentCommandResult");
+            Assert.That(resultCommand.StatusCode, Is.EqualTo(HttpStatusCode.Forbidden));
+            Assert.That(resultCommand.IsSuccessStatusCode, Is.False, resultCommand.ReasonPhrase);
+            var content = await resultCommand.Content.ReadAsStringAsync();
+            Assert.That(content, Is.EqualTo(""));
+            //var identifierContainer = JsonConvert.DeserializeObject<PaymentAccountIdDto>(content);
+            //Assert.That(identifierContainer, Is.Not.Null);
+            //Assert.That(identifierContainer.Id, Is.Not.Null.And.Not.Empty);
+        }
+
+
     }
 }

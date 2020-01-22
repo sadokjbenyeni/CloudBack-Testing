@@ -67,12 +67,20 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
                 return BadRequest($"Access error, please contact the administrator with error id: {idError}");
             }
             var readModel = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<PaymentMethodReadModel>(new PaymentMethodId(id)), CancellationToken.None);
-            if (!string.Equals(readModel.PaymentAccountId, this.User.GetUserIdentifier()?.Value, StringComparison.InvariantCultureIgnoreCase))
+            if (IsNotFound(readModel))
             {
                 return NotFound("This payment method is not found");
             }
             return base.Ok(ToDto(readModel));
         }
+
+        private bool IsNotFound(PaymentMethodReadModel readModel)
+        {
+            return readModel == null
+                || string.IsNullOrEmpty(readModel.Id)
+                || !string.Equals(readModel.PaymentAccountId, this.User.GetUserIdentifier()?.Value, StringComparison.InvariantCultureIgnoreCase);
+        }
+
         private static PaymentMethodReadModelDto ToDto(PaymentMethodReadModel readModel)
         {
             if (readModel == null)
@@ -81,17 +89,18 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
             }
             return new PaymentMethodReadModelDto()
             {
+                PaymentMethodId = readModel.Id,
                 PaymentAccountId = readModel.PaymentAccountId,
                 CardNumber = readModel.CardNumber,
                 CardType = readModel.CardType,
                 CardHolder = readModel.CardHolder,
-                ExpirationDate = readModel.ExpirationDate                
+                ExpirationDate = readModel.ExpirationDate.ToString()                
             };
         }
 
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] PaymentMethodReadModelDto value)
+        public async Task<ActionResult> Post([FromBody] CreateCardPaymentMethodDto value)
         {
             if (this.User == null || !this.User.Identity.IsAuthenticated)
             {
@@ -109,7 +118,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
             IExecutionResult commandResult = null;
             try
             {
-                var command = new PaymentMethodCreationCommand(new PaymentAccountId(paymentAccountId).ToString(), value.CardNumber, value.CardType, value.CardHolder, value.ExpirationDate);
+                var command = new PaymentMethodCreationCommand(new PaymentAccountId(paymentAccountId).ToString(), value.Numbers, value.Network, value.Holder, value.ExpirationDate);
                 commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
                 if (commandResult.IsSuccess)
                 {
