@@ -1,4 +1,5 @@
 ﻿using CloudBacktesting.Infra.EventFlow.Queries;
+using CloudBacktesting.Infra.Security.Authorization;
 using CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate;
 using CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate.Commands;
 using CloudBacktesting.PaymentService.Domain.Repositories.BillingItemRepository;
@@ -19,6 +20,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [CloudBacktestingAuthorize("Connected,Client")]
     public class BillingItemController : ControllerBase
     {
         private readonly ILogger<BillingItemController> logger;

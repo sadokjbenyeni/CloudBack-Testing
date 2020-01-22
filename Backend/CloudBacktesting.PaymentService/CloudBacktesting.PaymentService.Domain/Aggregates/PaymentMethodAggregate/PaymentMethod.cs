@@ -16,7 +16,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
 
         public PaymentMethod(PaymentMethodId aggregateId) : base(aggregateId) { }
 
-        public IExecutionResult Create(string paymentAccountId, string cardNumber, string cardType, string cryptogram, DateTime expirationDate)
+        public IExecutionResult Create(string paymentAccountId, string cardNumber, string cardType, string cryptogram, string expirationDate)
         {
             var @event = new PaymentMethodCreatedEvent(this.Id.Value, paymentAccountId, cardNumber, cardType, cryptogram, expirationDate);
             Emit(@event);

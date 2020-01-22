@@ -5,7 +5,9 @@ using CloudBacktesting.Infra.Security;
 using CloudBacktesting.Infra.Security.Authorization;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Commands;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Events;
+using CloudBacktesting.PaymentService.Domain.Repositories.BillingItemRepository;
 using CloudBacktesting.PaymentService.Domain.Repositories.PaymentAccountRepository;
+using CloudBacktesting.PaymentService.Domain.Repositories.PaymentMethodRepository;
 using CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation;
 using CloudBacktesting.PaymentService.Infra.Security;
 using CloudBacktesting.PaymentService.WebAPI.Host.DatabaseSettings;
@@ -80,7 +82,11 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
                                        .ConfigureMongoDb(configMongo.ConnectionString, configMongo.DatabaseName)
                                        .UseConsoleLog()
                                        .UseMongoDbReadModel<PaymentAccountReadModel>()
+                                       .UseMongoDbReadModel<PaymentMethodReadModel>()
+                                       .UseMongoDbReadModel<BillingItemReadModel>()
                                        .AddQueryHandler<MongoDbFindReadModelQueryHandler<PaymentAccountReadModel>, FindReadModelQuery<PaymentAccountReadModel>, ICollectionReadModel<PaymentAccountReadModel>>()
+                                       .AddQueryHandler<MongoDbFindReadModelQueryHandler<PaymentMethodReadModel>, FindReadModelQuery<PaymentMethodReadModel>, ICollectionReadModel<PaymentMethodReadModel>>()
+                                       .AddQueryHandler<MongoDbFindReadModelQueryHandler<BillingItemReadModel>, FindReadModelQuery<BillingItemReadModel>, ICollectionReadModel<BillingItemReadModel>>()
                                        );
             }
             return services;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CloudBacktesting.Infra.EventFlow.Queries;
+using CloudBacktesting.Infra.Security.Authorization;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate.Commands;
@@ -21,6 +22,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [CloudBacktestingAuthorize("Connected,Client")]
     public class PaymentMethodController : ControllerBase
     {
         private readonly ILogger<PaymentMethodController> logger;
@@ -79,7 +81,6 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
             }
             return new PaymentMethodReadModelDto()
             {
-                MethodId = readModel.Id,
                 PaymentAccountId = readModel.PaymentAccountId,
                 CardNumber = readModel.CardNumber,
                 CardType = readModel.CardType,

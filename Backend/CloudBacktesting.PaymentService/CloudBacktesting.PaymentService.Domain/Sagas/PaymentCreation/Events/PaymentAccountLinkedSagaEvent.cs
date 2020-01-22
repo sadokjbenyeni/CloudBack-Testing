@@ -11,9 +11,9 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation.Events
         public string PaymentMethodCardType { get; }
         public string PaymentMethodCryptogram { get; }
         public string MethodId { get; }
-        public DateTime ExpirationDate { get; }
+        public string ExpirationDate { get; }
 
-        public PaymentAccountLinkedSagaEvent( string methodId, string paymentMethodCardNumber, string paymentMethodCardType, string paymentMethodCryptogram, DateTime expirationDate)
+        public PaymentAccountLinkedSagaEvent( string methodId, string paymentMethodCardNumber, string paymentMethodCardType, string paymentMethodCryptogram, string expirationDate)
         {
             MethodId = methodId;
             PaymentMethodCardNumber = paymentMethodCardNumber;

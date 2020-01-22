@@ -20,7 +20,7 @@ namespace CloudBacktesting.PaymentService.Domain.Repositories.PaymentMethodRepos
         public string Client { get; set; }
         public string CardType { get; set; }
         public string CardHolder { get; set; }
-        public DateTime ExpirationDate { get; set; }
+        public string ExpirationDate { get; set; }
 
 
 

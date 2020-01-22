@@ -12,9 +12,9 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
         public string CardNumber { get; set; }
         public string CardType { get; set; }
         public string CardHolder { get; set; }
-        public DateTime ExpirationDate { get; set; }
+        public string ExpirationDate { get; set; }
 
-        public PaymentMethodCreationCommand(string paymentAccountId, string cardNumber, string cardType, string cardHolder, DateTime expirationDate) : base(PaymentMethodId.New)
+        public PaymentMethodCreationCommand(string paymentAccountId, string cardNumber, string cardType, string cardHolder, string expirationDate) : base(PaymentMethodId.New)
         {
             PaymentAccountId = paymentAccountId;
             CardNumber = cardNumber;
