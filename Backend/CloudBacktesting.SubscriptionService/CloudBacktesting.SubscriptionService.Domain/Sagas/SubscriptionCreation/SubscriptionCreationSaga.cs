@@ -17,6 +17,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
     public class SubscriptionCreationSaga : AggregateSaga<SubscriptionCreationSaga, SubscriptionCreationSagaId, SubscriptionCreationSagaLocator>,
                                             ISagaIsStartedBy<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestCreatedEvent>,
                                             ISagaHandles<SubscriptionAccount, SubscriptionAccountId, SubscriptionRequestLinkedEvent>,
+                                            ISagaHandles<SubscriptionRequest, SubscriptionRequestId, PaymentMethodLinkedEvent>,
                                             ISagaHandles<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestValidatedEvent>
 
 
@@ -32,14 +33,8 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
                 domainEvent.AggregateEvent.Status, 
                 domainEvent.AggregateEvent.Type,
                 domainEvent.AggregateEvent.PaymentAction);
-            //try
-            //{
             this.Publish(command);
-            //}
-            //catch (SagaPublishException ex)
-            //{
 
-            //}
             this.Emit(new SubscriptionAccountLinkedSagaEvent(domainEvent.AggregateIdentity.Value, domainEvent.AggregateEvent.Status, domainEvent.AggregateEvent.Type));
             return Task.CompletedTask;
         }
@@ -59,11 +54,20 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
             return Task.CompletedTask;
         }
 
+        public Task HandleAsync(IDomainEvent<SubscriptionRequest, SubscriptionRequestId, PaymentMethodLinkedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
+        {
+            var command = new PaymentMethodLinkToSubscriptionRequestCommand(domainEvent.AggregateIdentity, domainEvent.AggregateEvent.SubscriptionRequestPaymentAction);
+            this.Publish(command);
+
+            return Task.CompletedTask;
+        }
+
         public Task HandleAsync(IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestValidatedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
             Emit(new SubscriptionCreationSagaCompletedEvent());
             return Task.CompletedTask;
         }
+
 
         public void Apply(SubscriptionAccountLinkedSagaEvent @event) { }
 
@@ -71,6 +75,5 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
         {
             Complete();
         }
-
     }
 }
