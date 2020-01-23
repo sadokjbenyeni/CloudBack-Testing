@@ -135,8 +135,11 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
             app.UseCors("AllowAllOrigins");
             app.UseAuthentication();
             //app.UseAuthorization();
-            app.UseSwagger();
-            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/V1/swagger.json", "Subscription Api"));
+            if (!env.IsProduction())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/V1/swagger.json", "Subscription Api"));
+            }
             app.UseHttpsRedirection();
             ConfigureEventFlow(app);
 

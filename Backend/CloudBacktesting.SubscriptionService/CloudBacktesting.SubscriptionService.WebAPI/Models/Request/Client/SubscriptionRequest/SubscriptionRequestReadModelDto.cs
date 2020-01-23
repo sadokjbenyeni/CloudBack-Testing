@@ -1,5 +1,4 @@
-﻿using CloudBacktesting.SubscriptionService.WebAPI.Models.Payment;
-using System;
+﻿using System;
 
 namespace CloudBacktesting.SubscriptionService.WebAPI.Models.Request.Client.SubscriptionRequest
 {

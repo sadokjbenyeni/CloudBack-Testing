@@ -28,7 +28,7 @@ Scenario: The Chang's creation payment method request is failed with wrong credi
 	Given the webapi is online
 	When 'Chang' creates a new payment method with:
 	| Holder          | Numbers             | Network | ExpirationDate | Cryptogram |
-	| Chang's Company | 1111 2222 3333 4444 | Visa    | 12/2030        | 111        |
+	| Chang's Company | 5555 5555 5555 5555 | Visa    | 12/2030        | 111        |
 	Then Creation of payment method creation is not successful
 
 @v1 @paymentMethod @browseAll @success @creditCard

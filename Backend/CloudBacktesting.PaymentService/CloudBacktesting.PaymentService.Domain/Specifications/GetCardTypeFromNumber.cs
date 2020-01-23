@@ -30,7 +30,7 @@ namespace CloudBacktesting.PaymentService.Domain.Specifications
             }
             else
             {
-                return null;
+                return CreditCardTypeType.Other;
             }
         }
     }

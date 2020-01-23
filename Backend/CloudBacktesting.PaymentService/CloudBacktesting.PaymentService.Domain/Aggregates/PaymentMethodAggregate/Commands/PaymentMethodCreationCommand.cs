@@ -16,6 +16,31 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
 
         public PaymentMethodCreationCommand(string paymentAccountId, string cardNumber, string cardType, string cardHolder, string expirationDate) : base(PaymentMethodId.New)
         {
+            if (string.IsNullOrEmpty(paymentAccountId))
+            {
+                throw new ArgumentException("Cannot be null or empty", nameof(paymentAccountId));
+            }
+
+            if (string.IsNullOrEmpty(cardNumber))
+            {
+                throw new ArgumentException("Cannot be null or empty", nameof(cardNumber));
+            }
+
+            if (string.IsNullOrEmpty(cardType))
+            {
+                throw new ArgumentException("Cannot be null or empty", nameof(cardType));
+            }
+
+            if (string.IsNullOrEmpty(cardHolder))
+            {
+                throw new ArgumentException("Cannot be null or empty", nameof(cardHolder));
+            }
+
+            if (string.IsNullOrEmpty(expirationDate))
+            {
+                throw new ArgumentException("Cannot be null or empty", nameof(expirationDate));
+            }
+
             PaymentAccountId = paymentAccountId;
             CardNumber = cardNumber;
             CardType = cardType;

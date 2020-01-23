@@ -100,8 +100,12 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
             }
 
             app.UseHttpsRedirection();
-            app.UseSwagger();
-            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/V1/swagger.json", "Payment Api"));
+            if (!env.IsProduction())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/V1/swagger.json", "Payment Api"));
+            }
+            
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

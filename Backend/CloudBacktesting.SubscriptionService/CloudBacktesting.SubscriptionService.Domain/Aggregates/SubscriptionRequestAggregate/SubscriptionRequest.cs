@@ -63,7 +63,6 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
             Emit(new SubscriptionRequestManualConfiguredEvent(this.Id.Value, this.subscriptionAccountId, message, DateTime.UtcNow));
             return ExecutionResult.Success();
         }
-
         public IExecutionResult LinktoPaymentMethod(PaymentAction subscriptionRequestPaymentAction)
         {
             Emit(new PaymentMethodLinkedEvent(subscriptionRequestPaymentAction));

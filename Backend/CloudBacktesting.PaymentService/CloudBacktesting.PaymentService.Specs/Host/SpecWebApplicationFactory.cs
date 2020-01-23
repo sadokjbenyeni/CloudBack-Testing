@@ -6,6 +6,7 @@ using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Events;
 using CloudBacktesting.PaymentService.Domain.Repositories.PaymentAccountRepository;
 using CloudBacktesting.PaymentService.Domain.Repositories.PaymentMethodRepository;
+using CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation;
 using CloudBacktesting.PaymentService.WebAPI.Controllers;
 using CloudBacktesting.PaymentService.WebAPI.Host;
 using CloudBacktesting.PaymentService.WebAPI.Host.DatabaseSettings;
@@ -86,8 +87,8 @@ namespace CloudBacktesting.PaymentService.Specs.Host
                                                 .AddEvents(typeof(PaymentAccountCreatedEvent).Assembly)
                                                 .AddCommands(typeof(PaymentAccountCreationCommand).Assembly, type => true)
                                                 .AddCommandHandlers(typeof(PaymentAccountCreationCommandHandler).Assembly)
-                                                //.AddSagas(typeof(PaymentAccountCreationSaga).Assembly)
-                                                //.AddSagaLocators(typeof(PaymentAccountCreationSagaLocator).Assembly)
+                                                .AddSagas(typeof(PaymentCreationSaga).Assembly)
+                                                .AddSagaLocators(typeof(PaymentCreationSagaLocator).Assembly)
                                                 .UseConsoleLog()
                                                 .UseInMemoryReadStoreFor<PaymentAccountReadModel>()
                                                 .UseInMemoryReadStoreFor<PaymentMethodReadModel>()
