@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 //const cron = require('node-cron');
 var resultEnv = false;
 if (process.env.NODEJSENVIRONMENT != undefined) {
-  console.log ("retrieving config file from environment variable and it's "+  process.env.NODEJSENVIRONMENT )
+  console.log ("retrieving config file from environment variable "+  process.env.NODEJSENVIRONMENT )
   require('dotenv').config({ path: "environment/" + process.env.NODEJSENVIRONMENT + ".env" });
   resultEnv = true;
 }
@@ -132,16 +132,17 @@ app.use('/api', api);
 // END CRON
 
 //Static path to dist
-app.use(express.static(path.join(__dirname, 'site/dist')));
-app.use('/files', express.static(path.join(__dirname, 'files')));
-app.use('/cmd', express.static(path.join(__dirname, 'files/command')));
-app.use('/iv', express.static(path.join(__dirname, 'files/invoice')));
+// app.use(express.static(path.join(__dirname, 'site/dist')));
+// app.use('/files', express.static(path.join(__dirname, 'files')));
+// app.use('/cmd', express.static(path.join(__dirname, 'files/command')));
+// app.use('/iv', express.static(path.join(__dirname, 'files/invoice')));
 // app.use('/loadfile', express.static('/histoondemand/mapr_exports/'));
-app.use('/help/dataguide', express.static(path.join(__dirname, 'dataguide/')));
+// app.use('/help/dataguide', express.static(path.join(__dirname, 'dataguide/')));
 
 //Catch all other routes and return to the index file
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'site/dist/index.html'));
+app.get('/', (req, res) => {
+    res.status(200).send("");
+  // res.sendFile(path.join(__dirname, 'site/dist/index.html'));
 })
 console.log(" port number is " + process.env.PORT);
 //Get environment port or use 9095

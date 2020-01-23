@@ -13,7 +13,7 @@ export class SubscriptionService {
   }
   getAllSubscriptions(): Observable<Subscription[]> {
 
-    return this.http.get<any[]>(environment.api+"/subscriptionRequest")
+    return this.http.get<any[]>(environment.api+"/SubscriptionRequest")
       .map(result => {
         var subscriptions: Subscription[] = [];
         result.forEach(element => {
