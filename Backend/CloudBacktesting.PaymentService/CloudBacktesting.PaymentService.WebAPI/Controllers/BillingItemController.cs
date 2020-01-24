@@ -43,14 +43,14 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
                 return BadRequest($"Access error, please contact the administrator with error id: {idError}");
             }
-            var billingItemId = this.User.GetUserIdentifier().Value ?? "";
-            if (string.IsNullOrEmpty(billingItemId))
+            var paymentAccountId = this.User.GetUserIdentifier()?.Value ?? "";
+            if (string.IsNullOrEmpty(paymentAccountId))
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify (BillingItemId not). Please check the API Gateway log. Id error: {idError}");
                 return BadRequest($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persists");
             }
-            var result = await queryProcessor.ProcessAsync(new FindReadModelQuery<BillingItemReadModel>(model => string.Equals(model.Id, billingItemId, StringComparison.InvariantCultureIgnoreCase)), CancellationToken.None);
+            var result = await queryProcessor.ProcessAsync(new FindReadModelQuery<BillingItemReadModel>(model => true), CancellationToken.None);
             return Ok(result.Select(ToDto).ToList());
         }
 
@@ -64,11 +64,18 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
                 return BadRequest($"Access error, please contact the administrator with error id: {idError}");
             }
             var readModel = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<BillingItemReadModel>(new BillingItemId(id)), CancellationToken.None);
-            if (!string.Equals(readModel.Id, this.User.GetUserIdentifier()?.Value, StringComparison.InvariantCultureIgnoreCase))
+            if (IsNotFound(readModel, id))
             {
                 return NotFound("This billing item is not found");
             }
             return base.Ok(ToDto(readModel));
+        }
+
+        private bool IsNotFound(BillingItemReadModel readModel, string methodId)
+        {
+            return readModel == null
+                || string.IsNullOrEmpty(readModel.Id)
+                || !string.Equals(readModel.Id, methodId, StringComparison.InvariantCultureIgnoreCase);
         }
 
         private static BillingItemReadModelDto ToDto(BillingItemReadModel readModel)
@@ -79,7 +86,9 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
             }
             return new BillingItemReadModelDto()
             {
-
+                Id = readModel.Id,
+                PaymentMethodId = readModel.PaymentMethodId,
+                CreationDate = readModel.CreationDate
             };
         }
 

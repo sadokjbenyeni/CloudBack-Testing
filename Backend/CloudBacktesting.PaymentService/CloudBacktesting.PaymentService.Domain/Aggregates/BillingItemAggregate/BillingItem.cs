@@ -7,7 +7,7 @@ using System.Text;
 
 namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
 {
-    public class BillingItem : AggregateRoot<BillingItem, BillingItemId>, IEmit<BillingItemCreatedEvent>, IEmit<InvoiceGeneratedEvent>
+    public class BillingItem : AggregateRoot<BillingItem, BillingItemId>, IEmit<BillingItemCreatedEvent>, IEmit<BillingItemLinkedEvent>, IEmit<InvoiceGeneratedEvent>
     {
         private string paymentMethodId;
 
@@ -19,16 +19,24 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
             return ExecutionResult.Success();
         }
 
+        public IExecutionResult LinkBillingItem(string paymentMethodId)
+        {
+            Emit(new BillingItemLinkedEvent(paymentMethodId));
+            return ExecutionResult.Success();
+        }
+
         public IExecutionResult GenerateInvoice(string invoiceId, string method, string client, string cardHolder, string address, string amount, DateTime invoiceDate)
         {
             Emit(new InvoiceGeneratedEvent(invoiceId, method, client, cardHolder, address, amount, invoiceDate)) ;
             return ExecutionResult.Success();
         }
-        public void Apply(BillingItemCreatedEvent aggregateEvent)
+        public void Apply(BillingItemCreatedEvent @event)
         {
-            this.paymentMethodId = aggregateEvent.PaymentMethodId;
+            this.paymentMethodId = @event.PaymentMethodId;
         }
 
-        public void Apply(InvoiceGeneratedEvent aggregateEvent) { }
+        public void Apply(BillingItemLinkedEvent @event) { }
+
+        public void Apply(InvoiceGeneratedEvent @event) { }
     }
 }

@@ -19,7 +19,7 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation.Events
             PaymentMethodCardNumber = paymentMethodCardNumber;
             PaymentMethodCardType = paymentMethodCardType;
             PaymentMethodCryptogram = paymentMethodCryptogram;
-            PaymentMethodCryptogram = paymentMethodCryptogram;
+            ExpirationDate = expirationDate;
         }
     }
 }

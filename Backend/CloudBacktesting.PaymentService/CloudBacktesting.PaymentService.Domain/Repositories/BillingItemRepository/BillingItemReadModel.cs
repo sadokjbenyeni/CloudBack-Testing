@@ -9,6 +9,8 @@ namespace CloudBacktesting.PaymentService.Domain.Repositories.BillingItemReposit
 {
     public class BillingItemReadModel : IReadModel, IMongoDbReadModel
         , IAmReadModelFor<BillingItem, BillingItemId, BillingItemCreatedEvent>
+        , IAmReadModelFor<BillingItem, BillingItemId, BillingItemLinkedEvent>
+        , IAmReadModelFor<BillingItem, BillingItemId, InvoiceGeneratedEvent>
     {
         public string Id { get; private set; }
         public string PaymentMethodId { get; set; }
@@ -20,12 +22,27 @@ namespace CloudBacktesting.PaymentService.Domain.Repositories.BillingItemReposit
         public string CardHolder { get; set; }
         public string Address { get; set; }
         public string Amount { get; set; }
-
+        public DateTime CreationDate { get; set; }
 
         public void Apply(IReadModelContext context, IDomainEvent<BillingItem, BillingItemId, BillingItemCreatedEvent> domainEvent)
         {
             Id = string.IsNullOrEmpty(Id) ? domainEvent.AggregateIdentity.Value : Id;
             PaymentMethodId = domainEvent.AggregateEvent.PaymentMethodId;
+        }
+
+        public void Apply(IReadModelContext context, IDomainEvent<BillingItem, BillingItemId, InvoiceGeneratedEvent> domainEvent)
+        {
+            InvoiceId = domainEvent.AggregateEvent.InvoiceId;
+            InvoiceDate = domainEvent.AggregateEvent.InvoiceDate;
+            Method = domainEvent.AggregateEvent.Method;
+            Client = domainEvent.AggregateEvent.Client;
+            CardHolder = domainEvent.AggregateEvent.CardHolder;
+            Address = domainEvent.AggregateEvent.Address;
+            Amount = domainEvent.AggregateEvent.Amount;
+        }
+
+        public void Apply(IReadModelContext context, IDomainEvent<BillingItem, BillingItemId, BillingItemLinkedEvent> domainEvent)
+        {
         }
     }
 }

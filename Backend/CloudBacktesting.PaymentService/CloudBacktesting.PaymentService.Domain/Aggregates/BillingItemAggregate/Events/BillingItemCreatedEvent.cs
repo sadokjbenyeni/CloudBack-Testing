@@ -7,6 +7,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
 {
     public class BillingItemCreatedEvent : AggregateEvent<BillingItem, BillingItemId>
     {
+
         public string PaymentMethodId { get; }
 
         public BillingItemCreatedEvent(string paymentMethodId)
