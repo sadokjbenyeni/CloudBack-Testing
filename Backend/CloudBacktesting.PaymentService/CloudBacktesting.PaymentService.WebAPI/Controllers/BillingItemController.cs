@@ -92,8 +92,8 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
                 return BadRequest($"Access error, please contact the administrator with error id: {idError}");
             }
-            var billingItemId = this.User.GetUserIdentifier()?.Value ?? "";
-            if (string.IsNullOrEmpty(billingItemId))
+            var paymentAccountId = this.User.GetUserIdentifier()?.Value ?? "";
+            if (string.IsNullOrEmpty(paymentAccountId))
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify (SubcriptionAccountId not found). Please check the API Gateway log. Id error: {idError}");
@@ -102,7 +102,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
             IExecutionResult commandResult = null;
             try
             {
-                var command = new BillingItemCreationCommand(new BillingItemId(billingItemId).ToString());
+                var command = new BillingItemCreationCommand(value.PaymentMethodId);
                 commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
                 if (commandResult.IsSuccess)
                 {
