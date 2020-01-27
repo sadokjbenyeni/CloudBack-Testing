@@ -32,7 +32,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            if (this.User == null || this.User.Identity.IsAuthenticated)
+            if (this.User == null || !this.User.Identity.IsAuthenticated)
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
