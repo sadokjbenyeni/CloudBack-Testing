@@ -12,7 +12,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
     {
         public override Task<IExecutionResult> ExecuteCommandAsync(PaymentMethod aggregate, PaymentMethodCreationCommand command, CancellationToken cancellationToken)
         {
-            return Task.FromResult(aggregate.Create(command.PaymentAccountId, command.CardNumber, command.CardType, command.CardHolder, command.ExpirationDate));
+            return Task.FromResult(aggregate.Create(command.PaymentAccountId, command.CardNumber, command.CardType, command.CardHolder, command.ExpirationDate, command.Cryptogram));
         }
     }
 }

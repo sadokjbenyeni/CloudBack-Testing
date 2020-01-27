@@ -41,7 +41,7 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation
 
         public Task HandleAsync(IDomainEvent<PaymentAccount, PaymentAccountId, PaymentMethodLinkedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
-            var command = new PaymentMethodSystemValidateCommand(domainEvent.AggregateEvent.MethodId, domainEvent.AggregateEvent.Client, domainEvent.AggregateEvent.CardNumber, domainEvent.AggregateEvent.CardType);
+            var command = new PaymentMethodSystemValidateCommand(domainEvent.AggregateEvent.MethodId, domainEvent.AggregateEvent.Client, domainEvent.AggregateEvent.CardNumber, domainEvent.AggregateEvent.CardType, domainEvent.AggregateEvent.Cryptogram);
             this.Publish(command);
             return Task.CompletedTask;
         }

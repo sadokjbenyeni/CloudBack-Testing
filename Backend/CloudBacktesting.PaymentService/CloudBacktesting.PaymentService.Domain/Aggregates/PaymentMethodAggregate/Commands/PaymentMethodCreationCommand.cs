@@ -12,9 +12,10 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
         public string CardNumber { get; set; }
         public string CardType { get; set; }
         public string CardHolder { get; set; }
+        public string Cryptogram { get; set; }
         public string ExpirationDate { get; set; }
 
-        public PaymentMethodCreationCommand(string paymentAccountId, string cardNumber, string cardType, string cardHolder, string expirationDate) : base(PaymentMethodId.New)
+        public PaymentMethodCreationCommand(string paymentAccountId, string cardNumber, string cardType, string cardHolder, string expirationDate, string cryptogram) : base(PaymentMethodId.New)
         {
             if (string.IsNullOrEmpty(paymentAccountId))
             {
@@ -41,11 +42,17 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
                 throw new ArgumentException("Cannot be null or empty", nameof(expirationDate));
             }
 
+            if (string.IsNullOrEmpty(cryptogram))
+            {
+                throw new ArgumentException("Cannot be null or empty", nameof(cryptogram));
+            }
+
             PaymentAccountId = paymentAccountId;
             CardNumber = cardNumber;
             CardType = cardType;
             CardHolder = cardHolder;
             ExpirationDate = expirationDate;
+            Cryptogram = cryptogram;
         }
     }
 }

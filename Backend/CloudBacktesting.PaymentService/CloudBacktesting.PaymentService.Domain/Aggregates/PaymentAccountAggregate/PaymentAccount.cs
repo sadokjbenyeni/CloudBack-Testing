@@ -21,9 +21,9 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggreg
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult LinkPaymentMethod(string paymentMethodId, string cardNumber, string cardType)
+        public IExecutionResult LinkPaymentMethod(string paymentMethodId, string cardNumber, string cardType, string cryptogram)
         {
-            Emit(new PaymentMethodLinkedEvent(paymentMethodId, this.client, cardNumber, cardType));
+            Emit(new PaymentMethodLinkedEvent(paymentMethodId, this.client, cardNumber, cardType, cryptogram));
             return ExecutionResult.Success();
         }
 

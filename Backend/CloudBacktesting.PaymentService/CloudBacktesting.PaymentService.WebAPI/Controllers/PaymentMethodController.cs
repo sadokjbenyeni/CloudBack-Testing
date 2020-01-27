@@ -29,7 +29,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
         private readonly ICommandBus commandBus;
         private readonly IQueryProcessor queryProcessor;
 
-        public PaymentMethodController( ILogger<PaymentMethodController> logger, ICommandBus commandBus, IQueryProcessor queryProcessor)
+        public PaymentMethodController(ILogger<PaymentMethodController> logger, ICommandBus commandBus, IQueryProcessor queryProcessor)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.commandBus = commandBus;
@@ -39,7 +39,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            if(this.User == null || !this.User.Identity.IsAuthenticated)
+            if (this.User == null || !this.User.Identity.IsAuthenticated)
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
@@ -94,7 +94,8 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
                 CardNumber = readModel.CardNumber,
                 CardType = readModel.CardType,
                 CardHolder = readModel.CardHolder,
-                ExpirationDate = readModel.ExpirationDate.ToString()                
+                Cryptogram = readModel.Cryptogram,
+                ExpirationDate = readModel.ExpirationDate.ToString()
             };
         }
 
@@ -118,7 +119,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
             IExecutionResult commandResult = null;
             try
             {
-                var command = new PaymentMethodCreationCommand(new PaymentAccountId(paymentAccountId).ToString(), value.Numbers, value.Network, value.Holder, value.ExpirationDate);
+                var command = new PaymentMethodCreationCommand(new PaymentAccountId(paymentAccountId).ToString(), value.Numbers, value.Network, value.Holder, value.ExpirationDate, value.Cryptogram);
                 commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
                 if (commandResult.IsSuccess)
                 {

@@ -12,13 +12,15 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggreg
         public string Client { get; }
         public string CardNumber { get; set; }
         public string CardType { get; set; }
+        public string Cryptogram { get; set; }
 
-        public PaymentMethodLinkedEvent(string methodId, string client, string cardNumber, string cardType)
+        public PaymentMethodLinkedEvent(string methodId, string client, string cardNumber, string cardType, string  cryptogram)
         {
             MethodId = methodId;
             Client = client;
             CardNumber = cardNumber;
             CardType = cardType;
+            Cryptogram = cryptogram;
         }
     }
 }

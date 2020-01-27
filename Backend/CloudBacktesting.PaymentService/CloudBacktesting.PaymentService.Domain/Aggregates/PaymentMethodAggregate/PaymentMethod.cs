@@ -16,14 +16,14 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
 
         public PaymentMethod(PaymentMethodId aggregateId) : base(aggregateId) { }
 
-        public IExecutionResult Create(string paymentAccountId, string cardNumber, string cardType, string cryptogram, string expirationDate)
+        public IExecutionResult Create(string paymentAccountId, string cardNumber, string cardType, string cardHolder, string expirationDate, string cryptogram)
         {
-            var @event = new PaymentMethodCreatedEvent(this.Id.Value, paymentAccountId, cardNumber, cardType, cryptogram, expirationDate);
+            var @event = new PaymentMethodCreatedEvent(this.Id.Value, paymentAccountId, cardNumber, cardType, cardHolder, cryptogram, expirationDate);
             Emit(@event);
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult SystemValidate(PaymentMethodId paymentMethodId, string cardNumber, string cardType)
+        public IExecutionResult SystemValidate(PaymentMethodId paymentMethodId, string cardNumber, string cardType, string cryptogram)
         {
             var passLuhenSpec = new PassesLuhenTestSpecification();
             if (passLuhenSpec.IsSatisfiedBy(cardNumber) == false)
@@ -34,6 +34,11 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
             if (getCardType.GetCardType(cardNumber).Value.ToString() != cardType)
             {
                 return ExecutionResult.Failed("Card type provided is not correct");
+            }
+            var isNotNull = new IsNotNullCryptogram();
+            if (isNotNull.IsSatisfiedBy(cryptogram) == false)
+            {
+                return ExecutionResult.Failed(isNotNull.WhyIsNotSatisfiedBy("Cryptogram can't be null"));
             }
             var @event = new PaymentMethodValidatedEvent(paymentMethodId.ToString());
             Emit(@event);
