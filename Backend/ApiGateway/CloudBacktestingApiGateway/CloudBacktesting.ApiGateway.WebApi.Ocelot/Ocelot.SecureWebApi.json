@@ -9,7 +9,7 @@
     {
       "DownstreamPathTemplate": "/api/user/logout",
       "DownstreamScheme": "http",
-      "ServiceName": "nodeservices",
+      "ServiceName": "msservice",
       "UpstreamPathTemplate": "/api/user/logout",
       "UpstreamHttpMethod": [ "Post" ],
       "RouteClaimsRequirement": {
@@ -37,16 +37,15 @@
       "UpstreamPathTemplate": "/api/role",
       "UpstreamHttpMethod": [ "GET" ],
       "RouteClaimsRequirement": {
-        "Role": "Administrator",
         "IsLogin": "True",
         "State": "1"
       }
     },
     {
-      "DownstreamPathTemplate": "/api/user/info",
+      "DownstreamPathTemplate": "/api/user/informations",
       "DownstreamScheme": "http",
       "ServiceName": "msservice",
-      "UpstreamPathTemplate": "/api/user/info",
+      "UpstreamPathTemplate": "/api/user/informations",
       "UpstreamHttpMethod": [ "GET", "POST" ],
       "RouteClaimsRequirement": {
         "IsLogin": "True",
@@ -67,10 +66,10 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/api/subscriptionaccount",
+      "DownstreamPathTemplate": "/api/SubscriptionAccount",
       "DownstreamScheme": "http",
-      "ServiceName": "subservices",
-      "UpstreamPathTemplate": "/api/subscriptionaccount",
+      "ServiceName": "subservice",
+      "UpstreamPathTemplate": "/api/SubscriptionAccount",
       "UpstreamHttpMethod": [ "GET", "POST" ],
       "RouteClaimsRequirement": {
         "IsLogin": "True",
@@ -78,10 +77,10 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/api/adminsubscription",
+      "DownstreamPathTemplate": "/api/AdminSubscription",
       "DownstreamScheme": "http",
-      "ServiceName": "subservices",
-      "UpstreamPathTemplate": "/api/adminsubscription",
+      "ServiceName": "subservice",
+      "UpstreamPathTemplate": "/api/AdminSubscription",
       "UpstreamHttpMethod": [ "GET", "PUT" ],
       "RouteClaimsRequirement": {
         "Role": "Administrator",
@@ -90,10 +89,10 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/api/subscriptionrequest/{url}",
+      "DownstreamPathTemplate": "/api/SubscriptionRequest",
       "DownstreamScheme": "http",
-      "ServiceName": "subservices",
-      "UpstreamPathTemplate": "/api/subscriptionrequest/{url}",
+      "ServiceName": "subservice",
+      "UpstreamPathTemplate": "/api/SubscriptionRequest",
       "UpstreamHttpMethod": [ "GET", "POST" ],
       "RouteClaimsRequirement": {
         "IsLogin": "True",
@@ -101,10 +100,10 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/api/adminpayment",
+      "DownstreamPathTemplate": "/api/SubscriptionRequest/{url}",
       "DownstreamScheme": "http",
-      "ServiceName": "payservices",
-      "UpstreamPathTemplate": "/api/adminpayment",
+      "ServiceName": "subservice",
+      "UpstreamPathTemplate": "/api/SubscriptionRequest/{url}",
       "UpstreamHttpMethod": [ "GET" ],
       "RouteClaimsRequirement": {
         "IsLogin": "True",
@@ -112,10 +111,33 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/api/billingitem/{url}",
+      "DownstreamPathTemplate": "/api/AdminSubscription/{url}",
       "DownstreamScheme": "http",
-      "ServiceName": "payservices",
-      "UpstreamPathTemplate": "/api/billingitem/{url}",
+      "ServiceName": "subservice",
+      "UpstreamPathTemplate": "/api/AdminSubscription/{url}",
+      "UpstreamHttpMethod": [ "GET","PUT" ],
+      "RouteClaimsRequirement": {
+        "Role": "Administrator",
+        "IsLogin": "True",
+        "State": "1"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/AdminPayment",
+      "DownstreamScheme": "http",
+      "ServiceName": "payservice",
+      "UpstreamPathTemplate": "/api/AdminPayment",
+      "UpstreamHttpMethod": [ "GET" ],
+      "RouteClaimsRequirement": {
+        "IsLogin": "True",
+        "State": "1"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/BillingItem/{url}",
+      "DownstreamScheme": "http",
+      "ServiceName": "payservice",
+      "UpstreamPathTemplate": "/api/BillingItem/{url}",
       "UpstreamHttpMethod": [ "GET", "POST" ],
       "RouteClaimsRequirement": {
         "IsLogin": "True",
@@ -123,10 +145,10 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/api/paymentaccount",
+      "DownstreamPathTemplate": "/api/PaymentAccount",
       "DownstreamScheme": "http",
-      "ServiceName": "payservices",
-      "UpstreamPathTemplate": "/api/paymentaccount",
+      "ServiceName": "payservice",
+      "UpstreamPathTemplate": "/api/PaymentAccount",
       "UpstreamHttpMethod": [ "GET", "POST" ],
       "RouteClaimsRequirement": {
         "IsLogin": "True",
@@ -134,10 +156,21 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/api/paymentmethod/{url}",
+      "DownstreamPathTemplate": "/api/PaymentMethod",
       "DownstreamScheme": "http",
-      "ServiceName": "payservices",
-      "UpstreamPathTemplate": "/api/paymentmethod/{url}",
+      "ServiceName": "payservice",
+      "UpstreamPathTemplate": "/api/PaymentMethod",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "RouteClaimsRequirement": {
+        "IsLogin": "True",
+        "State": "1"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/PaymentMethod/{url}",
+      "DownstreamScheme": "http",
+      "ServiceName": "payservice",
+      "UpstreamPathTemplate": "/api/PaymentMethod/{url}",
       "UpstreamHttpMethod": [ "GET", "POST" ],
       "RouteClaimsRequirement": {
         "IsLogin": "True",

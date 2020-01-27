@@ -17,7 +17,7 @@ namespace CloudBacktesting.ApiGateway.WebApi.Ocelot.Services
         {
             _consulClient = consulClient;
         }
-        public async Task<User> GetuserByTokenAsync(string token)
+        public async Task<UserReceivedData> GetuserByTokenAsync(string token)
         {
             var services = _consulClient.Catalog.Service("msservice").Result.Response;
             if (services.Any())
@@ -30,7 +30,7 @@ namespace CloudBacktesting.ApiGateway.WebApi.Ocelot.Services
                 var result = await client.GetAsync("api/user/info");
                 if (result.IsSuccessStatusCode)
                 {
-                    var user = JsonConvert.DeserializeObject<User>(await result.Content.ReadAsStringAsync());
+                    var user = JsonConvert.DeserializeObject<UserReceivedData>(await result.Content.ReadAsStringAsync());
                     return user;
                 }
             }

@@ -46,9 +46,9 @@ export class SubscriptionsValidationComponent implements OnInit {
       )
   }
   fillDataSource() {
-    this.subscriptionService.getAllSubscriptions().subscribe
+    this.subscriptionService.getPendingSubscriptions().subscribe
       (result => {
-        this.dataSource = result.filter(item => item["status"] == "Pending");
+        this.dataSource = result;
       })
   }
 }

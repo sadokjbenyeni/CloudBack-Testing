@@ -11,9 +11,23 @@ export class SubscriptionService {
 
   constructor(private http: HttpClient) {
   }
-  getAllSubscriptions(): Observable<Subscription[]> {
+  getPendingSubscriptions(): Observable<Subscription[]> {
 
-    return this.http.get<any[]>(environment.api+"/SubscriptionRequest")
+    return this.http.get<any[]>(environment.api+"/AdminSubscription/SubscriptionRequests/PendingValidation")
+      .map(result => {
+        var subscriptions: Subscription[] = [];
+        result.forEach(element => {
+          let subscription = new Subscription(element["type"])
+          Object.assign(subscription, element);
+          subscription.accountId = element["subscriptionAccountId"];
+          subscriptions.push(subscription);
+        })
+        return subscriptions;
+      });
+  }
+  getActiveSubscriptions(): Observable<Subscription[]> {
+
+    return this.http.get<any[]>(environment.api+"/AdminSubscription/SubscriptionRequests/PendingConfiguration")
       .map(result => {
         var subscriptions: Subscription[] = [];
         result.forEach(element => {

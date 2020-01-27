@@ -21,70 +21,15 @@ const smtpTransport = nodemailer.createTransport({
 
 router.post('/inscription', (req, res, next) => {
   // sgMail.setApiKey("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");
-  console.log("sending activation mail from the webapi");
-  const msg = {
-    to: req.body.email,
-    from: 'no-replay@cloudbacktesting.com',
-    subject: 'Confirm your email',
-    text: `Hello,
 
-    
-    To validate your email address and activate your account, please click on the following link:
-    `+ process.env.DOMAIN + `/activation/` + req.body.token +
-      `If clicking the above link does not work, you can copy and paste the URL in a new browser window.
-
-    If you have received this email by error, you do not need to take any action. The account will not be activated and you will not receive any further emails.
-
-
-    The Quanthouse team`,
-    html: `Hello,<br><br>
-       To validate your email address and activate your account, please click on the following link:
-       <a href="`+ process.env.DOMAIN + `/activation/` + req.body.token + `">Activation of the HistodataWeb account</a><br>
-       If clicking the above link does not work, you can copy and paste the URL in a new browser window.<br><br>
-       If you have received this email by error, you do not need to take any action. The account will not be activated and you will not receive any further emails.
-       <br><br>
-       <b>The Quanthouse team</b>`,
-  };
-  try {
-    sgMail.send(msg);
-    console.log("Mail sent!");
-
+  if (sendActivationMail(req.body.email,req.body.token))
     return res.status(200).json({ mail: true });
-  } catch (error) {
-    console.log("error in sending mail for the following reason :" + error)
+  else {
+    console.log("error in sending mail ")
     return res.status(500).json({ mail: true });
   }
-  // let mailOptions = {
-  //   from: 'no-reply@quanthouse.com',
-  //   to: req.body.email, //req.body.user,
-  //   subject: 'Confirm your email',
-  //   text: `Hello,
+})
 
-
-  //   To validate your email address and activate your account, please click on the following link:
-  //   `+ domain + `/activation/` + req.body.token +
-  //   `If clicking the above link does not work, you can copy and paste the URL in a new browser window.
-
-  //   If you have received this email by error, you do not need to take any action. The account will not be activated and you will not receive any further emails.
-
-
-  //   The Quanthouse team`,
-
-  //   html: `Hello,<br><br>
-  //   To validate your email address and activate your account, please click on the following link:
-  //   <a href="`+ domain + `/activation/`+ req.body.token +`">Activation of the HistodataWeb account</a><br>
-  //   If clicking the above link does not work, you can copy and paste the URL in a new browser window.<br><br>
-  //   If you have received this email by error, you do not need to take any action. The account will not be activated and you will not receive any further emails.
-  //   <br><br>
-  //   <b>The Quanthouse team</b>`
-  // };
-  // smtpTransport.sendMail(mailOptions, (error, info) => {
-  //   if (error) {
-  //     return console.log(error);
-  //   }
-  //   return res.json({mail:true}).statusCode(200);
-  // });
-});
 router.post('/activation', (req, res, next) => {
   let login = '';
   let password = '';
@@ -309,5 +254,42 @@ router.post('/orderExecuted', (req, res, next) => {
   });
 });
 
+const sendActivationMail = function (email, token) {
+  console.log("sending activation mail from the webapi");
+  const msg = {
+    to: email,
+    from: 'no-replay@cloudbacktesting.com',
+    subject: 'Confirm your email',
+    text: `Hello,
+
+    
+    To validate your email address and activate your account, please click on the following link:
+    `+ process.env.DOMAIN + `/activation/` + token +
+      `If clicking the above link does not work, you can copy and paste the URL in a new browser window.
+
+    If you have received this email by error, you do not need to take any action. The account will not be activated and you will not receive any further emails.
+
+
+    The Quanthouse team`,
+    html: `Hello,<br><br>
+       To validate your email address and activate your account, please click on the following link:
+       <a href="`+ process.env.DOMAIN + `/activation/` + token + `">Activation of the HistodataWeb account</a><br>
+       If clicking the above link does not work, you can copy and paste the URL in a new browser window.<br><br>
+       If you have received this email by error, you do not need to take any action. The account will not be activated and you will not receive any further emails.
+       <br><br>
+       <b>The Quanthouse team</b>`,
+  };
+  try {
+    sgMail.send(msg);
+    console.log("Mail sent!");
+    return true;
+  }
+  catch
+  {
+    return false
+  }
+}
+
 
 module.exports = router;
+module.exports.sendActivationMail=sendActivationMail;

@@ -5,6 +5,6 @@ namespace CloudBacktesting.ApiGateway.WebApi.Ocelot.Services
 {
     public interface IUserService
     {
-        Task<User> GetuserByTokenAsync(string Token);
+        Task<UserReceivedData> GetuserByTokenAsync(string Token);
     }
 }

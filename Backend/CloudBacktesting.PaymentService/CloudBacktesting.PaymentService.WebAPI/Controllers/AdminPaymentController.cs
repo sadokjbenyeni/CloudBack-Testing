@@ -15,7 +15,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [CloudBacktestingAuthorize("Admin")]
+    [CloudBacktestingAuthorize("Administrator")]
     public class AdminPaymentController : ControllerBase
     {
         private readonly ILogger<AdminPaymentController> logger;

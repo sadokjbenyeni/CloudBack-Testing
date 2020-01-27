@@ -21,5 +21,6 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Models.Request.Client.Subs
         public string ActivationMessage { get; set; }
         public DateTime? ActivatedDate { get; set; } = null;
         public string PaymentMethodId { get; set; }
+        public string PaymentAccountId { get; set; }
     }
 }

@@ -56,9 +56,7 @@ export class UserService {
   }
 
   getCompte(user) {
-    // var token = JSON.parse(sessionStorage.getItem("user"))["token"]
-    // ,{headers:{authorization: token}
-    return this.http.get<User>(environment.api + '/user/info');
+    return this.http.get<User>(environment.api + '/user/informations');
   }
 
   updateUser(user) {

@@ -1,19 +1,7 @@
-FROM debian:9 
-
-RUN apt-get update -yq \
-   && apt-get install curl gnupg -yq \
-   && curl -sL https://deb.nodesource.com/setup_10.x | bash \
-   && apt-get install nodejs -yq \
-   && apt-get clean -y
-
+FROM node:12.13.1-alpine
 ADD . /app/
 WORKDIR /app
 RUN npm install
-WORKDIR  /app/site/
-RUN npm install -g @angular/cli
-RUN npm install
-RUN ng build --configuration=local
-WORKDIR /app
 ENV NODEJSENVIRONMENT dockerLocal
 
 # EXPOSE 2368

@@ -21,9 +21,9 @@ export class SubscriptionsacceptedComponent implements OnInit {
 
   }
   fillDataSource() {
-    this.subscriptionService.getAllSubscriptions().subscribe
+    this.subscriptionService.getActiveSubscriptions().subscribe
       (result => {
-        this.dataSource = result.filter(item => item["status"] == "Validated");
+        this.dataSource = result;
       })
   }
   configure(element: SubscriptionResult) {
