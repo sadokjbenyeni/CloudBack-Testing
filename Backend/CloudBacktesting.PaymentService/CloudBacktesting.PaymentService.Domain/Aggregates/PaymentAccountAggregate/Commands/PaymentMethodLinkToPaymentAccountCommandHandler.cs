@@ -11,7 +11,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggreg
     {
         public override Task ExecuteAsync(PaymentAccount aggregate, PaymentMethodLinkToPaymentAccountCommand command, CancellationToken cancellationToken)
         {
-            return Task.FromResult(aggregate.LinkPaymentMethod(command.MethodId, command.PaymentMethodCardNumber, command.PaymentMethodCardType, command.PaymentMethodCryptogram));
+            return Task.FromResult(aggregate.LinkPaymentMethod(command.MethodId, command.PaymentMethodCardNumber, command.PaymentMethodCardType, command.PaymentMethodCryptogram, command.PaymentMethodExpirationYear, command.PaymentMethodExpirationMonth));
         }
     }
 }

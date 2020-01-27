@@ -11,15 +11,16 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation.Events
         public string PaymentMethodCardType { get; }
         public string PaymentMethodCryptogram { get; }
         public string MethodId { get; }
-        public string ExpirationDate { get; }
-
-        public PaymentAccountLinkedSagaEvent( string methodId, string paymentMethodCardNumber, string paymentMethodCardType, string paymentMethodCryptogram, string expirationDate)
+        public int ExpirationYear { get; set; }
+        public int ExpirationMonth { get; set; }
+        public PaymentAccountLinkedSagaEvent( string methodId, string paymentMethodCardNumber, string paymentMethodCardType, string paymentMethodCryptogram, int expirationYear, int expirationMonth)
         {
             MethodId = methodId;
             PaymentMethodCardNumber = paymentMethodCardNumber;
             PaymentMethodCardType = paymentMethodCardType;
             PaymentMethodCryptogram = paymentMethodCryptogram;
-            ExpirationDate = expirationDate;
+            ExpirationYear = expirationYear;
+            ExpirationMonth = expirationMonth;
         }
     }
 }

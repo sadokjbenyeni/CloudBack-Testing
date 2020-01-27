@@ -12,9 +12,9 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggreg
         public string PaymentMethodCardNumber { get; }
         public string PaymentMethodCardType { get; }
         public string PaymentMethodCryptogram { get; }
-        public string PaymentMethodExpirationDate { get; }
-
-        public PaymentMethodLinkToPaymentAccountCommand(PaymentAccountId paymentAccountId, string methodId, string paymentMethodCardNumber, string paymentMethodCardType, string paymentMethodCryptogram, string paymentMethodeExpirationDate) : base(paymentAccountId)
+        public int PaymentMethodExpirationYear { get; set; }
+        public int PaymentMethodExpirationMonth { get; set; }
+        public PaymentMethodLinkToPaymentAccountCommand(PaymentAccountId paymentAccountId, string methodId, string paymentMethodCardNumber, string paymentMethodCardType, string paymentMethodCryptogram, int paymentMethodExpirationYear, int paymentMethodExpirationMonth) : base(paymentAccountId)
         {
             if (string.IsNullOrEmpty(methodId))
             {
@@ -40,7 +40,8 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggreg
             PaymentMethodCardNumber = paymentMethodCardNumber;
             PaymentMethodCardType = paymentMethodCardType;
             PaymentMethodCryptogram = paymentMethodCryptogram;
-            PaymentMethodExpirationDate = paymentMethodeExpirationDate;
+            PaymentMethodExpirationYear = paymentMethodExpirationYear;
+            PaymentMethodExpirationMonth = paymentMethodExpirationMonth;
         }
     }
 }

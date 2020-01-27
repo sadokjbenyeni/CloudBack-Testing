@@ -13,13 +13,17 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
         public string CardNumber { get; set; }
         public string CardType { get; set; }
         public string Cryptogram { get; set; }
-        public PaymentMethodSystemValidateCommand(string aggregateId, string client, string cardNumber, string cardType, string cryptogram) : base(new PaymentMethodId(aggregateId))
+        public int ExpirationYear { get; set; }
+        public int ExpirationMonth { get; set; }
+        public PaymentMethodSystemValidateCommand(string aggregateId, string client, string cardNumber, string cardType, int expirationYear, int expirationMonth, string cryptogram) : base(new PaymentMethodId(aggregateId))
         {
             MethodId = aggregateId;
             Client = client;
             CardNumber = cardNumber;
             CardType = cardType;
             Cryptogram = cryptogram;
+            ExpirationYear = expirationYear;
+            ExpirationMonth = expirationMonth;
         }
     }
 }

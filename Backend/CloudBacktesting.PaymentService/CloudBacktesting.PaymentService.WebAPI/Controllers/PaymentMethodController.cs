@@ -95,7 +95,8 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
                 CardType = readModel.CardType,
                 CardHolder = readModel.CardHolder,
                 Cryptogram = readModel.Cryptogram,
-                ExpirationDate = readModel.ExpirationDate.ToString()
+                ExpirationYear = readModel.ExpirationYear,
+                ExpirationMonth = readModel.ExpirationMonth
             };
         }
 
@@ -119,7 +120,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
             IExecutionResult commandResult = null;
             try
             {
-                var command = new PaymentMethodCreationCommand(new PaymentAccountId(paymentAccountId).ToString(), value.Numbers, value.Network, value.Holder, value.ExpirationDate, value.Cryptogram);
+                var command = new PaymentMethodCreationCommand(new PaymentAccountId(paymentAccountId).ToString(), value.Numbers, value.Network, value.Holder, value.ExpirationYear, value.ExpirationMonth, value.Cryptogram);
                 commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
                 if (commandResult.IsSuccess)
                 {

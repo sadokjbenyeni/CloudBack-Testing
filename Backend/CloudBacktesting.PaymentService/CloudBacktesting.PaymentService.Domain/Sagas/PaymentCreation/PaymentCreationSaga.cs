@@ -19,7 +19,7 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation
                                        ISagaHandles<PaymentMethod, PaymentMethodId, PaymentMethodValidatedEvent>
     {
         public PaymentCreationSaga(PaymentCreationSagaId id) : base(id) { }
-        
+
         public Task HandleAsync(IDomainEvent<PaymentMethod, PaymentMethodId, PaymentMethodCreatedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellatonToken)
         {
             var command = new PaymentMethodLinkToPaymentAccountCommand(new PaymentAccountId(domainEvent.AggregateEvent.PaymentAccountId),
@@ -27,7 +27,8 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation
                 domainEvent.AggregateEvent.CardNumber,
                 domainEvent.AggregateEvent.CardType,
                 domainEvent.AggregateEvent.CardHolder,
-                domainEvent.AggregateEvent.ExpirationDate);
+                domainEvent.AggregateEvent.ExpirationYear,
+                domainEvent.AggregateEvent.ExpirationMonth);
 
             this.Publish(command);
 
@@ -35,13 +36,14 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation
                                                         domainEvent.AggregateEvent.CardNumber,
                                                         domainEvent.AggregateEvent.CardType,
                                                         domainEvent.AggregateEvent.CardHolder,
-                                                        domainEvent.AggregateEvent.ExpirationDate));
+                                                        domainEvent.AggregateEvent.ExpirationYear,
+                                                        domainEvent.AggregateEvent.ExpirationMonth));
             return Task.CompletedTask;
         }
 
         public Task HandleAsync(IDomainEvent<PaymentAccount, PaymentAccountId, PaymentMethodLinkedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
-            var command = new PaymentMethodSystemValidateCommand(domainEvent.AggregateEvent.MethodId, domainEvent.AggregateEvent.Client, domainEvent.AggregateEvent.CardNumber, domainEvent.AggregateEvent.CardType, domainEvent.AggregateEvent.Cryptogram);
+            var command = new PaymentMethodSystemValidateCommand(domainEvent.AggregateEvent.MethodId, domainEvent.AggregateEvent.Client, domainEvent.AggregateEvent.CardNumber, domainEvent.AggregateEvent.CardType, domainEvent.AggregateEvent.ExpirationYear, domainEvent.AggregateEvent.ExpirationMonth, domainEvent.AggregateEvent.Cryptogram);
             this.Publish(command);
             return Task.CompletedTask;
         }
