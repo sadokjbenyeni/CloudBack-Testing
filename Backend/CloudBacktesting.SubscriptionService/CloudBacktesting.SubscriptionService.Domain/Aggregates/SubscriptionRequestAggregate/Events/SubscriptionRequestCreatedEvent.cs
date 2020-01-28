@@ -12,16 +12,18 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
         public string Type { get; }
         public DateTime CreationDate { get; }
         public string RequestId { get; }
-        public PaymentAction PaymentAction { get; set; }
+        public string PaymentMethodId { get; set; }
+        public string PaymentAccountId { get; set; }
 
-        public SubscriptionRequestCreatedEvent(string requestId, string subscriptionAccountId, string status, string type, DateTime creationDate, PaymentAction paymentAction)
+        public SubscriptionRequestCreatedEvent(string requestId, string subscriptionAccountId, string status, string type, DateTime creationDate, string paymentMethodId, string paymentAccountId)
         {
             RequestId = requestId;
             SubscriptionAccountId = subscriptionAccountId;
             Status = status;
             Type = type;
             CreationDate = creationDate;
-            PaymentAction = paymentAction;
+            PaymentMethodId = paymentMethodId;
+            PaymentAccountId = paymentAccountId;
         }
     }
 }

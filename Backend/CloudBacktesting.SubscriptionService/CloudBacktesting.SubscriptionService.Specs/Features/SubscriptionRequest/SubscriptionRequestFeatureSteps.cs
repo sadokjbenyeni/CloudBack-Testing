@@ -63,12 +63,15 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
             var subscriptionAccountIdentifier = JsonConvert.DeserializeObject<SubscriptionAccountIdDto>((await resultSubscriptionAccountCreate.Content.ReadAsStringAsync()));
 
             var identity = context.Get<UserIdentity>(customer);
+
             var httpClient = context.ScenarioContainer.Resolve<ITestHttpClientFactory>().Create(identity);
 
             var dtoModel = new CreateSubscriptionRequestDto()
             {
                 SubscriptionAccountId = subscriptionAccountIdentifier.Id,
                 Type = typeOfSubscription,
+                PaymentMethodId = "paymentmethod-6a04cf67-5576-4f9b-91b0-4b0e2c603f72",
+                PaymentAccountId = "Paymentaccount-6a04cf67-5576-4f9b-91b0-4b0e2c603f72"
             };
             context.Set(dtoModel, "subscriptionRequestCommand");
             var commandResult = await httpClient.PostAsync("api/subscriptionrequest", new StringContent(JsonConvert.SerializeObject(dtoModel), Encoding.UTF8, "application/json"));
@@ -115,7 +118,7 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
         {
             var subscriptionRequestIds = context.Get<List<string>>($"{customer}-subscriptionRequest");
             var httpMessage = context.Get<HttpResponseMessage>("getSubscriptionRequestAll");
-            Assert.That(httpMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(httpMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK)); 
             var actual = JsonConvert.DeserializeObject<IEnumerable<SubscriptionRequestReadModelDto>>(await httpMessage.Content.ReadAsStringAsync()).ToList();
             Assert.That(actual, Has.Count.EqualTo(subscriptionRequestIds.Count));
             Assert.That(actual.Select(dto => dto.Id), Is.EquivalentTo(subscriptionRequestIds));

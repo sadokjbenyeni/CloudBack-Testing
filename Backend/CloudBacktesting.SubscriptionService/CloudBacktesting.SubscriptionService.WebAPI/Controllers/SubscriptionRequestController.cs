@@ -95,6 +95,8 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
                 RejectedDate = readModel.RejectedDate,
                 IsManualConfigured = readModel.IsManualConfigured,
                 ActivatedDate = readModel.ActivatedDate,
+                PaymentAccountId = readModel.PaymentAccountId,
+                PaymentMethodId = readModel.PaymentMethodId
             };
         }
 
@@ -117,7 +119,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             IExecutionResult commandResult = null;
             try
             {
-                var command = new SubscriptionRequestCreationCommand(new SubscriptionAccountId(subscriptionAccountId).ToString(), value.Type, value.PaymentAction);
+                var command = new SubscriptionRequestCreationCommand(new SubscriptionAccountId(subscriptionAccountId).ToString(), value.Type, value.PaymentMethodId, value.PaymentAccountId);
                 commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
                 if (commandResult.IsSuccess)
                 {

@@ -8,11 +8,13 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
 {
     public class PaymentMethodLinkedEvent : AggregateEvent<SubscriptionRequest, SubscriptionRequestId>
     {
-        public PaymentAction SubscriptionRequestPaymentAction { get; set; }
+        public string PaymentMethodId { get; set; }
+        public string PaymentAccountId { get; set; }
 
-        public PaymentMethodLinkedEvent(PaymentAction subscriptionRequestPaymentAction)
+        public PaymentMethodLinkedEvent(string paymentMethodId, string paymentAccoutId)
         {
-            SubscriptionRequestPaymentAction = subscriptionRequestPaymentAction;
+            PaymentMethodId = paymentMethodId;
+            PaymentAccountId = paymentAccoutId;
         }
     }
 }

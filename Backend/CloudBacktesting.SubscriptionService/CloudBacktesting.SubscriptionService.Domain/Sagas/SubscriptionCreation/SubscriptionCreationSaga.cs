@@ -32,7 +32,8 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
                 domainEvent.AggregateIdentity.Value, 
                 domainEvent.AggregateEvent.Status, 
                 domainEvent.AggregateEvent.Type,
-                domainEvent.AggregateEvent.PaymentAction);
+                domainEvent.AggregateEvent.PaymentMethodId,
+                domainEvent.AggregateEvent.PaymentAccountId);
             this.Publish(command);
 
             this.Emit(new SubscriptionAccountLinkedSagaEvent(domainEvent.AggregateIdentity.Value, domainEvent.AggregateEvent.Status, domainEvent.AggregateEvent.Type));
@@ -56,7 +57,7 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
 
         public Task HandleAsync(IDomainEvent<SubscriptionRequest, SubscriptionRequestId, PaymentMethodLinkedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
-            var command = new PaymentMethodLinkToSubscriptionRequestCommand(domainEvent.AggregateIdentity, domainEvent.AggregateEvent.SubscriptionRequestPaymentAction);
+            var command = new PaymentMethodLinkToSubscriptionRequestCommand(domainEvent.AggregateIdentity, domainEvent.AggregateEvent.PaymentMethodId, domainEvent.AggregateEvent.PaymentAccountId);
             this.Publish(command);
 
             return Task.CompletedTask;

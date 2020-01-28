@@ -16,14 +16,14 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
         public string status;
         public SubscriptionRequest(SubscriptionRequestId aggregateId) : base(aggregateId) { }
 
-        public IExecutionResult Create(string subscriptionAccountId, string type, PaymentAction paymentAction)
+        public IExecutionResult Create(string subscriptionAccountId, string type, string paymentMethodId, string paymentAccountId)
         {
             var spec = new IsNullOrEmptyAccountIdSpecification();
             if (spec.IsSatisfiedBy(subscriptionAccountId) == false)
             {
                 return ExecutionResult.Failed(spec.WhyIsNotSatisfiedBy("Account Id Is Null Or Empty"));
             }
-            var @event = new SubscriptionRequestCreatedEvent(this.Id.Value, subscriptionAccountId, "Creating", type, DateTime.UtcNow, paymentAction);
+            var @event = new SubscriptionRequestCreatedEvent(this.Id.Value, subscriptionAccountId, "Creating", type, DateTime.UtcNow, paymentMethodId, paymentAccountId);
             Emit(@event);
             return ExecutionResult.Success();
 
@@ -63,9 +63,9 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
             Emit(new SubscriptionRequestManualConfiguredEvent(this.Id.Value, this.subscriptionAccountId, message, DateTime.UtcNow));
             return ExecutionResult.Success();
         }
-        public IExecutionResult LinktoPaymentMethod(PaymentAction subscriptionRequestPaymentAction)
+        public IExecutionResult LinktoPaymentMethod(string paymentMethodId, string paymentAccountId )
         {
-            Emit(new PaymentMethodLinkedEvent(subscriptionRequestPaymentAction));
+            Emit(new PaymentMethodLinkedEvent(paymentMethodId, paymentAccountId));
             return ExecutionResult.Success();
         }
 

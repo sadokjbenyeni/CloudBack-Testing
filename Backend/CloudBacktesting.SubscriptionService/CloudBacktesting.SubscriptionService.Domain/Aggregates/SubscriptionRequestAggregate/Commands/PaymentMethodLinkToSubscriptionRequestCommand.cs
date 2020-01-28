@@ -7,11 +7,13 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
 {
     public class PaymentMethodLinkToSubscriptionRequestCommand : Command<SubscriptionRequest, SubscriptionRequestId>
     {
-        public PaymentAction SubscriptionRequestPaymentAction { get; set; }
+        public string PaymentMethodId { get; set; }
+        public string PaymentAccountId { get; set; }
 
-        public PaymentMethodLinkToSubscriptionRequestCommand(SubscriptionRequestId subscriptionRequestId, PaymentAction subscriptionRequestPaymentAction) : base(subscriptionRequestId)
+        public PaymentMethodLinkToSubscriptionRequestCommand(SubscriptionRequestId subscriptionRequestId, string paymentMethodId, string paymentAcconutId) : base(subscriptionRequestId)
         {
-            SubscriptionRequestPaymentAction = subscriptionRequestPaymentAction;
+            PaymentMethodId = paymentMethodId;
+            PaymentAccountId = paymentAcconutId;
         }
     }
 }

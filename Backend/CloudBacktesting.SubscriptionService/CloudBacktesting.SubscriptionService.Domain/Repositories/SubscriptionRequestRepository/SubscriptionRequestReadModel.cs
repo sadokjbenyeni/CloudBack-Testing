@@ -44,8 +44,8 @@ namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionR
             Status = domainEvent.AggregateEvent.Status;
             Type = domainEvent.AggregateEvent.Type;
             CreationDate = domainEvent.AggregateEvent.CreationDate;
-            PaymentMethodId = domainEvent.AggregateEvent.PaymentAction.PaymentMethodId;
-            PaymentAccountId = domainEvent.AggregateEvent.PaymentAction.PaymentAccountId;
+            PaymentMethodId = domainEvent.AggregateEvent.PaymentMethodId;
+            PaymentAccountId = domainEvent.AggregateEvent.PaymentAccountId;
         }
 
         public void Apply(IReadModelContext context, IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionAccountAffectedEvent> domainEvent)
@@ -90,15 +90,5 @@ namespace CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionR
             ActivatedDate = domainEvent.AggregateEvent.ActivatedDate;
             ActivationMessage = domainEvent.AggregateEvent.Message;
         }
-    }
-
-    public class PaymentMethod
-    {
-        public string Id { get; set; }
-        public string PaymentAccountId { get; set; }
-        public string CardNumber { get; set; }
-        public string CardType { get; set; }
-        public string CardHolder { get; set; }
-        public DateTime ExpirationDate { get; set; }
     }
 }
