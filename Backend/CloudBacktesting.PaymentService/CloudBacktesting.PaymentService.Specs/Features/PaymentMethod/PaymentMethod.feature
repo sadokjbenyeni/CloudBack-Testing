@@ -11,7 +11,7 @@ Scenario: Chang creates a new Credit card payment method
 	Given the webapi is online
 	When 'Chang' creates a new payment method with:
 	| Holder          | Numbers             | Network | ExpirationYear | ExpirationMonth | Cryptogram |
-	| Chang's Company | 4510 6459 8301 6543 | Visa    | 2021           | 03              | 359        |
+	| Chang's Company | 4050 1197 6948 4808 | Visa    | 2021           | 03              | 359        |
 	Then Creation of payment method creation is successful
 
 @v1 @paymentMethod @creation @success @creditCard
@@ -20,7 +20,7 @@ Scenario: Chang creates a new Credit card payment method with already created ot
 	And 5 credit cards has been already created by 'Chang'
 	When 'Chang' creates a new payment method with:
 	| Holder          | Numbers             | Network | ExpirationYear | ExpirationMonth | Cryptogram |
-	| Chang's Company | 4510 6459 8301 6543 | Visa    | 2021           | 03              | 359        |
+	| Chang's Company | 4050 1197 6948 4808 | Visa    | 2021           | 03              | 359        |
 	Then Creation of payment method creation is successful
 
 @v1 @paymentMethod @creation @failed @creditCard
@@ -42,7 +42,7 @@ Scenario: Chang browses credit cards list contains the specific credit card
 	Given the webapi is online
 	And 'Chang' created payment method with:
 	| Holder          | Numbers             | Network | ExpirationYear | ExpirationMonth | Cryptogram |
-	| Chang's Company | 4510 6459 8301 6543 | Visa    | 2021           | 03              | 359        |
+	| Chang's Company | 4050 1197 6948 4808 | Visa    | 2021           | 03              | 359        |
 	When 'Chang' browses all payment method
 	Then the credit card has been return by the request
 
@@ -58,7 +58,7 @@ Scenario: Chang browses a specific credit cards
 	Given the webapi is online
 	And 'Chang' created payment method with:
 	| Holder          | Numbers             | Network | ExpirationYear | ExpirationMonth | Cryptogram |
-	| Chang's Company | 4510 6459 8301 6543 | Visa    | 2021           | 03              | 359        |
+	| Chang's Company | 4050 1197 6948 4808 | Visa    | 2021           | 03              | 359        |
 	When 'Chang' browses 'Chang's Company' payment method
 	Then only this credit cards has been returned
 
@@ -67,6 +67,6 @@ Scenario: Chang browses with wrong payment method identifier and result is not f
 	Given the webapi is online
 	And 'Chang' created payment method with:
 	| Holder          | Numbers             | Network | ExpirationYear | ExpirationMonth | Cryptogram |
-	| Chang's Company | 4510 6459 8301 6543 | Visa    | 2021           | 03              | 359        |
+	| Chang's Company | 4050 1197 6948 4808 | Visa    | 2021           | 03              | 359        |
 	When 'Chang' browses wrong id payment method
 	Then the api return an not found result

@@ -16,7 +16,7 @@ namespace CloudBacktesting.PaymentService.Domain.Specifications
             Other
         }
        
-        public bool IsLuhenValidated(string cardNumber)
+        public new bool IsSatisfiedBy(string cardNumber)
         {
             cardNumber = cardNumber.Replace("-", "").Replace(" ", "");
 
@@ -48,7 +48,7 @@ namespace CloudBacktesting.PaymentService.Domain.Specifications
 
         protected override IEnumerable<string> IsNotSatisfiedBecause(string cardNumber)
         {
-            if (IsLuhenValidated(cardNumber) is false)
+            if (IsSatisfiedBy(cardNumber) is false)
             {
                 yield return string.Format("{0} is not valid by Luhen algorithm", cardNumber);
             }

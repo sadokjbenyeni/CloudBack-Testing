@@ -26,7 +26,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
         public IExecutionResult SystemValidate(PaymentMethodId paymentMethodId, string cardNumber, string cardType, string cryptogram, int expirationYear, int expirationMonth)
         {
             var passLuhenSpec = new PassesLuhenTestSpecification();
-            if (passLuhenSpec.IsLuhenValidated(cardNumber) == false)
+            if (passLuhenSpec.IsSatisfiedBy(cardNumber) == false)
             {
                 return ExecutionResult.Failed(passLuhenSpec.WhyIsNotSatisfiedBy("Card didn't pass Luhen algorithm"));
             }
