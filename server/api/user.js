@@ -195,13 +195,7 @@ router.post('/', (req, res) => {
             user.phone = req.body.phone ? req.body.phone : '';
             user.website = req.body.website ? req.body.website : '';
             user.cgu = req.body.cgu;
-
-
-
-
             user.save((err, u) => {
-                if (err) return console.error(err);
-                console.log("User successfully created : consuming the mailer api with this endpoint : " + process.env.DOMAIN + '/api/mail/inscription')
                 if (err) return console.error(err);
                 console.log("User successfully created : Sending mail to user ")
                 if (mailer.sendActivationMail(user.email, user.token) == true) {
