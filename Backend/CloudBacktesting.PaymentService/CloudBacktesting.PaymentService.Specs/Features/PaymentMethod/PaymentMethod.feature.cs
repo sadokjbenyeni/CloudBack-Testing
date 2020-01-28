@@ -139,13 +139,15 @@ this.FeatureBackground();
                             "Holder",
                             "Numbers",
                             "Network",
-                            "ExpirationDate",
+                            "ExpirationYear",
+                            "ExpirationMonth",
                             "Cryptogram"});
                 table1.AddRow(new string[] {
                             "Chang\'s Company",
                             "4510 6459 8301 6543",
                             "Visa",
-                            "03/2021",
+                            "2021",
+                            "03",
                             "359"});
 #line 12
  testRunner.When("\'Chang\' creates a new payment method with:", ((string)(null)), table1, "When ");
@@ -211,13 +213,15 @@ this.FeatureBackground();
                             "Holder",
                             "Numbers",
                             "Network",
-                            "ExpirationDate",
+                            "ExpirationYear",
+                            "ExpirationMonth",
                             "Cryptogram"});
                 table2.AddRow(new string[] {
                             "Chang\'s Company",
                             "4510 6459 8301 6543",
                             "Visa",
-                            "03/2021",
+                            "2021",
+                            "03",
                             "359"});
 #line 21
  testRunner.When("\'Chang\' creates a new payment method with:", ((string)(null)), table2, "When ");
@@ -282,13 +286,15 @@ this.FeatureBackground();
                             "Holder",
                             "Numbers",
                             "Network",
-                            "ExpirationDate",
+                            "ExpirationYear",
+                            "ExpirationMonth",
                             "Cryptogram"});
                 table3.AddRow(new string[] {
                             "Chang\'s Company",
                             "5555 5555 5555 5555",
                             "Visa",
-                            "12/2030",
+                            "2030",
+                            "12",
                             "111"});
 #line 29
  testRunner.When("\'Chang\' creates a new payment method with:", ((string)(null)), table3, "When ");
@@ -408,13 +414,15 @@ this.FeatureBackground();
                             "Holder",
                             "Numbers",
                             "Network",
-                            "ExpirationDate",
+                            "ExpirationYear",
+                            "ExpirationMonth",
                             "Cryptogram"});
                 table4.AddRow(new string[] {
                             "Chang\'s Company",
                             "4510 6459 8301 6543",
                             "Visa",
-                            "03/2021",
+                            "2021",
+                            "03",
                             "359"});
 #line 43
  testRunner.And("\'Chang\' created payment method with:", ((string)(null)), table4, "And ");
@@ -540,13 +548,15 @@ this.FeatureBackground();
                             "Holder",
                             "Numbers",
                             "Network",
-                            "ExpirationDate",
+                            "ExpirationYear",
+                            "ExpirationMonth",
                             "Cryptogram"});
                 table5.AddRow(new string[] {
                             "Chang\'s Company",
                             "4510 6459 8301 6543",
                             "Visa",
-                            "03/2021",
+                            "2021",
+                            "03",
                             "359"});
 #line 59
  testRunner.And("\'Chang\' created payment method with:", ((string)(null)), table5, "And ");
@@ -612,13 +622,15 @@ this.FeatureBackground();
                             "Holder",
                             "Numbers",
                             "Network",
-                            "ExpirationDate",
+                            "ExpirationYear",
+                            "ExpirationMonth",
                             "Cryptogram"});
                 table6.AddRow(new string[] {
                             "Chang\'s Company",
                             "4510 6459 8301 6543",
                             "Visa",
-                            "03/2021",
+                            "2021",
+                            "03",
                             "359"});
 #line 68
  testRunner.And("\'Chang\' created payment method with:", ((string)(null)), table6, "And ");

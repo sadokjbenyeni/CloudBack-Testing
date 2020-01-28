@@ -37,7 +37,8 @@ namespace CloudBacktesting.PaymentService.Specs.Features.PaymentMethod
                                                Numbers = "4713 7422 6653 7429",
                                                Network = "Visa",
                                                Cryptogram = "509",
-                                               ExpirationDate = "02/2021",
+                                               ExpirationYear = 2021,
+                                               ExpirationMonth = 02
                                            });
             var userIdentity = context.Get<UserIdentity>(user);
             var httpClient = context.ScenarioContainer.Resolve<ITestHttpClientFactory>().Create(userIdentity);
@@ -54,7 +55,8 @@ namespace CloudBacktesting.PaymentService.Specs.Features.PaymentMethod
                     CardNumber = creditCard.Numbers,
                     CardType = creditCard.Network,
                     Cryptogram = creditCard.Cryptogram,
-                    ExpirationDate = creditCard.ExpirationDate,
+                    ExpirationYear = creditCard.ExpirationYear,
+                    ExpirationMonth = creditCard.ExpirationMonth,
                     PaymentAccountId = identifier.Id
                 });
             }
