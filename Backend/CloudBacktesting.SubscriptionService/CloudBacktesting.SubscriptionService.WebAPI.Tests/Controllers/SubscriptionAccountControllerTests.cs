@@ -59,7 +59,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Tests.Controllers
             {
                 Name = "External Machine",
                 Email = "support@quanthouse.com",
-                Roles = new[] { "Connected", "Admin" },
+                Roles = new[] { "Connected", "Administrator" },
                 Additionals = new Dictionary<string, string>() { { "subcriptionaccountid", $"subscriptionaccount-{Guid.NewGuid().ToString()}" } },
             };
             userStr = JsonConvert.SerializeObject(user);
@@ -78,7 +78,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Tests.Controllers
             {
                 Name = "Name",
                 Email = "email@quanthouse.com",
-                Roles = new[] { "Connected", "Admin" },
+                Roles = new[] { "Connected", "Administrator" },
                 Additionals = new Dictionary<string, string>() { { "subcriptionaccountid", $"subscriptionaccount-{Guid.NewGuid().ToString()}" } },
             };
             var userStr = JsonConvert.SerializeObject(user);

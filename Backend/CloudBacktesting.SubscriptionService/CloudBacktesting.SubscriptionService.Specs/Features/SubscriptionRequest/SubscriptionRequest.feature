@@ -3,7 +3,7 @@
 
 Background:
 	Given Chang is authentificated with roles 'Client'
-	Given Morgan is authentificated with roles 'Admin'
+	Given Morgan is authentificated with roles 'Administrator'
 
 @v1 @subscription @request @creation
 Scenario: Chang sends new request of subscription for Mutualized service

@@ -68,7 +68,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         }
 
         [HttpPost]
-        [CloudBacktestingAuthorize("Admin")]
+        [CloudBacktestingAuthorize("Administrator")]
         public async Task<ActionResult> Post([FromBody] CreateSubscriptionAccountDto value)
         {
             if (this.User == null || !this.User.Identity.IsAuthenticated)

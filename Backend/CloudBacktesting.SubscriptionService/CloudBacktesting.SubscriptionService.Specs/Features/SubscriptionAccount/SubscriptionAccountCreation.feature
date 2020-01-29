@@ -2,7 +2,7 @@
 		MOrgan can create a new subscription account after register on the site
 
 Background: 
-	Given Morgan is authentificated with roles 'Admin'
+	Given Morgan is authentificated with roles 'Administrator'
 
 @v1 @subscriptionAccount @creation 
 Scenario: Morgan creates a new subscription account after that customer has been registered on the web site
