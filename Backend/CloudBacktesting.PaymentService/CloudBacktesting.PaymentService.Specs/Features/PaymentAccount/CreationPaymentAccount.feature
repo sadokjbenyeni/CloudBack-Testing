@@ -3,7 +3,7 @@
 
 Background: 
 	Given the webapi is online
-	Given Morgan is authentificated with roles 'Admin'
+	Given Morgan is authentificated with roles 'Administrator'
 	Given Chang is authentificated with roles 'Client'
 	Given 'Chang' payment account has been created
 	Given 'Chang' payment method has been created

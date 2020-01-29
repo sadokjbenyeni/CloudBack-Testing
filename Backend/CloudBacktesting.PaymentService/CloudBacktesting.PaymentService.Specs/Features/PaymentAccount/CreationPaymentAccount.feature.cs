@@ -78,28 +78,47 @@ namespace CloudBacktesting.PaymentService.Specs.Features.PaymentAccount
 #line 4
 #line hidden
 #line 5
- testRunner.Given("Morgan is authentificated with roles \'Admin\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("the webapi is online", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 6
+ testRunner.Given("Morgan is authentificated with roles \'Administrator\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 7
+ testRunner.Given("Chang is authentificated with roles \'Client\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 8
+ testRunner.Given("\'Chang\' payment account has been created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 9
+ testRunner.Given("\'Chang\' payment method has been created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 10
+ testRunner.Given("\'Chang\' billing has been created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Morgan creates a new payment account after that customer has been registered on t" +
-            "he web site")]
+        [NUnit.Framework.DescriptionAttribute("Payment service creates a new creation payment request at smart2Pay")]
         [NUnit.Framework.CategoryAttribute("v1")]
-        [NUnit.Framework.CategoryAttribute("paymentAccount")]
+        [NUnit.Framework.CategoryAttribute("billing")]
+        [NUnit.Framework.CategoryAttribute("payment")]
+        [NUnit.Framework.CategoryAttribute("smart2pay")]
         [NUnit.Framework.CategoryAttribute("creation")]
-        public virtual void MorganCreatesANewPaymentAccountAfterThatCustomerHasBeenRegisteredOnTheWebSite()
+        public virtual void PaymentServiceCreatesANewCreationPaymentRequestAtSmart2Pay()
         {
             string[] tagsOfScenario = new string[] {
                     "v1",
-                    "paymentAccount",
+                    "billing",
+                    "payment",
+                    "smart2pay",
                     "creation"};
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Morgan creates a new payment account after that customer has been registered on t" +
-                    "he web site", null, new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Payment service creates a new creation payment request at smart2Pay", null, new string[] {
                         "v1",
-                        "paymentAccount",
+                        "billing",
+                        "payment",
+                        "smart2pay",
                         "creation"});
-#line 8
+#line 13
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -122,14 +141,84 @@ this.ScenarioInitialize(scenarioInfo);
 #line 4
 this.FeatureBackground();
 #line hidden
-#line 9
- testRunner.Given("the webapi is online", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 14
+ testRunner.When("Subscription active event was received", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 10
- testRunner.When("Morgan sends the payment account creation request for \'Chang\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 15
+ testRunner.Then("billing domain start the payment creation for smart2Pay", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 11
- testRunner.Then("Creation of payment account is successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Payment service creates a new creation payment request at smart2Pay with data")]
+        [NUnit.Framework.CategoryAttribute("v1")]
+        [NUnit.Framework.CategoryAttribute("billing")]
+        [NUnit.Framework.CategoryAttribute("payment")]
+        [NUnit.Framework.CategoryAttribute("smart2pay")]
+        [NUnit.Framework.CategoryAttribute("creation")]
+        public virtual void PaymentServiceCreatesANewCreationPaymentRequestAtSmart2PayWithData()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "v1",
+                    "billing",
+                    "payment",
+                    "smart2pay",
+                    "creation"};
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Payment service creates a new creation payment request at smart2Pay with data", null, new string[] {
+                        "v1",
+                        "billing",
+                        "payment",
+                        "smart2pay",
+                        "creation"});
+#line 18
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 4
+this.FeatureBackground();
+#line hidden
+#line 19
+ testRunner.When("Subscription active event was received", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 20
+ testRunner.And("the payment request was emitted by the billing", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Amount",
+                            "Currency",
+                            "Card.HoldName",
+                            "Card.Number",
+                            "Card.ExpirationMonth",
+                            "Card.ExpirationYear",
+                            "Card.SecurityCode"});
+                table1.AddRow(new string[] {
+                            "100",
+                            "EUR",
+                            "Chang Company",
+                            "11111111111",
+                            "10",
+                            "2022",
+                            "123"});
+#line 21
+ testRunner.Then("billing information for the payment has been emitted with:", ((string)(null)), table1, "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -153,7 +242,7 @@ this.FeatureBackground();
                         "paymentAccount",
                         "creation",
                         "reaquestById"});
-#line 15
+#line 26
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -176,19 +265,19 @@ this.ScenarioInitialize(scenarioInfo);
 #line 4
 this.FeatureBackground();
 #line hidden
-#line 16
+#line 27
  testRunner.Given("the webapi is online", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 17
+#line 28
  testRunner.And("Chang is authentificated with roles \'Client\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 18
+#line 29
  testRunner.And("\'Chang\' payment account has been created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 19
+#line 30
  testRunner.When("\'Chang\' gets his payment account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 20
+#line 31
  testRunner.Then("get request return \'Chang\' payment account description", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -213,7 +302,7 @@ this.FeatureBackground();
                         "paymentAccount",
                         "creation",
                         "reaquestById"});
-#line 23
+#line 34
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -236,19 +325,19 @@ this.ScenarioInitialize(scenarioInfo);
 #line 4
 this.FeatureBackground();
 #line hidden
-#line 24
+#line 35
  testRunner.Given("the webapi is online", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 25
+#line 36
  testRunner.And("Chang is authentificated with roles \'Client\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 26
+#line 37
  testRunner.And("\'Chang\' payment account has been created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 27
+#line 38
  testRunner.When("\'Chang\' sends the payment account creation request for \'Morgan\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 28
+#line 39
  testRunner.Then("Creation of payment account is not successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

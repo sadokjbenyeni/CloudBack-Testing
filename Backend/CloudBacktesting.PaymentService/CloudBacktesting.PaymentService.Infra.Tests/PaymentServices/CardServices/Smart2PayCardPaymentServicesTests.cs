@@ -21,7 +21,7 @@ namespace CloudBacktesting.PaymentService.Infra.Tests.PaymentServices.CardServic
     public class Smart2PayCardPaymentServicesTests
     {
         [Test]
-        public async Task SHould_payment_by_credit_card_is_valid_when_usual_case()
+        public async Task Should_payment_by_credit_card_is_valid_when_usual_case()
         {
             var s2pCardService = Substitute.For<ICardPaymentService>();
             s2pCardService.CreatePaymentAsync(Arg.Any<ApiCardPaymentRequest>(), Arg.Any<CancellationToken>())

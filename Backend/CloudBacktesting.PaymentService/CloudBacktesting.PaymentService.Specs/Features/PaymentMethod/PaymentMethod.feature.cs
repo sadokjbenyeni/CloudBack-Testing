@@ -78,7 +78,7 @@ namespace CloudBacktesting.PaymentService.Specs.Features.PaymentMethod
 #line 4
 #line hidden
 #line 5
- testRunner.Given("Morgan is authentificated with roles \'Admin\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Morgan is authentificated with roles \'Administrator\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 6
  testRunner.Given("Chang is authentificated with roles \'Client\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
@@ -135,14 +135,14 @@ this.FeatureBackground();
 #line 11
  testRunner.Given("the webapi is online", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                             "Holder",
                             "Numbers",
                             "Network",
                             "ExpirationYear",
                             "ExpirationMonth",
                             "Cryptogram"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "Chang\'s Company",
                             "4050 1197 6948 4808",
                             "Visa",
@@ -150,7 +150,7 @@ this.FeatureBackground();
                             "03",
                             "359"});
 #line 12
- testRunner.When("\'Chang\' creates a new payment method with:", ((string)(null)), table1, "When ");
+ testRunner.When("\'Chang\' creates a new payment method with:", ((string)(null)), table2, "When ");
 #line hidden
 #line 15
  testRunner.Then("Creation of payment method creation is successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -209,14 +209,14 @@ this.FeatureBackground();
 #line 20
  testRunner.And("5 credit cards has been already created by \'Chang\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
                             "Holder",
                             "Numbers",
                             "Network",
                             "ExpirationYear",
                             "ExpirationMonth",
                             "Cryptogram"});
-                table2.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "Chang\'s Company",
                             "4050 1197 6948 4808",
                             "Visa",
@@ -224,7 +224,7 @@ this.FeatureBackground();
                             "03",
                             "359"});
 #line 21
- testRunner.When("\'Chang\' creates a new payment method with:", ((string)(null)), table2, "When ");
+ testRunner.When("\'Chang\' creates a new payment method with:", ((string)(null)), table3, "When ");
 #line hidden
 #line 24
  testRunner.Then("Creation of payment method creation is successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -282,14 +282,14 @@ this.FeatureBackground();
 #line 28
  testRunner.Given("the webapi is online", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
                             "Holder",
                             "Numbers",
                             "Network",
                             "ExpirationYear",
                             "ExpirationMonth",
                             "Cryptogram"});
-                table3.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "Chang\'s Company",
                             "5555 5555 5555 5555",
                             "Visa",
@@ -297,7 +297,7 @@ this.FeatureBackground();
                             "12",
                             "111"});
 #line 29
- testRunner.When("\'Chang\' creates a new payment method with:", ((string)(null)), table3, "When ");
+ testRunner.When("\'Chang\' creates a new payment method with:", ((string)(null)), table4, "When ");
 #line hidden
 #line 32
  testRunner.Then("Creation of payment method creation is not successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -410,14 +410,14 @@ this.FeatureBackground();
 #line 42
  testRunner.Given("the webapi is online", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
                             "Holder",
                             "Numbers",
                             "Network",
                             "ExpirationYear",
                             "ExpirationMonth",
                             "Cryptogram"});
-                table4.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "Chang\'s Company",
                             "4050 1197 6948 4808",
                             "Visa",
@@ -425,7 +425,7 @@ this.FeatureBackground();
                             "03",
                             "359"});
 #line 43
- testRunner.And("\'Chang\' created payment method with:", ((string)(null)), table4, "And ");
+ testRunner.And("\'Chang\' created payment method with:", ((string)(null)), table5, "And ");
 #line hidden
 #line 46
  testRunner.When("\'Chang\' browses all payment method", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -544,14 +544,14 @@ this.FeatureBackground();
 #line 58
  testRunner.Given("the webapi is online", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
                             "Holder",
                             "Numbers",
                             "Network",
                             "ExpirationYear",
                             "ExpirationMonth",
                             "Cryptogram"});
-                table5.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "Chang\'s Company",
                             "4050 1197 6948 4808",
                             "Visa",
@@ -559,7 +559,7 @@ this.FeatureBackground();
                             "03",
                             "359"});
 #line 59
- testRunner.And("\'Chang\' created payment method with:", ((string)(null)), table5, "And ");
+ testRunner.And("\'Chang\' created payment method with:", ((string)(null)), table6, "And ");
 #line hidden
 #line 62
  testRunner.When("\'Chang\' browses \'Chang\'s Company\' payment method", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -618,14 +618,14 @@ this.FeatureBackground();
 #line 67
  testRunner.Given("the webapi is online", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
                             "Holder",
                             "Numbers",
                             "Network",
                             "ExpirationYear",
                             "ExpirationMonth",
                             "Cryptogram"});
-                table6.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "Chang\'s Company",
                             "4050 1197 6948 4808",
                             "Visa",
@@ -633,7 +633,7 @@ this.FeatureBackground();
                             "03",
                             "359"});
 #line 68
- testRunner.And("\'Chang\' created payment method with:", ((string)(null)), table6, "And ");
+ testRunner.And("\'Chang\' created payment method with:", ((string)(null)), table7, "And ");
 #line hidden
 #line 71
  testRunner.When("\'Chang\' browses wrong id payment method", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
