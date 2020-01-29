@@ -3,7 +3,7 @@ Feature: BillingPayment creation feature
         and creates a payment workflow in Smart2Pay
 
 Background: 
-	Given Morgan is authentificated with roles 'Admin'
+	Given Morgan is authentificated with roles 'Administrator'
 
 @v1 @paymentAccount @creation 
 Scenario: Morgan creates a new payment account after that customer has been registered on the web site

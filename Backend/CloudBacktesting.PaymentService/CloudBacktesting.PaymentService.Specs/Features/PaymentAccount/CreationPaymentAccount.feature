@@ -15,7 +15,7 @@ Scenario: Payment service creates a new creation payment request at smart2Pay
 	Then billing domain start the payment creation for smart2Pay
 
 @v1 @billing @payment @smart2pay @creation 
-Scenario: Payment service creates a new creation payment request at smart2Pay	
+Scenario: Payment service creates a new creation payment request at smart2Pay with data	
 	When Subscription active event was received
 	And the payment request was emitted by the billing
 	Then billing information for the payment has been emitted with:
