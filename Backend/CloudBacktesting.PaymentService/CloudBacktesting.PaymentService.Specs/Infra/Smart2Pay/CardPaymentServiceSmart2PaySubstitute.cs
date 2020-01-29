@@ -54,7 +54,7 @@ namespace CloudBacktesting.PaymentService.Specs.Infra.Smart2Pay
 
         public Task<ApiResult<ApiCardPaymentResponse>> CancelPaymentAsync(long paymentId)
         {
-            var request = Substitute.ForPartsOf<HttpRequestMessage>(HttpMethod.Post, "spec.api.smart2pay.com/AcceptChallenge");
+            var request = Substitute.ForPartsOf<HttpRequestMessage>(HttpMethod.Post, "spec.api.smart2pay.com/CancelPayment");
             var response = Substitute.ForPartsOf<HttpResponseMessage>(HttpStatusCode.OK);
             var card = new ApiCardPaymentResponse()
             {
