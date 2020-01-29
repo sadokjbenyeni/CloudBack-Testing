@@ -37,11 +37,11 @@ namespace CloudBacktesting.Infra.Security
             }
             var user = DecodeHeaderAuthenticate(Encoding.UTF8.GetString(Convert.FromBase64String(token)));
             var additonalClaims = user.Additionals?.Select(kp => new Claim(kp.Key, kp.Value)) ?? Enumerable.Empty<Claim>();
-            var roleClaims = user.Roles.Select(role => new Claim(role, role)) ?? Enumerable.Empty<Claim>();
+            var roleClaims = user.Roles?.Select(role => new Claim(role, role)) ?? Enumerable.Empty<Claim>();
             var claims = additonalClaims.Union(new[] {
                                                     new Claim(ClaimTypes.Email, user.Email),
                                                     new Claim(ClaimTypes.Name, user.Name),
-                                                    new Claim(ClaimTypes.Role, string.Join(", ", user.Roles)),
+                                                    new Claim(ClaimTypes.Role, string.Join(", ", user?.Roles)),
                                                     new Claim("Connected", "Connected")
                                               }).Union(roleClaims).ToArray();
             var identity = new ClaimsIdentity(claims, scheme.Name);
