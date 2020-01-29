@@ -13,7 +13,7 @@ spec:
       env:
       - name: NODEJSENVIRONMENT
         value: "dockerDev"
-      imagePullPolicy: IfNotPresent
+      imagePullPolicy: Always
       ports:
         - containerPort: 9095
   imagePullSecrets:
@@ -35,7 +35,7 @@ spec:
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: "dockerDev"
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
           - containerPort: 80
     imagePullSecrets:
@@ -57,7 +57,7 @@ spec:
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: "dockerDev"
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
           - containerPort: 80
     imagePullSecrets:

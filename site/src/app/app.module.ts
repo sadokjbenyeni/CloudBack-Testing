@@ -60,7 +60,6 @@ import { DataTablesModule, DataTableDirective } from 'angular-datatables';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgbdModalContent } from './modal-content';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { CdkTableModule } from '@angular/cdk/table';
 import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.component';
 import { LoginPageComponent } from './components/login/login-page/login-page.component';
@@ -154,7 +153,6 @@ import { PaymentService } from './services/payment.service';
     ReactiveFormsModule,
     //Ng2BootstrapModule,
     RecaptchaModule.forRoot(),
-    PdfViewerModule,
     FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
