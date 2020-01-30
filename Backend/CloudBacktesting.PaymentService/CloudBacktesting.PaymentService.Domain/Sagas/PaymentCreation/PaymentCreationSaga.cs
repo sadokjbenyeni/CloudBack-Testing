@@ -28,7 +28,7 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation
                 domainEvent.AggregateEvent.CardType,
                 domainEvent.AggregateEvent.CardHolder,
                 domainEvent.AggregateEvent.ExpirationYear,
-                domainEvent.AggregateEvent.ExpirationMonth);
+                domainEvent.AggregateEvent.ExpirationMonth);;
 
             this.Publish(command);
 

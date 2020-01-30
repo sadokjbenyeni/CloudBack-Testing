@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate.Commands
 {
-    public class PaymentMethodCreationCommandHandler : CommandHandler<PaymentMethod,PaymentMethodId, IExecutionResult, PaymentMethodCreationCommand>
+    public class PaymentMethodCreationCommandHandler : CommandHandler<PaymentMethod, PaymentMethodId, IExecutionResult, PaymentMethodCreationCommand>
     {
         public override Task<IExecutionResult> ExecuteCommandAsync(PaymentMethod aggregate, PaymentMethodCreationCommand command, CancellationToken cancellationToken)
         {
-            return Task.FromResult(aggregate.Create(command.PaymentAccountId, command.CardNumber, command.CardType, command.CardHolder, command.ExpirationYear, command.ExpirationMonth, command.Cryptogram));
+            return Task.FromResult(aggregate.Create(command.PaymentAccountId, command.CardNumber, command.CardType, command.Client, command.CardHolder, command.ExpirationYear, command.ExpirationMonth, command.Cryptogram));
         }
     }
 }

@@ -12,9 +12,9 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggreg
         public string PaymentMethodCardNumber { get; }
         public string PaymentMethodCardType { get; }
         public string PaymentMethodCryptogram { get; }
-        public int PaymentMethodExpirationYear { get; set; }
-        public int PaymentMethodExpirationMonth { get; set; }
-        public PaymentMethodLinkToPaymentAccountCommand(PaymentAccountId paymentAccountId, string methodId, string paymentMethodCardNumber, string paymentMethodCardType, string paymentMethodCryptogram, int paymentMethodExpirationYear, int paymentMethodExpirationMonth) : base(paymentAccountId)
+        public string PaymentMethodExpirationYear { get; set; }
+        public string PaymentMethodExpirationMonth { get; set; }
+        public PaymentMethodLinkToPaymentAccountCommand(PaymentAccountId paymentAccountId, string methodId, string paymentMethodCardNumber, string paymentMethodCardType, string paymentMethodCryptogram, string paymentMethodExpirationYear, string paymentMethodExpirationMonth) : base(paymentAccountId)
         {
             if (string.IsNullOrEmpty(methodId))
             {

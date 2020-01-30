@@ -1,4 +1,9 @@
-﻿using CloudBacktesting.PaymentService.Infra.PaymentServices.CardServices;
+﻿using CloudBacktesting.Infra.Security;
+using CloudBacktesting.PaymentService.Infra.PaymentServices.CardServices;
+using CloudBacktesting.PaymentService.Infra.Tests.Security;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 using NSubstitute;
 using NSubstitute.Core;
 using NUnit.Framework;
@@ -29,13 +34,14 @@ namespace CloudBacktesting.PaymentService.Infra.Tests.PaymentServices.CardServic
             var service = new Smart2PayCardService(s2pCardService);
             bool response = await service.CreateAsync("IdPaymenet", "chang@trade.com", new CardInformation(), 2000, "EUR", CancellationToken.None);
             Assert.That(response, Is.True);
-            
+
         }
 
         [Test]
         public async Task Should_around_amount_when_amount_has_decimal_values()
         {
             var s2pCardService = Substitute.For<ICardPaymentService>();
+
             s2pCardService.CreatePaymentAsync(Arg.Any<ApiCardPaymentRequest>(), Arg.Any<CancellationToken>())
                 .Returns(info => ReturnSuccessRequest(info));
             s2pCardService.When(sp => sp.CreatePaymentAsync(Arg.Any<ApiCardPaymentRequest>(), Arg.Any<CancellationToken>()))
@@ -56,14 +62,22 @@ namespace CloudBacktesting.PaymentService.Infra.Tests.PaymentServices.CardServic
                 Amount = request.Payment.Amount,
                 Card = new CardDetailsRequest()
                 {
-                    
+
                 },
                 Customer = request.Payment.Customer,
-                
+
             };
-            var httpRequest = Substitute.ForPartsOf<HttpRequestMessage>(HttpMethod.Post, "spec.api.smart2pay.com/CreatePayment");
-            var httpResponse = Substitute.ForPartsOf<HttpResponseMessage>(HttpStatusCode.OK);
-            return ApiResult.Success<ApiCardPaymentResponse>(httpRequest, httpResponse, string.Empty, response);
+            var httpRequest = Substitute.ForPartsOf<HttpRequest>();
+            var httpRequestMessage = Substitute.ForPartsOf<HttpRequestMessage>(HttpMethod.Post, "spec.api.smart2pay.com/CreatePayment");
+            var httpResponseMessage = Substitute.ForPartsOf<HttpResponseMessage>(HttpStatusCode.OK);
+
+            var token = Convert.ToBase64String(Encoding.UTF8.GetBytes("67034:I1oxzWpUg857ybKk+UkIMK4gOJhlxyDBBH+n/oBE/wPIKaLnnU"));
+            var header = new HeaderDictionaryTests(new Dictionary<string, StringValues>() { { "Authorization", $"Basic {token}" }, });
+
+            httpRequest.Headers.Returns(header);
+            return ApiResult.Success<ApiCardPaymentResponse>(httpRequestMessage, httpResponseMessage, string.Empty, response);
         }
+
+
     }
 }

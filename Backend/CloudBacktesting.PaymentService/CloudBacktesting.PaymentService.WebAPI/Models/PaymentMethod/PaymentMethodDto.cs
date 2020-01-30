@@ -12,7 +12,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Models.PaymentMethod
         public string CardNumber { get; set; }
         public string CardType { get; set; }
         public string Cryptogram { get; set; }
-        public int ExpirationYear { get; set; }
-        public int ExpirationMonth { get; set; }
+        public string ExpirationYear { get; set; }
+        public string ExpirationMonth { get; set; }
     }
 }

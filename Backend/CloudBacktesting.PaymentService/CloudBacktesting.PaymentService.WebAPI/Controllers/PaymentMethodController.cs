@@ -93,6 +93,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
                 PaymentAccountId = readModel.PaymentAccountId,
                 CardNumber = readModel.CardNumber,
                 CardType = readModel.CardType,
+                Client = readModel.Client,
                 CardHolder = readModel.CardHolder,
                 Cryptogram = readModel.Cryptogram,
                 ExpirationYear = readModel.ExpirationYear,
@@ -120,7 +121,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
             IExecutionResult commandResult = null;
             try
             {
-                var command = new PaymentMethodCreationCommand(new PaymentAccountId(paymentAccountId).ToString(), value.Numbers, value.Network, value.Holder, value.ExpirationYear, value.ExpirationMonth, value.Cryptogram);
+                var command = new PaymentMethodCreationCommand(new PaymentAccountId(paymentAccountId).ToString(), value.Numbers, value.Network, value.Holder, value.Client, value.ExpirationYear, value.ExpirationMonth, value.Cryptogram);
                 commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
                 if (commandResult.IsSuccess)
                 {

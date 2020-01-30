@@ -9,10 +9,11 @@ namespace CloudBacktesting.PaymentService.WebAPI.Models.PaymentMethod
     {
         public string Holder { get; set; }
         public string Numbers { get; set; }
+        public string Client { get; set; }
         public string Network { get; set; }
         public string Cryptogram { get; set; }
-        public int ExpirationYear { get; set; }
-        public int ExpirationMonth { get; set; }
+        public string ExpirationYear { get; set; }
+        public string ExpirationMonth { get; set; }
 
     }
 }

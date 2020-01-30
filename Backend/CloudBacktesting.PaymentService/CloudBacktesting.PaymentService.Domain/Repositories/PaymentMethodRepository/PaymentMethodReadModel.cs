@@ -21,8 +21,8 @@ namespace CloudBacktesting.PaymentService.Domain.Repositories.PaymentMethodRepos
         public string CardType { get; set; }
         public string CardHolder { get; set; }
         public string Cryptogram { get; set; }
-        public int ExpirationYear { get; set; }
-        public int ExpirationMonth { get; set; }
+        public string ExpirationYear { get; set; }
+        public string ExpirationMonth { get; set; }
 
 
         public void Apply(IReadModelContext context, EventFlow.Aggregates.IDomainEvent<PaymentMethod, PaymentMethodId, PaymentMethodCreatedEvent> domainEvent)
@@ -44,6 +44,7 @@ namespace CloudBacktesting.PaymentService.Domain.Repositories.PaymentMethodRepos
 
         public void Apply(IReadModelContext context, EventFlow.Aggregates.IDomainEvent<PaymentMethod, PaymentMethodId, PaymentMethodValidatedEvent> domainEvent)
         {
+            Id = domainEvent.AggregateEvent.MethodId;
         }
     }
 }

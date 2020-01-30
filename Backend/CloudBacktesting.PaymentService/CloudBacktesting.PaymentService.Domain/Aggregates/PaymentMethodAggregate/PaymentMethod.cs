@@ -16,14 +16,14 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
 
         public PaymentMethod(PaymentMethodId aggregateId) : base(aggregateId) { }
 
-        public IExecutionResult Create(string paymentAccountId, string cardNumber, string cardType, string cardHolder, int expirationYear, int expirationMonth, string cryptogram)
+        public IExecutionResult Create(string paymentAccountId, string cardNumber, string cardType, string client, string cardHolder, string expirationYear, string expirationMonth, string cryptogram)
         {
-            var @event = new PaymentMethodCreatedEvent(this.Id.Value, paymentAccountId, cardNumber, cardType, cardHolder, cryptogram, expirationYear, expirationMonth);
+            var @event = new PaymentMethodCreatedEvent(this.Id.Value, paymentAccountId, cardNumber, cardType, client, cardHolder, cryptogram, expirationYear, expirationMonth);
             Emit(@event);
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult SystemValidate(PaymentMethodId paymentMethodId, string cardNumber, string cardType, string cryptogram, int expirationYear, int expirationMonth)
+        public IExecutionResult SystemValidate(PaymentMethodId paymentMethodId, string cardNumber, string cardType, string cryptogram, string expirationYear, string expirationMonth)
         {
             var passLuhenSpec = new PassesLuhenTestSpecification();
             if (passLuhenSpec.IsSatisfiedBy(cardNumber) == false)

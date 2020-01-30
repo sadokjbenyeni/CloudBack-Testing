@@ -37,8 +37,8 @@ namespace CloudBacktesting.PaymentService.Specs.Features.PaymentMethod
                                                Numbers = "4713 7422 6653 7429",
                                                Network = "Visa",
                                                Cryptogram = "509",
-                                               ExpirationYear = 2021,
-                                               ExpirationMonth = 02
+                                               ExpirationYear = "2021",
+                                               ExpirationMonth = "02"
                                            });
             var userIdentity = context.Get<UserIdentity>(user);
             var httpClient = context.ScenarioContainer.Resolve<ITestHttpClientFactory>().Create(userIdentity);

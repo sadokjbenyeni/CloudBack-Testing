@@ -13,10 +13,11 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
         public string CardType { get; set; }
         public string CardHolder { get; set; }
         public string Cryptogram { get; set; }
-        public int ExpirationYear { get; set; }
-        public int ExpirationMonth { get; set; }
+        public string Client { get; set; }
+        public string ExpirationYear { get; set; }
+        public string ExpirationMonth { get; set; }
 
-        public PaymentMethodCreationCommand(string paymentAccountId, string cardNumber, string cardType, string cardHolder, int expirationYear, int expirationMonth, string cryptogram) : base(PaymentMethodId.New)
+        public PaymentMethodCreationCommand(string paymentAccountId, string cardNumber, string cardType, string cardHolder,string client, string expirationYear, string expirationMonth, string cryptogram) : base(PaymentMethodId.New)
         {
             if (string.IsNullOrEmpty(paymentAccountId))
             {
@@ -49,6 +50,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
             ExpirationYear = expirationYear;
             ExpirationMonth = expirationMonth;
             Cryptogram = cryptogram;
+            Client = client;
         }
     }
 }
