@@ -39,7 +39,8 @@ let UserSchema = new mongoose.Schema({
   roleName: { type: [String], default: ["Client"] }, // Client, Administrator, Product, Compliance, Finance
   role: { type: String, maxlength: 24 },
   state: { type: Number, default: 0 }, // 0 : non actif, 1 : actif, -1 : suspendu. Active after email validation
-  subscriptionAccountId: { type: String, default: null }
+  subscriptionAccountId: { type: String, default: null },
+  paymentAccountId: { type: String, default: null }
 }, { timestamps: true });
 
 

@@ -2,9 +2,10 @@
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
-namespace CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Publishers
+namespace CloudBacktesting.PaymentService.RabbitMQ.EventManager.Publishers
 {
     public class RabbitMQEventPublisher : IRabbitMQEventPublisher
     {
@@ -28,7 +29,7 @@ namespace CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Publishers
         {
             try
             {
-                _logger.LogInformation($"Push Message routing key: {routingKey}");
+                _logger.LogInformation($"PushMessage routing key: {routingKey}");
                 var json = JsonConvert.SerializeObject(value);
                 var body = Encoding.UTF8.GetBytes(json);
                 _channel.BasicPublish(exchange: exchange, routingKey: routingKey, mandatory: true, basicProperties: null, body: body);

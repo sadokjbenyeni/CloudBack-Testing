@@ -10,6 +10,8 @@ using CloudBacktesting.PaymentService.Domain.Repositories.PaymentAccountReposito
 using CloudBacktesting.PaymentService.Domain.Repositories.PaymentMethodRepository;
 using CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation;
 using CloudBacktesting.PaymentService.Infra.Security;
+using CloudBacktesting.PaymentService.RabbitMQ.EventManager.Consumers;
+using CloudBacktesting.PaymentService.RabbitMQ.EventManager.Publishers;
 using CloudBacktesting.PaymentService.WebAPI.Host.DatabaseSettings;
 using EventFlow.AspNetCore.Extensions;
 using EventFlow.AspNetCore.Middlewares;
@@ -24,6 +26,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using RabbitMQ.Client;
 using System;
 
 namespace CloudBacktesting.PaymentService.WebAPI.Host
@@ -62,9 +65,16 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
             var configMongo = new PaymentDatabaseSettings();
             Console.WriteLine($"Connecting to db connectionstring : {configMongo.ConnectionString} to the collection {configMongo.DatabaseName}");
             Configuration.Bind("PaymentDatabaseSettings", configMongo);
+            AddRabbitMQ(services);
             AddEventFlow(services, configMongo);
         }
-
+        protected virtual void AddRabbitMQ(IServiceCollection services)
+        {
+            var endpoint = Configuration.GetSection("RabbitMq").GetValue<string>("endpoint");
+            services.AddSingleton<IConnectionFactory>(con => new ConnectionFactory() { Endpoint = new AmqpTcpEndpoint(new Uri(endpoint)) });
+            services.AddSingleton<IRabbitMQEventPublisher, RabbitMQEventPublisher>();
+            services.AddHostedService<AccountCreatedListener>();
+        }
         protected virtual IServiceCollection AddEventFlow(IServiceCollection services, PaymentDatabaseSettings configMongo)
         {
             if (UseEventFlowOptionsBuilder)

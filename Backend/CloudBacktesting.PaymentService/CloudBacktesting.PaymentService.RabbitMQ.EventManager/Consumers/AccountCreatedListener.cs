@@ -1,6 +1,6 @@
-﻿using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate.Commands;
-using CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Models;
-using CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Publishers;
+﻿using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Commands;
+using CloudBacktesting.PaymentService.RabbitMQ.EventManager.Models;
+using CloudBacktesting.PaymentService.RabbitMQ.EventManager.Publishers;
 using EventFlow;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -10,8 +10,9 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Consumers
+namespace CloudBacktesting.PaymentService.RabbitMQ.EventManager.Consumers
 {
+
     public class AccountCreatedListener : RabbitMQListener
     {
         private readonly ILogger<AccountCreatedListener> _logger;
@@ -21,7 +22,7 @@ namespace CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Consumers
         public AccountCreatedListener(ICommandBus commandBus, IConnectionFactory factory, ILogger<AccountCreatedListener> logger, IServiceProvider services, IRabbitMQEventPublisher rabbitEventProduce) : base(factory, logger)
         {
             _rabbiteventproduce = rabbitEventProduce;
-            QueueName = "AccountActivationSubscription";
+            QueueName = "AccountActivationPayment";
             _logger = logger;
             _services = services;
             _commandbus = commandBus;
@@ -34,17 +35,17 @@ namespace CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Consumers
             {
                 using (var scope = _services.CreateScope())
                 {
-                    var subscriptionAccount= JsonConvert.DeserializeObject<SubscriptionAccountRabbitMQDto>(message);
+                    var paymentAccount = JsonConvert.DeserializeObject<PaymentAccountRabbitMQDto>(message);
                     var exchange = "Signup";
-                    var routingKey = "SubscriptionCreated";
-                    var command = new SubscriptionAccountCreationCommand(subscriptionAccount.User);
+                    var routingKey = "PaymentAccountCreated";
+                    var command = new PaymentAccountCreationCommand(paymentAccount.User);
                     var commandResult = await _commandbus.PublishAsync(command, CancellationToken.None);
                     if (commandResult.IsSuccess)
                     {
-                        subscriptionAccount.Id = command.AggregateId.Value;
+                        paymentAccount.Id = command.AggregateId.Value;
                     }
                     Console.WriteLine($"message received {message}, sending user to exchange name : {exchange} with routing key : {routingKey}");
-                    _rabbiteventproduce.PushMessage(subscriptionAccount, exchange, routingKey);
+                    _rabbiteventproduce.PushMessage(paymentAccount, exchange, routingKey);
                     return true;
                 }
             }
@@ -53,8 +54,6 @@ namespace CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Consumers
                 _logger.LogCritical($"An error occured while publishing the message for the following reason {ex.Message}");
                 return false;
             }
-
         }
     }
 }
-

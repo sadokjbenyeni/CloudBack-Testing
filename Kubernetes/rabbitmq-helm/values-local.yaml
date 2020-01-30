@@ -70,7 +70,7 @@ definitions:
     }
   queues: |-
    {
-      "name":"AccountActivation",
+      "name":"AccountActivationSubscription",
       "vhost":"/",
       "durable":true,
       "auto_delete":false,
@@ -82,10 +82,33 @@ definitions:
       "durable":true,
       "auto_delete":false,
       "arguments":{}
-   }
+   },
+   {
+      "name":"AccountActivationPayment",
+      "vhost":"/",
+      "durable":true,
+      "auto_delete":false,
+      "arguments":{}
+   },
+   {
+      "name":"PaymentAccountCreation",
+      "vhost":"/",
+      "durable":true,
+      "auto_delete":false,
+      "arguments":{}
+   },
   exchanges: |-
    {
       "name":"Signup",
+      "vhost":"/",
+      "type":"topic",
+      "durable":true,
+      "auto_delete":false,
+      "internal":false,
+      "arguments":{}
+   },
+   {
+      "name":"activation",
       "vhost":"/",
       "type":"topic",
       "durable":true,
@@ -106,9 +129,25 @@ definitions:
    {
       "source":"Signup",
       "vhost":"/",
-      "destination":"AccountActivation",
+      "destination":"PaymentAccountCreation",
       "destination_type":"queue",
-      "routing_key":"AccountActivation",
+      "routing_key":"PaymentAccountCreated",
+      "arguments":{}
+   },
+   {
+      "source":"activation",
+      "vhost":"/",
+      "destination":"AccountActivationPayment",
+      "destination_type":"queue",
+      "routing_key":"AccountActivated",
+      "arguments":{}
+   },
+   {
+      "source":"activation",
+      "vhost":"/",
+      "destination":"AccountActivationSubscription",
+      "destination_type":"queue",
+      "routing_key":"AccountActivated",
       "arguments":{}
    }
 ## Sets the policies in definitions.json. This can be used to control the high

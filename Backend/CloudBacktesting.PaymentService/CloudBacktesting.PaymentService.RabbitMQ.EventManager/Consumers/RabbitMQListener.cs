@@ -1,13 +1,13 @@
-﻿using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using System;
+﻿using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 
-namespace CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Consumers
+namespace CloudBacktesting.PaymentService.RabbitMQ.EventManager.Consumers
 {
     public class RabbitMQListener : IHostedService
     {
@@ -37,7 +37,7 @@ namespace CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Consumers
             return Task.CompletedTask;
         }
 
-        private void   Register()
+        private void Register()
         {
             Console.WriteLine("starting");
             var consumer = new EventingBasicConsumer(_channel);

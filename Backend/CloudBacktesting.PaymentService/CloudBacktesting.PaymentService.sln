@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.PaymentSer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudBacktesting.PaymentService.Infra.Tests", "CloudBacktesting.PaymentService.Infra.Tests\CloudBacktesting.PaymentService.Infra.Tests.csproj", "{E05DD7C3-D0BE-4C51-B809-8244506505CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBacktesting.PaymentService.RabbitMQ.EventManager", "CloudBacktesting.PaymentService.RabbitMQ.EventManager\CloudBacktesting.PaymentService.RabbitMQ.EventManager.csproj", "{06E41858-7AE9-40F4-BAD5-9A9820A13175}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,10 @@ Global
 		{E05DD7C3-D0BE-4C51-B809-8244506505CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E05DD7C3-D0BE-4C51-B809-8244506505CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E05DD7C3-D0BE-4C51-B809-8244506505CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06E41858-7AE9-40F4-BAD5-9A9820A13175}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06E41858-7AE9-40F4-BAD5-9A9820A13175}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06E41858-7AE9-40F4-BAD5-9A9820A13175}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06E41858-7AE9-40F4-BAD5-9A9820A13175}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,6 +107,7 @@ Global
 		{FF6BFE3D-E3D3-4759-89D5-74F2D8BF9BC1} = {B9150EDA-0F01-4F8C-8DE2-700494A0C7B3}
 		{8DD6AA80-6BB2-4F99-A60B-BAF3840A6AEB} = {B9150EDA-0F01-4F8C-8DE2-700494A0C7B3}
 		{E05DD7C3-D0BE-4C51-B809-8244506505CD} = {B9150EDA-0F01-4F8C-8DE2-700494A0C7B3}
+		{06E41858-7AE9-40F4-BAD5-9A9820A13175} = {F1BDB114-8126-415D-90E4-9990D917D57C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A02DA95F-A4D3-4DDF-BB5F-C276310235D7}

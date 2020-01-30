@@ -1,13 +1,15 @@
 ﻿using Newtonsoft.Json;
 
-namespace CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Models
+namespace CloudBacktesting.PaymentService.RabbitMQ.EventManager.Models
 {
     [JsonObject]
-    public class SubscriptionAccountRabbitMQDto
+
+    class PaymentAccountRabbitMQDto
     {
-        [JsonProperty(propertyName: "subscriptionAccountId")]
+        [JsonProperty(propertyName: "paymentAccountId")]
         public string Id { get; set; }
         [JsonProperty(propertyName: "email")]
         public string User { get; set; }
+
     }
 }
