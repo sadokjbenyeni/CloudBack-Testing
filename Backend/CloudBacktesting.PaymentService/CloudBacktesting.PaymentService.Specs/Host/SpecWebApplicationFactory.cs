@@ -137,9 +137,10 @@ namespace CloudBacktesting.PaymentService.Specs.Host
 
         }
 
-        //protected override void AddRabbitMQ(IServiceCollection services)
-        //{
 
-        //}
+        protected override void AddRabbitMQ(IServiceCollection services)
+        {
+
+        }
     }
 }

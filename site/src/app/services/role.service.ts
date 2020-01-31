@@ -13,7 +13,7 @@ export class RoleService {
   constructor(private http: HttpClient) { }
 
   getRoles() {
-    return this.http.get<Roles>( environment.api + '/role' );
+    return this.http.get<Roles>( environment.api + '/role' ,);
   }
 
   getPages() {

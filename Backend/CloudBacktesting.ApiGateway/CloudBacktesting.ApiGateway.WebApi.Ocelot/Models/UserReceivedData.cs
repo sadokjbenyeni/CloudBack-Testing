@@ -18,8 +18,11 @@ namespace CloudBacktesting.ApiGateway.WebApi.Ocelot.Models
         public IEnumerable<string> Role { get; set; }
         [JsonProperty("islogin")]
         public bool IsLogin { get; set; }
-
+        
         [JsonProperty("subscriptionAccountId")]
         public string SubscriptionAccountId { get; set; }
+
+        [JsonProperty("paymentAccountId")]
+        public string PaymentAccountId { get; set; }
     }
 }

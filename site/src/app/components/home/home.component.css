@@ -109,7 +109,6 @@
   text-decoration: none;
   user-select: none;
   color: white;
-  display: flex;
   justify-content: center;
   transform-style: preserve-3d;
   transform: perspective(800px);

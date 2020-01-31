@@ -6,6 +6,10 @@ namespace CloudBacktesting.ApiGateway.WebApi.Ocelot.Models
     public class Additionals
     {
         [JsonProperty("subscriptionaccountid",NullValueHandling =NullValueHandling.Ignore)]
-        public string Subscriptionaccountid { get; set; }
+        public string SubscriptionAccountId { get; set; }
+
+        [JsonProperty("paymentaccountid", NullValueHandling = NullValueHandling.Ignore)]
+        public string PaymentAccountId { get; set; }
+
     }
 }

@@ -11,6 +11,7 @@ rabbitmqcreation.on("connected", () => {
 })
 exports.Connect = async () =>
     amqp.connect(process.env.RABBITMQURL, function (errorconnect, connection) {
+        console.log("rabbitmq connection URL is "+ process.env.RABBITMQURL )
         if (errorconnect) {
             console.log("error occured while conecting to rmq");
             throw errorconnect;

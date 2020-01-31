@@ -165,7 +165,13 @@ const server = http.createServer(app);
 //connecting to rabbitmq
 // the connection declaration must be set after the database.connect to load schema
 const Connection = require('./server/Events/Connection')
+try
+{
 Connection.Connect();
-console.log("connected to rabbitmq")
+}
+catch (error)
+{
+  console.log (error)
+}
 //Listen on port
 server.listen(port, () => console.log(`API running on localhost:${port}`));

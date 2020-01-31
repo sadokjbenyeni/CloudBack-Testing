@@ -31,7 +31,8 @@ namespace CloudBacktesting.ApiGateway.WebApi.Ocelot.Middlewares
                 var user = await _userService.GetuserByTokenAsync(token);
                 if (user != null)
                 {
-                    var byteuser = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(BindToUserTokenFormat(user)));
+                    var bindeduser = JsonConvert.SerializeObject(BindToUserTokenFormat(user));
+                    var byteuser = Encoding.UTF8.GetBytes(bindeduser);
                     var encodeduser = System.Convert.ToBase64String(byteuser);
                     httpContext.Request.Headers.Remove("Authorization");
                     httpContext.Request.Headers.Add("Authorization", "Basic " + encodeduser);
@@ -68,7 +69,8 @@ namespace CloudBacktesting.ApiGateway.WebApi.Ocelot.Middlewares
                 State = userreceived.State,
                 Additionals = new Additionals
                 {
-                     Subscriptionaccountid= userreceived.SubscriptionAccountId 
+                    SubscriptionAccountId = userreceived.SubscriptionAccountId,
+                    PaymentAccountId = userreceived.PaymentAccountId
                 }
             };
         }
