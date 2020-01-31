@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CloudBacktesting.Infra.EventFlow.Queries;
@@ -51,9 +52,8 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify (PaymentAccountId not found). Please check the API Gateway log. Id error: {idError}");
                 return BadRequest($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
-            }
-            var result = await queryProcessor.ProcessAsync(new FindReadModelQuery<PaymentMethodReadModel>(model =>
-                         string.Equals(model.PaymentAccountId, paymentAccountId, StringComparison.InvariantCultureIgnoreCase)), CancellationToken.None);
+            }//string.Equals(model.PaymentAccountId, paymentAccountId, StringComparison.InvariantCultureIgnoreCase)
+            var result = await queryProcessor.ProcessAsync(new FindReadModelQuery<PaymentMethodReadModel>(model => string.Equals(model.PaymentAccountId, paymentAccountId)), CancellationToken.None);
             return Ok(result.Select(ToDto).ToList());
         }
 

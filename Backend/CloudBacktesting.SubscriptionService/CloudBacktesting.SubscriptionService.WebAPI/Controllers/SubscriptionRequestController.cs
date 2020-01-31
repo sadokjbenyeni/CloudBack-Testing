@@ -51,7 +51,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
                 logger.LogError($"[Security, Error] User not identify (SubcriptionAccountId not found). Please check the API Gateway log. Id error: {idError}");
                 return BadRequest($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
             }
-            var result = await queryProcessor.ProcessAsync(new FindReadModelQuery<SubscriptionRequestReadModel>(model => string.Equals(model.SubscriptionAccountId, subscriptionAccountId, StringComparison.InvariantCultureIgnoreCase)), CancellationToken.None);
+            var result = await queryProcessor.ProcessAsync(new FindReadModelQuery<SubscriptionRequestReadModel>(model => string.Equals(model.SubscriptionAccountId, subscriptionAccountId)), CancellationToken.None);
             return Ok(result.Select(ToDto).ToList());
         }
 

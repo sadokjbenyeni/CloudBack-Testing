@@ -16,10 +16,12 @@ namespace CloudBacktesting.Infra.EventFlow.Queries
     public abstract class FindReadModelQueryHandler<TReadModel> : IQueryHandler<FindReadModelQuery<TReadModel>, ICollectionReadModel<TReadModel>>, IQueryHandler
          where TReadModel : class, IReadModel
     {
-        public Task<ICollectionReadModel<TReadModel>> ExecuteQueryAsync(FindReadModelQuery<TReadModel> query, CancellationToken cancellationToken)
+        public async Task<ICollectionReadModel<TReadModel>> ExecuteQueryAsync(FindReadModelQuery<TReadModel> query, CancellationToken cancellationToken)
         {
-            return FindAsync(query.Predicate, query, cancellationToken)
-                .ContinueWith(task => (ICollectionReadModel<TReadModel>)new EnumerableReadModel(task.Result));
+            //return FindAsync(query.Predicate, query, cancellationToken)
+            //    .ContinueWith(task => (ICollectionReadModel<TReadModel>)new EnumerableReadModel(task.Result));
+            var result = await FindAsync(query.Predicate, query, cancellationToken);
+            return new EnumerableReadModel(result);
         }
 
         protected abstract Task<IEnumerable<TReadModel>> FindAsync(Expression<Func<TReadModel, bool>> predicate, FindReadModelQuery<TReadModel> query, CancellationToken cancellationToken);
