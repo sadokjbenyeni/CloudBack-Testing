@@ -9,6 +9,7 @@ using NSubstitute.Core;
 using NUnit.Framework;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
+using S2p.RestClient.Sdk.Infrastructure.Authentication;
 using S2p.RestClient.Sdk.Services;
 using System;
 using System.Collections;
@@ -28,6 +29,17 @@ namespace CloudBacktesting.PaymentService.Infra.Tests.PaymentServices.CardServic
         [Test]
         public async Task Should_payment_by_credit_card_is_valid_when_usual_case()
         {
+            var baseAddress = new Uri("https://securetest.smart2pay.com");
+
+            IHttpClientBuilder httpClientBuilder = new HttpClientBuilder(() => new AuthenticationConfiguration
+            {
+                SiteId = 33258,
+                ApiKey = "JOPxYQftN9xICry9koMuER6L4SrszVHI8SLh9Q83n964tFa2GK"
+            });
+
+            var httpClient = httpClientBuilder.Build();
+            var paymentService = new CardPaymentService(httpClient, baseAddress);
+
             var s2pCardService = Substitute.For<ICardPaymentService>();
             s2pCardService.CreatePaymentAsync(Arg.Any<ApiCardPaymentRequest>(), Arg.Any<CancellationToken>())
                 .Returns(info => ReturnSuccessRequest(info));

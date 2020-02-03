@@ -21,8 +21,7 @@ namespace CloudBacktesting.PaymentService.Infra.PaymentServices.CardServices
 
         public async Task<bool> CreateAsync(string paymentClientId, string subscriber, CardInformation cardDetails, double amount, string currency, CancellationToken cancellationToken)
         {
-            IdempotenceConfigurator();
-
+            //IdempotenceConfigurator();
             var apiCard = new ApiCardPaymentRequest();
             var apiPayment = new CardPaymentRequest();
             apiCard.Payment = apiPayment;
@@ -47,11 +46,11 @@ namespace CloudBacktesting.PaymentService.Infra.PaymentServices.CardServices
             return response.IsSuccess;
         }
 
-        private static void IdempotenceConfigurator()
-        {
-            var uniqueKeyGenerator = new Func<string>(() => { return "billing-" + new Guid() + DateTime.UtcNow.Year + DateTime.UtcNow.Month + DateTime.UtcNow.Day; });
-            var httpClientBuilder = new HttpClientBuilder(() => new AuthenticationConfiguration()).WithIdempotencyKeyGenerator(uniqueKeyGenerator);
-        }
+        //private static void IdempotenceConfigurator()
+        //{
+        //    var uniqueKeyGenerator = new Func<string>(() => { return "billing-" + new Guid() + DateTime.UtcNow.Year + DateTime.UtcNow.Month + DateTime.UtcNow.Day; });
+        //    var httpClientBuilder = new HttpClientBuilder(() => new AuthenticationConfiguration()).WithIdempotencyKeyGenerator(uniqueKeyGenerator);
+        //}
 
 
         private long ConvertAmount(double amount)

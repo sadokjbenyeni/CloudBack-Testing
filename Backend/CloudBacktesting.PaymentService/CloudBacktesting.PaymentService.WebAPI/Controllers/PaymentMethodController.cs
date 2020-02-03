@@ -91,10 +91,10 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
             {
                 PaymentMethodId = readModel.Id,
                 PaymentAccountId = readModel.PaymentAccountId,
-                CardNumber = readModel.CardNumber,
-                CardType = readModel.CardType,
+                Numbers = readModel.CardNumber,
+                Network = readModel.CardType,
                 Client = readModel.Client,
-                CardHolder = readModel.CardHolder,
+                Holder = readModel.CardHolder,
                 Cryptogram = readModel.Cryptogram,
                 ExpirationYear = readModel.ExpirationYear,
                 ExpirationMonth = readModel.ExpirationMonth
