@@ -23,8 +23,8 @@ export class AddPaymentCardComponent implements OnInit {
   years: number[] = [];
   mounths: number[] = [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12];
   currentDate: Date = new Date();
-  expirationyear: number;
-  expirationmonth: number;
+  expirationyear: string;
+  expirationmonth: string;
 
   ngOnInit() {
     this.currentDate.setDate(1)
@@ -93,9 +93,10 @@ export class AddPaymentCardComponent implements OnInit {
   }
   IsExpirationDateValid(): boolean {
     let date = new Date();
-    date.setFullYear(this.expirationyear, this.expirationmonth, null);
-    this.Payment.expirationDate = date;
-    return (date < this.currentDate) ? true : false;
+    date.setFullYear(Number.parseInt(this.expirationyear),Number.parseInt(this.expirationmonth), null);
+    this.Payment.expirationMonth = this.expirationmonth;
+    this.Payment.expirationYear = this.expirationyear;
+    return (date < this.currentDate);
   }
 
   isCardValid(value: string): boolean {

@@ -6,9 +6,9 @@ export class Payment {
     client: string;
     cardHolder: string;
     cardNumber: string;
-    expirationDate: Date;
+    expirationYear: string;
+    expirationMonth: string;
     cryptogram: string;
-
     constructor() {
 
     }
