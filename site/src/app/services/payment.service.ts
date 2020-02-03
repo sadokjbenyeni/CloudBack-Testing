@@ -11,11 +11,11 @@ export class PaymentService {
   constructor(private http: HttpClient) { }
   AddPaymentCard(card: Payment) {
     debugger;
-    return this.http.post(environment.api+"/PaymentMethod", { card });
+    return this.http.post(environment.api + "/PaymentMethod", card);
 
   }
   getPaymentCards() {
-    return this.http.get(environment.api+"/PaymentMethod");
+    return this.http.get(environment.api + "/PaymentMethod");
   }
 
 }

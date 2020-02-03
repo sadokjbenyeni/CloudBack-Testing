@@ -15,7 +15,7 @@ export class GetPaymentCardsComponent implements OnInit {
 
   constructor() { }
   ngOnInit() {
-
+    debugger;
   }
   PaymentChanged(event: MatRadioChange) {
     this.choosingNewCard.emit(event.value as Payment);

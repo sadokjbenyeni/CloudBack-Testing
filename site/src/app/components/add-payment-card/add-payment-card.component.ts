@@ -94,8 +94,8 @@ export class AddPaymentCardComponent implements OnInit {
   IsExpirationDateValid(): boolean {
     let date = new Date();
     date.setFullYear(Number.parseInt(this.expirationyear),Number.parseInt(this.expirationmonth), null);
-    this.Payment.expirationMonth = this.expirationmonth;
-    this.Payment.expirationYear = this.expirationyear;
+    this.Payment.expirationMonth = this.expirationmonth.toString();
+    this.Payment.expirationYear = this.expirationyear.toString();
     return (date < this.currentDate);
   }
 
