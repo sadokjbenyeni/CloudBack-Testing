@@ -21,37 +21,39 @@ namespace CloudBacktesting.PaymentService.Infra.PaymentServices.CardServices
 
         public async Task<bool> CreateAsync(string paymentClientId, string subscriber, CardInformation cardDetails, double amount, string currency, CancellationToken cancellationToken)
         {
-            //IdempotenceConfigurator();
             var apiCard = new ApiCardPaymentRequest();
-            var apiPayment = new CardPaymentRequest();
-            apiCard.Payment = apiPayment;
-            apiPayment.Amount = ConvertAmount(amount);
-            apiPayment.Currency = currency;
-            apiPayment.Customer = new Customer()
+            var apiPayment = new CardPaymentRequest
             {
-                Email = subscriber,
-            };
-            apiPayment.Description = $"{subscriber} payes {apiPayment.Amount} {currency} at {DateTime.Now}";
-            apiPayment.Card = new CardDetailsRequest()
-            {
-                ExpirationMonth = cardDetails.ExpirationMonth,
-                ExpirationYear = cardDetails.ExpirationYear,
-                HolderName = cardDetails.HolderName,
-                Number = cardDetails.Number,
-                RequireSecurityCode = true,
-                SecurityCode = cardDetails.SecurityCode,
-            };
-            var response = await cardPaymentService.CreatePaymentAsync(apiCard, cancellationToken);
+                MerchantTransactionID = "billing-" + new Guid() + DateTime.UtcNow.Year + DateTime.UtcNow.Month + DateTime.UtcNow.Day,
+                Amount = ConvertAmount(amount),
+                Currency = currency,
 
+                Customer = new Customer()
+                {
+                    Email = subscriber,
+                },
+
+                Description = $"{subscriber} payes {amount} {currency} at {DateTime.Now}",
+
+                Card = new CardDetailsRequest
+                {
+                    ExpirationMonth = cardDetails.ExpirationMonth,
+                    ExpirationYear = cardDetails.ExpirationYear,
+                    HolderName = cardDetails.HolderName,
+                    Number = cardDetails.Number,
+                    RequireSecurityCode = true,
+                    SecurityCode = cardDetails.SecurityCode
+                },
+
+                Capture = false,
+                Retry = false,
+                GenerateCreditCardToken = false,
+                PaymentTokenLifetime = 5
+            };
+
+            var response = await cardPaymentService.CreatePaymentAsync(apiCard, cancellationToken);
             return response.IsSuccess;
         }
-
-        //private static void IdempotenceConfigurator()
-        //{
-        //    var uniqueKeyGenerator = new Func<string>(() => { return "billing-" + new Guid() + DateTime.UtcNow.Year + DateTime.UtcNow.Month + DateTime.UtcNow.Day; });
-        //    var httpClientBuilder = new HttpClientBuilder(() => new AuthenticationConfiguration()).WithIdempotencyKeyGenerator(uniqueKeyGenerator);
-        //}
-
 
         private long ConvertAmount(double amount)
         {

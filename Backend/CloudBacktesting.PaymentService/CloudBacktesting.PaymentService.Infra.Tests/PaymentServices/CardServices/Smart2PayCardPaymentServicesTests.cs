@@ -44,6 +44,41 @@ namespace CloudBacktesting.PaymentService.Infra.Tests.PaymentServices.CardServic
             s2pCardService.CreatePaymentAsync(Arg.Any<ApiCardPaymentRequest>(), Arg.Any<CancellationToken>())
                 .Returns(info => ReturnSuccessRequest(info));
             var service = new Smart2PayCardService(s2pCardService);
+
+            var paymentRequest = new CardPaymentRequest
+            {
+                MerchantTransactionID = "MerchantTransactionID",
+                Amount = 9000,
+                Currency = "USD",
+                ReturnURL = "http://demo.smart2pay.com/redirect.php",
+                Description = "DescriptionText",
+                StatementDescriptor = "bank statement message",
+                Card = new CardDetailsRequest
+                {
+                    HolderName = "John Doe",
+                    Number = "4111111111111111",
+                    ExpirationMonth = "02",
+                    ExpirationYear = "2022",
+                    RequireSecurityCode = false
+                },
+                BillingAddress = new Address
+                {
+                    City = "Iasi",
+                    ZipCode = "7000-49",
+                    State = "Iasi",
+                    Street = "Sf Lazar",
+                    StreetNumber = "37",
+                    HouseNumber = "5A",
+                    HouseExtension = "-",
+                    Country = "BR"
+                },
+                Capture = false,
+                Retry = false,
+                GenerateCreditCardToken = false,
+                PaymentTokenLifetime = 5
+            }.ToApiCardPaymentRequest();
+
+            var request = await paymentService.CreatePaymentAsync(paymentRequest);
             bool response = await service.CreateAsync("IdPaymenet", "chang@trade.com", new CardInformation(), 2000, "EUR", CancellationToken.None);
             Assert.That(response, Is.True);
 
