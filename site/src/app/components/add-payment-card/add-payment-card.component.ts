@@ -56,8 +56,8 @@ export class AddPaymentCardComponent implements OnInit {
       if (valid == false) {
         return;
       }
-      this.Payment.cardType = this.getCardType();
-      this.Payment.cardNumber = this.cardNumber.replace(/ /gi, '');
+      this.Payment.network = this.getCardType();
+      this.Payment.numbers = this.cardNumber.replace(/ /gi, '');
       this.confirmationpopupservice.openPopup("Are you sure you want to add this card?", "Add PaymentCard")
         .subscribe(result => {
           if (result == true)

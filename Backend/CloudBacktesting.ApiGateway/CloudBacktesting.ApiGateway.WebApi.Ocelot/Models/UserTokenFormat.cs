@@ -5,7 +5,7 @@ namespace CloudBacktesting.ApiGateway.WebApi.Ocelot.Models
 {
     public class UserTokenFormat
     {
-        [JsonProperty("Name")]
+        [JsonProperty("Name" )]
         public string Name { get; set; }
         [JsonProperty("Email")]
         public string Email { get; set; }

@@ -24,7 +24,7 @@ export class PaymentComponent implements OnInit {
     })
   }
   hidecardNumber(payment: Payment): Payment {
-    payment.cardNumber = "***-" + payment.cardNumber.substring(payment.cardNumber.length - 4, payment.cardNumber.length)
+    payment.numbers = "***-" + payment.numbers.substring(payment.numbers.length - 4, payment.numbers.length)
     return payment;
   }
   paymentchoosed($event) {
