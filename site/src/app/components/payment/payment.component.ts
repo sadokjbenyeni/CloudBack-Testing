@@ -20,6 +20,10 @@ export class PaymentComponent implements OnInit {
   }
   ngOnInit() {
     this.paymentService.getPaymentCards().subscribe((result: Payment[]) => {
+      result.forEach(element=>
+        {
+          element.numbers= "***-"+element.numbers;
+        })
       this.cards = result;
     })
   }

@@ -126,20 +126,19 @@
                             Card Type
                         </div>
                         <div class="  col-sm-12 col-lg-6">
-                            <img *ngIf="Subscription.paymentCard.cardType=='Master Card'"
+                            <img *ngIf="Subscription.paymentCard.network=='Master Card'"
                                 src="https://images-eu.ssl-images-amazon.com/images/G/01/payments-portal/r1/issuer-images/mc._CB393363241_.gif"
                                 class="rounded mx-auto" alt="...">
-                            <img *ngIf="Subscription.paymentCard.cardType=='Visa'"
+                            <img *ngIf="Subscription.paymentCard.network=='Visa'"
                                 src="https://images-eu.ssl-images-amazon.com/images/G/01/payments-portal/r1/issuer-images/visa._CB393363241_.png"
                                 class="rounded mx-auto " alt="...">
-                            <img *ngIf="Subscription.paymentCard.cardType=='Discover Card'"
+                            <img *ngIf="Subscription.paymentCard.network=='Discover Card'"
                                 src="https://images-eu.ssl-images-amazon.com/images/G/01/payments-portal/r1/issuer-images/discover._CB393363241_.png"
                                 class="rounded mx-auto  " alt="...">
-                            <img *ngIf="Subscription.paymentCard.cardType=='American Express'"
+                            <img *ngIf="Subscription.paymentCard.network=='American Express'"
                                 src="https://images-eu.ssl-images-amazon.com/images/G/08/payments-portal/r1/issuer-images/amex._CB291302739_.gif"
                                 class="rounded mx-auto " alt="...">
-                            <p *ngIf="Subscription.paymentCard.cardType=='Other'"
-                                class="rounded mx-auto " >Other</p>
+                            <p *ngIf="Subscription.paymentCard.network=='Other'" class="rounded mx-auto ">Other</p>
                         </div>
                     </div>
                     <div class="row col-12  mt-3">
@@ -147,7 +146,7 @@
                             Card number
                         </div>
                         <div class="  col-sm-12 col-lg-6">
-                            {{Subscription.paymentCard.cardNumber}}
+                            {{Subscription.paymentCard.numbers}}
                         </div>
                     </div>
                     <div class="row col-12  mt-3">
@@ -155,7 +154,7 @@
                             Card Holder
                         </div>
                         <div class="  col-sm-12 col-lg-6">
-                            {{Subscription.paymentCard.cardHolder}}
+                            {{Subscription.paymentCard.holder}}
                         </div>
                     </div>
                     <div class="row col-12  mt-3">
@@ -163,7 +162,7 @@
                             Expiration Date
                         </div>
                         <div class="  col-sm-12 col-lg-6">
-                            {{Subscription.paymentCard.expirationDate | date: 'MM/yyyy' }}
+                            {{Subscription.paymentCard.expirationDate}}
                         </div>
                     </div>
                 </mat-card>
