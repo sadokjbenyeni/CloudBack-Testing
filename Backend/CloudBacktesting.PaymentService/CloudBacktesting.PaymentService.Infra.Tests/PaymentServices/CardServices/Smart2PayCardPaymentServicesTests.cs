@@ -75,9 +75,8 @@ namespace CloudBacktesting.PaymentService.Infra.Tests.PaymentServices.CardServic
             var header = new HeaderDictionaryTests(new Dictionary<string, StringValues>() { { "Authorization", $"Basic {token}" }, });
 
             httpRequest.Headers.Returns(header);
+
             return ApiResult.Success<ApiCardPaymentResponse>(httpRequestMessage, httpResponseMessage, string.Empty, response);
         }
-
-
     }
 }

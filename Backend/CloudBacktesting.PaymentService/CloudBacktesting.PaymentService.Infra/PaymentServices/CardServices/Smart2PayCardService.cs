@@ -1,4 +1,6 @@
 ﻿using S2p.RestClient.Sdk.Entities;
+using S2p.RestClient.Sdk.Infrastructure;
+using S2p.RestClient.Sdk.Infrastructure.Authentication;
 using S2p.RestClient.Sdk.Services;
 using System;
 using System.Collections.Generic;
@@ -19,7 +21,9 @@ namespace CloudBacktesting.PaymentService.Infra.PaymentServices.CardServices
 
         public async Task<bool> CreateAsync(string paymentClientId, string subscriber, CardInformation cardDetails, double amount, string currency, CancellationToken cancellationToken)
         {
-            var apiCard = new ApiCardPaymentRequest(); 
+            IdempotenceConfigurator();
+
+            var apiCard = new ApiCardPaymentRequest();
             var apiPayment = new CardPaymentRequest();
             apiCard.Payment = apiPayment;
             apiPayment.Amount = ConvertAmount(amount);
@@ -39,8 +43,16 @@ namespace CloudBacktesting.PaymentService.Infra.PaymentServices.CardServices
                 SecurityCode = cardDetails.SecurityCode,
             };
             var response = await cardPaymentService.CreatePaymentAsync(apiCard, cancellationToken);
+
             return response.IsSuccess;
         }
+
+        private static void IdempotenceConfigurator()
+        {
+            var uniqueKeyGenerator = new Func<string>(() => { return "billing-" + new Guid() + DateTime.UtcNow.Year + DateTime.UtcNow.Month + DateTime.UtcNow.Day; });
+            var httpClientBuilder = new HttpClientBuilder(() => new AuthenticationConfiguration()).WithIdempotencyKeyGenerator(uniqueKeyGenerator);
+        }
+
 
         private long ConvertAmount(double amount)
         {
