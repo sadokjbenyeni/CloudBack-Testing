@@ -1,4 +1,5 @@
 ﻿using CloudBacktesting.Infra.Security;
+using CloudBacktesting.PaymentService.Infra.Models;
 using CloudBacktesting.PaymentService.Infra.PaymentServices.CardServices;
 using CloudBacktesting.PaymentService.Infra.Tests.Security;
 using Microsoft.AspNetCore.Authentication;
@@ -29,7 +30,7 @@ namespace CloudBacktesting.PaymentService.Infra.Tests.PaymentServices.CardServic
         [Test]
         public async Task Should_payment_by_credit_card_is_valid_when_usual_case()
         {
-            var baseAddress = new Uri("https://securetest.smart2pay.com");
+            //var baseAddress = new Uri("https://securetest.smart2pay.com/payments");
 
             IHttpClientBuilder httpClientBuilder = new HttpClientBuilder(() => new AuthenticationConfiguration
             {
@@ -38,40 +39,75 @@ namespace CloudBacktesting.PaymentService.Infra.Tests.PaymentServices.CardServic
             });
 
             var httpClient = httpClientBuilder.Build();
-            var paymentService = new CardPaymentService(httpClient, baseAddress);
+            //var paymentService = new CardPaymentService(httpClient, baseAddress);
 
-            //var s2pCardService = Substitute.For<ICardPaymentService>();
-            //s2pCardService.CreatePaymentAsync(Arg.Any<ApiCardPaymentRequest>(), Arg.Any<CancellationToken>())
-            //    .Returns(info => ReturnSuccessRequest(info));
-            var service = new Smart2PayCardService(paymentService);
+            var s2pCardService = Substitute.For<ICardPaymentService>();
+            s2pCardService.CreatePaymentAsync(Arg.Any<ApiCardPaymentRequest>(), Arg.Any<CancellationToken>())
+                .Returns(info => ReturnSuccessRequest(info));
 
-            var paymentRequest = new CardPaymentRequest
-            {
-                MerchantTransactionID = "aredzarz1",
-                Amount = 9000,
-                Currency = "USD",
-                //Description = "DescriptionText",
-                //StatementDescriptor = "bank statement message",
-                Card = new CardDetailsRequest
-                {
-                    HolderName = "John Doe",
-                    Number = "4111111111111111",
-                    ExpirationMonth = "02",
-                    ExpirationYear = "2022",
-                    //RequireSecurityCode = false
-                },
-                Capture = false
-                //Retry = false,
-                //GenerateCreditCardToken = false,
-                //PaymentTokenLifetime = 5
-            }.ToApiCardPaymentRequest();
+            var service = new Smart2PayCardService(s2pCardService);
 
-            var testResult = await paymentService.CreatePaymentAsync(paymentRequest);
-            var testResponse = testResult.Value.Payment;
+            //var service = new Smart2PayCardService(paymentService);
 
-            var response = await service.CreateAsync("IdPaymenet", "chang@trade.com", new CardInformation(), 2000, "EUR", CancellationToken.None);
+            //var paymentRequest = new CardPaymentRequest
+            //{
+            //    MerchantTransactionID = Guid.NewGuid().ToString(),
+            //    Amount = 9000,
+            //    Currency = "USD",
+            //    //Description = "DescriptionText",
+            //    //StatementDescriptor = "bank statement message",
+            //    Card = new CardDetailsRequest
+            //    {
+            //        HolderName = "John Doe",
+            //        Number = "4111111111111111",
+            //        ExpirationMonth = "02",
+            //        ExpirationYear = "2022",
+            //        //RequireSecurityCode = false
+            //        SecurityCode = "312"
+            //    },
+            //    BillingAddress = new Address
+            //    {
+            //        City = "Iasi",
+            //        ZipCode = "7000-49",
+            //        State = "Iasi",
+            //        Street = "Sf Lazar",
+            //        StreetNumber = "37",
+            //        HouseNumber = "5A",
+            //        HouseExtension = "-",
+            //        Country = "BR"
+            //    },
+            //    Capture = true
+            //    //Retry = false,
+            //    //GenerateCreditCardToken = false,
+            //    //PaymentTokenLifetime = 5
+            //}.ToApiCardPaymentRequest();
+
+            //var testResult = await paymentService.CreatePaymentAsync(paymentRequest);
+            //var testResponse = testResult.Value.Payment;
+            //var card = new Card
+            //{
+            //    HolderName = "John Doe",
+            //    Number = "4111111111111111",
+            //    ExpirationMonth = "02",
+            //    ExpirationYear = "2024",
+            //    SecurityCode = "312"
+            //};
+            //var billingAddress = new BillingAddress
+            //{
+            //    City = "Iasi",
+            //    ZipCode = "7000-49",
+            //    State = "Iasi",
+            //    Street = "Sf Lazar",
+            //    //StreetNumber = "37",
+            //    //HouseNumber = "5A",
+            //    //HouseExtension = "-",
+            //    Country = "BR"
+            //};
+
+            var response = await service.CreateAsync(new MerchantTransaction().Id, "chang@trade.com", new Card(), new BillingAddress(), 2000, "EUR", CancellationToken.None);
 
             Assert.That(response, Is.True);
+
 
         }
 
@@ -86,7 +122,7 @@ namespace CloudBacktesting.PaymentService.Infra.Tests.PaymentServices.CardServic
                           .Do(info => Assert.That(info.Arg<ApiCardPaymentRequest>().Payment.Amount, Is.EqualTo((long)200015)));
 
             var service = new Smart2PayCardService(s2pCardService);
-            var response = await service.CreateAsync("IdPaymenet", "chang@trade.com", new CardInformation(), 2000.15452, "EUR", CancellationToken.None);
+            var response = await service.CreateAsync("IdPaymenet", "chang@trade.com", new Card(), new BillingAddress(), 2000.15452, "EUR", CancellationToken.None);
             Assert.That(response, Is.True);
 
         }
