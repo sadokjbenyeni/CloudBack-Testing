@@ -73,7 +73,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             return base.Ok(ToDto(readModel));
         }
 
-        private static SubscriptionRequestReadModelDto ToDto(SubscriptionRequestReadModel readModel)
+        private SubscriptionRequestReadModelDto ToDto(SubscriptionRequestReadModel readModel)
         {
             if (readModel == null)
             {
