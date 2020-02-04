@@ -61,7 +61,8 @@ export class AddPaymentCardComponent implements OnInit {
       this.confirmationpopupservice.openPopup("Are you sure you want to add this card?", "Add PaymentCard")
         .subscribe(result => {
           if (result == true)
-            this.paymentService.AddPaymentCard(this.Payment).subscribe(() => {
+            this.paymentService.AddPaymentCard(this.Payment).subscribe(retult => {
+              this.Payment.paymentMethodId=result["id"]
               this.eventMessage.emit(this.Payment);
               this.matsnackbar.open("Card Successfully Added", "Ok", { duration: 2000 });
               this.Payment = new Payment();

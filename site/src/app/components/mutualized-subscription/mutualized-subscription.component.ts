@@ -9,6 +9,7 @@ import { SubscriptionType } from '../../models/SubsriptionType';
 import { User } from '../../models/User';
 import { UserService } from '../../services/user.service';
 import { Payment } from '../../models/Payment';
+import { SubscriptionService } from '../../services/subscription.service';
 @Component({
   selector: 'app-mutualized-subscription',
   templateUrl: './mutualized-subscription.component.html',
@@ -19,11 +20,12 @@ export class MutualizedSubscriptionComponent implements OnInit {
   BillingFormGroup: FormGroup;
   PayementFormGroup: FormGroup;
   Subscription: Subscription;
+  PaymentCard: Payment;
   IscgvAccepted: Boolean = false;
   user: User;
   @ViewChild('subscriptionstepper', { static: false }) stepper: MatStepper;
   Countries: Country[];
-  constructor(private userService: UserService, private _formBuilder: FormBuilder, private termsService: TermsService, private countryService: CountriesService) { }
+  constructor(private userService: UserService, private _formBuilder: FormBuilder, private termsService: TermsService, private countryService: CountriesService, private subscriptionService: SubscriptionService) { }
 
   ngOnInit() {
     this.Subscription = new Subscription(SubscriptionType.Mutualized);
@@ -73,10 +75,18 @@ export class MutualizedSubscriptionComponent implements OnInit {
   }
 
   GetPaymentMethod($event) {
-    this.Subscription.paymentCard = $event as Payment;
+    // this.Subscription.paymentCard = $event as Payment;
+    this.PaymentCard = $event as Payment;
+    this.Subscription.paymentMethodId = ($event as Payment).paymentMethodId;
+  }
+  AddPaymentMethod() {
+    this.subscriptionService.CreateSubscriptionRequest(this.Subscription).subscribe
+      (() => {
+        console.log("Subscription request successfully Created")
+      })
   }
   goNext(stepper: MatStepper) {
-    if (this.Subscription.paymentCard == null)
+    if (this.PaymentCard == null)
       alert("please choose a valid card")
     else
       stepper.next();

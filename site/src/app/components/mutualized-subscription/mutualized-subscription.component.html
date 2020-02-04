@@ -77,7 +77,7 @@
                             Subscription Type :
                         </div>
                         <div class="col-sm-12 col-lg-8">
-                            {{Subscription.subscriptionType}}
+                            {{Subscription.type}}
                         </div>
                     </div>
                     <div class="row col-12 mt-3">
@@ -109,7 +109,7 @@
                         </ng-template>
                     </div>
                 </mat-card>
-                <mat-card *ngIf="Subscription.paymentCard != undefined" class="mt-3">
+                <mat-card *ngIf="PaymentCard != undefined" class="mt-3">
                     <mat-card-title class=" col-12 px-0">
                         <div class="row col-12 mx-0 px-0">
                             <div class="col-10 mx-0 px-0">
@@ -126,19 +126,19 @@
                             Card Type
                         </div>
                         <div class="  col-sm-12 col-lg-6">
-                            <img *ngIf="Subscription.paymentCard.network=='Master Card'"
+                            <img *ngIf="PaymentCard.network=='Master Card'"
                                 src="https://images-eu.ssl-images-amazon.com/images/G/01/payments-portal/r1/issuer-images/mc._CB393363241_.gif"
                                 class="rounded mx-auto" alt="...">
-                            <img *ngIf="Subscription.paymentCard.network=='Visa'"
+                            <img *ngIf="PaymentCard.network=='Visa'"
                                 src="https://images-eu.ssl-images-amazon.com/images/G/01/payments-portal/r1/issuer-images/visa._CB393363241_.png"
                                 class="rounded mx-auto " alt="...">
-                            <img *ngIf="Subscription.paymentCard.network=='Discover Card'"
+                            <img *ngIf="PaymentCard.network=='Discover Card'"
                                 src="https://images-eu.ssl-images-amazon.com/images/G/01/payments-portal/r1/issuer-images/discover._CB393363241_.png"
                                 class="rounded mx-auto  " alt="...">
-                            <img *ngIf="Subscription.paymentCard.network=='American Express'"
+                            <img *ngIf="PaymentCard.network=='American Express'"
                                 src="https://images-eu.ssl-images-amazon.com/images/G/08/payments-portal/r1/issuer-images/amex._CB291302739_.gif"
                                 class="rounded mx-auto " alt="...">
-                            <p *ngIf="Subscription.paymentCard.network=='Other'" class="rounded mx-auto ">Other</p>
+                            <p *ngIf="PaymentCard.network=='Other'" class="rounded mx-auto ">Other</p>
                         </div>
                     </div>
                     <div class="row col-12  mt-3">
@@ -146,7 +146,7 @@
                             Card number
                         </div>
                         <div class="  col-sm-12 col-lg-6">
-                            {{Subscription.paymentCard.numbers}}
+                            {{PaymentCard.numbers}}
                         </div>
                     </div>
                     <div class="row col-12  mt-3">
@@ -154,7 +154,7 @@
                             Card Holder
                         </div>
                         <div class="  col-sm-12 col-lg-6">
-                            {{Subscription.paymentCard.holder}}
+                            {{PaymentCard.holder}}
                         </div>
                     </div>
                     <div class="row col-12  mt-3">
@@ -162,7 +162,7 @@
                             Expiration Date
                         </div>
                         <div class="  col-sm-12 col-lg-6">
-                            {{Subscription.paymentCard.expirationDate}}
+                            {{PaymentCard.expirationDate}}
                         </div>
                     </div>
                 </mat-card>
@@ -222,7 +222,7 @@
                 <!-- <button (click)="goto(0)">Edit</button> -->
                 <div class="col-12 mt-3 text-right">
                     <button class="col-lg-1 col-sm-12 border mr-2  btn btn-default" matStepperPrevious>Back</button>
-                    <button class="col-lg-1 col-sm-12 btn btn-primary" matStepperAcceptance>Submit</button>
+                    <button class="col-lg-1 col-sm-12 btn btn-primary" (click)="AddPaymentMethod()" matStepperAcceptance>Submit</button>
                 </div>
             </mat-step>
         </mat-horizontal-stepper>

@@ -1,6 +1,7 @@
 import { CardType } from "./CardType";
 
 export class Payment {
+    paymentMethodId:string;
     holder: string;
     numbers: string;
     client: string;

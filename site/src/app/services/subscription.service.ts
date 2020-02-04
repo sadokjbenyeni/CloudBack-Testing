@@ -48,5 +48,8 @@ export class SubscriptionService {
   ConfigureSubscription(id: string, message: string): Observable<any> {
     return this.http.put(environment.api+"/v1/AdminSubscription/configure", { subscriptionId: id, message: message });
   }
+  CreateSubscriptionRequest(subscription: Subscription): Observable<any> {
+    return this.http.post(environment.api + "/SubscriptionRequest", subscription)
+  }
 }
 

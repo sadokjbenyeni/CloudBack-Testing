@@ -8,13 +8,14 @@ export class Subscription {
     subscriber: string;
     billing: Billing;
     cgv: Term;
+    paymentMethodId:string;
     paymentCard: Payment;
-    subscriptionType: SubscriptionType;
+    type: SubscriptionType;
 
     constructor(subscriptionType: SubscriptionType) {
         this.billing = new Billing()
         this.cgv = new Term();
-        this.subscriptionType = subscriptionType
+        this.type = subscriptionType
 
     }
 }
