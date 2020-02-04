@@ -90,7 +90,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers
             return new PaymentMethodReadModelDto()
             {
                 PaymentMethodId = readModel.Id,
-                PaymentAccountId = readModel.PaymentAccountId,
+                PaymentAccountId = readModel.PaymentAccountId, //Need to delete this
                 Numbers = readModel.CardNumber.Substring(Math.Max(0, readModel.CardNumber.Length - 4)),
                 Network = readModel.CardType,
                 Holder = readModel.CardHolder,

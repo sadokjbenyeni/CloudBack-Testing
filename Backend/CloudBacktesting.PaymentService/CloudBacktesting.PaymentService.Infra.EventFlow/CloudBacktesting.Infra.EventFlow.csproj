@@ -8,7 +8,6 @@
     <PackageReference Include="EventFlow" Version="0.77.4077" />
     <PackageReference Include="EventFlow.MongoDB" Version="0.77.4077" />
     <PackageReference Include="Microsoft.NETCore.App" Version="2.2.8" />
-    <PackageReference Include="Polly" Version="7.2.0" />
   </ItemGroup>
 
   <ItemGroup>
