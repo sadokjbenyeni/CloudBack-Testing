@@ -46,7 +46,7 @@ namespace CloudBacktesting.PaymentService.Specs.Features.PaymentMethod
             foreach(var creditCard in creditCardsDto)
             {
                 var contentString = new StringContent(JsonConvert.SerializeObject(creditCard), Encoding.UTF8, "application/json");
-                var result = await httpClient.PostAsync("/api/PaymentMethod", contentString);
+                var result = await httpClient.PostAsync("/api/v1/PaymentMethod", contentString);
                 var stringValue = await result.Content.ReadAsStringAsync();
                 var identifier = JsonConvert.DeserializeObject<IdentifierDto>(stringValue);
                 listCreditCard.Add(new PaymentMethodDto()
@@ -71,7 +71,7 @@ namespace CloudBacktesting.PaymentService.Specs.Features.PaymentMethod
             var userIdentity = context.Get<UserIdentity>(user);
             var httpClient = context.ScenarioContainer.Resolve<ITestHttpClientFactory>().Create(userIdentity);
             var contentString = new StringContent(JsonConvert.SerializeObject(command), Encoding.UTF8, "application/json");
-            var result = await httpClient.PostAsync("/api/PaymentMethod", contentString);
+            var result = await httpClient.PostAsync("/api/v1/PaymentMethod", contentString);
             context.Add("PostPaymentMethodCommand", command);
             context.Add("PostPaymentMethodResult", result);
         }
@@ -81,7 +81,7 @@ namespace CloudBacktesting.PaymentService.Specs.Features.PaymentMethod
         {
             var userIdentity = context.Get<UserIdentity>(user);
             var httpClient = context.ScenarioContainer.Resolve<ITestHttpClientFactory>().Create(userIdentity);
-            var result = await httpClient.GetAsync("/api/PaymentMethod");
+            var result = await httpClient.GetAsync("/api/v1/PaymentMethod");
             context.Add("BrowsesAllPaymentMethod", result);
         }
 
@@ -91,7 +91,7 @@ namespace CloudBacktesting.PaymentService.Specs.Features.PaymentMethod
             var userIdentity = context.Get<UserIdentity>(user);
             var httpClient = context.ScenarioContainer.Resolve<ITestHttpClientFactory>().Create(userIdentity);
             var paymentMethodId = await SearchPaymentIdInContext(creditCardHolder);
-            var result = await httpClient.GetAsync($"/api/PaymentMethod/{HttpUtility.UrlEncode(paymentMethodId)}");
+            var result = await httpClient.GetAsync($"/api/v1/PaymentMethod/{HttpUtility.UrlEncode(paymentMethodId)}");
             context.Add("BrowsesSpecificPaymentMethod", result);
             context.Add("BrowsesSpecificPaymentIdentifier", paymentMethodId);
         }
@@ -101,7 +101,7 @@ namespace CloudBacktesting.PaymentService.Specs.Features.PaymentMethod
         {
             var userIdentity = context.Get<UserIdentity>(user);
             var httpClient = context.ScenarioContainer.Resolve<ITestHttpClientFactory>().Create(userIdentity);
-            var result = await httpClient.GetAsync($"/api/PaymentMethod/{HttpUtility.UrlEncode($"paymentmethod-{Guid.NewGuid()}")}");
+            var result = await httpClient.GetAsync($"/api/v1/PaymentMethod/{HttpUtility.UrlEncode($"paymentmethod-{Guid.NewGuid()}")}");
             context.Add("BrowsesWrongPaymentMethod", result);
         }
         

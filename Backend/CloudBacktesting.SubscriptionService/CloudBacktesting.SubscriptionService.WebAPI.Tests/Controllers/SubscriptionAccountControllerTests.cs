@@ -46,13 +46,13 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Tests.Controllers
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", token);
             //client.DefaultRequestHeaders.Add("token", $"token:{JsonConvert.SerializeObject(user)}");
 
-            var response = await client.GetAsync("/api/subscriptionaccount");
+            var response = await client.GetAsync("/api/v1/subscriptionaccount");
             Assert.That(response.IsSuccessStatusCode, Is.True, response.ReasonPhrase);
 
             client = factory.CreateClient(options);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", token);
             var content = new StringContent(JsonConvert.SerializeObject(new CreateSubscriptionAccountDto() { Subscriber = "Morgan" }), Encoding.UTF8, "application/json");
-            response = await client.PostAsync("/api/subscriptionaccount", content);
+            response = await client.PostAsync("/api/v1/subscriptionaccount", content);
             Assert.That(response.IsSuccessStatusCode, Is.False, response.ReasonPhrase);
 
             user = new UserIdentity()
@@ -67,7 +67,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Tests.Controllers
             client = factory.CreateClient(options);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", token);
             SetUpBusCommand(factory, new SuccessExecutionResult());
-            response = await client.PostAsync("/api/subscriptionaccount", content);
+            response = await client.PostAsync("/api/v1/subscriptionaccount", content);
             Assert.That(response.IsSuccessStatusCode, Is.True, response.ReasonPhrase);
 
         }
@@ -92,7 +92,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Tests.Controllers
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", token);
             SetUpBusCommand(factory, new SuccessExecutionResult());
             var content = new StringContent(JsonConvert.SerializeObject(new CreateSubscriptionAccountDto() { Subscriber = "Morgan" }), Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("/api/subscriptionaccount", content);
+            var response = await client.PostAsync("/api/v1/subscriptionaccount", content);
             Assert.That(response.IsSuccessStatusCode, Is.True, response.ReasonPhrase);
         }
 
@@ -166,7 +166,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Tests.Controllers
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", token);
             var content = new StringContent(JsonConvert.SerializeObject(new CreateSubscriptionAccountDto() { Subscriber = "Morgan" }), Encoding.UTF8, "application/json");
             SetUpBusCommand(factory, new SuccessExecutionResult());
-            var response = await client.PostAsync("/api/subscriptionaccount", content);
+            var response = await client.PostAsync("/api/v1/subscriptionaccount", content);
             Assert.That(response.IsSuccessStatusCode, Is.False);
             Assert.That(response.ReasonPhrase, Is.EqualTo("Forbidden"));
         }

@@ -63,7 +63,7 @@ namespace CloudBacktesting.PaymentService.Specs.Features
             var customerCommand = new CreatePaymentAccountDto() { Client = subscriber };
             context.Set(customerCommand, "creationPaymentAccountCommand");
             var content = new StringContent(JsonConvert.SerializeObject(customerCommand), Encoding.UTF8, "application/json");
-            var result = await httpClient.PostAsync("api/paymentaccount", content);
+            var result = await httpClient.PostAsync("api/v1/paymentaccount", content);
             context.Set(result, "createPaymentCommandResult");
             if (result.IsSuccessStatusCode && context.TryGetValue<UserIdentity>(subscriber, out var customerIdentity))
             {

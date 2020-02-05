@@ -27,7 +27,7 @@ namespace CloudBacktesting.ApiGateway.WebApi.Ocelot.Services
                 var client = new HttpClient();
                 client.BaseAddress = new Uri(basadressmsservice);
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(token);
-                var result = await client.GetAsync("api/user/info");
+                var result = await client.GetAsync("api/v1/user/info");
                 if (result.IsSuccessStatusCode)
                 {
                     var user = JsonConvert.DeserializeObject<UserReceivedData>(await result.Content.ReadAsStringAsync());

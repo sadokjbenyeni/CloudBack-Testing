@@ -59,6 +59,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
             services.AddSingleton<IAuthorizationHandler, CloudBacktestingAuthorizationHandler>();
 
             services.AddAuthorization();
+            services.AddApiVersioning();
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("V1", new Microsoft.OpenApi.Models.OpenApiInfo() { Title = "Subscription Api", Version = "V1" });

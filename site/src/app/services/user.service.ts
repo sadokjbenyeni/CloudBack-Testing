@@ -10,15 +10,7 @@ import { Roles } from '../models/Role';
 import { LoginResponse } from '../models/LoginResponse';
 import { MailResponse } from '../models/MailResponse';
 import { Message } from '../models/message';
-import { UserDetailComponent } from '../components/admin/user-detail/user-detail.component';
 
-// export interface User {
-//   islogin: boolean;
-// }
-
-// const ANONYMOUS_USER = <User>{
-//   islogin: false
-// };
 
 @Injectable()
 export class UserService {
@@ -31,49 +23,49 @@ export class UserService {
   }
 
   create(user) {
-    return this.http.post(environment.api + '/user', user);
+    return this.http.post(environment.api + '/v1/user', user);
   }
 
   activation(token) {
-    return this.http.post<LoginResponse>(environment.api + '/user/activation', { token: token });
+    return this.http.post<LoginResponse>(environment.api + '/v1/user/activation', { token: token });
   }
 
   check(user) {
 
-    return this.http.post<UserResponse>(environment.api + '/user/check', user);
+    return this.http.post<UserResponse>(environment.api + '/v1/user/check', user);
   }
 
   info(user) {
-    return this.http.post(environment.api + '/user/info', user);
+    return this.http.post(environment.api + '/v1/user/info', user);
   }
 
   getUsers() {
-    return this.http.get<Users>(environment.api + '/user');
+    return this.http.get<Users>(environment.api + '/v1/user');
   }
 
   getRoles() {
-    return this.http.get<Roles>(environment.api + '/role');
+    return this.http.get<Roles>(environment.api + '/v1/role');
   }
 
   getCompte(user) {
-    return this.http.get<User>(environment.api + '/user/informations');
+    return this.http.get<User>(environment.api + '/v1/user/informations');
   }
 
   updateUser(user) {
-    return this.http.put<Message>(environment.api + '/user', user);
+    return this.http.put<Message>(environment.api + '/v1/user', user);
   }
 
   islogin(token) {
-    return this.http.post<LoginResponse>(environment.api + '/user/islogin', token);
+    return this.http.post<LoginResponse>(environment.api + '/v1/user/islogin', token);
   }
 
   mdpmail(val) {
-    return this.http.post<MailResponse>(environment.api + '/mail/mdp', val);
+    return this.http.post<MailResponse>(environment.api + '/v1/mail/mdp', val);
   }
 
 
   mdpmodif(val) {
-    return this.http.put(environment.api + '/user/mdpmodif', val);
+    return this.http.put(environment.api + '/v1/user/mdpmodif', val);
   }
 
   public getAuthenticatedUser() {
@@ -81,14 +73,14 @@ export class UserService {
   }
 
   logout(token) {
-    return this.http.post(environment.api + '/user/logout', token);
+    return this.http.post(environment.api + '/v1/user/logout', token);
   }
   preferBilling(prefer) {
-    return this.http.post(environment.api + '/user/preferBilling', prefer);
+    return this.http.post(environment.api + '/v1/user/preferBilling', prefer);
   }
 
   verifmail(email) {
-    return this.http.post<LoginResponse>(environment.api + '/user/verifmail', email);
+    return this.http.post<LoginResponse>(environment.api + '/v1/user/verifmail', email);
   }
 
 }

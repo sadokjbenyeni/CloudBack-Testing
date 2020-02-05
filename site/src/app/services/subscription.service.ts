@@ -13,7 +13,7 @@ export class SubscriptionService {
   }
   getPendingSubscriptions(): Observable<Subscription[]> {
 
-    return this.http.get<any[]>(environment.api+"/AdminSubscription/SubscriptionRequests/PendingValidation")
+    return this.http.get<any[]>(environment.api+"/v1/AdminSubscription/SubscriptionRequests/PendingValidation")
       .map(result => {
         var subscriptions: Subscription[] = [];
         result.forEach(element => {
@@ -27,7 +27,7 @@ export class SubscriptionService {
   }
   getActiveSubscriptions(): Observable<Subscription[]> {
 
-    return this.http.get<any[]>(environment.api+"/AdminSubscription/SubscriptionRequests/PendingConfiguration")
+    return this.http.get<any[]>(environment.api+"/v1/AdminSubscription/SubscriptionRequests/PendingConfiguration")
       .map(result => {
         var subscriptions: Subscription[] = [];
         result.forEach(element => {
@@ -40,13 +40,13 @@ export class SubscriptionService {
       });
   }
   AcceptSubscription(id: string): Observable<any> {
-    return this.http.put(environment.api+"/AdminSubscription/validate", { subscriptionId: id })
+    return this.http.put(environment.api+"/v1/AdminSubscription/validate", { subscriptionId: id })
   }
   RejectSubscription(id: string, message: string): Observable<any> {
-    return this.http.put(environment.api+"/AdminSubscription/decline", { subscriptionId: id, message: message });
+    return this.http.put(environment.api+"/v1/AdminSubscription/decline", { subscriptionId: id, message: message });
   }
   ConfigureSubscription(id: string, message: string): Observable<any> {
-    return this.http.put(environment.api+"/AdminSubscription/configure", { subscriptionId: id, message: message });
+    return this.http.put(environment.api+"/v1/AdminSubscription/configure", { subscriptionId: id, message: message });
   }
 }
 

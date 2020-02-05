@@ -14,15 +14,15 @@ export class CurrencyService {
   constructor(private http: HttpClient) { }
 
   getCurrencies() {
-    return this.http.get<StatementBankingIdentities>( environment.api + '/currency');
+    return this.http.get<StatementBankingIdentities>( environment.api + '/v1/currency');
   }
 
   getRib(rib) {
-    return this.http.get<StatementBankingIdentity>( environment.api + '/currency/rib/'+ rib);
+    return this.http.get<StatementBankingIdentity>( environment.api + '/v1/currency/rib/'+ rib);
   }
 
   saverib(rib) {
-    return this.http.post( environment.api + '/currency/saverib', rib);
+    return this.http.post( environment.api + '/v1/currency/saverib', rib);
   }
 
 }

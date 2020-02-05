@@ -58,7 +58,7 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features
             context.Set(customerCommand, "creationSubscriptionAccountCommand");
             
             var content = new StringContent(JsonConvert.SerializeObject(customerCommand), Encoding.UTF8, "application/json");
-            var result = await httpClient.PostAsync("api/subscriptionaccount", content);
+            var result = await httpClient.PostAsync("api/v1/subscriptionaccount", content);
             context.Set(result, "createSubscriptionCommandResult");
             if (result.IsSuccessStatusCode && context.TryGetValue(customer, out UserIdentity customerIdentity))
             {
