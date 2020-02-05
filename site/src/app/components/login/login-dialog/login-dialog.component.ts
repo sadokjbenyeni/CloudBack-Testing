@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../../../services/login.service';
+import { PasswordComponent } from '../../login/password/password.component';
+import { MatDialog } from '@angular/material';
 
 
 
@@ -14,6 +16,7 @@ export class LoginDialogComponent implements OnInit {
   constructor(
     private router: Router,
     public loginService: LoginService,
+    public passwordDialog: MatDialog,
   ) {
   }
 
@@ -49,6 +52,8 @@ export class LoginDialogComponent implements OnInit {
   openSignupPage() {
     this.router.navigateByUrl('/signup')
   }
-    
- 
+  openPasswordDialog() {
+    this.passwordDialog.open(PasswordComponent, { panelClass: 'no-padding-dialog' });
+  }
+
 }

@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "CloudBacktesting.ApiGateway.Specs": {
+      "commandName": "Project",
+      "workingDirectory": "$(TargetDir)",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

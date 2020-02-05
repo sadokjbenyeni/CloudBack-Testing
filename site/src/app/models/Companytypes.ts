@@ -1,9 +1,9 @@
 
-export interface Companytypes {
+export class Companytypes {
     companytypes: Companytype[];
   }
 
-  export interface Companytype {
+  export class Companytype {
     id: { type: String};
     name: { type: String };
   }

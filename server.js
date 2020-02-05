@@ -3,19 +3,26 @@ const express = require('express');
 const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
-const request = require('request');
 const mongoose = require('mongoose');
+
 
 //const cron = require('node-cron');
 var resultEnv = false;
-process.argv.forEach(function (item) {
-  if (item.substr(0, 4) === "env=") {
-    let environement = item.replace("env=", "");
-    require('dotenv').config({ path: "environment/" + environement + ".env" });
-    resultEnv = true;
-  }
-  // return false;
-});
+if (process.env.NODEJSENVIRONMENT != undefined) {
+  console.log ("retrieving config file from environment variable "+  process.env.NODEJSENVIRONMENT )
+  require('dotenv').config({ path: "environment/" + process.env.NODEJSENVIRONMENT + ".env" });
+  resultEnv = true;
+}
+else {
+  console.log ("retrieving config file from arguments")
+  process.argv.forEach(function (item) {
+    if (item.substr(0, 4) === "env=") {
+      let environement = item.replace("env=", "");
+      require('dotenv').config({ path: "environment/" + environement + ".env" });
+      resultEnv = true;
+    }
+  });
+}
 if (resultEnv) {
   console.log("Environment variables has been loaded");
 }
@@ -57,7 +64,6 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   next();
 });
-
 //Cookie and session
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
@@ -85,6 +91,8 @@ require('./server/models/currency');
 require('./server/models/countrie');
 require('./server/models/companytype');
 require('./server/models/payment');
+require('./server/models/termsofuse');
+require('./server/models/termsofsale')
 require('./server/models/termsofuse');
 
 
@@ -124,16 +132,17 @@ app.use('/api', api);
 // END CRON
 
 //Static path to dist
-app.use(express.static(path.join(__dirname, 'site/dist')));
-app.use('/files', express.static(path.join(__dirname, 'files')));
-app.use('/cmd', express.static(path.join(__dirname, 'files/command')));
-app.use('/iv', express.static(path.join(__dirname, 'files/invoice')));
+// app.use(express.static(path.join(__dirname, 'site/dist')));
+// app.use('/files', express.static(path.join(__dirname, 'files')));
+// app.use('/cmd', express.static(path.join(__dirname, 'files/command')));
+// app.use('/iv', express.static(path.join(__dirname, 'files/invoice')));
 // app.use('/loadfile', express.static('/histoondemand/mapr_exports/'));
-app.use('/help/dataguide', express.static(path.join(__dirname, 'dataguide/')));
+// app.use('/help/dataguide', express.static(path.join(__dirname, 'dataguide/')));
 
 //Catch all other routes and return to the index file
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'site/dist/index.html'));
+app.get('/', (req, res) => {
+    res.status(200).send("");
+  // res.sendFile(path.join(__dirname, 'site/dist/index.html'));
 })
 console.log(" port number is " + process.env.PORT);
 //Get environment port or use 9095
@@ -141,34 +150,28 @@ const port = process.env.PORT || '9095';
 app.set('port', port);
 
 
+
 //Create HTTP server.
 const server = http.createServer(app);
-//Consul Service Registry
-server.on('close', function () {
-  request.put({
-    "headers": { "content-type": "application/json" },
-    "url": process.env.CONSUL_BASEURL + "/agent/service/deregister/" + process.env.SERVICE_NAME,
-  }, () => {
-    console.log("Service Unregistred in Consul")
-    //killing process after deregistring service in consul//
-    process.exit(0);
 
-  });
-});
-process.on('SIGINT', function () {
-  server.close()
-});
+//initalizing rmq event listeners
+// var listenerinitialisers = new eventsgetter();
+// listenerinitialisers.on('connected', function () {
+//   console.log("connected")
+// })
+
+
+
+//connecting to rabbitmq
+// the connection declaration must be set after the database.connect to load schema
+const Connection = require('./server/Events/Connection')
+try
+{
+Connection.Connect();
+}
+catch (error)
+{
+  console.log (error)
+}
 //Listen on port
 server.listen(port, () => console.log(`API running on localhost:${port}`));
-//register nodeservice
-request.put({
-  "headers": { "content-type": "application/json" },
-  "url": process.env.CONSUL_BASEURL + "/agent/service/register",
-  "body": JSON.stringify({
-    "name": process.env.SERVICE_NAME,
-    "port": (port!=undefined)?parseInt(port):80,
-    "Address": process.env.HOST
-  })
-}, (result) => {
-  console.log(`service registred in Consul with service name : ${process.env.SERVICE_NAME}`)
-});

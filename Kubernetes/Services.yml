@@ -15,13 +15,52 @@ apiVersion: v1
 kind: Service
 metadata:
   name: msservice
+  annotations:
+   "consul.hashicorp.com/service-name": msservice
+   "consul.hashicorp.com/service-port": "http"
+
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: microservices
   ports:
   - port: 9095
     targetPort: 9095
-    nodePort: 30002
+    # nodePort: 30002
+---
+
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: subservice
+    annotations:
+     "consul.hashicorp.com/service-name": subservice
+     "consul.hashicorp.com/service-port": "http"
+  
+  spec:
+    type: LoadBalancer
+    selector:
+      app: subscriptionservice
+    ports:
+    - port: 80
+      targetPort: 80
+      # nodePort: 30012
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payservice
+  annotations:
+   "consul.hashicorp.com/service-name": payservice
+   "consul.hashicorp.com/service-port": "http"
+
+spec:
+  type: LoadBalancer
+  selector:
+    app: paymentservice
+  ports:
+  - port: 80
+    targetPort: 80
+    # nodePort: 30022
 
 

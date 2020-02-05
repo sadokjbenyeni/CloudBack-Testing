@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import * as pdfMake from 'pdfmake/build/pdfmake';
-import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+// import * as pdfMake from 'pdfmake/build/pdfmake';
+// import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 
 @Component({
   selector: 'app-terms',
@@ -14,7 +14,7 @@ export class TermsComponent implements OnInit {
   pagecount: string;
 
   constructor(){
-    pdfMake.vfs = pdfFonts.pdfMake.vfs;
+    // pdfMake.vfs = pdfFonts.pdfMake.vfs;
   }
   ngOnInit() {
   }
@@ -159,7 +159,7 @@ export class TermsComponent implements OnInit {
     invoice['defaultStyle'] = defaultStyle;
     
     // pdfMake.createPdf(invoice).open();
-    pdfMake.createPdf(invoice).download('/files/command/' + name);
+    // pdfMake.createPdf(invoice).download('/files/command/' + name);
   }
 
 

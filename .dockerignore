@@ -8,3 +8,7 @@ dist/*
 .vscode/*
 */.vscode/*
 **/.vscode/*
+site
+Backend
+storageSchemas
+Kubernetes 

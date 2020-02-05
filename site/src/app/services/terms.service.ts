@@ -10,9 +10,13 @@ export class TermsService {
 
   constructor(private http: HttpClient) { }
 
-  getLastTerm()
+  getLastUsageTerm()
   {
-    return this.http.get<Term>(environment.api+"/terms/lastterm");
+    return this.http.get<Term>(environment.api+"/v1/terms/lastusgeterm");
+  }
+  getLastSaleTerm()
+  {
+    return this.http.get<Term>(environment.api+"/v1/terms/lastsaleterm");
   }
   
 }

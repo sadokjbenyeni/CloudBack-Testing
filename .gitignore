@@ -23,3 +23,7 @@ out
 **/obj/*
 */out/*
 **/out/*
+**/*.orig
+**/*.back
+**/*.bak
+**/*.swp

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../data.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -9,25 +8,17 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  search: string;
+  // search: string;
 
-  constructor(private data: DataService, private router: Router) {
+  constructor(private data: DataService) {
   }
 
   ngOnInit() {
-    this.data.currentSearch.subscribe(search => this.search = search);
-    let element = this.router.routerState.snapshot.root.queryParams['scrollTo'];
-    if (element != undefined) {
-      var el = document.getElementById(element);
-      if (el != undefined) {
-        el.scrollIntoView({behavior:'smooth'})
-      }
-    }
-
+    // this.data.currentSearch.subscribe(search => this.search = search);
   }
 
-  changeSearch(dataset, search) {
-    sessionStorage.setItem('dataset', JSON.stringify({ dataset: dataset, title: search }));
-    this.data.changeSearch(search);
-  }
+  // changeSearch(dataset, search) {
+  //   sessionStorage.setItem('dataset', JSON.stringify({ dataset: dataset, title: search }));
+  //   this.data.changeSearch(search);
+  // }
 }

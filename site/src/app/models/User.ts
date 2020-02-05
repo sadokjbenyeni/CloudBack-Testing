@@ -1,4 +1,4 @@
-export interface User {
+export class User {
     id: Number;
     firstname: String;
     lastname: String;
@@ -14,7 +14,6 @@ export interface User {
     region: String;
     idCountry: String;
     country: String;
-    cgv: Boolean;
     cgu: string[];
     commercial: Boolean;
     phone: String;
@@ -38,11 +37,11 @@ export interface User {
     state: Number; // 0 : non actif, 1 : actif, -1 : suspendu. Active after email validation
 }
 
-export interface UserResponse {
+export class UserResponse {
     user: User;
     message: string;
 }
 
-export interface Users {
+export class Users {
     users: User[];
 }

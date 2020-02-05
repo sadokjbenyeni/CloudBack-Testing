@@ -119,7 +119,7 @@ export class SignUpComponent implements OnInit {
     this.coll = 'col-lg-12';
     this.colg = 'col-lg-6';
     //getting last term of use
-    this.termService.getLastTerm().subscribe(result => {
+    this.termService.getLastUsageTerm().subscribe(result => {
       this.term = result;
     });
   }

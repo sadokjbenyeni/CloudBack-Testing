@@ -1,4 +1,4 @@
-export interface MailResponse {
+export class MailResponse {
     mail: boolean;
     message: string;
 }

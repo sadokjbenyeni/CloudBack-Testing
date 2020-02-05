@@ -13,11 +13,11 @@ export class RoleService {
   constructor(private http: HttpClient) { }
 
   getRoles() {
-    return this.http.get<Roles>( environment.api + '/role' );
+    return this.http.get<Roles>( environment.api + '/v1/role' ,);
   }
 
   getPages() {
-    return this.http.get<Pages>( environment.api + '/role/page' );
+    return this.http.get<Pages>( environment.api + '/v1/role/page' );
   }
 
 }
