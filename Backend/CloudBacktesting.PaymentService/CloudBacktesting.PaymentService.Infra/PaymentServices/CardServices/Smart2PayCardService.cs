@@ -1,10 +1,9 @@
-﻿using S2p.RestClient.Sdk.Entities;
-using S2p.RestClient.Sdk.Infrastructure;
-using S2p.RestClient.Sdk.Infrastructure.Authentication;
+﻿
+
+using CloudBacktesting.PaymentService.Infra.Models;
+using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Services;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,21 +18,19 @@ namespace CloudBacktesting.PaymentService.Infra.PaymentServices.CardServices
             this.cardPaymentService = cardPaymentService;
         }
 
-        public async Task<bool> CreateAsync(string paymentClientId, string subscriber, CardInformation cardDetails, double amount, string currency, CancellationToken cancellationToken)
+        public async Task<bool> CreateAsync(string merchantTransactionId, string subscriber, Card cardDetails, BillingAddress billingaddress, double amount, string currency, CancellationToken cancellationToken)
         {
-            var apiCard = new ApiCardPaymentRequest();
             var apiPayment = new CardPaymentRequest
             {
-                MerchantTransactionID = "billing-" + new Guid() + DateTime.UtcNow.Year + DateTime.UtcNow.Month + DateTime.UtcNow.Day,
+                MerchantTransactionID = merchantTransactionId,
                 Amount = ConvertAmount(amount),
                 Currency = currency,
+                Description = $"{subscriber} is paying {amount} {currency} at {DateTime.Now}",
 
                 Customer = new Customer()
                 {
                     Email = subscriber,
                 },
-
-                Description = $"{subscriber} payes {amount} {currency} at {DateTime.Now}",
 
                 Card = new CardDetailsRequest
                 {
@@ -41,18 +38,24 @@ namespace CloudBacktesting.PaymentService.Infra.PaymentServices.CardServices
                     ExpirationYear = cardDetails.ExpirationYear,
                     HolderName = cardDetails.HolderName,
                     Number = cardDetails.Number,
-                    RequireSecurityCode = true,
                     SecurityCode = cardDetails.SecurityCode
                 },
 
-                Capture = false,
-                Retry = false,
-                GenerateCreditCardToken = false,
-                PaymentTokenLifetime = 5
-            };
+                BillingAddress = new Address
+                {
+                    City = billingaddress.City,
+                    ZipCode = billingaddress.ZipCode,
+                    State = billingaddress.State,
+                    Street = billingaddress.Street,
+                    Country = billingaddress.Country
+                },
 
-            var response = await cardPaymentService.CreatePaymentAsync(apiCard, cancellationToken);
-            return response.IsSuccess;
+                Capture = true
+
+            }.ToApiCardPaymentRequest();
+
+            var result = await cardPaymentService.CreatePaymentAsync(apiPayment, cancellationToken);
+            return result.IsSuccess;
         }
 
         private long ConvertAmount(double amount)
