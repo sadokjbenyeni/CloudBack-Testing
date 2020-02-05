@@ -1,10 +1,9 @@
-﻿using CloudBacktesting.Infra.Security;
-using CloudBacktesting.PaymentService.Infra.Models;
+﻿using CloudBacktesting.PaymentService.Infra.Models;
 using CloudBacktesting.PaymentService.Infra.PaymentServices.CardServices;
 using CloudBacktesting.PaymentService.Infra.Tests.Security;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json;
 using NSubstitute;
 using NSubstitute.Core;
 using NUnit.Framework;
@@ -13,9 +12,7 @@ using S2p.RestClient.Sdk.Infrastructure;
 using S2p.RestClient.Sdk.Infrastructure.Authentication;
 using S2p.RestClient.Sdk.Services;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -34,8 +31,8 @@ namespace CloudBacktesting.PaymentService.Infra.Tests.PaymentServices.CardServic
 
             IHttpClientBuilder httpClientBuilder = new HttpClientBuilder(() => new AuthenticationConfiguration
             {
-                SiteId = 33258,
-                ApiKey = "JOPxYQftN9xICry9koMuER6L4SrszVHI8SLh9Q83n964tFa2GK"
+                SiteId = 1010,
+                ApiKey = "gabi"
             });
 
             var httpClient = httpClientBuilder.Build();
@@ -126,6 +123,49 @@ namespace CloudBacktesting.PaymentService.Infra.Tests.PaymentServices.CardServic
             Assert.That(response, Is.True);
 
         }
+
+        [Test]
+        public async Task Should_payment_by_credit_card_work_without_billing_address()
+        {
+            IHttpClientBuilder httpClientBuilder = new HttpClientBuilder(() => new AuthenticationConfiguration
+            {
+                SiteId = 1010,
+                ApiKey = "gabi"
+            });
+
+            var httpClient = httpClientBuilder.Build();
+
+
+            var paymentRequest = new PaymentRequest
+            {
+                Payment = new Payment
+                {
+                    MerchantTransactionID = Guid.NewGuid().ToString(),
+                    Amount = 9000,
+                    Currency = "USD",
+                    Card = new Card
+                    {
+                        HolderName = "John Doe",
+                        Number = "4111111111111111",
+                        ExpirationMonth = "02",
+                        ExpirationYear = "2022",
+                        SecurityCode = "312"
+                    },
+                    Capture = true
+                }
+            };
+
+            var values = JsonConvert.SerializeObject(paymentRequest);
+
+            var httpContent = new StringContent(values, Encoding.UTF8, "application/json");
+
+            var response = await httpClient.PostAsync("https://securetest.smart2pay.com/v1/payments", httpContent);
+
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            Assert.That(response.IsSuccessStatusCode, Is.True);
+        }
+
 
         private ApiResult<ApiCardPaymentResponse> ReturnSuccessRequest(CallInfo info)
         {

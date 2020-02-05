@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CloudBacktesting.PaymentService.Infra\CloudBacktesting.PaymentService.Infra.csproj" />
+    <ProjectReference Include="..\CloudBacktesting.PaymentService.WebAPI\CloudBacktesting.PaymentService.WebAPI.csproj" />
   </ItemGroup>
 
 </Project>

@@ -9,7 +9,7 @@ using System.Text;
 
 namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate
 {
-    public class PaymentMethod : AggregateRoot<PaymentMethod, PaymentMethodId>, IEmit<PaymentMethodCreatedEvent>
+    public class PaymentMethod : AggregateRoot<PaymentMethod, PaymentMethodId>, IEmit<PaymentMethodCreatedEvent>, IEmit<PaymentMethodValidatedEvent>
 
     {
         public string paymentAccountId;
