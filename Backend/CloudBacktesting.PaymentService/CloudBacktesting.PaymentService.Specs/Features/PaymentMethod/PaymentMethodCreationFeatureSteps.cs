@@ -51,9 +51,9 @@ namespace CloudBacktesting.PaymentService.Specs.Features.PaymentMethod
                 var identifier = JsonConvert.DeserializeObject<IdentifierDto>(stringValue);
                 listCreditCard.Add(new PaymentMethodDto()
                 {
-                    CardHolder = creditCard.Holder,
-                    CardNumber = creditCard.Numbers,
-                    CardType = creditCard.Network,
+                    Holder = creditCard.Holder,
+                    Numbers = creditCard.Numbers,
+                    Network = creditCard.Network,
                     Cryptogram = creditCard.Cryptogram,
                     ExpirationYear = creditCard.ExpirationYear,
                     ExpirationMonth = creditCard.ExpirationMonth,
@@ -149,7 +149,7 @@ namespace CloudBacktesting.PaymentService.Specs.Features.PaymentMethod
                 Assert.Fail("Result of the creation payment method request is not found");
             }
             var list = JsonConvert.DeserializeObject<IEnumerable<PaymentMethodDto>>(await httpResponse.Content.ReadAsStringAsync());
-            Assert.That(list.SingleOrDefault(item => string.Equals(item.CardNumber, command.Numbers)), Is.Not.Null);
+            Assert.That(list.SingleOrDefault(item => string.Equals(item.Numbers, command.Numbers.Substring(Math.Max(0, command.Numbers.Length - 4)) )), Is.Not.Null);
         }
         
         [Then(@"the result of the request contains (.*) credit cards created")]
@@ -205,7 +205,7 @@ namespace CloudBacktesting.PaymentService.Specs.Features.PaymentMethod
             }
             if (context.TryGetValue<List<PaymentMethodDto>>("creditCardInDataBase", out var listCb))
             {
-                return listCb.FirstOrDefault(cb => string.Equals(cb.CardHolder, creditCardHolder))?.PaymentAccountId;
+                return listCb.FirstOrDefault(cb => string.Equals(cb.Holder, creditCardHolder))?.PaymentAccountId;
             }
             return null;
         }
