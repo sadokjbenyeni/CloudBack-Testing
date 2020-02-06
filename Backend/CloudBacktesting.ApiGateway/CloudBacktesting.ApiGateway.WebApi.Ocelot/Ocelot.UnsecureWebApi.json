@@ -1,48 +1,48 @@
 {
   "ReRoutes": [
     {
-      "DownstreamPathTemplate": "/api/countries",
+      "DownstreamPathTemplate": "/api/{version}/countries",
       "DownstreamScheme": "http",
       "ServiceName": "msservice",
-      "UpstreamPathTemplate": "/api/countries"
+      "UpstreamPathTemplate": "/api/{version}/countries"
     },
     {
-      "DownstreamPathTemplate": "/api/companytype",
+      "DownstreamPathTemplate": "/api/{version}/companytype",
       "DownstreamScheme": "http",
       "ServiceName": "msservice",
-      "UpstreamPathTemplate": "/api/companytype"
+      "UpstreamPathTemplate": "/api/{version}/companytype"
     },
     {
-      "DownstreamPathTemplate": "/api/terms/{url}",
+      "DownstreamPathTemplate": "/api/{version}/terms/{url}",
       "DownstreamScheme": "http",
       "ServiceName": "msservice",
-      "UpstreamPathTemplate": "/api/terms/{url}"
+      "UpstreamPathTemplate": "/api/{version}/terms/{url}"
     },
     {
-      "DownstreamPathTemplate": "/api/user/verifmail",
+      "DownstreamPathTemplate": "/api/{version}/user/verifmail",
       "DownstreamScheme": "http",
       "ServiceName": "msservice",
-      "UpstreamPathTemplate": "/api/user/verifmail"
+      "UpstreamPathTemplate": "/api/{version}/user/verifmail"
     },
     {
-      "DownstreamPathTemplate": "/api/user/activation",
+      "DownstreamPathTemplate": "/api/{version}/user/activation",
       "DownstreamScheme": "http",
       "ServiceName": "msservice",
-      "UpstreamPathTemplate": "/api/user/activation",
+      "UpstreamPathTemplate": "/api/{version}/user/activation",
       "UpstreamHttpMethod": [ "Post" ]
     },
     {
-      "DownstreamPathTemplate": "/api/user",
+      "DownstreamPathTemplate": "/api/{version}/user",
       "DownstreamScheme": "http",
       "ServiceName": "msservice",
-      "UpstreamPathTemplate": "/api/user",
+      "UpstreamPathTemplate": "/api/{version}/user",
       "UpstreamHttpMethod": [ "Post" ]
     },
     {
-      "DownstreamPathTemplate": "/api/user/check",
+      "DownstreamPathTemplate": "/api/{version}/user/check",
       "DownstreamScheme": "http",
       "ServiceName": "msservice",
-      "UpstreamPathTemplate": "/api/user/check",
+      "UpstreamPathTemplate": "/api/{version}/user/check",
       "UpstreamHttpMethod": [ "Post" ]
     }
   ]

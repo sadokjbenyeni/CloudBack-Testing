@@ -39,8 +39,6 @@ import { RoleService } from './services/role.service';
 import { UserService } from './services/user.service';
 import { CountriesService } from './services/countries.service';
 import { CompanytypesService } from './services/companytypes.service';
-import { ComplianceService } from './services/compliance.service';
-import { ConfigService } from './services/config.service';
 
 // import { FilterPipe } from './services/callback.pipe';
 
@@ -160,13 +158,11 @@ import { PaymentService } from './services/payment.service';
   ],
   providers: [
     GuardGuard,
-    ConfigService,
     DataService,
     CurrencyService,
     RoleService,
     UserService,
     CountriesService,
-    ComplianceService,
     CompanytypesService,
     AuthentificationService,
     LoginService,

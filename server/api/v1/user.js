@@ -2,14 +2,13 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
 const crypto = require("crypto");
-const request = require('request');
-const eventpublisher = require('../Events/Publishers/AccountActiveEventPublisher')
+const eventpublisher = require('../../Events/Publishers/AccountActiveEventPublisher')
 const User = mongoose.model('User');
 const Order = mongoose.model('Order');
 const Role = mongoose.model('Role');
-
-const config = require('../config/config.js');
-// const mailer = require('./mailer.js');
+const btoa = require('btoa');
+const config = require('../../config/config.js');
+const mailer = require('./mailer.js');
 // const Request = require('request');
 const URLS = config.config();
 // const admin = config.admin();
@@ -97,6 +96,20 @@ router.get('/cpt/', (req, res) => {
             return res.status(200).json(nb);
         });
 });
+router.get('/informations', (req, res) => {
+    if (req.headers["authorization"] == undefined) {
+        return res.sendStatus(204);
+    }
+    var rawtoken = Buffer.from(req.headers["authorization"].replace("Basic", ""), 'base64').toString('ascii');
+    var useremail = JSON.parse(rawtoken)["Email"]
+    User.findOne({ email: Object(useremail) }, { password: false })
+        .then((val) => {
+            if (val == undefined) {
+                return res.sendStatus(204)
+            }
+            return res.status(200).json(val)
+        })
+});
 router.get('/info', (req, res) => {
     if (req.headers["authorization"] == undefined) {
         return res.sendStatus(204);
@@ -181,17 +194,14 @@ router.post('/', (req, res) => {
             user.phone = req.body.phone ? req.body.phone : '';
             user.website = req.body.website ? req.body.website : '';
             user.cgu = req.body.cgu;
-
             user.save((err, u) => {
                 if (err) return console.error(err);
-<<<<<<< .merge_file_a22912
-=======
-                console.log("User successfully created : consuming the mailer api with this endpoint : " + process.env.DOMAIN + '/api/mail/inscription')
->>>>>>> .merge_file_a28396
-                request.post({ url: process.env.DOMAIN + '/api/mail/inscription', form: { email: req.body.email, token: user.token } }, (err, httpResponse, body) => {
-                    if (err) console.error(err);
+                console.log("User successfully created : Sending mail to user ")
+                if (mailer.sendActivationMail(user.email, user.token) == true) {
                     res.status(201).json({ account: true });
-                });
+                } else {
+                    res.sendStatus(503);
+                }
             });
         });
 });

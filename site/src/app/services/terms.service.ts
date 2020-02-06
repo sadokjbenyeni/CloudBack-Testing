@@ -12,11 +12,11 @@ export class TermsService {
 
   getLastUsageTerm()
   {
-    return this.http.get<Term>(environment.api+"/terms/lastusgeterm");
+    return this.http.get<Term>(environment.api+"/v1/terms/lastusgeterm");
   }
   getLastSaleTerm()
   {
-    return this.http.get<Term>(environment.api+"/terms/lastsaleterm");
+    return this.http.get<Term>(environment.api+"/v1/terms/lastsaleterm");
   }
   
 }

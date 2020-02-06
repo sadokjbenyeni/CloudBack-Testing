@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const nodemailer = require("nodemailer");
-const config = require('../config/config.js');
+const config = require('../../config/config.js');
 // const domain = config.domain();
 const SMTP = config.smtpconf();
 const sgMail = require('@sendgrid/mail');

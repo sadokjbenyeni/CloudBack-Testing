@@ -74,7 +74,7 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
                 PaymentAccountId = "Paymentaccount-6a04cf67-5576-4f9b-91b0-4b0e2c603f72"
             };
             context.Set(dtoModel, "subscriptionRequestCommand");
-            var commandResult = await httpClient.PostAsync("api/subscriptionrequest", new StringContent(JsonConvert.SerializeObject(dtoModel), Encoding.UTF8, "application/json"));
+            var commandResult = await httpClient.PostAsync("api/v1/subscriptionrequest", new StringContent(JsonConvert.SerializeObject(dtoModel), Encoding.UTF8, "application/json"));
             context.Set(commandResult, "subscriptionRequestCommandResult");
         }
 
@@ -84,7 +84,7 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
             var identity = context.Get<UserIdentity>(customer);
             var httpClient = context.ScenarioContainer.Resolve<ITestHttpClientFactory>().Create(identity);
 
-            var result = await httpClient.GetAsync("api/subscriptionrequest");
+            var result = await httpClient.GetAsync("api/v1/subscriptionrequest");
             context.Set(result, "getSubscriptionRequestAll");
         }
 
@@ -94,7 +94,7 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
             var identifier = GetByCustomer(customer).Last();
             var identity = context.Get<UserIdentity>(customer);
             var httpClient = context.ScenarioContainer.Resolve<ITestHttpClientFactory>().Create(identity);
-            var result = await httpClient.GetAsync($"api/subscriptionrequest/{HttpUtility.UrlEncode(identifier)}");
+            var result = await httpClient.GetAsync($"api/v1/subscriptionrequest/{HttpUtility.UrlEncode(identifier)}");
             context.Set(result, "getSubscriptionRequest");
         }
         
@@ -156,7 +156,7 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
         {
             var identity = context.Get<UserIdentity>(customer);
             var httpClient = context.ScenarioContainer.Resolve<ITestHttpClientFactory>().Create(identity);
-            var result = await httpClient.GetAsync($"api/subscriptionrequest");
+            var result = await httpClient.GetAsync($"api/v1/subscriptionrequest");
             context.Set(result, $"getSubscriptionRequestById");
         }
     }

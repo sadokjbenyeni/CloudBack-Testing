@@ -1,11 +1,8 @@
-const app = require('express')();
 const router = require('express').Router();
 const mongoose = require('mongoose');
-const crypto = require("crypto");
 
 const Role = mongoose.model('Role');
 
-const config = require('../config/config.js');
 // const URLS = config.config();
 // const admin = config.admin();
 // const PHRASE = config.phrase();

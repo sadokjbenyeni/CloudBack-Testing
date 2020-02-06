@@ -14,13 +14,13 @@ export class CountriesService {
   constructor(private http: HttpClient) { }
 
   getCountries() :Observable<Countries>{
-    return this.http.get<Countries>( environment.api + '/countries' );
+    return this.http.get<Countries>( environment.api + '/v1/countries' );
   }
   isUE(id) {
-    return this.http.post<Country>( environment.api + '/countries/isUE', id );
+    return this.http.post<Country>( environment.api + '/v1/countries/isUE', id );
   }
   saveUE(country) {
-    return this.http.put<Message>( environment.api + '/countries/ue', country );
+    return this.http.put<Message>( environment.api + '/v1/countries/ue', country );
   }
 
 }

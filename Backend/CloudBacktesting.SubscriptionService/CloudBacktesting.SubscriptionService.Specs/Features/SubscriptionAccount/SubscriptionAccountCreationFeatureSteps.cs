@@ -55,7 +55,7 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionAccoun
             var identity = context.Get<UserIdentity>(customer);
             var httpClient = context.ScenarioContainer.Resolve<ITestHttpClientFactory>().Create(identity);
 
-            var request = await httpClient.GetAsync($"api/SubscriptionAccount");
+            var request = await httpClient.GetAsync($"api/v1/SubscriptionAccount");
             var bodyString = await request.Content.ReadAsStringAsync();
             var customerReadModel = JsonConvert.DeserializeObject<SubscriptionAccountReadModelDto>(bodyString);
 

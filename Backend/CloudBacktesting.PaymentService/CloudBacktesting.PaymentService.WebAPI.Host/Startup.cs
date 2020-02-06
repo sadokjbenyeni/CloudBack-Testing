@@ -52,6 +52,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
             services.AddSingleton<IAuthorizationPolicyProvider, CloudBacktestingAuthorizationPolicyProvider>();
             services.AddSingleton<IAuthorizationHandler, CloudBacktestingAuthorizationHandler>();
             services.AddAuthorization();
+            services.AddApiVersioning();
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("V1", new Microsoft.OpenApi.Models.OpenApiInfo() { Title = "Payment Api", Version = "V1" });

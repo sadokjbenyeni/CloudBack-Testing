@@ -8,7 +8,7 @@ var fs = require('fs')
 
 const Order = mongoose.model('Order');
 
-const config = require('../config/config.js');
+const config = require('../../config/config.js');
 const URLS = config.config();
 const DOMAIN = config.domain();
 const PAYMENTVERIFY = config.paymentVerify();

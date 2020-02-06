@@ -35,7 +35,7 @@ namespace CloudBacktesting.PaymentService.Specs.Features.PaymentAccount
         {
             var customerIdentity = context.Get<UserIdentity>(customer);
             var httpClient = context.ScenarioContainer.Resolve<ITestHttpClientFactory>().Create(customerIdentity);
-            var request = await httpClient.GetAsync($"api/PaymentAccount");
+            var request = await httpClient.GetAsync($"api/v1/PaymentAccount");
             var bodyString = await request.Content.ReadAsStringAsync();
             var customerReadModel = JsonConvert.DeserializeObject<PaymentAccountReadModelDto>(bodyString);
 

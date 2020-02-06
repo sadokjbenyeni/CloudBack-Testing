@@ -43,7 +43,7 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
         {
             var identity = context.Get<UserIdentity>(customer);
             var httpClient = context.ScenarioContainer.Resolve<ITestHttpClientFactory>().Create(identity);
-            var result = await httpClient.GetAsync("api/adminsubscription");
+            var result = await httpClient.GetAsync("api/v1/adminsubscription");
             context.Set(result, "getAllSubscriptionAccount");
         }
         

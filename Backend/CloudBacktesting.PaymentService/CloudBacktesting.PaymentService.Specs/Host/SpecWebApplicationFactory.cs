@@ -7,7 +7,7 @@ using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.
 using CloudBacktesting.PaymentService.Domain.Repositories.PaymentAccountRepository;
 using CloudBacktesting.PaymentService.Domain.Repositories.PaymentMethodRepository;
 using CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation;
-using CloudBacktesting.PaymentService.WebAPI.Controllers;
+using CloudBacktesting.PaymentService.WebAPI.Controllers.PaymentAccount.v1;
 using CloudBacktesting.PaymentService.WebAPI.Host;
 using CloudBacktesting.PaymentService.WebAPI.Host.DatabaseSettings;
 using EventFlow.AspNetCore.Extensions;
