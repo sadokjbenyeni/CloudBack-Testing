@@ -82,7 +82,6 @@ export class AddPaymentCardComponent implements OnInit {
   }
   getCardType(): CardType {
     if (this.cardNumber != undefined) {
-      debugger;
       switch (this.cardNumber[0]) {
         case '3': return CardType.AmericanExpress
         case '4': return CardType.Visa

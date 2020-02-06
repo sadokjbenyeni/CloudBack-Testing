@@ -7,13 +7,13 @@ import { SubscriptionFilter } from '../../models/SubscriptionFilter';
 
 
 @Component({
-  selector: 'app-subscriptions-accepted',
-  templateUrl: './subscriptions-accepted.component.html',
-  styleUrls: ['./subscriptions-accepted.component.css']
+  selector: 'app-subscriptions-active',
+  templateUrl: './subscriptions-active.component.html',
+  styleUrls: ['./subscriptions-active.component.css']
 })
 
-export class SubscriptionsacceptedComponent implements OnInit {
-  DisplayedColumns: string[] = ['Subscriber', 'OrderId', 'SubscriptionType', 'Actions'];
+export class SubscriptionsactiveComponent implements OnInit {
+  DisplayedColumns: string[] = ['Subscriber', 'OrderId', 'SubscriptionType','ActivationMessage','ActivationDate'];
   dataSource;
   constructor(private dialog: MatDialog, private subscriptionService: SubscriptionService) { }
 
@@ -22,7 +22,7 @@ export class SubscriptionsacceptedComponent implements OnInit {
 
   }
   fillDataSource() {
-    this.subscriptionService.getSubscriptionsByFilter(SubscriptionFilter.PendingConfiguration).subscribe
+    this.subscriptionService.getSubscriptionsByFilter(SubscriptionFilter.Active).subscribe
       (result => {
         this.dataSource = result;
       })

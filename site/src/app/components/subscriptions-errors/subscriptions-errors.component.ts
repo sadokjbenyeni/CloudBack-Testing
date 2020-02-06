@@ -7,13 +7,13 @@ import { SubscriptionFilter } from '../../models/SubscriptionFilter';
 
 
 @Component({
-  selector: 'app-subscriptions-accepted',
-  templateUrl: './subscriptions-accepted.component.html',
-  styleUrls: ['./subscriptions-accepted.component.css']
+  selector: 'app-subscriptions-errors',
+  templateUrl: './subscriptions-errors.component.html',
+  styleUrls: ['./subscriptions-errors.component.css']
 })
 
-export class SubscriptionsacceptedComponent implements OnInit {
-  DisplayedColumns: string[] = ['Subscriber', 'OrderId', 'SubscriptionType', 'Actions'];
+export class SubscriptionserrorsComponent implements OnInit {
+  DisplayedColumns: string[] = ['Subscriber', 'OrderId', 'SubscriptionType', 'status', 'DeclineMessage'];
   dataSource;
   constructor(private dialog: MatDialog, private subscriptionService: SubscriptionService) { }
 
@@ -22,12 +22,9 @@ export class SubscriptionsacceptedComponent implements OnInit {
 
   }
   fillDataSource() {
-    this.subscriptionService.getSubscriptionsByFilter(SubscriptionFilter.PendingConfiguration).subscribe
+    this.subscriptionService.getSubscriptionsByFilter(SubscriptionFilter.Error).subscribe
       (result => {
         this.dataSource = result;
       })
-  }
-  configure(element: SubscriptionResult) {
-    this.dialog.open(SubscriptionConfigurationPopupComponent, { width: '55vw', data: { subscription: element } })
   }
 }

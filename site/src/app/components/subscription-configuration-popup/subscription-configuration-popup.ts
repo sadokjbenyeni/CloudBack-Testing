@@ -16,14 +16,12 @@ export class SubscriptionConfigurationPopupComponent implements OnInit {
   messageForm: FormGroup;
   ngOnInit() {
     this.subscription = this.data["subscription"];
-    debugger;
     this.messageForm = this._formBuilder.group({
       messagectrl: ['', Validators.required]
     });
   }
   DoRejectSubscription() {
     if (this.messageForm.valid) {
-      debugger;
       this.subscriptionService.ConfigureSubscription(this.subscription.id, this.messageForm.get("messagectrl").value
       ).subscribe(
         () => {

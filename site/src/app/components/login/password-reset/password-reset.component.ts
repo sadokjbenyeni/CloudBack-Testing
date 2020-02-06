@@ -18,7 +18,6 @@ export class PasswordResetComponent implements OnInit {
   }
 
   changePassword(){
-    debugger;
     let currentToken = this.loginService.router.url.split('/');
 
     this.loginService.savemdp(currentToken[2], this.loginService.password);

@@ -5,6 +5,7 @@ import { RejectionMessageDialogComponent } from '../rejection-message-dialog/rej
 import { Subscription } from '../../models/Subscription';
 import { ConfirmationPopupService } from '../../services/confirmation-popup.service';
 import { SubscriptionResult } from '../../models/SubscriptionResult';
+import { SubscriptionFilter } from '../../models/SubscriptionFilter';
 
 
 @Component({
@@ -25,7 +26,6 @@ export class SubscriptionsValidationComponent implements OnInit {
   AcceptSubscription(subscription: SubscriptionResult) {
     this.confirmationService.openPopup('Are you sure to accept the ' + subscription.subscriptionType + ' subsciption number ' + subscription.orderId + ' of ' + subscription.subscriber + '?', "Accept Subscription")
       .subscribe((result: Boolean) => {
-        debugger;
         if (result == true)
           this.subscriptionService.AcceptSubscription(subscription.id).subscribe
             (() => {
@@ -46,7 +46,7 @@ export class SubscriptionsValidationComponent implements OnInit {
       )
   }
   fillDataSource() {
-    this.subscriptionService.getPendingSubscriptions().subscribe
+    this.subscriptionService.getSubscriptionsByFilter(SubscriptionFilter.PendingValidation).subscribe
       (result => {
         this.dataSource = result;
       })

@@ -1,7 +1,7 @@
 <app-menu></app-menu>
 <!-- <app-configuration></app-configuration> -->
 <div class="container  col-8 pt-4 mt-4  d-block">
-    <h1 class="py-3 my-3 text-center">Subscriptions Configuration</h1>
+    <h1 class="py-3 my-3 text-center">Active Subscriptions</h1>
     <div class="col-12" *ngIf="dataSource!=null;else loading">
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
             <ng-container matColumnDef="Subscriber">
@@ -10,17 +10,19 @@
             </ng-container>
             <ng-container matColumnDef="SubscriptionType">
                 <th mat-header-cell *matHeaderCellDef> Subscription Type </th>
-                <td mat-cell *matCellDef="let element"> {{element.subscriptionType}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.type}} </td>
             </ng-container>
             <ng-container matColumnDef="OrderId">
                 <th mat-header-cell *matHeaderCellDef> Order Id </th>
                 <td mat-cell *matCellDef="let element"> {{element.orderId}} </td>
             </ng-container>
-            <ng-container matColumnDef="Actions">
-                <th mat-header-cell *matHeaderCellDef> Actions </th>
-                <td mat-cell class="truncate-cell" *matCellDef="let element">
-                    <Button class="btn btn-primary" (click)="configure(element)">Configure</Button>
-                </td>
+            <ng-container matColumnDef="ActivationMessage">
+                <th mat-header-cell *matHeaderCellDef> Activation Message </th>
+                <td mat-cell *matCellDef="let element"> {{element.activationMessage}} </td>
+            </ng-container>
+            <ng-container matColumnDef="ActivationDate">
+                <th mat-header-cell *matHeaderCellDef> Activation Date </th>
+                <td mat-cell *matCellDef="let element"> {{element.activatedDate | date: 'dd/MM/yyyy' }} </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="DisplayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: DisplayedColumns;"></tr>

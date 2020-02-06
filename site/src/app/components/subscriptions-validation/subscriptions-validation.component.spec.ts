@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SubscriptionsValidationComponent } from './subscriptions-validation.component';
 
-describe('SubscriptionsComponent', () => {
+describe('SubscriptionsValidationComponent', () => {
   let component: SubscriptionsValidationComponent;
   let fixture: ComponentFixture<SubscriptionsValidationComponent>;
 

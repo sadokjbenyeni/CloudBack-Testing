@@ -10,6 +10,6 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Models
     [JsonConverter(typeof(StringEnumConverter))]
     public enum SubscriptionState
     {
-        PendingValidation,PendingConfiguration,All
+        PendingValidation,PendingConfiguration,Active,All,Error,Unsubscribed
     }
 }

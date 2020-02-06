@@ -14,7 +14,9 @@ using EventFlow.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -117,28 +119,28 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers.AdminSubcripti
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
                 return BadRequest($"Access error, please contact the administrator with error id: {idError}");
             }
-
-
-            if (subscriptionState != SubscriptionState.All)
+            try
             {
-                try{
-                    var stringstatevalue = bindSubscriptionState(subscriptionState);
-                    var readModel = await queryProcessor.ProcessAsync(new FindReadModelQuery<SubscriptionRequestReadModel>(item => item.Status == stringstatevalue), CancellationToken.None);
-                    return base.Ok(readModel.ToList().Select(ToDto));
-                }
-                catch (NoBindingFoundException ex){
-                    return base.BadRequest(ex.Message);
-                }
-            }
-            else
-            {
-                var readModel = await queryProcessor.ProcessAsync(new FindReadModelQuery<SubscriptionRequestReadModel>(item => true), CancellationToken.None);
+                var readModel = await queryProcessor.ProcessAsync(bindSubscriptionState(subscriptionState), CancellationToken.None);
                 return base.Ok(readModel.ToList().Select(ToDto));
-
+            }
+            catch (Exception ex)
+            {
+                return base.BadRequest(ex.Message);
             }
         }
-        private string bindSubscriptionState(SubscriptionState value)
-
-            => (value == SubscriptionState.PendingValidation) ? "Pending" : (value == SubscriptionState.PendingConfiguration) ? "Validated" : throw new NoBindingFoundException(value);
+        private FindReadModelQuery<SubscriptionRequestReadModel> bindSubscriptionState(SubscriptionState value)
+        {
+            var bindingdictionnary = new Dictionary<SubscriptionState, FindReadModelQuery<SubscriptionRequestReadModel>>
+            {
+                { SubscriptionState.Active, new FindReadModelQuery<SubscriptionRequestReadModel>(item=>item.Status=="Active")},
+                { SubscriptionState.PendingConfiguration, new FindReadModelQuery<SubscriptionRequestReadModel>(item=>item.Status=="Validated")},
+                { SubscriptionState.PendingValidation, new FindReadModelQuery<SubscriptionRequestReadModel>(item=>item.Status=="Pending")},
+                { SubscriptionState.Error, new FindReadModelQuery<SubscriptionRequestReadModel>(item=>item.Status=="Declined" || item.Status=="Rejected")},
+                { SubscriptionState.Unsubscribed, new FindReadModelQuery<SubscriptionRequestReadModel>(item=>item.Status=="Unsubscribed")},
+                { SubscriptionState.All, new FindReadModelQuery<SubscriptionRequestReadModel>(item=>true)},
+            };
+            return bindingdictionnary.GetValueOrDefault(value);
+        }
     }
 }

@@ -87,6 +87,10 @@ import { AddPaymentCardComponent } from './components/add-payment-card/add-payme
 import { PaymentComponent } from './components/payment/payment.component';
 import { EnumToArrayPipe } from './EnumToList';
 import { PaymentService } from './services/payment.service';
+import { SubscriptionsComponent } from './components/subscriptions/subscriptions.component';
+import { SubscriptionserrorsComponent } from './components/subscriptions-errors/subscriptions-errors.component';
+import { SubscriptionsactiveComponent } from './components/subscriptions-active/subscriptions-active.component';
+import { MySubscriptionsComponent } from './components/my-subscriptions/my-subscriptions.component';
 
 @NgModule({
   declarations: [
@@ -130,7 +134,12 @@ import { PaymentService } from './services/payment.service';
     RejectionMessageDialogComponent,
     ConfirmationPopupComponent,
     SubscriptionsacceptedComponent,
+    SubscriptionsComponent,
+    SubscriptionserrorsComponent,
+    SubscriptionsValidationComponent,
+    SubscriptionsactiveComponent,
     SubscriptionConfigurationPopupComponent,
+    MySubscriptionsComponent,
     GetPaymentCardsComponent,
     AddPaymentCardComponent,
     PaymentComponent,
@@ -146,10 +155,8 @@ import { PaymentService } from './services/payment.service';
     DataTablesModule,
     CdkTableModule,
     BrowserAnimationsModule,
-    // NgbModule.forRoot(),
     NgbModule,
     ReactiveFormsModule,
-    //Ng2BootstrapModule,
     RecaptchaModule.forRoot(),
     FormsModule,
     BrowserModule,

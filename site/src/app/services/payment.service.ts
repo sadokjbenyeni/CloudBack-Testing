@@ -10,7 +10,6 @@ export class PaymentService {
 
   constructor(private http: HttpClient) { }
   AddPaymentCard(card: Payment) {
-    debugger;
     return this.http.post(environment.api + "/v1/PaymentMethod", card);
 
   }

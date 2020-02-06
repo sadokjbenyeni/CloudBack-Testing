@@ -25,6 +25,10 @@ import { MutualizedSubscriptionComponent } from './components/mutualized-subscri
 import { SubscriptionsValidationComponent } from './components/subscriptions-validation/subscriptions-validation.component';
 import { SubscriptionsacceptedComponent } from './components/subscriptions-accepted/subscriptions-accepted.component';
 import { PaymentComponent } from './components/payment/payment.component';
+import { SubscriptionserrorsComponent } from './components/subscriptions-errors/subscriptions-errors.component';
+import { SubscriptionsComponent } from './components/subscriptions/subscriptions.component';
+import { SubscriptionsactiveComponent } from './components/subscriptions-active/subscriptions-active.component';
+import { MySubscriptionsComponent } from './components/my-subscriptions/my-subscriptions.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/on-boarding', pathMatch: 'full' },
@@ -32,8 +36,6 @@ export const routes: Routes = [
   // CLIENT
   { path: 'account', component: SignUpComponent, canActivate: [GuardGuard] },
   { path: 'subscription/mutualized', component: MutualizedSubscriptionComponent, canActivate: [GuardGuard] },
-  // { path: 'AddPaymentCard', component: AddPaymentCardComponent, canActivate: [GuardGuard] },
-  // { path: 'GetPaymentCards', component: GetPaymentCardsComponent, canActivate: [GuardGuard] },
   { path: 'payment', component: PaymentComponent, canActivate: [GuardGuard] },
 
 
@@ -41,7 +43,12 @@ export const routes: Routes = [
   { path: 'admin/profil/:id', component: UserDetailComponent, canActivate: [GuardGuard] },
   { path: 'subscriptions-validation', component: SubscriptionsValidationComponent, canActivate: [GuardGuard] },
   { path: 'subscriptions-accepted', component: SubscriptionsacceptedComponent, canActivate: [GuardGuard] },
+  { path: 'subscriptions-errors', component: SubscriptionserrorsComponent, canActivate: [GuardGuard] },
+  { path: 'subscriptions-active', component: SubscriptionsactiveComponent, canActivate: [GuardGuard] },
+  { path: 'subscriptions', component: SubscriptionsComponent, canActivate: [GuardGuard] },
+  { path: 'my-subscriptions', component: MySubscriptionsComponent, canActivate: [GuardGuard] },
 
+  
   { path: 'admin/users', component: UsersComponent, canActivate: [GuardGuard] },
   { path: 'admin/role', component: RoleComponent, canActivate: [GuardGuard] },
   { path: 'admin/countries', component: CountriesComponent, canActivate: [GuardGuard] },

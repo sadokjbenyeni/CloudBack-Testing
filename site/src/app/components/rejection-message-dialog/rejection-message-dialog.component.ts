@@ -17,14 +17,12 @@ export class RejectionMessageDialogComponent implements OnInit {
   messageForm: FormGroup;
   ngOnInit() {
     this.subscription = this.data["subscription"];
-    debugger;
     this.messageForm = this._formBuilder.group({
       messagectrl: ['', Validators.required]
     });
   }
   DoRejectSubscription() {
     if (this.messageForm.valid) {
-      debugger;
       this.subscriptionService.RejectSubscription(this.subscription.id, this.messageForm.get("messagectrl").value
       ).subscribe(
         () => {
