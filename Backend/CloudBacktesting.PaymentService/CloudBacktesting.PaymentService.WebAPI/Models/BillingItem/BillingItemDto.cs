@@ -8,5 +8,6 @@ namespace CloudBacktesting.PaymentService.WebAPI.Models.BillingItem
     public class BillingItemDto
     {
         public string PaymentMethodId { get; set; }
+        public string SubscriptionRequestId { get; set; }
     }
 }

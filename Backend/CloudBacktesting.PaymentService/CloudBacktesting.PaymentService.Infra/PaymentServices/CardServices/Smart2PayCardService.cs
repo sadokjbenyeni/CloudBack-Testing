@@ -18,7 +18,7 @@ namespace CloudBacktesting.PaymentService.Infra.PaymentServices.CardServices
             this.cardPaymentService = cardPaymentService;
         }
 
-        public async Task<bool> CreateAsync(string merchantTransactionId, string subscriber, Card cardDetails, BillingAddress billingaddress, double amount, string currency, CancellationToken cancellationToken)
+        public async Task<bool> CreateAsync(string merchantTransactionId, string subscriber, Card cardDetails, double amount, string currency, CancellationToken cancellationToken)
         {
             var apiPayment = new CardPaymentRequest
             {
@@ -39,15 +39,6 @@ namespace CloudBacktesting.PaymentService.Infra.PaymentServices.CardServices
                     HolderName = cardDetails.HolderName,
                     Number = cardDetails.Number,
                     SecurityCode = cardDetails.SecurityCode
-                },
-
-                BillingAddress = new Address
-                {
-                    City = billingaddress.City,
-                    ZipCode = billingaddress.ZipCode,
-                    State = billingaddress.State,
-                    Street = billingaddress.Street,
-                    Country = billingaddress.Country
                 },
 
                 Capture = true

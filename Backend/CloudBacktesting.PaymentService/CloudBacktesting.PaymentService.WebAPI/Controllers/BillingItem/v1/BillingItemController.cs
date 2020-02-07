@@ -3,6 +3,7 @@ using CloudBacktesting.Infra.Security.Authorization;
 using CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate;
 using CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate.Commands;
 using CloudBacktesting.PaymentService.Domain.Repositories.BillingItemRepository;
+using CloudBacktesting.PaymentService.Infra.Models;
 using CloudBacktesting.PaymentService.Infra.Security.Claims;
 using CloudBacktesting.PaymentService.WebAPI.Models;
 using CloudBacktesting.PaymentService.WebAPI.Models.BillingItem;
@@ -131,6 +132,46 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.BillingItem.v1
             logger.LogError($"[Business, Error] | '{errorIdentifier}' | BillingItem for {this.User?.Identity?.Name} has not been created.");
             logger.LogDebug($"[Business, Error, Message] | '{errorIdentifier}' | Error messages:{Environment.NewLine}{string.Join(Environment.NewLine, ((FailedExecutionResult)commandResult).Errors)}");
             return BadRequest($"Creation of billing failed. Please contact support with error's identifier {errorIdentifier}");
+        }
+
+        [HttpPost("Pay")]
+        public async Task<IActionResult> Pay([FromBody] ExecutePaymentDto value)
+        {
+            if (this.User == null || !this.User.Identity.IsAuthenticated)
+            {
+                var idError = Guid.NewGuid().ToString();
+                logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
+                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+            }
+            var paymentAccountId = this.User.GetUserIdentifier()?.Value ?? "";
+            if (string.IsNullOrEmpty(paymentAccountId))
+            {
+                var idError = Guid.NewGuid().ToString();
+                logger.LogError($"[Security, Error] User not identify (SubcriptionAccountId not found). Please check the API Gateway log. Id error: {idError}");
+                return BadRequest($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
+            }
+            IExecutionResult commandResult = null;
+            try
+            {
+                var command = new PaymentExecutionCommand(new MerchantTransaction().Id, this.User.Identity.Name, value.CardDetails, value.Amount, value.Currency);
+                commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
+                if (commandResult.IsSuccess)
+                {
+                    return Ok(new IdentifierDto { Id = command.MerchantTransactionId });
+                }
+            }
+            catch (AggregateException aggregateEx)
+            {
+                commandResult = new FailedExecutionResult(new[] { aggregateEx.Message }.Union(aggregateEx.InnerExceptions.Select(ex => ex.Message)));
+            }
+            catch (Exception ex)
+            {
+                commandResult = new FailedExecutionResult(new[] { ex.Message });
+            }
+            var errorIdentifier = Guid.NewGuid().ToString();
+            logger.LogError($"[Business, Error] | '{errorIdentifier}' | BillingItem for {this.User?.Identity?.Name} has not been created.");
+            logger.LogDebug($"[Business, Error, Message] | '{errorIdentifier}' | Error messages:{Environment.NewLine}{string.Join(Environment.NewLine, ((FailedExecutionResult)commandResult).Errors)}");
+            return BadRequest($"Executing of billing failed. Please contact support with error's identifier {errorIdentifier}");
         }
     }
 }

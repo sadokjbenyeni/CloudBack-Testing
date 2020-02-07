@@ -102,7 +102,7 @@ namespace CloudBacktesting.PaymentService.Infra.Tests.PaymentServices.CardServic
             //    Country = "BR"
             //};
 
-            var response = await service.CreateAsync(new MerchantTransaction().Id, "chang@trade.com", new Card(), new BillingAddress(), 2000, "EUR", CancellationToken.None);
+            var response = await service.CreateAsync(new MerchantTransaction().Id, "chang@trade.com", new Card(), 2000, "EUR", CancellationToken.None);
 
             Assert.That(response, Is.True);
 
@@ -120,7 +120,7 @@ namespace CloudBacktesting.PaymentService.Infra.Tests.PaymentServices.CardServic
                           .Do(info => Assert.That(info.Arg<ApiCardPaymentRequest>().Payment.Amount, Is.EqualTo((long)200015)));
 
             var service = new Smart2PayCardService(s2pCardService);
-            var response = await service.CreateAsync("IdPaymenet", "chang@trade.com", new Card(), new BillingAddress(), 2000.15452, "EUR", CancellationToken.None);
+            var response = await service.CreateAsync("IdPaymenet", "chang@trade.com", new Card(), 2000.15452, "EUR", CancellationToken.None);
             Assert.That(response, Is.True);
 
         }

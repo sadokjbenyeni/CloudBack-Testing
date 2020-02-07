@@ -11,7 +11,7 @@ namespace CloudBacktesting.PaymentService.Infra.Models
 
         public MerchantTransaction()
         {
-            Id = $"billing-{Guid.NewGuid().ToString()}{DateTime.UtcNow.Year}{DateTime.UtcNow.Month}{DateTime.UtcNow.Day}";
+            Id = $"MerchantTransaction-{Guid.NewGuid().ToString()}{DateTime.UtcNow.Year}{DateTime.UtcNow.Month}{DateTime.UtcNow.Day}";
         }
     }
 }
