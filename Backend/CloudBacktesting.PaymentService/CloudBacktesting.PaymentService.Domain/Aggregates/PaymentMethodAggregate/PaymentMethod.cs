@@ -51,11 +51,6 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
             Emit(new PaymentMethodDeclinedEvent(this.Id.Value, this.paymentAccountId, client, "You have been rejected by the system, Please check your card information", DateTime.UtcNow));
             return ExecutionResult.Success();
         }
-        public IExecutionResult LinkBillingToPayment(string billingItemId)
-        {
-            Emit(new BillingItemToPaymentMethodLinkedEvent(billingItemId));
-            return ExecutionResult.Success();
-        }
 
         public void Apply(PaymentMethodCreatedEvent @event)
         {
@@ -63,6 +58,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
         }
         public void Apply(PaymentMethodValidatedEvent @event) { }
         public void Apply(PaymentAccountAffectedEvent @event) { }
+
 
     }
 }
