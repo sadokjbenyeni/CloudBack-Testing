@@ -5,7 +5,9 @@ using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate.Commands;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate.Events;
 using CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation.Events;
+using CloudBacktesting.PaymentService.Domain.Specifications;
 using EventFlow.Aggregates;
+using EventFlow.Aggregates.ExecutionResults;
 using EventFlow.Sagas;
 using EventFlow.Sagas.AggregateSagas;
 using System.Threading;
@@ -28,7 +30,7 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation
                 domainEvent.AggregateEvent.CardType,
                 domainEvent.AggregateEvent.CardHolder,
                 domainEvent.AggregateEvent.ExpirationYear,
-                domainEvent.AggregateEvent.ExpirationMonth);;
+                domainEvent.AggregateEvent.ExpirationMonth); ;
 
             this.Publish(command);
 
@@ -43,8 +45,26 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation
 
         public Task HandleAsync(IDomainEvent<PaymentAccount, PaymentAccountId, PaymentMethodLinkedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
-            var command = new PaymentMethodSystemValidateCommand(domainEvent.AggregateEvent.MethodId, domainEvent.AggregateEvent.Client, domainEvent.AggregateEvent.CardNumber, domainEvent.AggregateEvent.CardType, domainEvent.AggregateEvent.ExpirationYear, domainEvent.AggregateEvent.ExpirationMonth, domainEvent.AggregateEvent.Cryptogram);
-            this.Publish(command);
+            var passLuhenSpec = new PassesLuhenTestSpecification();
+
+            var getCardType = new GetCardTypeFromNumber();
+
+            var isNotNull = new IsNotNullCryptogram();
+
+            if (passLuhenSpec.IsSatisfiedBy(domainEvent.AggregateEvent.CardNumber) == false
+                || getCardType.GetCardType(domainEvent.AggregateEvent.CardNumber).Value.ToString() != domainEvent.AggregateEvent.CardType 
+                || isNotNull.IsSatisfiedBy(domainEvent.AggregateEvent.Cryptogram) == false)
+            {
+                var command = new PaymentMethodSystemRejectCommand(domainEvent.AggregateEvent.MethodId, domainEvent.AggregateEvent.Client);
+                this.Publish(command);
+            }
+            else
+            {
+
+                var command = new PaymentMethodSystemValidateCommand(domainEvent.AggregateEvent.MethodId, domainEvent.AggregateEvent.Client, domainEvent.AggregateEvent.CardNumber, domainEvent.AggregateEvent.CardType, domainEvent.AggregateEvent.ExpirationYear, domainEvent.AggregateEvent.ExpirationMonth, domainEvent.AggregateEvent.Cryptogram);
+                this.Publish(command);
+                return Task.CompletedTask;
+            }
             return Task.CompletedTask;
         }
 

@@ -8,19 +8,21 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
 {
     public class PaymentMethodCreatedEvent : AggregateEvent<PaymentMethod, PaymentMethodId>, IPaymentSagaMethodId
     {
-        public string MethodId { get; set; }
-        public string PaymentAccountId { get; set; }
-        public string CardNumber { get; set; }
-        public string CardType { get; set; }
-        public string CardHolder { get; set; }
-        public string Cryptogram { get; set; }
-        public string ExpirationYear { get; set; }
-        public string ExpirationMonth { get; set; }
+        public string MethodId { get; }
+        public string PaymentAccountId { get; }
+        public string CardNumber { get; }
+        public string CardType { get; }
+        public string CardHolder { get; }
+        public string Cryptogram { get; }
+        public string ExpirationYear { get; }
+        public string ExpirationMonth { get; }
+        public string Status { get; }
 
-        public PaymentMethodCreatedEvent(string methodId, string paymentAccountId, string cardNumber, string cardType, string cardHolder, string cryptogram, string expirationYear, string expirationMonth)
+        public PaymentMethodCreatedEvent(string methodId, string paymentAccountId, string status, string cardNumber, string cardType, string cardHolder, string cryptogram, string expirationYear, string expirationMonth)
         {
             MethodId = methodId;
             PaymentAccountId = paymentAccountId;
+            Status = status;
             CardNumber = cardNumber;
             CardType = cardType;
             CardHolder = cardHolder;

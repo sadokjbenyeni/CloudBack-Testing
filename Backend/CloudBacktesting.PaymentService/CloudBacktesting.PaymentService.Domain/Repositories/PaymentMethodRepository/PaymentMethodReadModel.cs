@@ -1,5 +1,6 @@
 ﻿using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate.Events;
+using EventFlow.Aggregates;
 using EventFlow.MongoDB.ReadStores;
 using EventFlow.ReadStores;
 using System;
@@ -11,11 +12,13 @@ namespace CloudBacktesting.PaymentService.Domain.Repositories.PaymentMethodRepos
     public class PaymentMethodReadModel : IReadModel, IMongoDbReadModel
         , IAmReadModelFor<PaymentMethod, PaymentMethodId, PaymentMethodCreatedEvent>
         , IAmReadModelFor<PaymentMethod, PaymentMethodId, PaymentAccountAffectedEvent>
+        , IAmReadModelFor<PaymentMethod, PaymentMethodId, PaymentMethodStatusUpdatedEvent>
         , IAmReadModelFor<PaymentMethod, PaymentMethodId, PaymentMethodValidatedEvent>
     {
         public string Id { get; set; }
         public string PaymentAccountId { get; set; }
         public long? Version { get; set; }
+        public string Status { get; set; }
         public string CardNumber { get; set; }
         public string Client { get; set; }
         public string CardType { get; set; }
@@ -29,6 +32,7 @@ namespace CloudBacktesting.PaymentService.Domain.Repositories.PaymentMethodRepos
         {
             Id = string.IsNullOrEmpty(Id) ? domainEvent.AggregateIdentity.Value : Id;
             PaymentAccountId = domainEvent.AggregateEvent.PaymentAccountId;
+            Status = domainEvent.AggregateEvent.Status;
             CardNumber = domainEvent.AggregateEvent.CardNumber;
             CardHolder = domainEvent.AggregateEvent.CardHolder;
             CardType = domainEvent.AggregateEvent.CardType;
@@ -45,6 +49,11 @@ namespace CloudBacktesting.PaymentService.Domain.Repositories.PaymentMethodRepos
         public void Apply(IReadModelContext context, EventFlow.Aggregates.IDomainEvent<PaymentMethod, PaymentMethodId, PaymentMethodValidatedEvent> domainEvent)
         {
             Id = domainEvent.AggregateEvent.MethodId;
+        }
+
+        public void Apply(IReadModelContext context, IDomainEvent<PaymentMethod, PaymentMethodId, PaymentMethodStatusUpdatedEvent> domainEvent)
+        {
+            Status = domainEvent.AggregateEvent.Status;
         }
     }
 }

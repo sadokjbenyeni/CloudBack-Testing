@@ -9,7 +9,7 @@ using System.Text;
 
 namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate
 {
-    public class PaymentMethod : AggregateRoot<PaymentMethod, PaymentMethodId>, IEmit<PaymentMethodCreatedEvent>, IEmit<PaymentMethodValidatedEvent>
+    public class PaymentMethod : AggregateRoot<PaymentMethod, PaymentMethodId>, IEmit<PaymentMethodCreatedEvent>
 
     {
         public string paymentAccountId;
@@ -18,12 +18,12 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
 
         public IExecutionResult Create(string paymentAccountId, string cardNumber, string cardType, string cardHolder, string expirationYear, string expirationMonth, string cryptogram)
         {
-            var @event = new PaymentMethodCreatedEvent(this.Id.Value, paymentAccountId, cardNumber, cardType, cardHolder, cryptogram, expirationYear, expirationMonth);
+            var @event = new PaymentMethodCreatedEvent(this.Id.Value, paymentAccountId, "Creating", cardNumber, cardType, cardHolder, cryptogram, expirationYear, expirationMonth);
             Emit(@event);
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult SystemValidate(PaymentMethodId paymentMethodId, string cardNumber, string cardType, string cryptogram, string expirationYear, string expirationMonth)
+        public IExecutionResult ValidateBySystem(PaymentMethodId paymentMethodId,string client, string cardNumber, string cardType, string cryptogram, string expirationYear, string expirationMonth)
         {
             var passLuhenSpec = new PassesLuhenTestSpecification();
             if (passLuhenSpec.IsSatisfiedBy(cardNumber) == false)
@@ -40,8 +40,15 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
             {
                 return ExecutionResult.Failed(isNotNull.WhyIsNotSatisfiedBy("Cryptogram can't be null"));
             }
-            var @event = new PaymentMethodValidatedEvent(paymentMethodId.ToString());
-            Emit(@event);
+            Emit(new PaymentAccountAffectedEvent(client));
+            Emit(new PaymentMethodStatusUpdatedEvent("Validated", paymentAccountId.ToString()));
+            Emit(new PaymentMethodValidatedEvent(this.Id.Value, DateTime.UtcNow));
+            return ExecutionResult.Success();
+        }
+        public IExecutionResult RejectBySystem(PaymentMethodId paymentMethod, string client)
+        {
+            Emit(new PaymentMethodStatusUpdatedEvent("Declined", paymentMethod.ToString()));
+            Emit(new PaymentMethodDeclinedEvent(this.Id.Value, this.paymentAccountId, client, "You have been rejected by the system, Please check your card information", DateTime.UtcNow));
             return ExecutionResult.Success();
         }
 
@@ -50,5 +57,8 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
             this.paymentAccountId = @event.PaymentAccountId;
         }
         public void Apply(PaymentMethodValidatedEvent @event) { }
+        public void Apply(PaymentAccountAffectedEvent @event) { }
+
+
     }
 }
