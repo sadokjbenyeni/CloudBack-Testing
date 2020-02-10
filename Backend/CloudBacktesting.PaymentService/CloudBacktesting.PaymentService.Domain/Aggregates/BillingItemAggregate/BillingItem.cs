@@ -37,12 +37,6 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult LinkBillingToPayment(string paymentMethodId)
-        {
-            Emit(new BillingItemToPaymentMethodLinkedEvent(paymentMethodId));
-            return ExecutionResult.Success();
-        }
-
         public IExecutionResult GenerateInvoice(string invoiceId, string method, string client, string cardHolder, string address, string amount, DateTime invoiceDate)
         {
             Emit(new InvoiceGeneratedEvent(invoiceId, method, client, cardHolder, address, amount, invoiceDate));
@@ -73,10 +67,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
 
         public void Apply(BillingItemCreatedEvent @event) { }
 
-        public void Apply(BillingItemToPaymentMethodLinkedEvent @event)
-        {
-            this.paymentMethodId = @event.PaymentMethodId;
-        }
+
 
         public void Apply(InvoiceGeneratedEvent @event) { }
 
