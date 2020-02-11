@@ -55,8 +55,9 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.PaymentMethod.v1
                 return BadRequest($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
             }//string.Equals(model.PaymentAccountId, paymentAccountId, StringComparison.InvariantCultureIgnoreCase)
             var result = await queryProcessor.ProcessAsync(new FindReadModelQuery<PaymentMethodReadModel>(model => string.Equals(model.PaymentAccountId, paymentAccountId)), CancellationToken.None);
-            return Ok(result.Select(ToDto).ToList());
+            return Ok(result.Select(ToDtoMethod).ToList());
         }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
@@ -67,22 +68,19 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.PaymentMethod.v1
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
                 return BadRequest($"Access error, please contact the administrator with error id: {idError}");
             }
-            var readModel = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<PaymentMethodReadModel>(new PaymentMethodId(id)), CancellationToken.None);
-            if (IsNotFound(readModel))
+            var paymentAccountId = this.User.GetUserIdentifier()?.Value ?? "";
+            //var readModel = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<PaymentMethodReadModel>(new PaymentMethodId(id)), CancellationToken.None);
+            var readModel = await queryProcessor.ProcessAsync(new FindReadModelQuery<PaymentMethodReadModel>(model => string.Equals(model.PaymentAccountId, paymentAccountId) && string.Equals(model.Id, id)), CancellationToken.None);
+            //var /*readModelFirstElement*/ = readModel.FirstOrDefault();
+            if (!readModel.Any())
             {
                 return NotFound("This payment method is not found");
             }
-            return base.Ok(ToDto(readModel));
+            return base.Ok(ToDtoMethod(readModel.FirstOrDefault()));
         }
 
-        private bool IsNotFound(PaymentMethodReadModel readModel)
-        {
-            return readModel == null
-                || string.IsNullOrEmpty(readModel.Id)
-                || !string.Equals(readModel.PaymentAccountId, this.User.GetUserIdentifier()?.Value, StringComparison.InvariantCultureIgnoreCase);
-        }
 
-        private static PaymentMethodReadModelDto ToDto(PaymentMethodReadModel readModel)
+        private static PaymentMethodReadModelDto ToDtoMethod(PaymentMethodReadModel readModel)
         {
             if (readModel == null)
             {

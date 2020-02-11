@@ -1,7 +1,11 @@
 ﻿using CloudBacktesting.Infra.EventFlow.Queries;
 using CloudBacktesting.Infra.Security.Authorization;
+using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate;
 using CloudBacktesting.PaymentService.Domain.Repositories.PaymentAccountRepository;
+using CloudBacktesting.PaymentService.Domain.Repositories.PaymentMethodRepository;
+using CloudBacktesting.PaymentService.Infra.Security.Claims;
 using CloudBacktesting.PaymentService.WebAPI.Models.PaymentAccount;
+using CloudBacktesting.PaymentService.WebAPI.Models.PaymentMethod;
 using EventFlow;
 using EventFlow.Queries;
 using Microsoft.AspNetCore.Mvc;
@@ -40,10 +44,10 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.AdminPayment.v1
                 return BadRequest($"Access error, please contact the administrator with error id: {idError}");
             }
             var result = await queryProcessor.ProcessAsync(new FindReadModelQuery<PaymentAccountReadModel>(ModelBinderAttribute => true), CancellationToken.None);
-            return Ok(result.Select(ToDto).ToList());
+            return Ok(result.Select(ToDtoAccount).ToList());
         }
 
-        private static PaymentAccountReadModelDto ToDto(PaymentAccountReadModel readModel)
+        private static PaymentAccountReadModelDto ToDtoAccount(PaymentAccountReadModel readModel)
         {
             return new PaymentAccountReadModelDto()
             {
@@ -52,5 +56,46 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.AdminPayment.v1
                 CreationDate = readModel.CreationDate
             };
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(string id)
+        {
+            if (this.User == null || !this.User.Identity.IsAuthenticated)
+            {
+                var idError = Guid.NewGuid().ToString();
+                logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
+                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+            }
+            var readModel = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<PaymentMethodReadModel>(new PaymentMethodId(id)), CancellationToken.None);
+            //var readModel = await queryProcessor.ProcessAsync(new FindReadModelQuery<PaymentMethodReadModel>(model => string.Equals(model.PaymentAccountId, paymentAccountId) && string.Equals(model.Id, id)), CancellationToken.None);
+            if (IsNotFound(readModel))
+            {
+                return NotFound("This payment method is not found");
+            }
+            return base.Ok(ToDtoMethod(readModel));
+        }
+        private bool IsNotFound(PaymentMethodReadModel readModel)
+        {
+            return readModel == null
+                || string.IsNullOrEmpty(readModel.Id);
+        }
+
+        private static PaymentMethodReadModelDto ToDtoMethod(PaymentMethodReadModel readModel)
+        {
+            if (readModel == null)
+            {
+                return null;
+            }
+            return new PaymentMethodReadModelDto()
+            {
+                PaymentMethodId = readModel.Id,
+                PaymentAccountId = readModel.PaymentAccountId, //Need to delete this
+                Numbers = readModel.CardNumber.Substring(Math.Max(0, readModel.CardNumber.Length - 4)),
+                Network = readModel.CardType,
+                Holder = readModel.CardHolder,
+                ExpirationDate = readModel.ExpirationMonth + "/" + readModel.ExpirationYear
+            };
+        }
+
     }
 }
