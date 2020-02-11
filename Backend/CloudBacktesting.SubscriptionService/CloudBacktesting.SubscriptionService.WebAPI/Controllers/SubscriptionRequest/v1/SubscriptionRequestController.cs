@@ -111,6 +111,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
                 return BadRequest($"Access error, please contact the administrator with error id: {idError}");
             }
             var subscriptionAccountId = this.User.GetUserIdentifier()?.Value ?? "";
+            var paymentMethodAccountId = this.User.GetUserPaymentIdentifier()?.Value ?? "";
             if (string.IsNullOrEmpty(subscriptionAccountId))
             {
                 var idError = Guid.NewGuid().ToString();
@@ -120,7 +121,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             IExecutionResult commandResult = null;
             try
             {
-                var command = new SubscriptionRequestCreationCommand(new SubscriptionAccountId(subscriptionAccountId).ToString(), value.Type, value.PaymentMethodId, value.PaymentAccountId);
+                var command = new SubscriptionRequestCreationCommand(new SubscriptionAccountId(subscriptionAccountId).ToString(), value.Type, value.PaymentMethodId, paymentMethodAccountId);
                 commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
                 if (commandResult.IsSuccess)
                 {

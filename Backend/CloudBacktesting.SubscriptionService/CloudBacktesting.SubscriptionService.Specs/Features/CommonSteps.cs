@@ -31,7 +31,10 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features
                 Name = user,
                 Roles = roles.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(role => role.Trim()).ToList(),
                 Email = $"{user}@mail.com",
-                Additionals = new Dictionary<string, string>(),
+                Additionals = new Dictionary<string, string>()
+                {
+                    { "paymentaccountid", $"paymentaccount-{Guid.NewGuid().ToString()}"},
+                },
             };
             context.Set(identity, user);
         }

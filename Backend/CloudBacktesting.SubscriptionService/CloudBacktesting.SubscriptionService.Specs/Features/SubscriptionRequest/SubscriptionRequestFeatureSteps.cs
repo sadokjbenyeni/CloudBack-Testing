@@ -71,7 +71,6 @@ namespace CloudBacktesting.SubscriptionService.Specs.Features.SubscriptionReques
                 SubscriptionAccountId = subscriptionAccountIdentifier.Id,
                 Type = typeOfSubscription,
                 PaymentMethodId = "paymentmethod-6a04cf67-5576-4f9b-91b0-4b0e2c603f72",
-                PaymentAccountId = "Paymentaccount-6a04cf67-5576-4f9b-91b0-4b0e2c603f72"
             };
             context.Set(dtoModel, "subscriptionRequestCommand");
             var commandResult = await httpClient.PostAsync("api/v1/subscriptionrequest", new StringContent(JsonConvert.SerializeObject(dtoModel), Encoding.UTF8, "application/json"));

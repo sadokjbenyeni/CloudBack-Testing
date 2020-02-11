@@ -7,7 +7,6 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Models.Request.Client.Subs
         public string SubscriptionAccountId { get; set; }
         public string Type { get; set; }
         public string PaymentMethodId { get; set; }
-        public string PaymentAccountId { get; set; }
     }
     public class UpdateSubscriptionRequestDto
     {

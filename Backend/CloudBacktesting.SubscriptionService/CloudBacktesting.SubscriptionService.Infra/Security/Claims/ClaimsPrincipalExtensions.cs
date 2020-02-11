@@ -11,7 +11,11 @@ namespace CloudBacktesting.SubscriptionService.Infra.Security.Claims
         public static Claim GetUserIdentifier(this ClaimsPrincipal principal)
         {
             return principal.FindFirst("subscriptionaccountid");
-            //return principal.Claims.FirstOrDefault(claim => string.Equals(claim.Type, ClaimTypes.NameIdentifier));
+        }
+
+        public static Claim GetUserPaymentIdentifier(this ClaimsPrincipal principal)
+        {
+            return principal.FindFirst("paymentaccountid");
         }
     }
 }
