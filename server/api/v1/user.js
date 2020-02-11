@@ -216,25 +216,25 @@ router.post('/logout/', (req, res) => {
         });
 });
 
-router.post('/islogin/', (req, res) => {
-    User.findOne({ token: req.body.token }, { _id: false, islogin: true, roleName: true })
-        .then((val) => {
-            if (val) {
-                const pattern = /\/[0-9a-fA-F]{24}$/;
-                let page = req.body.page.replace(pattern, '');
-                Role.count({ pages: new RegExp(page, "i"), name: { $in: val.roleName } })
-                    .then((role) => {
-                        res.status(200).json({ islogin: val.islogin, role: role });
-                    });
-            }
-            else {
-                res.status(200).json({ islogin: false, role: role });
-            }
-        })
-        .catch((err) => {
-            console.error(err);
-        });
-});
+// router.post('/islogin/', (req, res) => {
+//     User.findOne({ token: req.body.token }, { _id: false, islogin: true, roleName: true })
+//         .then((val) => {
+//             if (val) {
+//                 const pattern = /\/[0-9a-fA-F]{24}$/;
+//                 let page = req.body.page.replace(pattern, '');
+//                 Role.count({ pages: new RegExp(page, "i"), name: { $in: val.roleName } })
+//                     .then((role) => {
+//                         res.status(200).json({ islogin: val.islogin, role: role });
+//                     });
+//             }
+//             else {
+//                 res.status(200).json({ islogin: false, role: role });
+//             }
+//         })
+//         .catch((err) => {
+//             console.error(err);
+//         });
+// });
 
 router.post('/check/', (req, res) => {
     let cipher = crypto.createCipher(algorithm, req.body.pwd);

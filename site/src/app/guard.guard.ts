@@ -2,32 +2,26 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-
-import { UserService } from './services/user.service';
 
 @Injectable()
 export class GuardGuard implements CanActivate {
 
   constructor(
     public router: Router,
-    private userService: UserService
-  ) {}
+  ) { }
 
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     let user = JSON.parse(sessionStorage.getItem('user'));
+
     if (user) {
-      return new Promise((resolve, reject) => {
-        this.userService.islogin({token:user.token, page: state.url}).subscribe(res => {
-          if(res.islogin && res.role > 0) {
-            resolve(true);
-          } else {
-            this.router.navigate(['/login?redirection=' + this.router.url]);
-            resolve(false);
-          }
-        });
-      });
-    } else {
+      for (let userrole of user["roleName"]) {
+        if ((next.data["roles"] as Array<string>).indexOf(userrole) != -1)
+          return true;
+      }
+      this.router.navigate(['/on-boarding' + this.router.url]);
+      return false;
+    }
+    else {
       this.router.navigateByUrl("/login?redirection=" + state.url);
       return false;
     }

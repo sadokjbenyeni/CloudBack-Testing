@@ -14,7 +14,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Exceptions
         public NoBindingFoundException(string message) : base(message)
         {
         }
-        public NoBindingFoundException(SubscriptionState value) : base($"the value {value} is invalid")
+        public NoBindingFoundException(SubscriptionState value) : base($"Not supported value: '{value}'")
         {
 
         }

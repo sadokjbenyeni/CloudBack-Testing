@@ -7,10 +7,16 @@ export class Subscription {
     accountId: string;
     subscriber: string;
     billing: Billing;
+    orderId: string
     cgv: Term;
-    paymentMethodId:string;
+    paymentMethodId: string;
     paymentCard: Payment;
+    status: string
     type: SubscriptionType;
+    activatedDate: Date
+    activationMessage: string;
+    validatedOrDeclinedDate: Date;
+    declineMessage: string;
 
     constructor(subscriptionType: SubscriptionType) {
         this.billing = new Billing()

@@ -13,8 +13,8 @@ export class SubscriptionService {
 
   constructor(private http: HttpClient) { }
 
-  getSubscriptionsByFilter(SubscriptionFilter: SubscriptionFilter): Observable<Subscription[]> {
-    return this.http.get<any[]>(environment.api + "/v1/AdminSubscription/SubscriptionRequests/" + SubscriptionFilter)
+  getSubscriptionsByFilter(SubscriptionFilter: SubscriptionFilter): Observable<any[]> {
+    return this.http.get<Subscription[]>(environment.api + "/v1/AdminSubscription/SubscriptionRequests/" + SubscriptionFilter)
       .map(result => {
         return this.MapSubscription(result)
       })
@@ -42,11 +42,12 @@ export class SubscriptionService {
     return this.http.post(environment.api + "/v1/SubscriptionRequest", subscription)
   }
 
-  private MapSubscription(result: Array<any>): Array<Subscription> {
+  private MapSubscription(result: Array<any>): Array<any> {
     var subscriptions: Subscription[] = [];
     result.forEach(element => {
       let subscription = new Subscription(element["type"])
       Object.assign(subscription, element);
+      subscription.orderId = element["orderId"].toString();
       subscription.accountId = element["subscriptionAccountId"];
       subscriptions.push(subscription);
     })

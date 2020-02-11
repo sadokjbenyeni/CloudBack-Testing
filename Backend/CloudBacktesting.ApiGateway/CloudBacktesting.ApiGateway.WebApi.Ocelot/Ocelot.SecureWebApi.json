@@ -1,12 +1,6 @@
 {
   "ReRoutes": [
     {
-      "DownstreamPathTemplate": "/api/{version}/user/isLogin",
-      "DownstreamScheme": "http",
-      "UpstreamPathTemplate": "/api/{version}/user/isLogin",
-      "ServiceName": "msservice"
-    },
-    {
       "DownstreamPathTemplate": "/api/{version}/user/logout",
       "DownstreamScheme": "http",
       "ServiceName": "msservice",

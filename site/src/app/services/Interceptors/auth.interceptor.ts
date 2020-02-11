@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpEvent, HttpHandler, HttpRequest, HttpHeaders } from '@angular/common/http';
+import { HttpInterceptor, HttpEvent, HttpHandler, HttpRequest, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthInterceptor implements HttpInterceptor {
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<any>, next: HttpHandler,): Observable<HttpEvent<any>> {
     let user = sessionStorage.getItem("user");
     if (user != null) {
       let token = JSON.parse(user)["token"];
@@ -16,8 +16,14 @@ export class AuthInterceptor implements HttpInterceptor {
           Authorization: `${token}`
         }
       });
-      next.handle(req);
     }
-    return next.handle(req);
+    return next.handle(req).do(event=>{},exception=>
+      {
+        debugger;
+        if (exception instanceof HttpErrorResponse)
+        {
+          
+        }
+      });
   }
 }

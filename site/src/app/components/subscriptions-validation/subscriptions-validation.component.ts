@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { SubscriptionService } from '../../services/subscription.service';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar, MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { RejectionMessageDialogComponent } from '../rejection-message-dialog/rejection-message-dialog.component';
 import { Subscription } from '../../models/Subscription';
 import { ConfirmationPopupService } from '../../services/confirmation-popup.service';
@@ -14,14 +14,23 @@ import { SubscriptionFilter } from '../../models/SubscriptionFilter';
   styleUrls: ['./subscriptions-validation.component.css']
 })
 
-export class SubscriptionsValidationComponent implements OnInit {
-  DisplayedColumns: string[] = ['Subscriber', 'OrderId', 'SubscriptionType', 'Actions'];
-  dataSource;
-  constructor(private confirmationService: ConfirmationPopupService, private snackbar: MatSnackBar, private dialog: MatDialog, private subscriptionService: SubscriptionService) { }
+export class SubscriptionsValidationComponent implements OnInit,AfterViewInit {
+  DisplayedColumns: string[] = ['subscriber', 'orderId', 'type', 'Actions'];
+  public dataSource = new MatTableDataSource();
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator; 
+   constructor(private confirmationService: ConfirmationPopupService, private snackbar: MatSnackBar, private dialog: MatDialog, private subscriptionService: SubscriptionService) { }
 
   ngOnInit() {
-    this.fillDataSource()
+    this.dataSource.filterPredicate = (data: Subscription, filter: string) =>
+    data.subscriber.toLocaleLowerCase().indexOf(filter) != -1 || data.type.toLocaleLowerCase().indexOf(filter) != -1 || data.orderId.indexOf(filter) != -1
+     this.fillDataSource()
 
+  }
+  ngAfterViewInit()
+  {
+    this.dataSource.paginator=this.paginator;
+    this.dataSource.sort=this.sort;
   }
   AcceptSubscription(subscription: SubscriptionResult) {
     this.confirmationService.openPopup('Are you sure to accept the ' + subscription.subscriptionType + ' subsciption number ' + subscription.orderId + ' of ' + subscription.subscriber + '?', "Accept Subscription")
@@ -48,7 +57,10 @@ export class SubscriptionsValidationComponent implements OnInit {
   fillDataSource() {
     this.subscriptionService.getSubscriptionsByFilter(SubscriptionFilter.PendingValidation).subscribe
       (result => {
-        this.dataSource = result;
+        this.dataSource.data = result;
       })
+  }
+  applyFilter(value: any) {
+    this.dataSource.filter = value.toLowerCase();
   }
 }

@@ -34,37 +34,38 @@ export const routes: Routes = [
   { path: '', redirectTo: '/on-boarding', pathMatch: 'full' },
 
   // CLIENT
-  { path: 'account', component: SignUpComponent, canActivate: [GuardGuard] },
-  { path: 'subscription/mutualized', component: MutualizedSubscriptionComponent, canActivate: [GuardGuard] },
-  { path: 'payment', component: PaymentComponent, canActivate: [GuardGuard] },
+  { path: 'account', component: SignUpComponent, canActivate: [GuardGuard], data: { roles: ["Administrator","Client"] } },
+  { path: 'subscription/mutualized', component: MutualizedSubscriptionComponent, canActivate: [GuardGuard], data: { roles: ["Administrator","Client"] } },
+  { path: 'payment', component: PaymentComponent, canActivate: [GuardGuard], data: { roles: ["Administrator","Client"] } },
+  { path: 'my-subscriptions', component: MySubscriptionsComponent, canActivate: [GuardGuard], data: { roles: ["Administrator","Client"] } },
+  { path: 'my-subscriptions', component: MySubscriptionsComponent, canActivate: [GuardGuard], data: { roles: ["Administrator","Client"] } },
 
 
   // ADMINISTRATOR
-  { path: 'admin/profil/:id', component: UserDetailComponent, canActivate: [GuardGuard] },
-  { path: 'subscriptions-validation', component: SubscriptionsValidationComponent, canActivate: [GuardGuard] },
-  { path: 'subscriptions-accepted', component: SubscriptionsacceptedComponent, canActivate: [GuardGuard] },
-  { path: 'subscriptions-errors', component: SubscriptionserrorsComponent, canActivate: [GuardGuard] },
-  { path: 'subscriptions-active', component: SubscriptionsactiveComponent, canActivate: [GuardGuard] },
-  { path: 'subscriptions', component: SubscriptionsComponent, canActivate: [GuardGuard] },
-  { path: 'my-subscriptions', component: MySubscriptionsComponent, canActivate: [GuardGuard] },
-
   
-  { path: 'admin/users', component: UsersComponent, canActivate: [GuardGuard] },
-  { path: 'admin/role', component: RoleComponent, canActivate: [GuardGuard] },
-  { path: 'admin/countries', component: CountriesComponent, canActivate: [GuardGuard] },
-  { path: 'admin/terms', component: TermsComponent, canActivate: [GuardGuard] },
 
-  // NO LOGIN NEEDED
-  { path: 'on-boarding', component: OnBoardingComponent },
-  { path: 'cryptocurrency', component: CryptocurrencyComponent },
-  { path: 'products', component: ProductsComponent },
-  { path: 'pricing', component: PricingComponent },
-  { path: 'about', component: AboutComponent },
-  { path: 'help', component: HelpPageComponent },
-  { path: 'signup', component: SignUpComponent },
-  { path: 'login', component: LoginPageComponent },
-  { path: 'activation/:token', component: ActivationComponent },
-  { path: 'mdp/:token', component: PasswordResetComponent },
-  { path: '**', component: OnBoardingComponent }
+{ path: 'admin/profil/:id', component: UserDetailComponent, canActivate: [GuardGuard], data: { roles: ["Administrator"] } },
+{ path: 'subscriptions-validation', component: SubscriptionsValidationComponent, canActivate: [GuardGuard], data: { roles: ["Administrator"] } },
+{ path: 'subscriptions-accepted', component: SubscriptionsacceptedComponent, canActivate: [GuardGuard], data: { roles: ["Administrator"] } },
+{ path: 'subscriptions-errors', component: SubscriptionserrorsComponent, canActivate: [GuardGuard], data: { roles: ["Administrator"] } },
+{ path: 'subscriptions-active', component: SubscriptionsactiveComponent, canActivate: [GuardGuard], data: { roles: ["Administrator"] } },
+{ path: 'subscriptions', component: SubscriptionsComponent, canActivate: [GuardGuard], data: { roles: ["Administrator"] } },
+{ path: 'admin/users', component: UsersComponent, canActivate: [GuardGuard], data: { roles: ["Administrator"] } },
+{ path: 'admin/role', component: RoleComponent, canActivate: [GuardGuard], data: { roles: ["Administrator"] } },
+{ path: 'admin/countries', component: CountriesComponent, canActivate: [GuardGuard], data: { roles: ["Administrator"] } },
+{ path: 'admin/terms', component: TermsComponent, canActivate: [GuardGuard], data: { roles: ["Administrator"] } },
+
+// NO LOGIN NEEDED
+{ path: 'on-boarding', component: OnBoardingComponent },
+{ path: 'cryptocurrency', component: CryptocurrencyComponent },
+{ path: 'products', component: ProductsComponent },
+{ path: 'pricing', component: PricingComponent },
+{ path: 'about', component: AboutComponent },
+{ path: 'help', component: HelpPageComponent },
+{ path: 'signup', component: SignUpComponent },
+{ path: 'login', component: LoginPageComponent },
+{ path: 'activation/:token', component: ActivationComponent },
+{ path: 'mdp/:token', component: PasswordResetComponent },
+{ path: '**', component: OnBoardingComponent }
 
 ];

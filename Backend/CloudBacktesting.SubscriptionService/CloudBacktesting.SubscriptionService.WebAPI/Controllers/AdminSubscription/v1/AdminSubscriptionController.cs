@@ -16,7 +16,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,7 +30,15 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers.AdminSubcripti
         private readonly ILogger<AdminSubscriptionController> logger;
         private readonly ICommandBus commandBus;
         private readonly IQueryProcessor queryProcessor;
-
+        private static readonly IReadOnlyDictionary<SubscriptionState, FindReadModelQuery<SubscriptionRequestReadModel>> bindingdictionnary = new Dictionary<SubscriptionState, FindReadModelQuery<SubscriptionRequestReadModel>>
+            {
+                { SubscriptionState.Active, new FindReadModelQuery<SubscriptionRequestReadModel>(item=>item.Status=="Active")},
+                { SubscriptionState.PendingConfiguration, new FindReadModelQuery<SubscriptionRequestReadModel>(item=>item.Status=="Validated")},
+                { SubscriptionState.PendingValidation, new FindReadModelQuery<SubscriptionRequestReadModel>(item=>item.Status=="Pending")},
+                { SubscriptionState.Error, new FindReadModelQuery<SubscriptionRequestReadModel>(item=>item.Status=="Declined" || item.Status=="Rejected")},
+                { SubscriptionState.Unsubscribed, new FindReadModelQuery<SubscriptionRequestReadModel>(item=>item.Status=="Unsubscribed")},
+                { SubscriptionState.All, new FindReadModelQuery<SubscriptionRequestReadModel>(item=>true)},
+            };
         public AdminSubscriptionController(ILogger<AdminSubscriptionController> logger, ICommandBus commandBus, IQueryProcessor queryProcessor)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -124,23 +131,26 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers.AdminSubcripti
                 var readModel = await queryProcessor.ProcessAsync(BindSubscriptionState(subscriptionState), CancellationToken.None);
                 return base.Ok(readModel.ToList().Select(ToDto));
             }
+            catch(NoBindingFoundException ex)
+            {
+                var idError = Guid.NewGuid().ToString();
+                logger.LogError(ex, $"[Application, Error] Please check the API Gateway log. Id error: {idError}");
+                return BadRequest($"Application error, the subscription state '{subscriptionState}' is not supported. Please contact the support with error id: {idError}");
+            }
             catch (Exception ex)
             {
-                return base.BadRequest(ex.Message);
+                var idError = Guid.NewGuid().ToString();
+                logger.LogError(ex, $"[System, Error] Please check the API Gateway log. Id error: {idError}");
+                return BadRequest($"System error, please contact the support with error id: {idError}");
             }
         }
         private FindReadModelQuery<SubscriptionRequestReadModel> BindSubscriptionState(SubscriptionState value)
         {
-            var bindingdictionnary = new Dictionary<SubscriptionState, FindReadModelQuery<SubscriptionRequestReadModel>>
+            if(bindingdictionnary.TryGetValue(value,out var query))
             {
-                { SubscriptionState.Active, new FindReadModelQuery<SubscriptionRequestReadModel>(item=>item.Status=="Active")},
-                { SubscriptionState.PendingConfiguration, new FindReadModelQuery<SubscriptionRequestReadModel>(item=>item.Status=="Validated")},
-                { SubscriptionState.PendingValidation, new FindReadModelQuery<SubscriptionRequestReadModel>(item=>item.Status=="Pending")},
-                { SubscriptionState.Error, new FindReadModelQuery<SubscriptionRequestReadModel>(item=>item.Status=="Declined" || item.Status=="Rejected")},
-                { SubscriptionState.Unsubscribed, new FindReadModelQuery<SubscriptionRequestReadModel>(item=>item.Status=="Unsubscribed")},
-                { SubscriptionState.All, new FindReadModelQuery<SubscriptionRequestReadModel>(item=>true)},
-            };
-            return bindingdictionnary.GetValueOrDefault(value);
+                return query;
+            }
+            throw new NoBindingFoundException(value);
         }
     }
 }

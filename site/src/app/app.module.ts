@@ -72,10 +72,11 @@ import { OnBoardingComponent } from './components/on-boarding/on-boarding.compon
 
 import { PasswordComponent } from './components/login/password/password.component';
 import { PasswordResetComponent } from './components/login/password-reset/password-reset.component';
-// import { PdfComponent } from './components/commun/pdf/pdf.component';
 import { NotifierModule } from "angular-notifier";
 import { MutualizedSubscriptionComponent } from './components/mutualized-subscription/mutualized-subscription.component';
-import { AuthInterceptor } from './services/auth.interceptor';
+import { AuthInterceptor } from './services/Interceptors/auth.interceptor';
+import { ErrorInterceptor } from './services/Interceptors/Error.Interceptor';
+
 import { SubscriptionsValidationComponent } from './components/subscriptions-validation/subscriptions-validation.component';
 import { SubscriptionService } from './services/subscription.service';
 import { RejectionMessageDialogComponent } from './components/rejection-message-dialog/rejection-message-dialog.component';
@@ -91,6 +92,7 @@ import { SubscriptionsComponent } from './components/subscriptions/subscriptions
 import { SubscriptionserrorsComponent } from './components/subscriptions-errors/subscriptions-errors.component';
 import { SubscriptionsactiveComponent } from './components/subscriptions-active/subscriptions-active.component';
 import { MySubscriptionsComponent } from './components/my-subscriptions/my-subscriptions.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -145,7 +147,7 @@ import { MySubscriptionsComponent } from './components/my-subscriptions/my-subsc
     PaymentComponent,
 
   ],
-  entryComponents: [NgbdModalContent, LoginDialogComponent, PasswordComponent, PasswordResetComponent, TermsOfUseComponent, RejectionMessageDialogComponent,ConfirmationPopupComponent,SubscriptionConfigurationPopupComponent],
+  entryComponents: [NgbdModalContent, LoginDialogComponent, PasswordComponent, PasswordResetComponent, TermsOfUseComponent, RejectionMessageDialogComponent, ConfirmationPopupComponent, SubscriptionConfigurationPopupComponent],
   imports: [
     MaterialModule,
     BrowserModule,
@@ -175,12 +177,10 @@ import { MySubscriptionsComponent } from './components/my-subscriptions/my-subsc
     LoginService,
     SubscriptionService,
     PaymentService,
-    {
-      provide:HTTP_INTERCEPTORS,
-      useClass:AuthInterceptor,
-      multi:true
-    }
-    // FilterPipe
+    DatePipe,
+    //middleware
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
