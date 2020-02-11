@@ -1,6 +1,10 @@
 ﻿using CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate.Events;
+using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate;
+using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate.Commands;
+using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate.Events;
 using CloudBacktesting.PaymentService.Infra.Models;
 using CloudBacktesting.PaymentService.Infra.PaymentServices.CardServices;
+using EventFlow;
 using EventFlow.Aggregates;
 using EventFlow.Aggregates.ExecutionResults;
 using S2p.RestClient.Sdk.Entities;
@@ -15,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
 {
-    public class BillingItem : AggregateRoot<BillingItem, BillingItemId>, IEmit<BillingItemCreatedEvent>, IEmit<BillingItemToPaymentMethodLinkedEvent>, IEmit<SubscriptionRequestToBillingItemLinkedEvent>, IEmit<InvoiceGeneratedEvent>, IEmit<PaymentExecutedEvent>
+    public class BillingItem : AggregateRoot<BillingItem, BillingItemId>, IEmit<BillingItemCreatedEvent>, IEmit<PaymentMethodStatusCheckedEvent>
     {
         private const string URIPAYMENT = "https://securetest.smart2pay.com/payments";
         private const int SITEID = 1010;
@@ -23,11 +27,15 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
         private string paymentMethodId;
         private string subscriptionRequestId;
 
+        private readonly ICommandBus commandBus;
+
+
         public BillingItem(BillingItemId aggregateId) : base(aggregateId) { }
 
-        public IExecutionResult Create(string paymentMethodId)
+        public IExecutionResult Create(string paymentMethodId, string paymentMethodStatus)
         {
-            Emit(new BillingItemCreatedEvent(paymentMethodId));
+
+            Emit(new BillingItemCreatedEvent(this.Id.Value, paymentMethodId, "Creating", paymentMethodStatus, DateTime.UtcNow));
             return ExecutionResult.Success();
         }
 
@@ -37,9 +45,9 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult LinkBillingToPayment(string paymentMethodId)
+        public IExecutionResult LinkBillingToPayment(string itemId, string paymentMethodId, string paymentMethodStatus)
         {
-            Emit(new BillingItemToPaymentMethodLinkedEvent(paymentMethodId));
+            Emit(new BillingItemToPaymentMethodLinkedEvent(itemId, paymentMethodId, paymentMethodStatus));
             return ExecutionResult.Success();
         }
 
@@ -86,5 +94,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
         }
 
         public void Apply(PaymentExecutedEvent @event) { }
+
+        public void Apply(PaymentMethodStatusCheckedEvent @event) { }
     }
 }

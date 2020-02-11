@@ -29,11 +29,11 @@ namespace CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation
         public  Task HandleAsync(IDomainEvent<SubscriptionRequest, SubscriptionRequestId, SubscriptionRequestCreatedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
             var command = new SubscriptionRequestLinkToSubscriptionAccountCommand(new SubscriptionAccountId(domainEvent.AggregateEvent.SubscriptionAccountId), 
-                domainEvent.AggregateIdentity.Value, 
-                domainEvent.AggregateEvent.Status, 
-                domainEvent.AggregateEvent.Type,
-                domainEvent.AggregateEvent.PaymentMethodId,
-                domainEvent.AggregateEvent.PaymentAccountId);
+                                                                                                            domainEvent.AggregateIdentity.Value, 
+                                                                                                            domainEvent.AggregateEvent.Status, 
+                                                                                                            domainEvent.AggregateEvent.Type,
+                                                                                                            domainEvent.AggregateEvent.PaymentMethodId,
+                                                                                                            domainEvent.AggregateEvent.PaymentAccountId);
             this.Publish(command);
 
             this.Emit(new SubscriptionAccountLinkedSagaEvent(domainEvent.AggregateIdentity.Value, domainEvent.AggregateEvent.Status, domainEvent.AggregateEvent.Type));

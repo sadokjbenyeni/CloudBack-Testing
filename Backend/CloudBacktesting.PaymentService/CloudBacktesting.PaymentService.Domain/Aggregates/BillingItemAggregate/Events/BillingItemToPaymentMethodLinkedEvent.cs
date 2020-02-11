@@ -8,12 +8,15 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
 {
     public class BillingItemToPaymentMethodLinkedEvent : AggregateEvent<BillingItem, BillingItemId>
     {
-        public string PaymentMethodId { get; set; }
+        public string BillingItemId { get; }
+        public string PaymentMethodId { get; }
+        public string PaymentMethodStatus { get; set; }
 
-        public BillingItemToPaymentMethodLinkedEvent(string paymentMethodId)
+        public BillingItemToPaymentMethodLinkedEvent(string billingItemId, string paymentMethodId, string paymentMethodStatus)
         {
             PaymentMethodId = paymentMethodId;
-
+            BillingItemId = billingItemId;
+            PaymentMethodStatus = paymentMethodStatus;
         }
     }
 }

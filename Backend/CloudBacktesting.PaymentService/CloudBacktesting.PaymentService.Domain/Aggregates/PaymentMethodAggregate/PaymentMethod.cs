@@ -51,6 +51,11 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
             Emit(new PaymentMethodDeclinedEvent(this.Id.Value, this.paymentAccountId, client, "You have been rejected by the system, Please check your card information", DateTime.UtcNow));
             return ExecutionResult.Success();
         }
+        public IExecutionResult CheckStatus(PaymentMethodId paymentMethodId, string billingItemId, string paymentMethodStatus)
+        {
+            Emit(new PaymentMethodStatusCheckedEvent(paymentMethodId.Value, billingItemId, paymentMethodStatus));
+            return ExecutionResult.Success();
+        }
 
         public void Apply(PaymentMethodCreatedEvent @event)
         {

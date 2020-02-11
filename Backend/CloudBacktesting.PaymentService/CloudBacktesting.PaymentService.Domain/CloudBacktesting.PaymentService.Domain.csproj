@@ -15,8 +15,4 @@
     <ProjectReference Include="..\CloudBacktesting.PaymentService.Infra\CloudBacktesting.PaymentService.Infra.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Sagas\BillingCreation\Events\" />
-  </ItemGroup>
-
 </Project>

@@ -125,47 +125,47 @@ namespace CloudBacktesting.PaymentService.Infra.Tests.PaymentServices.CardServic
 
         }
 
-        [Test]
-        public async Task Should_payment_by_credit_card_work_without_billing_address()
-        {
-            IHttpClientBuilder httpClientBuilder = new HttpClientBuilder(() => new AuthenticationConfiguration
-            {
-                SiteId = 1010,
-                ApiKey = "gabi"
-            });
+        //[Test]
+        //public async Task Should_payment_by_credit_card_work_without_billing_address()
+        //{
+        //    IHttpClientBuilder httpClientBuilder = new HttpClientBuilder(() => new AuthenticationConfiguration
+        //    {
+        //        SiteId = 1010,
+        //        ApiKey = "gabi"
+        //    });
 
-            var httpClient = httpClientBuilder.Build();
+        //    var httpClient = httpClientBuilder.Build();
 
 
-            var paymentRequest = new PaymentRequest
-            {
-                Payment = new Payment
-                {
-                    MerchantTransactionID = Guid.NewGuid().ToString(),
-                    Amount = 9000,
-                    Currency = "USD",
-                    Card = new Card
-                    {
-                        HolderName = "John Doe",
-                        Number = "4111111111111111",
-                        ExpirationMonth = "02",
-                        ExpirationYear = "2022",
-                        SecurityCode = "312"
-                    },
-                    Capture = true
-                }
-            };
+        //    var paymentRequest = new PaymentRequest
+        //    {
+        //        Payment = new Payment
+        //        {
+        //            MerchantTransactionID = Guid.NewGuid().ToString(),
+        //            Amount = 9000,
+        //            Currency = "USD",
+        //            Card = new Card
+        //            {
+        //                HolderName = "John Doe",
+        //                Number = "4111111111111111",
+        //                ExpirationMonth = "02",
+        //                ExpirationYear = "2022",
+        //                SecurityCode = "312"
+        //            },
+        //            Capture = true
+        //        }
+        //    };
 
-            var values = JsonConvert.SerializeObject(paymentRequest);
+        //    var values = JsonConvert.SerializeObject(paymentRequest);
 
-            var httpContent = new StringContent(values, Encoding.UTF8, "application/json");
+        //    var httpContent = new StringContent(values, Encoding.UTF8, "application/json");
 
-            var response = await httpClient.PostAsync("https://securetest.smart2pay.com/v1/payments", httpContent);
+        //    var response = await httpClient.PostAsync("https://securetest.smart2pay.com/v1/payments", httpContent);
 
-            var responseString = await response.Content.ReadAsStringAsync();
+        //    var responseString = await response.Content.ReadAsStringAsync();
 
-            Assert.That(response.IsSuccessStatusCode, Is.True);
-        }
+        //    Assert.That(response.IsSuccessStatusCode, Is.True);
+        //}
 
 
         private ApiResult<ApiCardPaymentResponse> ReturnSuccessRequest(CallInfo info)

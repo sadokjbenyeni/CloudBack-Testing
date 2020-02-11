@@ -9,5 +9,6 @@ namespace CloudBacktesting.PaymentService.WebAPI.Models.BillingItem
     {
         public string PaymentMethodId { get; set; }
         public string SubscriptionRequestId { get; set; }
+        public string PaymentMethodStatus { get; internal set; }
     }
 }

@@ -113,7 +113,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.BillingItem.v1
             IExecutionResult commandResult = null;
             try
             {
-                var command = new BillingItemCreationCommand(value.PaymentMethodId);
+                var command = new BillingItemCreationCommand(value.PaymentMethodId, value.PaymentMethodStatus);
                 commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
                 if (commandResult.IsSuccess)
                 {

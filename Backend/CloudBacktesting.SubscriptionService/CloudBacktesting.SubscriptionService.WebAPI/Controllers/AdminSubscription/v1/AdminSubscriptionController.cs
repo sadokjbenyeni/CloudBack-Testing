@@ -121,7 +121,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers.AdminSubcripti
             }
             try
             {
-                var readModel = await queryProcessor.ProcessAsync(bindSubscriptionState(subscriptionState), CancellationToken.None);
+                var readModel = await queryProcessor.ProcessAsync(BindSubscriptionState(subscriptionState), CancellationToken.None);
                 return base.Ok(readModel.ToList().Select(ToDto));
             }
             catch (Exception ex)
@@ -129,7 +129,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers.AdminSubcripti
                 return base.BadRequest(ex.Message);
             }
         }
-        private FindReadModelQuery<SubscriptionRequestReadModel> bindSubscriptionState(SubscriptionState value)
+        private FindReadModelQuery<SubscriptionRequestReadModel> BindSubscriptionState(SubscriptionState value)
         {
             var bindingdictionnary = new Dictionary<SubscriptionState, FindReadModelQuery<SubscriptionRequestReadModel>>
             {

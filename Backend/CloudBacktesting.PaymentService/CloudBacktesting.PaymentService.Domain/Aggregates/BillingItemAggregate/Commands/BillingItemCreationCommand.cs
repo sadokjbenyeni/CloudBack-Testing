@@ -8,11 +8,13 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
 {
     public class BillingItemCreationCommand : Command<BillingItem, BillingItemId, IExecutionResult>
     {
-        public string PayementMethodId { get; set; }
+        public string PaymentMethodId { get; set; }
+        public string PaymentMethodStatus { get; set; }
 
-        public BillingItemCreationCommand(string payemntMethodId) : base(BillingItemId.New)
+        public BillingItemCreationCommand(string paymentMethodId, string paymentMethodStatus) : base(BillingItemId.New)
         {
-            PayementMethodId = payemntMethodId ?? throw new ArgumentNullException(nameof(payemntMethodId));
+            PaymentMethodId = paymentMethodId ?? throw new ArgumentNullException(nameof(paymentMethodId));
+            PaymentMethodStatus = paymentMethodStatus;
         }
     }
 }
