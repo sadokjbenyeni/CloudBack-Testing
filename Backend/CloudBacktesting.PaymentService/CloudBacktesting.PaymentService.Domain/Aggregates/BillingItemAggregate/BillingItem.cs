@@ -47,6 +47,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
 
         public IExecutionResult LinkBillingToPayment(string itemId, string paymentMethodId, string paymentMethodStatus)
         {
+            Emit(new BillingItemStatusUpdatedEvent("Pending", this.Id.Value));
             Emit(new BillingItemToPaymentMethodLinkedEvent(itemId, paymentMethodId, paymentMethodStatus));
             return ExecutionResult.Success();
         }
@@ -73,11 +74,32 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
             var service = new Smart2PayCardService(paymentService);
 
             var response = await service.CreateAsync(merchantTransactionId, subscriber, cardDetails, amount, currency, CancellationToken.None);
+            Emit(new BillingItemStatusUpdatedEvent("Activated", this.Id.Value));
             Emit(new PaymentExecutedEvent(merchantTransactionId, billingItemId, subscriber, cardDetails, amount, currency));
             return ExecutionResult.Success();
 
         }
 
+        public IExecutionResult DeclineBySystem(BillingItemId aggregateId, string paymentMethodId)
+        {
+            Emit(new BillingItemStatusUpdatedEvent("Declined", this.Id.Value));
+            Emit(new BillingItemSystemDeclinedEvent(aggregateId.Value, paymentMethodId));
+            return ExecutionResult.Success();
+        }
+
+        public IExecutionResult ValidateBySystem(BillingItemId aggregateId, string paymentMethodId)
+        {
+            Emit(new BillingItemStatusUpdatedEvent("Validated", this.Id.Value));
+            Emit(new BillingItemSystemValidatedEvent(aggregateId.Value, paymentMethodId));
+            return ExecutionResult.Success();
+        }
+
+        public IExecutionResult PaymentFailure(BillingItemId aggeragateId, string paymentMethodId)
+        {
+            Emit(new BillingItemStatusUpdatedEvent("Failed", this.Id.Value));
+            Emit(new PaymentFailedEvent(aggeragateId.Value, paymentMethodId));
+            return ExecutionResult.Success();
+        }
 
         public void Apply(BillingItemCreatedEvent @event) { }
 

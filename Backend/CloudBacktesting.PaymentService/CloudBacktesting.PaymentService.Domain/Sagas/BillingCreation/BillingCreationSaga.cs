@@ -44,17 +44,38 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.BillingCreation
 
         public Task HandleAsync(IDomainEvent<BillingItem, BillingItemId, BillingItemToPaymentMethodLinkedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            if(domainEvent.AggregateEvent.PaymentMethodStatus == "Validated")
+            {
+                var command = new BillingItemSystemValidateCommand(domainEvent.AggregateEvent.BillingItemId, domainEvent.AggregateEvent.PaymentMethodId);
+                this.Publish(command);
+            }
+            else if (domainEvent.AggregateEvent.PaymentMethodStatus == "Declined")
+            {
+                var command = new BillingItemSystemDeclineCommand(domainEvent.AggregateEvent.BillingItemId, domainEvent.AggregateEvent.PaymentMethodId);
+                this.Publish(command);
+            }
+            return Task.CompletedTask;
         }
 
         public Task HandleAsync(IDomainEvent<BillingItem, BillingItemId, PaymentExecutedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var command = new PaymentExecutionCommand(domainEvent.AggregateEvent.MerchantTransactionId, domainEvent.AggregateEvent.Subscriber, domainEvent.AggregateEvent.CardDetails, domainEvent.AggregateEvent.Amount, domainEvent.AggregateEvent.Currency);
+            this.Publish(command);
+            return Task.CompletedTask;
         }
 
         public Task HandleAsync(IDomainEvent<BillingItem, BillingItemId, InvoiceGeneratedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var command = new InvoiceGenerationCommand(domainEvent.AggregateEvent.InvoiceId,
+                                                       domainEvent.AggregateEvent.Method,
+                                                       domainEvent.AggregateEvent.Client,
+                                                       domainEvent.AggregateEvent.CardHolder,
+                                                       domainEvent.AggregateEvent.Address,
+                                                       domainEvent.AggregateEvent.Amount,
+                                                       domainEvent.AggregateEvent.InvoiceDate);
+            this.Publish(command);
+            Emit(new BillingCreationSagaCompletedEvent());
+            return Task.CompletedTask;
         }
 
     }
