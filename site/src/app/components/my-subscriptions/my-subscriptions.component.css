@@ -10,3 +10,7 @@ table {
   padding-top: 15%;
   padding-left: 40%;
 }
+.mat-row:hover {
+  background-color: #ea663b;
+  color: white;
+}

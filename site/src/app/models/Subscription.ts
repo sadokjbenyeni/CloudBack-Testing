@@ -10,6 +10,7 @@ export class Subscription {
     orderId: string
     cgv: Term;
     paymentMethodId: string;
+    creationDate:Date;
     paymentCard: Payment;
     status: string
     type: SubscriptionType;

@@ -75,7 +75,7 @@ import { PasswordResetComponent } from './components/login/password-reset/passwo
 import { NotifierModule } from "angular-notifier";
 import { MutualizedSubscriptionComponent } from './components/mutualized-subscription/mutualized-subscription.component';
 import { AuthInterceptor } from './services/Interceptors/auth.interceptor';
-import { ErrorInterceptor } from './services/Interceptors/Error.Interceptor';
+import { ErrorInterceptor } from './services/Interceptors/Error.Interceptor'
 
 import { SubscriptionsValidationComponent } from './components/subscriptions-validation/subscriptions-validation.component';
 import { SubscriptionService } from './services/subscription.service';
@@ -93,6 +93,7 @@ import { SubscriptionserrorsComponent } from './components/subscriptions-errors/
 import { SubscriptionsactiveComponent } from './components/subscriptions-active/subscriptions-active.component';
 import { MySubscriptionsComponent } from './components/my-subscriptions/my-subscriptions.component';
 import { DatePipe } from '@angular/common';
+import { SubscriptionsDetailsComponent } from './components/subscriptions-details/subscriptions-details.component';
 
 @NgModule({
   declarations: [
@@ -145,6 +146,7 @@ import { DatePipe } from '@angular/common';
     GetPaymentCardsComponent,
     AddPaymentCardComponent,
     PaymentComponent,
+    SubscriptionsDetailsComponent,
 
   ],
   entryComponents: [NgbdModalContent, LoginDialogComponent, PasswordComponent, PasswordResetComponent, TermsOfUseComponent, RejectionMessageDialogComponent, ConfirmationPopupComponent, SubscriptionConfigurationPopupComponent],
@@ -179,7 +181,7 @@ import { DatePipe } from '@angular/common';
     PaymentService,
     DatePipe,
     //middleware
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
