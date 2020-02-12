@@ -26,6 +26,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
         private const string APIKEY = "gabi";
         private string paymentMethodId;
         private string subscriptionRequestId;
+        private string status;
 
         private readonly ICommandBus commandBus;
 
@@ -97,7 +98,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
         public IExecutionResult PaymentFailure(BillingItemId aggeragateId, string paymentMethodId)
         {
             Emit(new BillingItemStatusUpdatedEvent("Failed", this.Id.Value));
-            Emit(new PaymentFailedEvent(aggeragateId.Value, paymentMethodId));
+            Emit(new PaymentFailedEvent(aggeragateId.Value, paymentMethodId, "Your payment has failed, Please check your card details", DateTime.UtcNow));
             return ExecutionResult.Success();
         }
 
@@ -118,5 +119,9 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
         public void Apply(PaymentExecutedEvent @event) { }
 
         public void Apply(PaymentMethodStatusCheckedEvent @event) { }
+        public void Apply(BillingItemStatusUpdatedEvent @event)
+        {
+            this.status = @event.Status;
+        }
     }
 }

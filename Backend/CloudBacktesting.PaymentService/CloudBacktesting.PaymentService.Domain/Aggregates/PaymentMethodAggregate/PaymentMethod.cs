@@ -9,10 +9,11 @@ using System.Text;
 
 namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate
 {
-    public class PaymentMethod : AggregateRoot<PaymentMethod, PaymentMethodId>, IEmit<PaymentMethodCreatedEvent>
+    public class PaymentMethod : AggregateRoot<PaymentMethod, PaymentMethodId>, IEmit<PaymentMethodCreatedEvent>, IEmit<PaymentMethodStatusUpdatedEvent>
 
     {
-        public string paymentAccountId;
+        private string paymentAccountId;
+        private string status;
 
         public PaymentMethod(PaymentMethodId aggregateId) : base(aggregateId) { }
 
@@ -60,6 +61,11 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
         public void Apply(PaymentMethodCreatedEvent @event)
         {
             this.paymentAccountId = @event.PaymentAccountId;
+        }
+
+        public void Apply(PaymentMethodStatusUpdatedEvent @event)
+        {
+            this.status = @event.Status;
         }
         public void Apply(PaymentMethodValidatedEvent @event) { }
         public void Apply(PaymentAccountAffectedEvent @event) { }

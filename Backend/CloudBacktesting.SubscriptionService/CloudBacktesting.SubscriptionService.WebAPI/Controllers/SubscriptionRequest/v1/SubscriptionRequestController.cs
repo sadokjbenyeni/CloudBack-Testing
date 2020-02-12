@@ -97,7 +97,8 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
                 IsManualConfigured = readModel.IsManualConfigured,
                 ActivatedDate = readModel.ActivatedDate,
                 PaymentAccountId = readModel.PaymentAccountId,
-                PaymentMethodId = readModel.PaymentMethodId
+                PaymentMethodId = readModel.PaymentMethodId,
+                ActivationMessage = readModel.ActivationMessage
             };
         }
 
