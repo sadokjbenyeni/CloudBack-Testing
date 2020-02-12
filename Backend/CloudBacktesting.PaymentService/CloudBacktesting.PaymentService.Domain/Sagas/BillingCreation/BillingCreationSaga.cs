@@ -17,22 +17,13 @@ using System.Threading.Tasks;
 namespace CloudBacktesting.PaymentService.Domain.Sagas.BillingCreation
 {
     public class BillingCreationSaga : AggregateSaga<BillingCreationSaga, BillingCreationSagaId, BillingCreationSagaLocator>,
-                                       ISagaIsStartedBy<PaymentMethod, PaymentMethodId, PaymentMethodStatusCheckedEvent>,
-                                       ISagaHandles<BillingItem, BillingItemId, BillingItemCreatedEvent>,
+                                       ISagaIsStartedBy<BillingItem, BillingItemId, BillingItemCreatedEvent>,
+                                       ISagaHandles<PaymentMethod, PaymentMethodId, PaymentMethodStatusCheckedEvent>,
                                        ISagaHandles<BillingItem, BillingItemId, BillingItemToPaymentMethodLinkedEvent>,
                                        ISagaHandles<BillingItem, BillingItemId, PaymentExecutedEvent>,
                                        ISagaHandles<BillingItem, BillingItemId, InvoiceGeneratedEvent>
     {
         public BillingCreationSaga(BillingCreationSagaId id) : base(id) { }
-
-
-        public Task HandleAsync(IDomainEvent<PaymentMethod, PaymentMethodId, PaymentMethodStatusCheckedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
-        {
-            var command = new PaymentMethodCheckStatusCommand(new PaymentMethodId(domainEvent.AggregateEvent.MethodId), domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.PaymentMethodStatus);
-            this.Publish(command);
-            this.Emit(new PaymentMethodStatusCheckedSagaEvent(domainEvent.AggregateEvent.MethodId, domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.PaymentMethodStatus));
-            return Task.CompletedTask;
-        }
 
         public Task HandleAsync(IDomainEvent<BillingItem, BillingItemId, BillingItemCreatedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
@@ -41,17 +32,24 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.BillingCreation
             this.Emit(new BillingIemLinkedSagaEvent(domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.PaymentMethodId, domainEvent.AggregateEvent.PaymentMethodStatus));
             return Task.CompletedTask;
         }
+        public Task HandleAsync(IDomainEvent<PaymentMethod, PaymentMethodId, PaymentMethodStatusCheckedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
+        {
+            var command = new PaymentMethodCheckStatusCommand(new PaymentMethodId(domainEvent.AggregateEvent.MethodId), domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.PaymentMethodStatus);
+            this.Publish(command);
+            this.Emit(new PaymentMethodStatusCheckedSagaEvent(domainEvent.AggregateEvent.MethodId, domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.PaymentMethodStatus));
+            return Task.CompletedTask;
+        }
 
         public Task HandleAsync(IDomainEvent<BillingItem, BillingItemId, BillingItemToPaymentMethodLinkedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
             if (domainEvent.AggregateEvent.PaymentMethodStatus == "Validated")
             {
-                var command = new BillingItemSystemValidateCommand(domainEvent.AggregateEvent.BillingItemId, domainEvent.AggregateEvent.PaymentMethodId);
+                var command = new BillingItemSystemValidateCommand(domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.PaymentMethodId);
                 this.Publish(command);
             }
             else if (domainEvent.AggregateEvent.PaymentMethodStatus == "Declined")
             {
-                var command = new BillingItemSystemDeclineCommand(domainEvent.AggregateEvent.BillingItemId, domainEvent.AggregateEvent.PaymentMethodId);
+                var command = new BillingItemSystemDeclineCommand(domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.PaymentMethodId);
                 this.Publish(command);
             }
             return Task.CompletedTask;
@@ -59,12 +57,12 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.BillingCreation
 
         public Task HandleAsync(IDomainEvent<BillingItem, BillingItemId, PaymentExecutedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
-            var command = new PaymentExecutionCommand(domainEvent.AggregateEvent.MerchantTransactionId, domainEvent.AggregateEvent.Subscriber, domainEvent.AggregateEvent.CardDetails, domainEvent.AggregateEvent.Amount, domainEvent.AggregateEvent.Currency);
+            var command = new PaymentExecutionCommand(domainEvent.AggregateIdentity, domainEvent.AggregateEvent.MerchantTransactionId, domainEvent.AggregateEvent.Subscriber, domainEvent.AggregateEvent.CardDetails, domainEvent.AggregateEvent.Amount, domainEvent.AggregateEvent.Currency);
             this.Publish(command);
             if (domainEvent.AggregateEvent.IsPaymentSuccessful)
             {
-                var command = new PaymentExecutionFailureCommand(domainEvent.AggregateIdentity.Value, domainEvent.AggregateEvent.PaymentMethodId);
-
+                var failCommand = new PaymentExecutionFailureCommand(domainEvent.AggregateIdentity.Value, domainEvent.AggregateEvent.PaymentMethodId);
+                this.Publish(failCommand);
             }
             return Task.CompletedTask;
         }
@@ -72,7 +70,8 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.BillingCreation
         public Task HandleAsync(IDomainEvent<BillingItem, BillingItemId, InvoiceGeneratedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
             {
-                var command = new InvoiceGenerationCommand(domainEvent.AggregateEvent.InvoiceId,
+                var command = new InvoiceGenerationCommand(domainEvent.AggregateIdentity.Value,
+                                           domainEvent.AggregateEvent.InvoiceId,
                                            domainEvent.AggregateEvent.Method,
                                            domainEvent.AggregateEvent.Client,
                                            domainEvent.AggregateEvent.CardHolder,

@@ -93,6 +93,8 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
             services.AddSingleton<IConnectionFactory>(con => new ConnectionFactory() { Endpoint = new AmqpTcpEndpoint(new Uri(endpoint)) });
             services.AddSingleton<IRabbitMQEventPublisher, RabbitMQEventPublisher>();
             services.AddHostedService<AccountCreatedListener>();
+            services.AddSingleton<IRabbitMQEventPublisher, RabbitMQSubscriptionValidatedEventPublisher>();
+            services.AddHostedService<RabbitMQBillingItemCreatedEventListener>();
         }
 
         protected virtual IServiceCollection AddEventFlow(IServiceCollection services, SubscriptionDatabaseSettings configMongo)

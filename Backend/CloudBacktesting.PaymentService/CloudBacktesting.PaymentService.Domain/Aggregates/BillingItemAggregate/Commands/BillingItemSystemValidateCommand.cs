@@ -6,9 +6,8 @@ using System.Text;
 
 namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate.Commands
 {
-    public class BillingItemSystemValidateCommand : Command<BillingItem, BillingItemId>, IBillingSagaItemId
+    public class BillingItemSystemValidateCommand : Command<BillingItem, BillingItemId>
     {
-        public string ItemId { get; set; }
         public string PaymentMethodId { get; set; }
 
         public BillingItemSystemValidateCommand(string itemId, string paymentMethodId) : base(new BillingItemId(itemId))

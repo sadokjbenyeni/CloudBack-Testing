@@ -1,4 +1,5 @@
-﻿using EventFlow.Aggregates.ExecutionResults;
+﻿using CloudBacktesting.PaymentService.Domain.Sagas;
+using EventFlow.Aggregates.ExecutionResults;
 using EventFlow.Commands;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate.Commands
 {
-    public class InvoiceGenerationCommand : Command<BillingItem, BillingItemId, IExecutionResult>
+    public class InvoiceGenerationCommand : Command<BillingItem, BillingItemId>
     {
         public string InvoiceId { get; }
         public DateTime InvoiceDate { get; }
@@ -16,7 +17,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
         public string Address { get; }
         public string Amount { get; }
 
-        public InvoiceGenerationCommand(string invoiceId, string method, string client, string cardHolder, string address, string amount, DateTime invoiceDate) : base(BillingItemId.New)
+        public InvoiceGenerationCommand(string billingItemId, string invoiceId, string method, string client, string cardHolder, string address, string amount, DateTime invoiceDate) : base(new BillingItemId(billingItemId))
         {
             InvoiceId = invoiceId;
             Method = method;

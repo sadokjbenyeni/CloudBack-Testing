@@ -7,7 +7,7 @@ using System.Text;
 
 namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate.Commands
 {
-    public class PaymentExecutionCommand : Command<BillingItem, BillingItemId, IExecutionResult>
+    public class PaymentExecutionCommand : Command<BillingItem, BillingItemId>
     {
         public string MerchantTransactionId { get; set; }
         public string Subscriber { get; set; }
@@ -15,7 +15,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
         public double Amount { get; set; }
         public string Currency { get; set; }
 
-        public PaymentExecutionCommand(string merchantTransactionId, string subscriber, Card cardDetails, double amount, string currency) : base(BillingItemId.New)
+        public PaymentExecutionCommand(BillingItemId billingItemId, string merchantTransactionId, string subscriber, Card cardDetails, double amount, string currency) : base(billingItemId)
         {
             MerchantTransactionId = merchantTransactionId;
             Subscriber = subscriber;

@@ -8,9 +8,8 @@ using System.Text;
 
 namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate.Commands
 {
-    public class BillingItemLinkToPaymentMethodCommand : Command<BillingItem, BillingItemId>, IBillingSagaItemId
+    public class BillingItemLinkToPaymentMethodCommand : Command<BillingItem, BillingItemId>
     {
-        public string ItemId { get; }
         public string PaymentMethodId { get; set; }
         public string PaymentMethodStatus { get; set; }
 
@@ -18,6 +17,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
         {
             PaymentMethodId = paymentMethodId ?? throw new ArgumentNullException(nameof(paymentMethodId));
             PaymentMethodId = paymentMethodId;
+            PaymentMethodStatus = paymentMethodStatus;
         }
     }
 }

@@ -7,9 +7,8 @@ using System.Text;
 
 namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate.Commands
 {
-    public class PaymentExecutionFailureCommand : Command<BillingItem, BillingItemId>, IBillingSagaItemId
+    public class PaymentExecutionFailureCommand : Command<BillingItem, BillingItemId>
     {
-        public string ItemId { get; set; }
         public string PaymentMethodId { get; set; }
 
 

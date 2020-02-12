@@ -70,7 +70,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.AdminPayment.v1
             //var readModel = await queryProcessor.ProcessAsync(new FindReadModelQuery<PaymentMethodReadModel>(model => string.Equals(model.PaymentAccountId, paymentAccountId) && string.Equals(model.Id, id)), CancellationToken.None);
             if (IsNotFound(readModel))
             {
-                return BadRequest("This payment method is not found");
+                return NoContent();
             }
             return base.Ok(ToDtoMethod(readModel));
         }

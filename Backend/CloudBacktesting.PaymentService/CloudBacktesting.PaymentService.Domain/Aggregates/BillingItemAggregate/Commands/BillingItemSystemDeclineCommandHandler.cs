@@ -11,7 +11,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
     {
         public override Task ExecuteAsync(BillingItem aggregate, BillingItemSystemDeclineCommand command, CancellationToken cancellationToken)
         {
-            var executionResult = aggregate.DeclineBySystem(command.AggregateId, command.PaymentMethodId);
+            var executionResult = aggregate.DeclineBySystem(command.PaymentMethodId);
             return Task.FromResult(executionResult);
         }
     }

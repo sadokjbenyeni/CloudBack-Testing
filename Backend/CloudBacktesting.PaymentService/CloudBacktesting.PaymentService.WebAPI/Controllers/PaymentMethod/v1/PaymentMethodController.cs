@@ -117,7 +117,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.PaymentMethod.v1
             IExecutionResult commandResult = null;
             try
             {
-                var command = new PaymentMethodCreationCommand(new PaymentAccountId(paymentAccountId).ToString(), value.Numbers, value.Network, value.Holder, value.ExpirationYear, value.ExpirationMonth, value.Cryptogram);
+                var command = new PaymentMethodCreationCommand(new PaymentAccountId(paymentAccountId).Value, value.Numbers, value.Network, value.Holder, value.ExpirationYear, value.ExpirationMonth, value.Cryptogram);
                 commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
                 if (commandResult.IsSuccess)
                 {

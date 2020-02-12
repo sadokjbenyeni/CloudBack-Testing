@@ -42,24 +42,24 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
 
         public IExecutionResult LinkSubscriptionToBilling(string subscriptionRequestId)
         {
-            Emit(new SubscriptionRequestToBillingItemLinkedEvent(subscriptionRequestId));
+            Emit(new SubscriptionRequestToBillingItemLinkedEvent(this.Id.Value, subscriptionRequestId));
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult LinkBillingToPayment(string itemId, string paymentMethodId, string paymentMethodStatus)
+        public IExecutionResult LinkBillingToPayment(string paymentMethodId, string paymentMethodStatus)
         {
             Emit(new BillingItemStatusUpdatedEvent("Pending", this.Id.Value));
-            Emit(new BillingItemToPaymentMethodLinkedEvent(itemId, paymentMethodId, paymentMethodStatus));
+            Emit(new BillingItemToPaymentMethodLinkedEvent(this.Id.Value, paymentMethodId, paymentMethodStatus));
             return ExecutionResult.Success();
         }
 
         public IExecutionResult GenerateInvoice(string invoiceId, string method, string client, string cardHolder, string address, string amount, DateTime invoiceDate)
         {
-            Emit(new InvoiceGeneratedEvent(invoiceId, method, client, cardHolder, address, amount, invoiceDate));
+            Emit(new InvoiceGeneratedEvent(this.Id.Value, invoiceId, method, client, cardHolder, address, amount, invoiceDate));
             return ExecutionResult.Success();
         }
 
-        public async Task<IExecutionResult> ExecutePayment(string merchantTransactionId, string billingItemId, string subscriber, Card cardDetails, string currency, double amount)
+        public async Task<IExecutionResult> ExecutePayment(string merchantTransactionId, string subscriber, Card cardDetails, string currency, double amount)
         {
             var baseAddress = new Uri(URIPAYMENT);
 
@@ -77,29 +77,29 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
             var response = await service.CreateAsync(merchantTransactionId, subscriber, cardDetails, amount, currency, CancellationToken.None);
 
             Emit(new BillingItemStatusUpdatedEvent("Activated", this.Id.Value));
-            Emit(new PaymentExecutedEvent(merchantTransactionId, billingItemId, this.paymentMethodId, subscriber, cardDetails, amount, currency, response));
+            Emit(new PaymentExecutedEvent(merchantTransactionId, this.Id.Value, this.paymentMethodId, subscriber, cardDetails, amount, currency, response));
             return ExecutionResult.Success();
 
         }
 
-        public IExecutionResult DeclineBySystem(BillingItemId aggregateId, string paymentMethodId)
+        public IExecutionResult DeclineBySystem(string paymentMethodId)
         {
             Emit(new BillingItemStatusUpdatedEvent("Declined", this.Id.Value));
-            Emit(new BillingItemSystemDeclinedEvent(aggregateId.Value, paymentMethodId));
+            Emit(new BillingItemSystemDeclinedEvent(this.Id.Value, paymentMethodId));
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult ValidateBySystem(BillingItemId aggregateId, string paymentMethodId)
+        public IExecutionResult ValidateBySystem(string paymentMethodId)
         {
             Emit(new BillingItemStatusUpdatedEvent("Validated", this.Id.Value));
-            Emit(new BillingItemSystemValidatedEvent(aggregateId.Value, paymentMethodId));
+            Emit(new BillingItemSystemValidatedEvent(this.Id.Value, paymentMethodId));
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult PaymentFailure(BillingItemId aggeragateId, string paymentMethodId)
+        public IExecutionResult PaymentFailure(string paymentMethodId)
         {
             Emit(new BillingItemStatusUpdatedEvent("Failed", this.Id.Value));
-            Emit(new PaymentFailedEvent(aggeragateId.Value, paymentMethodId, "Your payment has failed, Please check your card details", DateTime.UtcNow));
+            Emit(new PaymentFailedEvent(this.Id.Value, paymentMethodId, "Your payment has failed, Please check your card details", DateTime.UtcNow));
             return ExecutionResult.Success();
         }
 
