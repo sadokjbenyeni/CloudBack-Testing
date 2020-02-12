@@ -16,7 +16,7 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.BillingFailing
             {
                 throw new ArgumentException("Cannot build the saga Identifier");
             }
-            return Task.FromResult<ISagaId>(new BillingFailingSagaId($"billingfailingSaga-{itemId.ItemId.Remove(0, 12)}"));
+            return Task.FromResult<ISagaId>(new BillingFailingSagaId($"billingfailingsaga-{itemId.ItemId.Remove(0, 12)}"));
         }
     }
 }

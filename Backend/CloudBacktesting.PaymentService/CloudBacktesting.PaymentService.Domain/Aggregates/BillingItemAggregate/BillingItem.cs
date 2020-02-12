@@ -75,8 +75,9 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
             var service = new Smart2PayCardService(paymentService);
 
             var response = await service.CreateAsync(merchantTransactionId, subscriber, cardDetails, amount, currency, CancellationToken.None);
+
             Emit(new BillingItemStatusUpdatedEvent("Activated", this.Id.Value));
-            Emit(new PaymentExecutedEvent(merchantTransactionId, billingItemId, subscriber, cardDetails, amount, currency));
+            Emit(new PaymentExecutedEvent(merchantTransactionId, billingItemId, this.paymentMethodId, subscriber, cardDetails, amount, currency, response));
             return ExecutionResult.Success();
 
         }

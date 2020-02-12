@@ -8,21 +8,25 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
 {
     public class PaymentExecutedEvent : AggregateEvent<BillingItem, BillingItemId>
     {
-        public string MerchantTransactionId { get; set; }
-        public string BillingItemId { get; set; }
-        public string Subscriber { get; set; }
-        public Card CardDetails { get; set; }
-        public double Amount { get; set; }
-        public string Currency { get; set; }
+        public string MerchantTransactionId { get; }
+        public string BillingItemId { get; }
+        public string PaymentMethodId { get; }
+        public string Subscriber { get; }
+        public Card CardDetails { get; }
+        public double Amount { get; }
+        public string Currency { get; }
+        public bool IsPaymentSuccessful { get; }
 
-        public PaymentExecutedEvent(string merchantTransactionId, string billingItemId, string subscriber, Card cardDetails, double amount, string currency)
+        public PaymentExecutedEvent(string merchantTransactionId, string billingItemId,string paymentMethodId, string subscriber, Card cardDetails, double amount, string currency, bool isPaymentSuccessful)
         {
             MerchantTransactionId = merchantTransactionId;
             BillingItemId = billingItemId;
+            PaymentMethodId = paymentMethodId;
             Subscriber = subscriber;
             CardDetails = cardDetails;
             Amount = amount;
             Currency = currency;
+            IsPaymentSuccessful = isPaymentSuccessful;
         }
     }
 }

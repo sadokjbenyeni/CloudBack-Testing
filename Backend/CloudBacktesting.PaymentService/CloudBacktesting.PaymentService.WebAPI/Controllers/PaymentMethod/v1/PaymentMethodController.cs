@@ -74,7 +74,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.PaymentMethod.v1
             //var /*readModelFirstElement*/ = readModel.FirstOrDefault();
             if (!readModel.Any())
             {
-                return NotFound("This payment method is not found");
+                return NoContent();
             }
             return base.Ok(ToDtoMethod(readModel.FirstOrDefault()));
         }
