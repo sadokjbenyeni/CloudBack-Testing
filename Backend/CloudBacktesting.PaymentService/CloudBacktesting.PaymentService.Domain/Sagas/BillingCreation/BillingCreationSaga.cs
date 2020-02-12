@@ -44,7 +44,7 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.BillingCreation
 
         public Task HandleAsync(IDomainEvent<BillingItem, BillingItemId, BillingItemToPaymentMethodLinkedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
-            if(domainEvent.AggregateEvent.PaymentMethodStatus == "Validated")
+            if (domainEvent.AggregateEvent.PaymentMethodStatus == "Validated")
             {
                 var command = new BillingItemSystemValidateCommand(domainEvent.AggregateEvent.BillingItemId, domainEvent.AggregateEvent.PaymentMethodId);
                 this.Publish(command);
@@ -76,6 +76,19 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.BillingCreation
             this.Publish(command);
             Emit(new BillingCreationSagaCompletedEvent());
             return Task.CompletedTask;
+        }
+
+        public void Apply(PaymentMethodStatusCheckedSagaEvent @event)
+        {
+
+        }
+        public void Apply(BillingIemLinkedSagaEvent @event)
+        {
+
+        }
+        public void Apply(BillingCreationSagaCompletedEvent @event)
+        {
+            Complete();
         }
 
     }

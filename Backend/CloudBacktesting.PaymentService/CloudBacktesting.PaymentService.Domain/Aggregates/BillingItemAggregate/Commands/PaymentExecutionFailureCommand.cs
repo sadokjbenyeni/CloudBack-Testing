@@ -12,6 +12,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
         public string ItemId { get; set; }
         public string PaymentMethodId { get; set; }
 
+
         public PaymentExecutionFailureCommand(string itemId, string paymentMethodId) : base(new BillingItemId(itemId))
         {
             PaymentMethodId = paymentMethodId;
