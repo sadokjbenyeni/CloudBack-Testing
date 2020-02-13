@@ -11,7 +11,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
     {
         public string SubscriptionRequestId { get; set; }
 
-        public SubscriptionRequestLinkToBillingItemCommand(string billingItemId, string subscriptionRequestId) : base(new BillingItemId(billingItemId))
+        public SubscriptionRequestLinkToBillingItemCommand(BillingItemId billingItemId, string subscriptionRequestId) : base(billingItemId)
         {
             SubscriptionRequestId = subscriptionRequestId ?? throw new ArgumentNullException(nameof(subscriptionRequestId));
         }

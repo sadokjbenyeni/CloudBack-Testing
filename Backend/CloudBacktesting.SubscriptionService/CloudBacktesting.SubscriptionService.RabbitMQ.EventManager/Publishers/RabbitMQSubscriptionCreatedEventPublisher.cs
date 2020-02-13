@@ -7,12 +7,12 @@ using System.Text;
 
 namespace CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Publishers
 {
-    public class RabbitMQSubscriptionValidatedEventPublisher : IRabbitMQEventPublisher
+    public class RabbitMQSubscriptionCreatedEventPublisher : IRabbitMQEventPublisher
     {
-        public readonly ILogger<RabbitMQSubscriptionValidatedEventPublisher> _logger;
+        public readonly ILogger<RabbitMQSubscriptionCreatedEventPublisher> _logger;
         public readonly IModel _channel;
 
-        public RabbitMQSubscriptionValidatedEventPublisher(IConnectionFactory factory, ILogger<RabbitMQSubscriptionValidatedEventPublisher> logger)
+        public RabbitMQSubscriptionCreatedEventPublisher(IConnectionFactory factory, ILogger<RabbitMQSubscriptionCreatedEventPublisher> logger)
         {
             try
             {

@@ -97,6 +97,20 @@ definitions:
       "auto_delete":false,
       "arguments":{}
    },
+   {
+      "name":"BillingItemCreation",
+      "vhost":"/",
+      "durable":true,
+      "auto_delete":false,
+      "arguments":{}
+   },
+   {
+      "name":"SubsriptionRequestCreation",
+      "vhost":"/",
+      "durable":true,
+      "auto_delete":false,
+      "arguments":{}
+   },
   exchanges: |-
    {
       "name":"Signup",
@@ -109,6 +123,15 @@ definitions:
    },
    {
       "name":"activation",
+      "vhost":"/",
+      "type":"topic",
+      "durable":true,
+      "auto_delete":false,
+      "internal":false,
+      "arguments":{}
+   },
+   {
+      "name":"biling",
       "vhost":"/",
       "type":"topic",
       "durable":true,
@@ -149,6 +172,22 @@ definitions:
       "destination_type":"queue",
       "routing_key":"AccountActivated",
       "arguments":{}
+   },
+   {
+      "source":"billing",
+      "vhost":"/",
+      "destination":"BillingItemCreation",
+      "destination_type":"queue",
+      "routing_key":"BillingItemCreated",
+      "arguments":{}
+   },
+   {
+     "source":"billing",
+     "vhost":"/",
+     "destination":"SubsriptionRequestCreation",
+     "destination_type":"queue",
+     "routing_key":"SubscriptionRequestCreated",
+     "arguments":{}
    }
 ## Sets the policies in definitions.json. This can be used to control the high
 ## availability of queues by mirroring them to multiple nodes.

@@ -77,7 +77,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
             services.AddSingleton<IRabbitMQEventPublisher, RabbitMQEventPublisher>();
             services.AddHostedService<AccountCreatedListener>();
             services.AddSingleton<IRabbitMQEventPublisher, RabbitMQBillingItemCreatedEventPublisher>();
-            services.AddHostedService<RabbitMQSubscriptionValidatedEventListener>();
+            services.AddHostedService<RabbitMQSubscriptionCreatedEventListener>();
         }
         protected virtual IServiceCollection AddEventFlow(IServiceCollection services, PaymentDatabaseSettings configMongo)
         {

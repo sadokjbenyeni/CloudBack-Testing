@@ -22,8 +22,7 @@ namespace CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Consumers
 
         public RabbitMQBillingItemCreatedEventListener(ICommandBus commandBus, IConnectionFactory factory, ILogger<RabbitMQBillingItemCreatedEventListener> logger, IServiceProvider services, IRabbitMQEventPublisher rabbitEventProduce) : base(factory, logger)
         {
-            _rabbiteventproduce = rabbitEventProduce;
-            QueueName = "SubscriptionRequestValidation";
+            QueueName = "SubscriptionRequestCreation";
             _logger = logger;
             _services = services;
             _commandbus = commandBus;
@@ -31,22 +30,20 @@ namespace CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Consumers
 
         public override async Task<bool> Process(string message)
         {
-            Console.WriteLine("Billing Creation Listening Processing ...");
+            Console.WriteLine("Subscription Creation Listening Processing ...");
             try
             {
                 using (var scope = _services.CreateScope())
                 {
                     var subscriptionRequest = JsonConvert.DeserializeObject<SubscriptionRequestRabbitMQDto>(message);
-                    var exchange = "Validation";
-                    var routingKey = "SubscriptionValidated";
+                    var exchange = "Billing";
+                    var routingKey = "SubscriptionRequestCreated";
                     var command = new SubscriptionRequestManualValidateSuccessCommand(new SubscriptionRequestId(subscriptionRequest.Id));
                     var commandResult = await _commandbus.PublishAsync(command, CancellationToken.None);
                     if (commandResult.IsSuccess)
                     {
-                        subscriptionRequest.Id = command.AggregateId.Value;
                     }
                     Console.WriteLine($"message received {message}, sending user to exchange name : {exchange} with routing key : {routingKey}");
-                    _rabbiteventproduce.PushMessage(subscriptionRequest, exchange, routingKey);
                     return true;
                 }
             }

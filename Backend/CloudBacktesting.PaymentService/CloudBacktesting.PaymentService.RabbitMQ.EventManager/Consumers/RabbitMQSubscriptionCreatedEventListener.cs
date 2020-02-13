@@ -14,13 +14,13 @@ using System.Threading.Tasks;
 
 namespace CloudBacktesting.PaymentService.RabbitMQ.EventManager.Consumers
 {
-    public class RabbitMQSubscriptionValidatedEventListener : RabbitMQListener
+    public class RabbitMQSubscriptionCreatedEventListener : RabbitMQListener
     {
-        private readonly ILogger<RabbitMQSubscriptionValidatedEventListener> _logger;
+        private readonly ILogger<RabbitMQSubscriptionCreatedEventListener> _logger;
         private readonly IRabbitMQEventPublisher _rabbiteventproduce;
         private readonly IServiceProvider _services;
         private readonly ICommandBus _commandbus;
-        public RabbitMQSubscriptionValidatedEventListener(ICommandBus commandBus, IConnectionFactory factory, ILogger<RabbitMQSubscriptionValidatedEventListener> logger, IServiceProvider services, IRabbitMQEventPublisher rabbitEventProduce) : base(factory, logger)
+        public RabbitMQSubscriptionCreatedEventListener(ICommandBus commandBus, IConnectionFactory factory, ILogger<RabbitMQSubscriptionCreatedEventListener> logger, IServiceProvider services, IRabbitMQEventPublisher rabbitEventProduce) : base(factory, logger)
         {
             _rabbiteventproduce = rabbitEventProduce;
             QueueName = "BillingItemCreation";
@@ -31,24 +31,23 @@ namespace CloudBacktesting.PaymentService.RabbitMQ.EventManager.Consumers
 
         public override async Task<bool> Process(string message)
         {
-            Console.WriteLine("processing");
+            Console.WriteLine("Billing Creation Listening Processing ...");
             try
             {
                 using (var scope = _services.CreateScope())
                 {
                     var billingItem = JsonConvert.DeserializeObject<BillingItemRabbitMQDto>(message);
                     var exchange = "Billing";
-                    var routingKey = "BillingItemCreation";
+                    var routingKey = "BillingItemCreated";
                     var command = new BillingItemCreationCommand(billingItem.PaymentMethodId, billingItem.SubscriptionRequestId);
                     var commandResult = await _commandbus.PublishAsync(command, CancellationToken.None);
                     if (commandResult.IsSuccess)
                     {
-                        billingItem.PaymentMethodId = command.PaymentMethodId;
-                        billingItem.SubscriptionRequestId = command.SubscriptionRequestId;
+                        Console.WriteLine($"message received {message}, sending user to exchange name : {exchange} with routing key : {routingKey}");
+                        _rabbiteventproduce.PushMessage(billingItem, exchange, routingKey);
+                        return true;
                     }
-                    Console.WriteLine($"message received {message}, sending user to exchange name : {exchange} with routing key : {routingKey}");
-                    _rabbiteventproduce.PushMessage(billingItem, exchange, routingKey);
-                    return true;
+                    return false;
                 }
             }
             catch (Exception ex)

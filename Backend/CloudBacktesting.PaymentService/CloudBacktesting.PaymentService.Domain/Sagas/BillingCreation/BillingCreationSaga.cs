@@ -18,10 +18,9 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.BillingCreation
 {
     public class BillingCreationSaga : AggregateSaga<BillingCreationSaga, BillingCreationSagaId, BillingCreationSagaLocator>,
                                        ISagaIsStartedBy<BillingItem, BillingItemId, BillingItemCreatedEvent>,
+                                       ISagaHandles<BillingItem, BillingItemId, SubscriptionRequestToBillingItemLinkedEvent>,
                                        ISagaHandles<PaymentMethod, PaymentMethodId, PaymentMethodStatusCheckedEvent>,
-                                       ISagaHandles<BillingItem, BillingItemId, BillingItemToPaymentMethodLinkedEvent>,
-                                       ISagaHandles<BillingItem, BillingItemId, PaymentExecutedEvent>,
-                                       ISagaHandles<BillingItem, BillingItemId, InvoiceGeneratedEvent>
+                                       ISagaHandles<BillingItem, BillingItemId, BillingItemToPaymentMethodLinkedEvent>
     {
         public BillingCreationSaga(BillingCreationSagaId id) : base(id) { }
 
@@ -32,11 +31,17 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.BillingCreation
             this.Emit(new BillingIemLinkedSagaEvent(domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.PaymentMethodId, domainEvent.AggregateEvent.PaymentMethodStatus));
             return Task.CompletedTask;
         }
+        public Task HandleAsync(IDomainEvent<BillingItem, BillingItemId, SubscriptionRequestToBillingItemLinkedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
+        {
+            var command = new SubscriptionRequestLinkToBillingItemCommand(new BillingItemId(domainEvent.AggregateEvent.ItemId), domainEvent.AggregateEvent.SubscriptionRequestId);
+            this.Publish(command);
+            return Task.CompletedTask;
+        }
+
         public Task HandleAsync(IDomainEvent<PaymentMethod, PaymentMethodId, PaymentMethodStatusCheckedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
             var command = new PaymentMethodCheckStatusCommand(new PaymentMethodId(domainEvent.AggregateEvent.MethodId), domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.PaymentMethodStatus);
             this.Publish(command);
-            this.Emit(new PaymentMethodStatusCheckedSagaEvent(domainEvent.AggregateEvent.MethodId, domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.PaymentMethodStatus));
             return Task.CompletedTask;
         }
 
@@ -55,40 +60,6 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.BillingCreation
             return Task.CompletedTask;
         }
 
-        public Task HandleAsync(IDomainEvent<BillingItem, BillingItemId, PaymentExecutedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
-        {
-            var command = new PaymentExecutionCommand(domainEvent.AggregateIdentity, domainEvent.AggregateEvent.MerchantTransactionId, domainEvent.AggregateEvent.Subscriber, domainEvent.AggregateEvent.CardDetails, domainEvent.AggregateEvent.Amount, domainEvent.AggregateEvent.Currency);
-            this.Publish(command);
-            if (domainEvent.AggregateEvent.IsPaymentSuccessful)
-            {
-                var failCommand = new PaymentExecutionFailureCommand(domainEvent.AggregateIdentity.Value, domainEvent.AggregateEvent.PaymentMethodId);
-                this.Publish(failCommand);
-            }
-            return Task.CompletedTask;
-        }
-
-        public Task HandleAsync(IDomainEvent<BillingItem, BillingItemId, InvoiceGeneratedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
-        {
-            {
-                var command = new InvoiceGenerationCommand(domainEvent.AggregateIdentity.Value,
-                                           domainEvent.AggregateEvent.InvoiceId,
-                                           domainEvent.AggregateEvent.Method,
-                                           domainEvent.AggregateEvent.Client,
-                                           domainEvent.AggregateEvent.CardHolder,
-                                           domainEvent.AggregateEvent.Address,
-                                           domainEvent.AggregateEvent.Amount,
-                                           domainEvent.AggregateEvent.InvoiceDate);
-                this.Publish(command);
-                Emit(new BillingCreationSagaCompletedEvent());
-            }
-
-            return Task.CompletedTask;
-        }
-
-        public void Apply(PaymentMethodStatusCheckedSagaEvent @event)
-        {
-
-        }
         public void Apply(BillingIemLinkedSagaEvent @event)
         {
 
@@ -97,6 +68,5 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.BillingCreation
         {
             Complete();
         }
-
     }
 }
