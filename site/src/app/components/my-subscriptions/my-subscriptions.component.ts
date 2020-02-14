@@ -3,6 +3,7 @@ import { SubscriptionService } from '../../services/subscription.service';
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { Subscription } from '../../models/Subscription';
 import { DatePipe } from '@angular/common';
+import { Subject } from 'rxjs/Subject';
 
 
 @Component({
@@ -17,12 +18,10 @@ export class MySubscriptionsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort, { static: false })
   sort: MatSort;
   choosedsubscription: Subscription;
-  @ViewChild(MatPaginator, { static: false })
-  paginator: MatPaginator;
   @ViewChild('container', { static: false }) private container: ElementRef;
   @ViewChild('details', { static: false }) details: ElementRef;
   @ViewChild('list', { static: false }) list: ElementRef;
-  @ViewChild('paginate', { static: false }) paginate: ElementRef;
+  eventsSubject: Subject<void> = new Subject<void>();
 
 
 
@@ -34,7 +33,6 @@ export class MySubscriptionsComponent implements OnInit, AfterViewInit {
     this.fillDataSource()
   }
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
@@ -48,12 +46,9 @@ export class MySubscriptionsComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = value.toLowerCase();
   }
   selectsubscription(subscription: Subscription) {
-    this.choosedsubscription = subscription;
-    this.renderer.removeClass(this.container.nativeElement, "col-8")
-    this.renderer.addClass(this.container.nativeElement, "col-12");
-    this.renderer.removeClass(this.list.nativeElement, "col-12");
-    this.renderer.addClass(this.list.nativeElement, "col-3");
-    this.dataSource.paginator = null;
-    this.paginate.nativeElement.remove();
+    if (this.choosedsubscription != subscription) {
+      this.choosedsubscription = subscription;
+      this.eventsSubject.next();
+    }
   }
 }

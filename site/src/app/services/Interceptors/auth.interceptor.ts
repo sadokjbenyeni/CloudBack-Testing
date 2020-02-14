@@ -17,13 +17,6 @@ export class AuthInterceptor implements HttpInterceptor {
         }
       });
     }
-    return next.handle(req).do(event=>{},exception=>
-      {
-        debugger;
-        if (exception instanceof HttpErrorResponse)
-        {
-          
-        }
-      });
+    return next.handle(req);
   }
 }

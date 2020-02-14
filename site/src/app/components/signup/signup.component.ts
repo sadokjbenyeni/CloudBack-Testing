@@ -2,13 +2,11 @@ import { Component, OnInit, ViewChild, HostBinding } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { UserService } from '../../services/user.service';
-import { CurrencyService } from '../../services/currency.service';
 import { CountriesService } from '../../services/countries.service';
 import { CompanytypesService } from '../../services/companytypes.service';
 import { MatDialog } from '@angular/material';
 import { TermsOfUseComponent } from '../terms-of-use/terms-of-use.component';
 import { TermsService } from '../../services/terms.service';
-import { Term } from '../../models/Terms';
 import { LoginDialogComponent } from '../login/login-dialog/login-dialog.component';
 
 export interface FormModel {
@@ -52,7 +50,6 @@ export class SignUpComponent implements OnInit {
   constructor(
     private router: Router,
     private userService: UserService,
-    private currencyService: CurrencyService,
     private countriesService: CountriesService,
     private companytypesService: CompanytypesService,
     private termService: TermsService,
@@ -112,7 +109,6 @@ export class SignUpComponent implements OnInit {
     if (this.page === '/account') {
       this.title = 'My Profile';
       this.getUser();
-      this.getCurrency();
     }
     this.getCompanyType();
     this.getCountry();
@@ -214,11 +210,6 @@ export class SignUpComponent implements OnInit {
     });
   }
 
-  getCurrency() {
-    this.currencyService.getCurrencies().subscribe(res => {
-      this.currencies = res.currencies;
-    });
-  }
 
   getCompanyType() {
     this.companytypesService.getCompanytypes().subscribe(res => {

@@ -117,12 +117,25 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/{version}/AdminPayment/{id}",
+      "DownstreamScheme": "http",
+      "ServiceName": "payservice",
+      "UpstreamPathTemplate": "/api/{version}/AdminPayment/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "RouteClaimsRequirement": {
+        "Role": "Administrator",
+        "IsLogin": "True",
+        "State": "1"
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/{version}/AdminPayment",
       "DownstreamScheme": "http",
       "ServiceName": "payservice",
       "UpstreamPathTemplate": "/api/{version}/AdminPayment",
       "UpstreamHttpMethod": [ "GET" ],
       "RouteClaimsRequirement": {
+        "Role": "Administrator",
         "IsLogin": "True",
         "State": "1"
       }

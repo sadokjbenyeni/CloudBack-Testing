@@ -4,13 +4,15 @@ import { SubscriptionType } from "./SubsriptionType";
 import { Payment } from "./Payment";
 
 export class Subscription {
+
+    id: string
     accountId: string;
     subscriber: string;
     billing: Billing;
     orderId: string
     cgv: Term;
     paymentMethodId: string;
-    creationDate:Date;
+    creationDate: Date;
     paymentCard: Payment;
     status: string
     type: SubscriptionType;
@@ -18,6 +20,7 @@ export class Subscription {
     activationMessage: string;
     validatedOrDeclinedDate: Date;
     declineMessage: string;
+    rejectedDate: Date
 
     constructor(subscriptionType: SubscriptionType) {
         this.billing = new Billing()

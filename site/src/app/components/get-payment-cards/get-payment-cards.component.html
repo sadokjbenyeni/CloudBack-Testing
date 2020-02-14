@@ -12,18 +12,7 @@
         <mat-expansion-panel [ngClass]="radio ? 'col-10' : 'col-12'">
           <mat-expansion-panel-header class="right-aligned-header">
             <mat-panel-title>
-              <img *ngIf="card.network=='Master Card'"
-                src="https://images-eu.ssl-images-amazon.com/images/G/01/payments-portal/r1/issuer-images/mc._CB393363241_.gif"
-                class="rounded mx-auto d-block ml-1" alt="...">
-              <img *ngIf="card.network=='Visa'"
-                src="https://images-eu.ssl-images-amazon.com/images/G/01/payments-portal/r1/issuer-images/visa._CB393363241_.png"
-                class="rounded mx-auto d-block ml-1" alt="...">
-              <img *ngIf="card.network=='Discover Card'"
-                src="https://images-eu.ssl-images-amazon.com/images/G/01/payments-portal/r1/issuer-images/discover._CB393363241_.png"
-                class="rounded mx-auto d-block ml-1" alt="...">
-              <img *ngIf="card.network=='American Express'"
-                src="https://images-eu.ssl-images-amazon.com/images/G/08/payments-portal/r1/issuer-images/amex._CB291302739_.gif"
-                class="rounded mx-auto d-block ml-1" alt="...">
+              <app-cardimages [cardType]="card.network"></app-cardimages>
               &nbsp; {{card.network}} {{card.numbers}}
 
             </mat-panel-title>

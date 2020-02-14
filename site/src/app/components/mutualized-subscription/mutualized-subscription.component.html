@@ -1,5 +1,5 @@
 <app-menu></app-menu>
-<div class="container  col-8 pt-4 mt-4  d-block">
+<div class="container  col-8 d-block">
     <h1 class="py-3 my-3 text-center">Mutualized subscription</h1>
     <div class="col-12">
 
@@ -126,19 +126,7 @@
                             Card Type
                         </div>
                         <div class="  col-sm-12 col-lg-6">
-                            <img *ngIf="PaymentCard.network=='Master Card'"
-                                src="https://images-eu.ssl-images-amazon.com/images/G/01/payments-portal/r1/issuer-images/mc._CB393363241_.gif"
-                                class="rounded mx-auto" alt="...">
-                            <img *ngIf="PaymentCard.network=='Visa'"
-                                src="https://images-eu.ssl-images-amazon.com/images/G/01/payments-portal/r1/issuer-images/visa._CB393363241_.png"
-                                class="rounded mx-auto " alt="...">
-                            <img *ngIf="PaymentCard.network=='Discover Card'"
-                                src="https://images-eu.ssl-images-amazon.com/images/G/01/payments-portal/r1/issuer-images/discover._CB393363241_.png"
-                                class="rounded mx-auto  " alt="...">
-                            <img *ngIf="PaymentCard.network=='American Express'"
-                                src="https://images-eu.ssl-images-amazon.com/images/G/08/payments-portal/r1/issuer-images/amex._CB291302739_.gif"
-                                class="rounded mx-auto " alt="...">
-                            <p *ngIf="PaymentCard.network=='Other'" class="rounded mx-auto ">Other</p>
+                            <app-cardimages [cardType]="PaymentCard.network"></app-cardimages>
                         </div>
                     </div>
                     <div class="row col-12  mt-3">
@@ -222,7 +210,8 @@
                 <!-- <button (click)="goto(0)">Edit</button> -->
                 <div class="col-12 mt-3 text-right">
                     <button class="col-lg-1 col-sm-12 border mr-2  btn btn-default" matStepperPrevious>Back</button>
-                    <button class="col-lg-1 col-sm-12 btn btn-primary" (click)="AddPaymentMethod()" matStepperAcceptance>Submit</button>
+                    <button class="col-lg-1 col-sm-12 btn btn-primary" (click)="AddPaymentMethod()"
+                        matStepperAcceptance>Submit</button>
                 </div>
             </mat-step>
         </mat-horizontal-stepper>

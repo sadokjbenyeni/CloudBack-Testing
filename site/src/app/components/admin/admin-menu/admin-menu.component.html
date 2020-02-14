@@ -1,0 +1,22 @@
+<app-menu></app-menu>
+<div class="container col-12 d-block">
+    <div class="col-12 row">
+        <div class="col-2 mt-2">
+            <mat-list>
+                <mat-list-item routerLink="./subscriptions" [routerLinkActive]="['is-active']"> Subscriptions
+                </mat-list-item>
+                <mat-list-item routerLink="./subscriptions-validation" [routerLinkActive]="['is-active']"> Subscriptions
+                        validation</mat-list-item>
+                <mat-list-item routerLink="./subscriptions-accepted" [routerLinkActive]="['is-active']"> Subscriptions
+                        configuration</mat-list-item>
+                <mat-list-item routerLink="./subscriptions-active" [routerLinkActive]="['is-active']"> Active
+                        Subscriptions</mat-list-item>
+                <mat-list-item  routerLink="./subscriptions-errors" [routerLinkActive]="['is-active']"> Subscriptions
+                        Errors</mat-list-item>
+            </mat-list>
+        </div>
+        <div class="col-9">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

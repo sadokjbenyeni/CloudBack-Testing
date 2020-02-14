@@ -153,7 +153,6 @@ img#logo {
 
 .market-depth-fix {
   position: relative;
-  /* width: 200px; */
   height: 200px;
   overflow: hidden;
 }
@@ -289,6 +288,9 @@ img#logo {
 
 .navbar .navbar-link:hover {
   color: #ea663b;
+}
+.container{
+  padding-top: 40px;
 }
 
 @media (max-width: 575px) {

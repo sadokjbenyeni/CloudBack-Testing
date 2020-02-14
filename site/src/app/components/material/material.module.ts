@@ -1,4 +1,4 @@
-import { MatDialogRef, MatCheckboxModule, MAT_DIALOG_DATA, MatSnackBarModule, MatStepperModule, MatSelectModule, MatTableModule, MatSidenavModule, MatFormField, MatFormFieldModule, MatAccordion, MatExpansionModule, MatRadioModule, MatSortModule, MatSort, MatPaginator, MatPaginatorModule } from '@angular/material';
+import { MatDialogRef, MatCheckboxModule, MAT_DIALOG_DATA, MatSnackBarModule, MatStepperModule, MatSelectModule, MatTableModule, MatSidenavModule, MatFormField, MatFormFieldModule, MatAccordion, MatExpansionModule, MatRadioModule, MatSortModule, MatSort, MatPaginator, MatPaginatorModule, MatListModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import 'hammerjs/hammer';
@@ -18,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatSidenavModule,
     MatDialogModule,
     MatTableModule,
+    MatListModule,
     MatInputModule,
     MatCardModule,
     MatSortModule,      

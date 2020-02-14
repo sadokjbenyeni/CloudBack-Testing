@@ -79,21 +79,12 @@ app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //Require the models
-require('./server/models/config');
-require('./server/models/asset');
-require('./server/models/exchange');
 require('./server/models/user');
 require('./server/models/role');
-require('./server/models/order');
-require('./server/models/pool');
-require('./server/models/payment');
-require('./server/models/currency');
 require('./server/models/countrie');
 require('./server/models/companytype');
-require('./server/models/payment');
 require('./server/models/termsofuse');
 require('./server/models/termsofsale')
-require('./server/models/termsofuse');
 
 
 

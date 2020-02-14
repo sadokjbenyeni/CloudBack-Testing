@@ -1,5 +1,6 @@
 table {
   width: 100%;
+  overflow: auto;
 }
 .truncate-cell {
   max-width: 60px; /* feel free to include any other value */
@@ -10,7 +11,36 @@ table {
   padding-top: 15%;
   padding-left: 40%;
 }
+.mat-row {
+  cursor: pointer;
+}
 .mat-row:hover {
   background-color: #ea663b;
-  color: white;
 }
+.table-container {
+  position: relative;
+  max-height: 76vh;
+  height: 76vh;
+  overflow-y: auto;
+  overflow-x: unset;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ea663b;
+  
+}
+
+/* Handle on hover */
+/* ::-webkit-scrollbar-thumb:hover {
+  background: white;
+} */
+
