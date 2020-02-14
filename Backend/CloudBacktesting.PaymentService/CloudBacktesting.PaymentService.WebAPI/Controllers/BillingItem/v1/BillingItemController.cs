@@ -3,7 +3,6 @@ using CloudBacktesting.Infra.Security.Authorization;
 using CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate;
 using CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate.Commands;
 using CloudBacktesting.PaymentService.Domain.Repositories.BillingItemRepository;
-using CloudBacktesting.PaymentService.Infra.Models;
 using CloudBacktesting.PaymentService.Infra.Security.Claims;
 using CloudBacktesting.PaymentService.WebAPI.Models;
 using CloudBacktesting.PaymentService.WebAPI.Models.BillingItem;
@@ -95,8 +94,11 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.BillingItem.v1
         }
 
         [HttpPost("Pay")]
-        public async Task<ActionResult> Post([FromBody] BillingItemDto value)
+        public async Task<ActionResult> Post([FromBody] PaymentExecutionDto value)
         {
+            var requestIdResult = await queryProcessor.ProcessAsync(new FindReadModelQuery<BillingItemReadModel>(model => string.Equals(model.SubscriptionRequestId, value.SubscriptionRequestId)), CancellationToken.None);
+            var billingItemId = requestIdResult.FirstOrDefault().Id;
+
             if (this.User == null || !this.User.Identity.IsAuthenticated)
             {
                 var idError = Guid.NewGuid().ToString();
@@ -110,11 +112,17 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.BillingItem.v1
                 logger.LogError($"[Security, Error] User not identify (SubcriptionAccountId not found). Please check the API Gateway log. Id error: {idError}");
                 return BadRequest($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
             }
+            if (string.IsNullOrEmpty(billingItemId))
+            {
+                var idError = Guid.NewGuid().ToString();
+                logger.LogError($"[Security, Error] SubscriptionRequest not existing (SubscriptionRequest not found). Please check the API Gateway log. Id error: {idError}");
+                return BadRequest($"You are entering an unexisting subscription request identifier, please contact the administrator with error id: {idError}, if the problem persist");
+            }
             IExecutionResult commandResult = null;
 
             try
             {
-                var command = new BillingItemCreationCommand(value.PaymentMethodId, value.SubscriptionRequestId);
+                var command = new PaymentInitializeCommand(new BillingItemId(billingItemId), value.Currency);
                 commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
                 if (commandResult.IsSuccess)
                 {

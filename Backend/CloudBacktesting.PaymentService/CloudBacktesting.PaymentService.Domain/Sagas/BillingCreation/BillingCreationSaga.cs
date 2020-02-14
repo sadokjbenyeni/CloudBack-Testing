@@ -18,44 +18,29 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.BillingCreation
 {
     public class BillingCreationSaga : AggregateSaga<BillingCreationSaga, BillingCreationSagaId, BillingCreationSagaLocator>,
                                        ISagaIsStartedBy<BillingItem, BillingItemId, BillingItemCreatedEvent>,
-                                       ISagaHandles<BillingItem, BillingItemId, SubscriptionRequestToBillingItemLinkedEvent>,
-                                       ISagaHandles<PaymentMethod, PaymentMethodId, PaymentMethodStatusCheckedEvent>,
-                                       ISagaHandles<BillingItem, BillingItemId, BillingItemToPaymentMethodLinkedEvent>
+                                       ISagaHandles<BillingItem, BillingItemId, SubscriptionNPaymentToBillingLinkedEvent>
     {
         public BillingCreationSaga(BillingCreationSagaId id) : base(id) { }
 
         public Task HandleAsync(IDomainEvent<BillingItem, BillingItemId, BillingItemCreatedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
-            var command = new BillingItemLinkToPaymentMethodCommand(new BillingItemId(domainEvent.AggregateEvent.ItemId), domainEvent.AggregateEvent.PaymentMethodId, domainEvent.AggregateEvent.PaymentMethodStatus);
+            var command = new SubscriptionNRequestLinkToBillingCommand(new BillingItemId(domainEvent.AggregateEvent.ItemId), domainEvent.AggregateEvent.SubscriptionRequestId, domainEvent.AggregateEvent.PaymentMethodId, domainEvent.AggregateEvent.PaymentMethodStatus);
             this.Publish(command);
             this.Emit(new BillingIemLinkedSagaEvent(domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.PaymentMethodId, domainEvent.AggregateEvent.PaymentMethodStatus));
             return Task.CompletedTask;
         }
-        public Task HandleAsync(IDomainEvent<BillingItem, BillingItemId, SubscriptionRequestToBillingItemLinkedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
-        {
-            var command = new SubscriptionRequestLinkToBillingItemCommand(new BillingItemId(domainEvent.AggregateEvent.ItemId), domainEvent.AggregateEvent.SubscriptionRequestId);
-            this.Publish(command);
-            return Task.CompletedTask;
-        }
 
-        public Task HandleAsync(IDomainEvent<PaymentMethod, PaymentMethodId, PaymentMethodStatusCheckedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
-        {
-            var command = new PaymentMethodCheckStatusCommand(new PaymentMethodId(domainEvent.AggregateEvent.MethodId), domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.PaymentMethodStatus);
-            this.Publish(command);
-            return Task.CompletedTask;
-        }
-
-        public Task HandleAsync(IDomainEvent<BillingItem, BillingItemId, BillingItemToPaymentMethodLinkedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
+        public Task HandleAsync(IDomainEvent<BillingItem, BillingItemId, SubscriptionNPaymentToBillingLinkedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
             if (domainEvent.AggregateEvent.PaymentMethodStatus == "Validated")
             {
-                var command = new BillingItemSystemValidateCommand(domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.PaymentMethodId);
-                this.Publish(command);
+                var validateCommand = new BillingItemSystemValidateCommand(domainEvent.AggregateEvent.ItemId, domainEvent.AggregateIdentity.Value);
+                this.Publish(validateCommand);
             }
             else if (domainEvent.AggregateEvent.PaymentMethodStatus == "Declined")
             {
-                var command = new BillingItemSystemDeclineCommand(domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.PaymentMethodId);
-                this.Publish(command);
+                var declineCommand = new BillingItemSystemDeclineCommand(domainEvent.AggregateEvent.ItemId, domainEvent.AggregateIdentity.Value);
+                this.Publish(declineCommand);
             }
             return Task.CompletedTask;
         }

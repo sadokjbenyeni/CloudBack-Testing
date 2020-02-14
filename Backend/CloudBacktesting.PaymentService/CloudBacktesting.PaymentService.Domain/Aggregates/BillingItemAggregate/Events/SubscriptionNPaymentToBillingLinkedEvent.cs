@@ -6,17 +6,21 @@ using System.Text;
 
 namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate.Events
 {
-    public class BillingItemToPaymentMethodLinkedEvent : AggregateEvent<BillingItem, BillingItemId>, IBillingSagaItemId
+    public class SubscriptionNPaymentToBillingLinkedEvent : AggregateEvent<BillingItem, BillingItemId>, IBillingSagaItemId
     {
         public string ItemId { get; }
+        public string SubscriptionRequestId { get; }
         public string PaymentMethodId { get; }
-        public string PaymentMethodStatus { get; set; }
+        public string PaymentMethodStatus { get; }
 
-        public BillingItemToPaymentMethodLinkedEvent(string billingItemId, string paymentMethodId, string paymentMethodStatus)
+
+        public SubscriptionNPaymentToBillingLinkedEvent(string itemId, string subscriptionRequestId, string paymentMethodId, string paymentMethodStatus)
         {
+            ItemId = itemId;
+            SubscriptionRequestId = subscriptionRequestId;
             PaymentMethodId = paymentMethodId;
-            ItemId = billingItemId;
             PaymentMethodStatus = paymentMethodStatus;
         }
+
     }
 }

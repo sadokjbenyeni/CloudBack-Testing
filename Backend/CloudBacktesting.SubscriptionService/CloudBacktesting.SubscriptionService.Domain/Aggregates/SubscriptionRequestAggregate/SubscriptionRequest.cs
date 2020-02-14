@@ -15,7 +15,6 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionReq
         public string subscriptionAccountId;
         public string status;
         public SubscriptionRequest(SubscriptionRequestId aggregateId) : base(aggregateId) { }
-
         public IExecutionResult Create(string subscriptionAccountId, string type, string paymentMethodId, string paymentAccountId)
         {
             var spec = new IsNullOrEmptyAccountIdSpecification();

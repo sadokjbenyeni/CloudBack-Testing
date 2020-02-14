@@ -18,6 +18,7 @@
     <ProjectReference Include="..\CloudBacktesting.Infra\CloudBacktesting.Infra.csproj" />
     <ProjectReference Include="..\CloudBacktesting.MongoDb\CloudBacktesting.MongoDb.csproj" />
     <ProjectReference Include="..\CloudBacktesting.SubscriptionService.Domain\CloudBacktesting.SubscriptionService.Domain.csproj" />
+    <ProjectReference Include="..\CloudBacktesting.SubscriptionService.RabbitMQ.EventManager\CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.csproj" />
   </ItemGroup>
 
 </Project>

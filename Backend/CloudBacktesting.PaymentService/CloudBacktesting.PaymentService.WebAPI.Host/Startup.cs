@@ -9,7 +9,7 @@ using CloudBacktesting.PaymentService.Domain.Repositories.BillingItemRepository;
 using CloudBacktesting.PaymentService.Domain.Repositories.PaymentAccountRepository;
 using CloudBacktesting.PaymentService.Domain.Repositories.PaymentMethodRepository;
 using CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation;
-using CloudBacktesting.PaymentService.Infra.Security;
+using CloudBacktesting.PaymentService.Infra.PaymentServices.CardServices;
 using CloudBacktesting.PaymentService.RabbitMQ.EventManager.Consumers;
 using CloudBacktesting.PaymentService.RabbitMQ.EventManager.Publishers;
 using CloudBacktesting.PaymentService.WebAPI.Host.DatabaseSettings;
@@ -28,13 +28,16 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using RabbitMQ.Client;
+using S2p.RestClient.Sdk.Infrastructure;
+using S2p.RestClient.Sdk.Infrastructure.Authentication;
+using S2p.RestClient.Sdk.Services;
 using System;
+using IHttpClientBuilder = S2p.RestClient.Sdk.Infrastructure.IHttpClientBuilder;
 
 namespace CloudBacktesting.PaymentService.WebAPI.Host
 {
     public class Startup
     {
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -46,11 +49,25 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            int siteId = Int32.Parse(Configuration.GetSection("S2P").GetSection("SiteId").Value);
+
             services.AddControllers();
             services.AddAuthentication("cloudbacktestingAuthentication")
                     .AddScheme<AuthenticationSchemeOptions, CloudBacktestingAuthenticationHandler>("cloudbacktestingAuthentication", options => { });
             services.AddSingleton<IAuthorizationPolicyProvider, CloudBacktestingAuthorizationPolicyProvider>();
             services.AddSingleton<IAuthorizationHandler, CloudBacktestingAuthorizationHandler>();
+            services.AddScoped<IHttpClientBuilder>(item => new HttpClientBuilder(() => new AuthenticationConfiguration
+            {
+                SiteId = siteId,
+                ApiKey = Configuration.GetSection("S2P").GetSection("ApiKey").Value
+            })
+            );
+            services.AddScoped<Smart2PayUri>(item => new Smart2PayUri()
+            {
+                S2PUri = new Uri(Configuration.GetSection("S2P").GetSection("endpoint").Value)
+            });
+
+
             services.AddAuthorization();
             services.AddApiVersioning();
             services.AddSwaggerGen(options =>
@@ -74,9 +91,9 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
         {
             var endpoint = Configuration.GetSection("RabbitMq").GetValue<string>("endpoint");
             services.AddSingleton<IConnectionFactory>(con => new ConnectionFactory() { Endpoint = new AmqpTcpEndpoint(new Uri(endpoint)) });
-            services.AddSingleton<IRabbitMQEventPublisher, RabbitMQEventPublisher>();
+            services.AddSingleton<IRabbitMQAccountCreatedEventPublisher, RabbitMQAccountCreatedEventPublisher>();
             services.AddHostedService<AccountCreatedListener>();
-            services.AddSingleton<IRabbitMQEventPublisher, RabbitMQBillingItemCreatedEventPublisher>();
+            services.AddSingleton<IRabbitMQBillingItemCreatedEventPublisher, RabbitMQBillingItemCreatedEventPublisher>();
             services.AddHostedService<RabbitMQSubscriptionCreatedEventListener>();
         }
         protected virtual IServiceCollection AddEventFlow(IServiceCollection services, PaymentDatabaseSettings configMongo)
@@ -116,7 +133,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
                 app.UseSwagger();
                 app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/V1/swagger.json", "Payment Api"));
             }
-            
+
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

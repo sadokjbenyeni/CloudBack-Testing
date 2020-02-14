@@ -9,6 +9,8 @@ using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequest
 using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequestAggregate.Commands;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository;
 using CloudBacktesting.SubscriptionService.Infra.Security.Claims;
+using CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Models;
+using CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Publishers;
 using CloudBacktesting.SubscriptionService.WebAPI.Models;
 using CloudBacktesting.SubscriptionService.WebAPI.Models.Request.Client.SubscriptionRequest;
 using EventFlow;
@@ -28,12 +30,14 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
         private readonly ILogger<SubscriptionRequestController> logger;
         private readonly ICommandBus commandBus;
         private readonly IQueryProcessor queryProcessor;
+        private readonly IRabbitMQSubscriptionCreatedEventPublisher rabbitMQ;
 
-        public SubscriptionRequestController(ILogger<SubscriptionRequestController> logger, ICommandBus commandBus, IQueryProcessor queryProcessor)
+        public SubscriptionRequestController(ILogger<SubscriptionRequestController> logger, IRabbitMQSubscriptionCreatedEventPublisher rabbitMQ, ICommandBus commandBus, IQueryProcessor queryProcessor)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.commandBus = commandBus;
             this.queryProcessor = queryProcessor;
+            this.rabbitMQ = rabbitMQ;
         }
 
         [HttpGet]
@@ -126,6 +130,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
                 commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
                 if (commandResult.IsSuccess)
                 {
+                    rabbitMQ.PushMessage(new SubscriptionRequestRabbitMQDto { SubscriptionRequestId = command.AggregateId.Value, PaymentAccountId = paymentMethodAccountId, PaymentMethodId = value.PaymentMethodId, Type = value.Type }, "billing", "SubscriptionRequestCreated");
                     return Ok(new IdentifierDto { Id = command.AggregateId.Value });
                 }
             }

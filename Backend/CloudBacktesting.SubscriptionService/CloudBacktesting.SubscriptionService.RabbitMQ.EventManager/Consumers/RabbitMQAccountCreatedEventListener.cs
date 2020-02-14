@@ -12,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Consumers
 {
-    public class AccountCreatedListener : RabbitMQListener
+    public class RabbitMQAccountCreatedEventListener : RabbitMQListener
     {
-        private readonly ILogger<AccountCreatedListener> _logger;
-        private readonly IRabbitMQEventPublisher _rabbiteventproduce;
+        private readonly ILogger<RabbitMQAccountCreatedEventListener> _logger;
+        private readonly IRabbitMQAccountCreatedEventPublisher _rabbiteventproduce;
         private readonly IServiceProvider _services;
         private readonly ICommandBus _commandbus;
-        public AccountCreatedListener(ICommandBus commandBus, IConnectionFactory factory, ILogger<AccountCreatedListener> logger, IServiceProvider services, IRabbitMQEventPublisher rabbitEventProduce) : base(factory, logger)
+        public RabbitMQAccountCreatedEventListener(ICommandBus commandBus, IConnectionFactory factory, ILogger<RabbitMQAccountCreatedEventListener> logger, IServiceProvider services, IRabbitMQAccountCreatedEventPublisher rabbitEventProduce) : base(factory, logger)
         {
             _rabbiteventproduce = rabbitEventProduce;
             QueueName = "AccountActivationSubscription";

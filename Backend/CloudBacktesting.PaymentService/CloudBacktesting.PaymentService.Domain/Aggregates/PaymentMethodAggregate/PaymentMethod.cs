@@ -1,21 +1,36 @@
-﻿using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Events;
+﻿using CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate.Events;
+using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.Events;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate.Events;
 using CloudBacktesting.PaymentService.Domain.Specifications;
+using CloudBacktesting.PaymentService.Infra.Models;
+using CloudBacktesting.PaymentService.Infra.PaymentServices.CardServices;
 using EventFlow.Aggregates;
 using EventFlow.Aggregates.ExecutionResults;
+using S2p.RestClient.Sdk.Infrastructure;
+using S2p.RestClient.Sdk.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate
 {
-    public class PaymentMethod : AggregateRoot<PaymentMethod, PaymentMethodId>, IEmit<PaymentMethodCreatedEvent>, IEmit<PaymentMethodStatusUpdatedEvent>
+    public class PaymentMethod : AggregateRoot<PaymentMethod, PaymentMethodId>, IEmit<PaymentMethodCreatedEvent>, IEmit<BillingItemLinkedEvent>
 
     {
-        private string paymentAccountId;
-        private string status;
 
-        public PaymentMethod(PaymentMethodId aggregateId) : base(aggregateId) { }
+        private string paymentAccountId;
+        private string paymentMethodStatus;
+        private string paymentMethodSubscriber;
+        private Card paymentMethodCardDetails;
+        private readonly IHttpClientBuilder _httpClientBuilder;
+        private readonly Smart2PayUri _smart2Pay;
+
+        public PaymentMethod(PaymentMethodId aggregateId, IHttpClientBuilder httpClientBuilder, Smart2PayUri smart2Pay) : base(aggregateId)
+        {
+            _httpClientBuilder = httpClientBuilder;
+            _smart2Pay = smart2Pay;
+        }
 
         public IExecutionResult Create(string paymentAccountId, string cardNumber, string cardType, string cardHolder, string expirationYear, string expirationMonth, string cryptogram)
         {
@@ -24,7 +39,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult ValidateBySystem(PaymentMethodId paymentMethodId,string client, string cardNumber, string cardType, string cryptogram, string expirationYear, string expirationMonth)
+        public IExecutionResult ValidateBySystem(PaymentMethodId paymentMethodId, string client, string cardNumber, string cardType, string cryptogram, string expirationYear, string expirationMonth)
         {
             var passLuhenSpec = new PassesLuhenTestSpecification();
             if (passLuhenSpec.IsSatisfiedBy(cardNumber) == false)
@@ -52,9 +67,25 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
             Emit(new PaymentMethodDeclinedEvent(this.Id.Value, this.paymentAccountId, client, "You have been rejected by the system, Please check your card information", DateTime.UtcNow));
             return ExecutionResult.Success();
         }
-        public IExecutionResult CheckStatus(PaymentMethodId paymentMethodId, string billingItemId, string paymentMethodStatus)
+        public IExecutionResult ExecutePayment(string billingItemId, string merchantTransactionId, string subscriptionRequestId, Card cardDetails, string type, string subscriber)
         {
-            Emit(new PaymentMethodStatusCheckedEvent(paymentMethodId.Value, billingItemId, paymentMethodStatus));
+            var baseAddress = _smart2Pay.S2PUri;
+
+            var httpClient = _httpClientBuilder.Build();
+
+            var paymentService = new CardPaymentService(httpClient, baseAddress);
+
+            var service = new Smart2PayCardService(paymentService);
+
+            var response = service.CreateAsync(merchantTransactionId, subscriptionRequestId, cardDetails, type, "EUR", CancellationToken.None);
+
+            Emit(new PaymentExecutedEvent(merchantTransactionId, billingItemId ,this.Id.Value, subscriber, cardDetails, type, "EUR"));
+
+            return ExecutionResult.Success();
+        }
+        public IExecutionResult LinkBillingItem(string billingItemId, string merchantTransactionId, string type)
+        {
+            Emit(new BillingItemLinkedEvent(billingItemId, merchantTransactionId, this.paymentMethodStatus, this.paymentMethodSubscriber, this.paymentMethodCardDetails, type));
             return ExecutionResult.Success();
         }
 
@@ -62,14 +93,19 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
         {
             this.paymentAccountId = @event.PaymentAccountId;
         }
-
-        public void Apply(PaymentMethodStatusUpdatedEvent @event)
-        {
-            this.status = @event.Status;
-        }
         public void Apply(PaymentMethodValidatedEvent @event) { }
         public void Apply(PaymentAccountAffectedEvent @event) { }
 
+        public void Apply(BillingItemLinkedEvent @event)
+        {
+            this.paymentMethodStatus = @event.PaymentMethodStatus;
+            this.paymentMethodSubscriber = @event.PaymentMethodSubscriber;
+            this.paymentMethodCardDetails = @event.PaymentMethodCardDetails;
+        }
 
+        public void Apply(PaymentMethodStatusUpdatedEvent @event)
+        {
+
+        }
     }
 }

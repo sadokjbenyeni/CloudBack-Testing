@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace CloudBacktesting.PaymentService.WebAPI.Models.BillingItem
 {
-    public class BillingItemDto
+    public class PaymentExecutionDto
     {
-        public string PaymentMethodId { get; set; }
         public string SubscriptionRequestId { get; set; }
+        public string Currency { get; set; }
     }
 }

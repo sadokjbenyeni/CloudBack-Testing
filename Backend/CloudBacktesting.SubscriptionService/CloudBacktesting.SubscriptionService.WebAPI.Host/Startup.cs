@@ -91,9 +91,9 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Host
         {
             var endpoint = Configuration.GetSection("RabbitMq").GetValue<string>("endpoint");
             services.AddSingleton<IConnectionFactory>(con => new ConnectionFactory() { Endpoint = new AmqpTcpEndpoint(new Uri(endpoint)) });
-            services.AddSingleton<IRabbitMQEventPublisher, RabbitMQEventPublisher>();
-            services.AddHostedService<AccountCreatedListener>();
-            services.AddSingleton<IRabbitMQEventPublisher, RabbitMQSubscriptionCreatedEventPublisher>();
+            services.AddSingleton<IRabbitMQAccountCreatedEventPublisher, RabbitMQAccountCreatedEventPublisher>();
+            services.AddHostedService<RabbitMQAccountCreatedEventListener>();
+            services.AddSingleton<IRabbitMQSubscriptionCreatedEventPublisher, RabbitMQSubscriptionCreatedEventPublisher>();
             services.AddHostedService<RabbitMQBillingItemCreatedEventListener>();
         }
 

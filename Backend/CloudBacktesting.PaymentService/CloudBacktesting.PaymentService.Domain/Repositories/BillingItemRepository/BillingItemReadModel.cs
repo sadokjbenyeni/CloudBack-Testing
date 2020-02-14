@@ -10,9 +10,7 @@ namespace CloudBacktesting.PaymentService.Domain.Repositories.BillingItemReposit
 {
     public class BillingItemReadModel : IReadModel, IMongoDbReadModel
         , IAmReadModelFor<BillingItem, BillingItemId, BillingItemCreatedEvent>
-        , IAmReadModelFor<BillingItem, BillingItemId, BillingItemToPaymentMethodLinkedEvent>
-        , IAmReadModelFor<BillingItem, BillingItemId, SubscriptionRequestToBillingItemLinkedEvent>
-        //, IAmReadModelFor<BillingItem, BillingItemId, PaymentExecutedEvent>
+        , IAmReadModelFor<BillingItem, BillingItemId, SubscriptionNPaymentToBillingLinkedEvent>
         , IAmReadModelFor<BillingItem, BillingItemId, InvoiceGeneratedEvent>
     {
         public string Id { get; private set; }
@@ -21,7 +19,6 @@ namespace CloudBacktesting.PaymentService.Domain.Repositories.BillingItemReposit
         public long? Version { get ; set ; }
         public string InvoiceId { get; set; }
         public DateTime InvoiceDate  { get; set; }
-        public string Method { get; set; }
         public string Client { get; set; }
         public string CardHolder { get; set; }
         public string Address { get; set; }
@@ -29,7 +26,7 @@ namespace CloudBacktesting.PaymentService.Domain.Repositories.BillingItemReposit
         public string MerchantTransactionId { get; set; }
         public string Subscriber { get; set; }
         public Card CardDetails { get; set; }
-        public double Amount { get; set; }
+        public string Type { get; set; }
         public string Currency { get; set; }
 
         public void Apply(IReadModelContext context, IDomainEvent<BillingItem, BillingItemId, BillingItemCreatedEvent> domainEvent)
@@ -41,29 +38,13 @@ namespace CloudBacktesting.PaymentService.Domain.Repositories.BillingItemReposit
         {
             InvoiceId = domainEvent.AggregateEvent.InvoiceId;
             InvoiceDate = domainEvent.AggregateEvent.InvoiceDate;
-            Method = domainEvent.AggregateEvent.Method;
             Client = domainEvent.AggregateEvent.Client;
             CardHolder = domainEvent.AggregateEvent.CardHolder;
-            Address = domainEvent.AggregateEvent.Address;
         }
 
-        public void Apply(IReadModelContext context, IDomainEvent<BillingItem, BillingItemId, BillingItemToPaymentMethodLinkedEvent> domainEvent)
-        {
-            PaymentMethodId = domainEvent.AggregateEvent.PaymentMethodId;
-        }
-
-        public void Apply(IReadModelContext context, IDomainEvent<BillingItem, BillingItemId, SubscriptionRequestToBillingItemLinkedEvent> domainEvent)
+        public void Apply(IReadModelContext context, IDomainEvent<BillingItem, BillingItemId, SubscriptionNPaymentToBillingLinkedEvent> domainEvent)
         {
             SubscriptionRequestId = domainEvent.AggregateEvent.SubscriptionRequestId;
         }
-
-        //public void Apply(IReadModelContext context, IDomainEvent<BillingItem, BillingItemId, PaymentExecutedEvent> domainEvent)
-        //{
-        //    MerchantTransactionId = domainEvent.AggregateEvent.MerchantTransactionId;
-        //    Subscriber = domainEvent.AggregateEvent.Subscriber;
-        //    CardDetails = domainEvent.AggregateEvent.CardDetails;
-        //    Amount = domainEvent.AggregateEvent.Amount;
-        //    Currency = domainEvent.AggregateEvent.Currency;
-        //}
     }
 }

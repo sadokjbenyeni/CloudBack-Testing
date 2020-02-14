@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CloudBacktesting.PaymentService.Infra.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +14,5 @@ namespace CloudBacktesting.PaymentService.WebAPI.Models.PaymentMethod
         public string Cryptogram { get; set; }
         public string ExpirationYear { get; set; }
         public string ExpirationMonth { get; set; }
-
     }
 }

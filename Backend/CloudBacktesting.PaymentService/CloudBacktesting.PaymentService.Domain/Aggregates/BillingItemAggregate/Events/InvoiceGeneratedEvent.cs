@@ -11,21 +11,15 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
         public string ItemId { get; set; }
         public string InvoiceId { get; }
         public DateTime InvoiceDate { get; }
-        public string Method { get; }
         public string Client { get; }
         public string CardHolder { get; }
-        public string Address { get; }
-        public string Amount { get; }
 
-        public InvoiceGeneratedEvent(string billingItemId, string invoiceId, string method, string client, string cardHolder, string address, string amount, DateTime invoiceDate)
+        public InvoiceGeneratedEvent(string billingItemId, string invoiceId, string client, string cardHolder, DateTime invoiceDate)
         {
             ItemId = billingItemId;
             InvoiceId = invoiceId;
-            Method = method;
             Client = client;
             CardHolder = cardHolder;
-            Address = address;
-            Amount = amount;
             InvoiceDate = invoiceDate;
         }
     }

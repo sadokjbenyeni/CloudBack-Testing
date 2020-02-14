@@ -9,9 +9,9 @@ namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAcc
 {
     public class SubscriptionRequestLinkToSubscriptionAccountCommand : Command<SubscriptionAccount, SubscriptionAccountId>, ISubscriptionSagaRequestId
     {
-        public string RequestId { get; }
-        public string SubscriptionRequestStatus { get; }
-        public string SubscriptionRequestType { get; }
+        public string RequestId { get; set; }
+        public string SubscriptionRequestStatus { get; set; }
+        public string SubscriptionRequestType { get; set; }
         public string PaymentMethodId { get; set; }
         public string PaymentAccountId { get; set; }
 

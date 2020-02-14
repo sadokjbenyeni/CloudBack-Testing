@@ -7,7 +7,7 @@ using System.Text;
 
 namespace CloudBacktesting.PaymentService.RabbitMQ.EventManager.Publishers
 {
-    public class RabbitMQBillingItemCreatedEventPublisher : IRabbitMQEventPublisher
+    public class RabbitMQBillingItemCreatedEventPublisher : IRabbitMQBillingItemCreatedEventPublisher
     {
         public readonly ILogger<RabbitMQBillingItemCreatedEventPublisher> _logger;
         public readonly IModel _channel;

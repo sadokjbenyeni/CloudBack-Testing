@@ -1,5 +1,4 @@
 ﻿using CloudBacktesting.PaymentService.Domain.Sagas;
-using EventFlow.Aggregates;
 using EventFlow.Aggregates.ExecutionResults;
 using EventFlow.Commands;
 using System;
@@ -8,16 +7,18 @@ using System.Text;
 
 namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate.Commands
 {
-    public class BillingItemLinkToPaymentMethodCommand : Command<BillingItem, BillingItemId>
+    public class SubscriptionNRequestLinkToBillingCommand : Command<BillingItem, BillingItemId>
     {
+        public string SubscriptionRequestId { get; set; }
         public string PaymentMethodId { get; set; }
         public string PaymentMethodStatus { get; set; }
 
-        public BillingItemLinkToPaymentMethodCommand(BillingItemId itemId, string paymentMethodId, string paymentMethodStatus) : base(itemId)
+        public SubscriptionNRequestLinkToBillingCommand(BillingItemId billingItemId, string subscriptionRequestId, string paymentMethodId, string paymentMethodStatus) : base(billingItemId)
         {
-            PaymentMethodId = paymentMethodId ?? throw new ArgumentNullException(nameof(paymentMethodId));
+            SubscriptionRequestId = subscriptionRequestId ?? throw new ArgumentNullException(nameof(subscriptionRequestId));
             PaymentMethodId = paymentMethodId;
             PaymentMethodStatus = paymentMethodStatus;
         }
     }
 }
+

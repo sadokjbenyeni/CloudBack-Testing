@@ -7,7 +7,7 @@ using System.Text;
 
 namespace CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Publishers
 {
-    public class RabbitMQSubscriptionCreatedEventPublisher : IRabbitMQEventPublisher
+    public class RabbitMQSubscriptionCreatedEventPublisher : IRabbitMQSubscriptionCreatedEventPublisher
     {
         public readonly ILogger<RabbitMQSubscriptionCreatedEventPublisher> _logger;
         public readonly IModel _channel;

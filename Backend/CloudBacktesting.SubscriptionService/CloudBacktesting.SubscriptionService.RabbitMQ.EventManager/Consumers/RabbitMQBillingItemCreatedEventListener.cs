@@ -16,11 +16,10 @@ namespace CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Consumers
     public class RabbitMQBillingItemCreatedEventListener : RabbitMQListener
     {
         private readonly ILogger<RabbitMQBillingItemCreatedEventListener> _logger;
-        private readonly IRabbitMQEventPublisher _rabbiteventproduce;
         private readonly IServiceProvider _services;
         private readonly ICommandBus _commandbus;
 
-        public RabbitMQBillingItemCreatedEventListener(ICommandBus commandBus, IConnectionFactory factory, ILogger<RabbitMQBillingItemCreatedEventListener> logger, IServiceProvider services, IRabbitMQEventPublisher rabbitEventProduce) : base(factory, logger)
+        public RabbitMQBillingItemCreatedEventListener(ICommandBus commandBus, IConnectionFactory factory, ILogger<RabbitMQBillingItemCreatedEventListener> logger, IServiceProvider services) : base(factory, logger)
         {
             QueueName = "SubscriptionRequestCreation";
             _logger = logger;
@@ -38,11 +37,9 @@ namespace CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Consumers
                     var subscriptionRequest = JsonConvert.DeserializeObject<SubscriptionRequestRabbitMQDto>(message);
                     var exchange = "Billing";
                     var routingKey = "SubscriptionRequestCreated";
-                    var command = new SubscriptionRequestManualValidateSuccessCommand(new SubscriptionRequestId(subscriptionRequest.Id));
+                    var command = new SubscriptionRequestManualValidateSuccessCommand(new SubscriptionRequestId(subscriptionRequest.SubscriptionRequestId));
                     var commandResult = await _commandbus.PublishAsync(command, CancellationToken.None);
-                    if (commandResult.IsSuccess)
-                    {
-                    }
+
                     Console.WriteLine($"message received {message}, sending user to exchange name : {exchange} with routing key : {routingKey}");
                     return true;
                 }

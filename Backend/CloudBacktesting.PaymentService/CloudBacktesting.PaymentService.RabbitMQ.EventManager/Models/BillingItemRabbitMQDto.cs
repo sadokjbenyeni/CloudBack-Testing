@@ -14,5 +14,8 @@ namespace CloudBacktesting.PaymentService.RabbitMQ.EventManager.Models
         public string SubscriptionRequestId { get; set; }
         [JsonProperty(propertyName: "paymentaccountid")]
         public string PaymentAccountId { get; set; }
+        [JsonProperty(propertyName: "type")]
+        public string Type { get; set; }
+
     }
 }

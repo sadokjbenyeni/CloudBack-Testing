@@ -1,10 +1,11 @@
-﻿using System;
+﻿using EventFlow.Aggregates;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentExecution.Events
 {
-    class PaymentExecutionSagaCompletedEvent
+    public class PaymentExecutionSagaCompletedEvent : AggregateEvent<PaymentExecutionSaga, PaymentExecutionSagaId>
     {
     }
 }
