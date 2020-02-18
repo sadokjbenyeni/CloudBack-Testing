@@ -39,6 +39,13 @@
       "UpstreamHttpMethod": [ "Post" ]
     },
     {
+      "DownstreamPathTemplate": "/api/{version}/mail/mdp",
+      "DownstreamScheme": "http",
+      "ServiceName": "msservice",
+      "UpstreamPathTemplate": "/api/{version}/mail/mdp",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/{version}/user/check",
       "DownstreamScheme": "http",
       "ServiceName": "msservice",

@@ -22,26 +22,33 @@ import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurre
 import { OnBoardingComponent } from './components/on-boarding/on-boarding.component';
 import { MutualizedSubscriptionComponent } from './components/mutualized-subscription/mutualized-subscription.component';
 
-import { PaymentComponent } from './components/payment/payment.component';
 
-import { MySubscriptionsComponent } from './components/my-subscriptions/my-subscriptions.component';
+import { MySubscriptionsComponent } from './components/userProfile/my-subscriptions/my-subscriptions.component';
 import { AdminMenuComponent } from './components/admin/admin-menu/admin-menu.component';
+import { ProfileMenuComponent } from './components/userProfile/profile-menu/profile-menu.component';
+import { PaymentComponent } from './components/userProfile/PaymentsModule/payment/payment.component';
+import { GeneralInformationsComponent } from './components/userProfile/general-informations/general-informations.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'on-boarding', pathMatch: 'full' },
 
   // CLIENT
-  { path: 'account', component: SignUpComponent, canActivate: [GuardGuard], data: { roles: ["Administrator", "Client"] } },
   {
     path: 'subscription', children:
       [
         { path: '', redirectTo: 'mutualized', pathMatch: 'full' },
-        { path: 'mutualized', component: MutualizedSubscriptionComponent, canActivate: [GuardGuard], data: { roles: ["Administrator", "Client"] } }
+        { path: 'mutualized', component: MutualizedSubscriptionComponent, canActivate: [GuardGuard] }
       ]
   },
-  { path: 'payment', component: PaymentComponent, canActivate: [GuardGuard], data: { roles: ["Administrator", "Client"] } },
-  { path: 'my-subscriptions', component: MySubscriptionsComponent, canActivate: [GuardGuard], data: { roles: ["Administrator", "Client"] } },
-
+  {
+    path: 'profile', component: ProfileMenuComponent, children:
+      [
+        { path: '', redirectTo: 'informations', pathMatch: 'full' },
+        { path: 'subscriptions', component: MySubscriptionsComponent, canActivate: [GuardGuard] },
+        { path: 'informations', component: GeneralInformationsComponent, canActivate: [GuardGuard] },
+        { path: 'payment', component: PaymentComponent, canActivate: [GuardGuard] },
+      ]
+  },
 
   // ADMINISTRATOR
 

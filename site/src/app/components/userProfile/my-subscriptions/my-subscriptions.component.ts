@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, Renderer2 } from '@angular/core';
-import { SubscriptionService } from '../../services/subscription.service';
+import { SubscriptionService } from '../../../services/subscription.service';
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
-import { Subscription } from '../../models/Subscription';
+import { Subscription } from '../../../models/Subscription';
 import { DatePipe } from '@angular/common';
 import { Subject } from 'rxjs/Subject';
 

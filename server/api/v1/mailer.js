@@ -1,24 +1,7 @@
 const router = require('express').Router();
-const nodemailer = require("nodemailer");
-const config = require('../../config/config.js');
-// const domain = config.domain();
-const SMTP = config.smtpconf();
 const sgMail = require('@sendgrid/mail');
 
 sgMail.setApiKey("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");
-
-const smtpTransport = nodemailer.createTransport({
-  host: SMTP.host,
-  port: SMTP.port,
-  secure: SMTP.secure,
-  // auth: {
-  //     user: SMTP.user,
-  //     pass: SMTP.pass
-  // },
-  tls: SMTP.tls,
-  debug: SMTP.debug
-});
-
 router.post('/inscription', (req, res, next) => {
   // sgMail.setApiKey("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");
 
@@ -63,20 +46,16 @@ router.post('/activation', (req, res, next) => {
     }
     return res.json({ mail: true }).statusCode(200);
   });
-  // }
-  // else{
-  //     return res.sendStatus(404);
-  // }
+
 });
 
 router.post('/activated', (req, res, next) => {
   let login = '';
   let password = '';
   let link = '';
-  // if(URLS.indexOf(req.headers.referer) !== -1){
   let mailOptions = {
     from: 'no-reply@quanthouse.com',
-    to: req.body.email, //req.body.user,
+    to: req.body.email, 
     subject: 'Your Account has been validated',
     text: `Hello,
       Thank you for choosing QH’s On Demand Historical Data product!
@@ -102,13 +81,9 @@ router.post('/activated', (req, res, next) => {
     }
     return res.json({ mail: true }).statusCode(200);
   });
-  // }
-  // else{
-  //     return res.sendStatus(404);
-  // }
 });
 
-router.post('/mdp', (req, res, next) => {
+router.post('/mdp', (req, res) => {
   let mailOptions = {
     from: 'no-reply@quanthouse.com',
     to: req.body.email,
@@ -127,12 +102,6 @@ router.post('/mdp', (req, res, next) => {
     If you have received this email by error, you do not need to take any action. Your password will remain unchanged.<br><br>
     <b>The Quanthouse team</b>`
   };
-  // smtpTransport.sendMail(mailOptions, (error, info) => {
-  //   if (error) {
-  //     return console.log(error);
-  //   }
-  //   return res.json({ mail: true }).statusCode(200);
-  // });
   try {
     sgMail.send(mailOptions);
     return res.status(200).json({ mail: true });
@@ -140,118 +109,6 @@ router.post('/mdp', (req, res, next) => {
   {
     return res.status(500).json({ mail: true });
   }
-});
-
-router.post('/newOrder', (req, res, next) => {
-  let mailOptions = {
-    from: 'no-reply@quanthouse.com',
-    to: req.body.email,
-    subject: 'Order # ' + req.body.idCmd + ' confirmation',
-    text: `Hello,
-
-
-    Thank you for choosing the QH's Historical Data On-Demand product.<br>
-    You Order # `+ req.body.idCmd + ` has been received on ` + req.body.paymentdate.substring(0, 10) + " " + req.body.paymentdate.substring(11, 19) + ` CET and is currently pending validation by the QH ` + req.body.service + ` department.
-    For any further information about your order, please use the following link: `+ process.env.DOMAIN + `/order/history
-
-    
-    Thank you,
-    Quanthouse`,
-
-    html: `Hello,<br><br>
-    Thank you for choosing the QH's Historical Data On-Demand product.<br>
-    You Order <b># `+ req.body.idCmd + `</b> has been received on ` + req.body.paymentdate.substring(0, 10) + " " + req.body.paymentdate.substring(11, 19) + ` CET and is currently pending validation by the <b>QH ` + req.body.service + ` department</b>.<br>
-    For any further information about your order, please use the following link: <a href="`+ domain + `/order/history"> Click here</a>
-    <br><br>
-    <b>Thank you,<br>Quanthouse</b>`
-  };
-  smtpTransport.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return console.log(error);
-    }
-    return res.json({ mail: true }).statusCode(200);
-  });
-});
-
-router.post('/reminder', (req, res, next) => { // géré par un CRON
-  let mailOptions = {
-    from: 'no-reply@quanthouse.com',
-    to: req.body.email,
-    subject: 'Pending Order # ' + req.body.idCmd,
-    text: `Hello,
-
-    You Order # `+ req.body.idCmd + ` received on ` + req.body.logsPayment + ` CET is currently pending completion of the billing process.
-    To complete the billing process, please use the following link: `+ process.env.DOMAIN + `order/history/` + req.body.token + `
-    
-    Thank you,
-    Quanthouse`,
-
-    html: `Hello,<br><br>
-    You Order # `+ req.body.idCmd + ` received on ` + req.body.logsPayment + ` CET is currently pending completion of the billing process.<br>
-    To complete the billing process, please use the following link: <a href="`+ process.env.DOMAIN + `order/history/` + req.body.token + `">click here</a>
-    <br><br>
-    <b>Thank you,<br>Quanthouse</b>`
-  };
-  smtpTransport.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return console.log(error);
-    }
-    return res.json({ mail: true }).statusCode(200);
-  });
-});
-
-router.post('/orderValidated', (req, res, next) => {
-  let mailOptions = {
-    from: 'no-reply@quanthouse.com',
-    to: req.body.email,
-    subject: 'Order # ' + req.body.idCmd + ' validated',
-    text: `Hello,
-
-    You Order # `+ req.body.idCmd + ` has been now validated.
-    You will receive shortly an email notification with all relevant information allowing you to access your data.
-    
-    Thank you,
-    Quanthouse`,
-
-    html: `Hello,<br><br>
-    You Order <b># `+ req.body.idCmd + `</b> has been now validated.<br>
-    You will receive shortly an email notification with all relevant information allowing you to access your data.
-    <br><br>
-    <b>Thank you,<br>Quanthouse</b>`
-  };
-  smtpTransport.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return console.log(error);
-    }
-    return res.json({ mail: true }).statusCode(200);
-  });
-});
-
-router.post('/orderExecuted', (req, res, next) => {
-  let mailOptions = {
-    from: 'no-reply@quanthouse.com',
-    to: req.body.email,
-    subject: 'Order # ' + req.body.idCmd + ' executed',
-    text: `Hello,
-
-    You Order # `+ req.body.idCmd + ` has been now executed.
-    You can also access your data via the Order History page of your account : `+ process.env.DOMAIN + `/order/history/
-    
-    Thank you,
-    Quanthouse`,
-
-    html: `Hello,<br><br>
-    You Order # `+ req.body.idCmd + ` has been now executed.<br>
-    You can also access your data via the Order History page of your account : <a href="`+ process.env.DOMAIN + `/order/history/"> Click here</a>
-    <br><br>
-    <b>Thank you,<br>Quanthouse</b>`
-  };
-  smtpTransport.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return console.log(error);
-    }
-    return res.json({ mail: true }).statusCode(200);
-  });
 });
 
 const sendActivationMail = function (email, token) {

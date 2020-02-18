@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../../../services/login.service';
+import { UserService } from '../../../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-password-reset',
@@ -7,19 +8,26 @@ import { LoginService } from '../../../services/login.service';
   styleUrls: ['./password-reset.component.css']
 })
 export class PasswordResetComponent implements OnInit {
-
+  password: string;
+  message: string;
   constructor(
-    public loginService: LoginService,
+    public userservice: UserService,
+    public router: Router
   ) {
 
-   }
+  }
 
   ngOnInit() {
   }
 
-  changePassword(){
-    let currentToken = this.loginService.router.url.split('/');
+  changePassword() {
 
-    this.loginService.savemdp(currentToken[2], this.loginService.password);
+    this.userservice.resetpwd({ pwd: this.password }).subscribe(res => {
+      this.message = 'Password successfully changed';
+      setTimeout(() => {
+        this.message = '';
+        this.router.navigateByUrl('/login');
+      }, 3000);
+    });
   }
 }

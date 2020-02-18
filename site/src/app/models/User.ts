@@ -14,7 +14,7 @@ export class User {
     region: String;
     idCountry: String;
     country: String;
-    cgu: string[];
+    cgu: string[] = [];
     commercial: Boolean;
     phone: String;
     sameAddress: Boolean;
@@ -36,7 +36,6 @@ export class User {
     role: String;
     state: Number; // 0 : non actif, 1 : actif, -1 : suspendu. Active after email validation
 }
-
 export class UserResponse {
     user: User;
     message: string;

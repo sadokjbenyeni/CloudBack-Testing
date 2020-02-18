@@ -31,7 +31,6 @@ export class UserService {
   }
 
   check(user) {
-
     return this.http.post<UserResponse>(environment.api + '/v1/user/check', user);
   }
 
@@ -47,7 +46,7 @@ export class UserService {
     return this.http.get<Roles>(environment.api + '/v1/role');
   }
 
-  getCompte(user) {
+  getCompte() {
     return this.http.get<User>(environment.api + '/v1/user/informations');
   }
 
@@ -55,17 +54,15 @@ export class UserService {
     return this.http.put<Message>(environment.api + '/v1/user', user);
   }
 
-  islogin(token) {
-    return this.http.post<LoginResponse>(environment.api + '/v1/user/islogin', token);
-  }
-
   mdpmail(val) {
     return this.http.post<MailResponse>(environment.api + '/v1/mail/mdp', val);
   }
-
-
-  mdpmodif(val) {
-    return this.http.put(environment.api + '/v1/user/mdpmodif', val);
+  changepwd(oldpwd, newpwd) {
+    return this.http.put(environment.api + '/v1/user/changepwd', { old: oldpwd, new: newpwd });
+  }
+  
+  resetpwd(val) {
+    return this.http.put(environment.api + '/v1/user/resetpwd', val);
   }
 
   public getAuthenticatedUser() {

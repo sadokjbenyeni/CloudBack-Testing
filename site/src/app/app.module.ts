@@ -1,4 +1,3 @@
-import { LoginService } from './services/login.service';
 import { AuthentificationService } from './services/authentification.service';
 import { MaterialModule } from './components/material/material.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -80,18 +79,21 @@ import { SubscriptionConfigurationPopupComponent } from './components/subscripti
 import { SubscriptionService } from './services/subscription.service';
 import { RejectionMessageDialogComponent } from './components/rejection-message-dialog/rejection-message-dialog.component';
 import { ConfirmationPopupComponent } from './components/confirmation-popup/confirmation-popup.component';
-import { GetPaymentCardsComponent } from './components/get-payment-cards/get-payment-cards.component';
-import { AddPaymentCardComponent } from './components/add-payment-card/add-payment-card.component';
-import { PaymentComponent } from './components/payment/payment.component';
+
 import { EnumToArrayPipe } from './EnumToList';
 import { PaymentService } from './services/payment.service';
 
-import { MySubscriptionsComponent } from './components/my-subscriptions/my-subscriptions.component';
+import { MySubscriptionsComponent } from './components/userProfile/my-subscriptions/my-subscriptions.component';
 import { DatePipe } from '@angular/common';
 import { SubscriptionsDetailsComponent } from './components/subscriptions-details/subscriptions-details.component';
 import { CardimagesComponent } from './components/cardimages/cardimages.component';
 import { AdminMenuComponent } from './components/admin/admin-menu/admin-menu.component';
 import { ErrorHandlerComponent } from './components/error-handler/error-handler.component';
+import { GeneralInformationsComponent } from './components/userProfile/general-informations/general-informations.component';
+import { ProfileMenuComponent } from './components/userProfile/profile-menu/profile-menu.component';
+import { GetPaymentCardsComponent } from './components/userProfile/PaymentsModule/get-payment-cards/get-payment-cards.component';
+import { AddPaymentCardComponent } from './components/userProfile/PaymentsModule/add-payment-card/add-payment-card.component';
+import { PaymentComponent } from './components/userProfile/PaymentsModule/payment/payment.component';
 
 @NgModule({
   declarations: [
@@ -141,7 +143,9 @@ import { ErrorHandlerComponent } from './components/error-handler/error-handler.
     SubscriptionsDetailsComponent,
     CardimagesComponent,
     AdminMenuComponent,
-    ErrorHandlerComponent
+    ErrorHandlerComponent,
+    GeneralInformationsComponent,
+    ProfileMenuComponent
 
   ],
   entryComponents: [NgbdModalContent, LoginDialogComponent, PasswordComponent, PasswordResetComponent, TermsOfUseComponent, RejectionMessageDialogComponent, ConfirmationPopupComponent, SubscriptionConfigurationPopupComponent,ErrorHandlerComponent],
@@ -169,7 +173,6 @@ import { ErrorHandlerComponent } from './components/error-handler/error-handler.
     CountriesService,
     CompanytypesService,
     AuthentificationService,
-    LoginService,
     SubscriptionService,
     PaymentService,
     DatePipe,

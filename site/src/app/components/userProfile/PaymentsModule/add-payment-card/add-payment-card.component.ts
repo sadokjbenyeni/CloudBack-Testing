@@ -1,9 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Payment } from '../../models/Payment';
-import { CardType } from '../../models/CardType';
+import { Payment } from '../../../../models/Payment';
+import { CardType } from '../../../../models/CardType';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PaymentService } from '../../services/payment.service';
-import { ConfirmationPopupService } from '../../services/confirmation-popup.service';
+import { PaymentService } from '../../../../services/payment.service';
+import { ConfirmationPopupService } from '../../../../services/confirmation-popup.service';
 import { MatSnackBar } from '@angular/material';
 
 

@@ -1,6 +1,4 @@
-<h1 class="py-3 my-3 text-center">Subscriptions Configuration</h1>
-
-<div class="col-12" *ngIf="dataSource!=null;else loading">
+<div class="col-12 mt-3" *ngIf="dataSource!=null;else loading">
     <mat-form-field>
         <mat-label>Filter</mat-label>
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter value">

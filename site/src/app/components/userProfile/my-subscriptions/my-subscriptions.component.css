@@ -19,8 +19,8 @@ table {
 }
 .table-container {
   position: relative;
-  max-height: 76vh;
-  height: 76vh;
+  max-height: 84vh;
+  height: 84vh;
   overflow-y: auto;
   overflow-x: unset;
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Payment } from '../../models/Payment';
+import { Payment } from '../../../../models/Payment';
 import { MatRadioChange } from '@angular/material';
 
 @Component({

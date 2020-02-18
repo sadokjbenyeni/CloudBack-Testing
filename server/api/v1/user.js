@@ -94,12 +94,11 @@ router.get('/cpt/', (req, res) => {
         });
 });
 router.get('/informations', (req, res) => {
-    if (req.headers["authorization"] == undefined) {
-        return res.sendStatus(204);
+    const email = getEmailfromheader(req);
+    if (email == undefined) {
+        return res.sendStatus(401)
     }
-    var rawtoken = Buffer.from(req.headers["authorization"].replace("Basic", ""), 'base64').toString('ascii');
-    var useremail = JSON.parse(rawtoken)["Email"]
-    User.findOne({ email: Object(useremail) }, { password: false })
+    User.findOne({ email: Object(email) }, { password: false })
         .then((val) => {
             if (val == undefined) {
                 return res.sendStatus(204)
@@ -191,7 +190,7 @@ router.post('/', (req, res) => {
             user.phone = req.body.phone ? req.body.phone : '';
             user.website = req.body.website ? req.body.website : '';
             user.cgu = req.body.cgu;
-            user.save((err, u) => {
+            user.save((err) => {
                 if (err) return console.error(err);
                 console.log("User successfully created : Sending mail to user ")
                 if (mailer.sendActivationMail(user.email, user.token) == true) {
@@ -204,35 +203,15 @@ router.post('/', (req, res) => {
 });
 
 router.post('/logout/', (req, res) => {
-    User.updateOne({ token: req.body.token }, { $set: { islogin: false } })
-        .then((val) => {
+    email = getEmailfromheader(req);
+    User.updateOne({ email: email  }, { $set: { islogin: false } })
+        .then(() => {
             res.status(200).json({});
         })
         .catch((err) => {
             console.error(err);
         });
 });
-
-// router.post('/islogin/', (req, res) => {
-//     User.findOne({ token: req.body.token }, { _id: false, islogin: true, roleName: true })
-//         .then((val) => {
-//             if (val) {
-//                 const pattern = /\/[0-9a-fA-F]{24}$/;
-//                 let page = req.body.page.replace(pattern, '');
-//                 Role.count({ pages: new RegExp(page, "i"), name: { $in: val.roleName } })
-//                     .then((role) => {
-//                         res.status(200).json({ islogin: val.islogin, role: role });
-//                     });
-//             }
-//             else {
-//                 res.status(200).json({ islogin: false, role: role });
-//             }
-//         })
-//         .catch((err) => {
-//             console.error(err);
-//         });
-// });
-
 router.post('/check/', (req, res) => {
     let cipher = crypto.createCipher(algorithm, req.body.pwd);
     let crypted = cipher.update(PHRASE, 'utf8', 'hex');
@@ -241,31 +220,15 @@ router.post('/check/', (req, res) => {
     User.findOne(
         { email: req.body.email, password: crypted },
         {
-            id: true,
             roleName: true,
-            email: true,
             token: true,
-            state: true,
-            currency: true,
-            payment: true,
-            vat: true,
-            address: true,
-            city: true,
-            sameAddress: true,
-            postalCode: true,
-            country: true,
-            addressBilling: true,
-            cityBilling: true,
-            postalCodeBilling: true,
-            countryBilling: true,
-            firstname: true,
             lastname: true
         })
         .then((user) => {
             if (!user) { res.status(202).json({ user: false, message: 'Invalid Password or User Not Found' }) }
             if (user.state === 1) {
                 User.updateOne({ email: req.body.email }, { $set: { islogin: true } })
-                    .then((val) => {
+                    .then(() => {
                         res.status(200).json({ user: user });
                     });
             } else {
@@ -282,7 +245,7 @@ router.post('/activation/', async (req, res) => {
         }
         if (result.state == 0) {
             await User.update({ token: req.body.token }, { $set: { state: 1 } })
-                .then(async (user) => {
+                .then(async () => {
                     console.log("account activated");
                     res.status(200).json({ message: "Your account is activated. You can connect" });
                     await eventpublisher.AccountActivation(result.email)
@@ -309,54 +272,14 @@ router.post('/suspendre/', (req, res) => {
 
 router.post('/verifmail/', (req, res) => {
     // if(URLS.indexOf(req.headers.referer) !== -1){
-    User.findOne({ email: req.body.email }, { _id: false, token: true })
+    User.findOne({ email: req.body.email }, { _id: false })
         .then((user) => {
             if (!user) {
                 return res.status(200).json({ valid: false, message: "This email does not exist" });
             }
-            return res.status(200).json({ valid: true, token: user.token });
-        });
-    // }
-    // else{
-    //     return res.sendStatus(404);
-    // }
-});
-
-router.post('/preferBilling/', (req, res) => {
-    let modify = {};
-    if (req.body.currency) {
-        modify.currency = req.body.currency;
-    }
-    if (req.body.payment) {
-        modify.payment = req.body.payment;
-    }
-    if (req.body.vat) {
-        modify.vat = req.body.vat;
-    }
-    if (req.body.addressBilling) {
-        modify.addressBilling = req.body.addressBilling;
-    }
-    if (req.body.cityBilling) {
-        modify.cityBilling = req.body.cityBilling;
-    }
-    if (req.body.countryBilling) {
-        modify.countryBilling = req.body.countryBilling;
-    }
-    if (req.body.postalCodeBilling) {
-        modify.postalCodeBilling = req.body.postalCodeBilling;
-    }
-    if (req.body.checkvat) {
-        modify.checkvat = req.body.checkvat;
-    }
-    User.updateOne({ token: req.body.token }, { $set: modify })
-        .then((val) => {
-            res.status(200).json({});
-        })
-        .catch((err) => {
-            console.error(err);
+            return res.status(200).json({ valid: true });
         });
 });
-
 
 router.delete('/:user', (req, res) => {
     req.user.remove()
@@ -365,26 +288,15 @@ router.delete('/:user', (req, res) => {
         })
 });
 
-
-
 router.put('/', (req, res) => {
     // if(URLS.indexOf(req.headers.referer) !== -1){
     let user = {};
-    if (!req.body.id && !req.body.nom && req.body.id == undefined && req.body.nom == undefined) {
+    if (!req.body.nom == undefined && req.body.nom == undefined) {
         res.sendStatus(422);
     }
-    if (!req.body.id.match(/^[0-9a-fA-F]{24}$/)) {
-        res.sendStatus(422);
-    }
-    if (req.body.password) {
-        let cipher = crypto.createCipher(algorithm, req.body.password);
-        let crypted = cipher.update(PHRASE, 'utf8', 'hex');
-        crypted += cipher.final('hex');
-        user.password = crypted;
-    }
+
     user.firstname = req.body.firstname;
     user.lastname = req.body.lastname;
-    user.email = req.body.email;
     user.job = req.body.job;
     user.companyName = req.body.companyName;
     user.companyType = req.body.companyType;
@@ -395,56 +307,50 @@ router.put('/', (req, res) => {
     user.region = req.body.region;
     user.idCountry = req.body.idCountry;
     user.country = req.body.country;
-    user.cgv = req.body.cgv;
-    user.commercial = req.body.commercial;
     user.phone = req.body.phone;
     user.sameAddress = req.body.sameAddress;
-    user.addressBilling = req.body.addressBilling;
-    user.postalCodeBilling = req.body.postalCodeBilling;
-    user.cityBilling = req.body.cityBilling;
-    user.idCountryBilling = req.body.idCountryBilling;
-    user.countryBilling = req.body.countryBilling;
-    user.vat = req.body.vat;
-    user.currency = req.body.currency;
-    user.payment = req.body.payment;
-    user.islogin = req.body.islogin;
-    user.token = req.body.token;
-    user.nbSession = req.body.nbSession;
     user.roleName = req.body.roleName;
     user.role = req.body.role;
-    user.state = req.body.state;
 
-    User.update({ _id: req.body.id }, { $set: user })
-        .then((user) => {
+    const email = getEmailfromheader(req);
+    if (email == undefined) {
+        return res.sendStatus(401)
+    }
+    console.log(email);
+    User.findOneAndUpdate({ email: email }, { $set: user })
+        .then(() => {
             res.status(201).json({ message: "Your account has been updated" });
             return;
         })
         .catch((e) => {
             console.error(e);
         });
-    // }
-    // else{
-    //     return res.sendStatus(404);
-    // }   
 });
-
-router.put('/mdpmodif/', (req, res) => {
-    // if(URLS.indexOf(req.headers.referer.substring(0,25)) !== -1){
-    if (!req.body.pwd && !req.body.token && req.body.pwd == undefined && req.body.token == undefined) {
+router.put('/resetpwd', (req, res) => {
+    const email = getEmailfromheader(req)
+    if (email == null) {
+        return res.sendStatus(401);
+    }
+    if (!req.body.pwd && req.body.pwd == undefined) {
         res.sendStatus(422);
     }
     let cipher = crypto.createCipher(algorithm, req.body.pwd);
     let crypted = cipher.update(PHRASE, 'utf8', 'hex');
     crypted += cipher.final('hex');
 
-    User.update({ token: req.body.token }, { $set: { password: crypted } })
-        .then((user) => {
-            return res.status(201).json({});
+    User.update({ email: email }, { $set: { password: crypted } })
+        .then(() => {
+            return res.sendStatus(200);
         })
-    // }
-    // else{
-    //     return res.sendStatus(404);
-    // }   
 });
-
+var getEmailfromheader = function (req) {
+    try {
+        var rawtoken = Buffer.from(req.headers["authorization"].replace("Basic", ""), 'base64').toString('ascii');
+        return JSON.parse(rawtoken)["Email"]
+    }
+    catch
+    {
+        return null;
+    }
+}
 module.exports = router;

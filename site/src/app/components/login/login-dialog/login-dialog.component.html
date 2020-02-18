@@ -5,31 +5,31 @@
         <h2 class="more-bottom-margin"><strong>Login</strong></h2>
         <h5 class="more-bottom-margin"><small>Please enter your email and password</small></h5>
       </div>
-      <div class="alert alert-info" *ngIf="loginService.message">An email has been sent to you</div>
+      <!-- <div class="alert alert-info" *ngIf="message">An email has been sent to you</div> -->
+
       <div class="login-form">
         <div class="sign-in">
 
           <div class="group">
             <label for="materialLoginFormEmail" class="label">Email</label>
-            <input [(ngModel)]="loginService.email" class="input" type="email" name="email" required
-              id="materialLoginFormEmail">
+            <input [(ngModel)]="email" class="input" type="email" name="email" required id="materialLoginFormEmail">
           </div>
 
           <div class="group">
             <label for="materialLoginFormPassword" class="label">Password</label>
-            <input [(ngModel)]="loginService.password" class="input" type="password" name="pwd" required
+            <input [(ngModel)]="password" class="input" type="password" name="pwd" required
               id="materialLoginFormPassword" data-type="password">
           </div>
         </div>
       </div>
+      <div class="alert alert-danger" *ngIf="message">Wrong login or password</div>
 
       <div class="align-right top-margin">
         <p>Forgot your <button class="look-link" (click)="openPasswordDialog()">password</button></p>
       </div>
 
       <div class="group">
-        <input type="submit"  default class="button more-bottom-margin" [mat-dialog-close] value="Sign In"
-          (click)="loginService.check()">
+        <input type="submit" default class="button more-bottom-margin" value="Sign In" (click)="login()">
       </div>
 
       <hr class="hr more-bottom-margin">

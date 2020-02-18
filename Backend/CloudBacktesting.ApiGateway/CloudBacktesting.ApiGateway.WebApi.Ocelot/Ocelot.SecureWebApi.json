@@ -60,6 +60,17 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/{version}/user",
+      "DownstreamScheme": "http",
+      "ServiceName": "msservice",
+      "UpstreamPathTemplate": "/api/{version}/user",
+      "UpstreamHttpMethod": [ "PUT" ],
+      "RouteClaimsRequirement": {
+        "IsLogin": "True",
+        "State": "1"
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/{version}/SubscriptionAccount",
       "DownstreamScheme": "http",
       "ServiceName": "subservice",

@@ -14,6 +14,9 @@ export class GuardGuard implements CanActivate {
     let user = JSON.parse(sessionStorage.getItem('user'));
 
     if (user) {
+      if (next.data["roles"] == undefined) {
+        return true
+      }
       for (let userrole of user["roleName"]) {
         if ((next.data["roles"] as Array<string>).indexOf(userrole) != -1)
           return true;
