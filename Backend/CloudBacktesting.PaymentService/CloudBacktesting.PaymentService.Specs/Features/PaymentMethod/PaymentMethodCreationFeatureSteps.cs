@@ -182,14 +182,15 @@ namespace CloudBacktesting.PaymentService.Specs.Features.PaymentMethod
         }
         
         [Then(@"the api return an not found result")]
-        public void ThenTheApiReturnAnNotFoundResult()
+        public async Task ThenTheApiReturnAnNotFoundResult()
         {
             if (!context.TryGetValue<HttpResponseMessage>("BrowsesWrongPaymentMethod", out var response))
             {
                 Assert.Fail("Cannot found the http response message");
             }
-            Assert.That(response.IsSuccessStatusCode, Is.False);
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+            Assert.That(response.IsSuccessStatusCode, Is.True);
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
+            Assert.That(await response.Content.ReadAsStringAsync(), Is.Empty.Or.Null);
         }
 
 
