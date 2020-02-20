@@ -39,7 +39,7 @@ export class GeneralInformationsComponent implements OnInit {
       user.roleName = this.user.roleName
       user.lastname=this.user.lastname;
 
-      sessionStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('user', JSON.stringify(user));
     });
   }
   getUser() {

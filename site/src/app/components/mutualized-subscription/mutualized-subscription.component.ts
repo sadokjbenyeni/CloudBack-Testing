@@ -64,7 +64,7 @@ export class MutualizedSubscriptionComponent implements OnInit {
     }
   }
   SetDefaultBillingInformations() {
-    let id = JSON.parse(sessionStorage.getItem('user'))._id;
+    let id = JSON.parse(localStorage.getItem('user'))._id;
     this.userService.getCompte().subscribe(res => {
       this.Subscription.billing.address = res.addressBilling;
       this.Subscription.billing.city = res.cityBilling;

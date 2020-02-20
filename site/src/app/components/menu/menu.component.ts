@@ -36,14 +36,14 @@ export class MenuComponent implements OnInit {
   }
 
   logout() {
-    let user = JSON.parse(sessionStorage.getItem('user'));
+    let user = JSON.parse(localStorage.getItem('user'));
     if (user.token) {
       this.userService.logout({ token: user.token }).subscribe(() => {
         this.role = '';
-        sessionStorage.removeItem('user');
-        sessionStorage.removeItem('cart');
-        sessionStorage.removeItem('surveyForm');
-        sessionStorage.setItem('dataset', JSON.stringify({ "dataset": "", "title": "" }));
+        localStorage.removeItem('user');
+        localStorage.removeItem('cart');
+        localStorage.removeItem('surveyForm');
+        localStorage.setItem('dataset', JSON.stringify({ "dataset": "", "title": "" }));
         this.router.navigateByUrl('/home');
       });
     }
@@ -55,7 +55,7 @@ export class MenuComponent implements OnInit {
 
   refresh(loggedUser: any): void {
     this.role = '';
-    let user = JSON.parse(sessionStorage.getItem('user'));
+    let user = JSON.parse(localStorage.getItem('user'));
     if (user != null) {
       this.username = user.lastname;
     }

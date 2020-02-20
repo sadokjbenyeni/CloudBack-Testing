@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   }
 
   // changeSearch(dataset, search) {
-  //   sessionStorage.setItem('dataset', JSON.stringify({ dataset: dataset, title: search }));
+  //   localStorage.setItem('dataset', JSON.stringify({ dataset: dataset, title: search }));
   //   this.data.changeSearch(search);
   // }
 }

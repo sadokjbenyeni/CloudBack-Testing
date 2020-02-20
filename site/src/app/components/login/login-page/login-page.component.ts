@@ -21,11 +21,11 @@ export class LoginPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    // let user = JSON.parse(sessionStorage.getItem("user"));
+    // let user = JSON.parse(localStorage.getItem("user"));
     // if (user !== null && user !== {}) {
     //   this.loginService.router.navigate(["/home"]);
     // }
-    let register = sessionStorage.getItem("register");
+    let register = localStorage.getItem("register");
     if (register === "ok") {
       this.message = "Your account has been created";
     }

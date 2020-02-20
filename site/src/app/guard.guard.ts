@@ -11,7 +11,7 @@ export class GuardGuard implements CanActivate {
   ) { }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    let user = JSON.parse(sessionStorage.getItem('user'));
+    let user = JSON.parse(localStorage.getItem('user'));
 
     if (user) {
       if (next.data["roles"] == undefined) {

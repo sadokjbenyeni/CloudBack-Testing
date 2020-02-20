@@ -30,7 +30,7 @@ export class LoginDialogComponent implements OnInit {
 
   ngOnInit() {
 
-    let user = JSON.parse(sessionStorage.getItem('user'));
+    let user = JSON.parse(localStorage.getItem('user'));
     if (user !== null && user !== {}) {
       this.router.navigate(['/home']);
     }
