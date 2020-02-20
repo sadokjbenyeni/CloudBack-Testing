@@ -28,6 +28,7 @@ import { AdminMenuComponent } from './components/admin/admin-menu/admin-menu.com
 import { ProfileMenuComponent } from './components/userProfile/profile-menu/profile-menu.component';
 import { PaymentComponent } from './components/userProfile/PaymentsModule/payment/payment.component';
 import { GeneralInformationsComponent } from './components/userProfile/general-informations/general-informations.component';
+import { ChangePasswordComponent } from './components/userProfile/change-password/change-password.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'on-boarding', pathMatch: 'full' },
@@ -47,6 +48,8 @@ export const routes: Routes = [
         { path: 'subscriptions', component: MySubscriptionsComponent, canActivate: [GuardGuard] },
         { path: 'informations', component: GeneralInformationsComponent, canActivate: [GuardGuard] },
         { path: 'payment', component: PaymentComponent, canActivate: [GuardGuard] },
+        { path: 'change-password', component: ChangePasswordComponent, canActivate: [GuardGuard] },
+
       ]
   },
 

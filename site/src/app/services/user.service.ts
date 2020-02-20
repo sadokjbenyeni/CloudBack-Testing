@@ -10,6 +10,8 @@ import { Roles } from '../models/Role';
 import { LoginResponse } from '../models/LoginResponse';
 import { MailResponse } from '../models/MailResponse';
 import { Message } from '../models/message';
+import { catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 
 @Injectable()
@@ -58,13 +60,12 @@ export class UserService {
     return this.http.post<MailResponse>(environment.api + '/v1/mail/mdp', val);
   }
   changepwd(oldpwd, newpwd) {
-    return this.http.put(environment.api + '/v1/user/changepwd', { old: oldpwd, new: newpwd });
+    return this.http.put(environment.api + '/v1/user/changepwd', { old: oldpwd, new: newpwd })
   }
-  
+
   resetpwd(val) {
     return this.http.put(environment.api + '/v1/user/resetpwd', val);
   }
-
   public getAuthenticatedUser() {
     return this.authenticatedUser;
   }
@@ -79,5 +80,6 @@ export class UserService {
   verifmail(email) {
     return this.http.post<LoginResponse>(environment.api + '/v1/user/verifmail', email);
   }
+
 
 }

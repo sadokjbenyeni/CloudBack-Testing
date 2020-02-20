@@ -46,6 +46,13 @@
       "UpstreamHttpMethod": [ "Post" ]
     },
     {
+      "DownstreamPathTemplate": "/api/{version}/user/resetpwd",
+      "DownstreamScheme": "http",
+      "ServiceName": "msservice",
+      "UpstreamPathTemplate": "/api/{version}/user/resetpwd",
+      "UpstreamHttpMethod": [ "Put" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/{version}/user/check",
       "DownstreamScheme": "http",
       "ServiceName": "msservice",

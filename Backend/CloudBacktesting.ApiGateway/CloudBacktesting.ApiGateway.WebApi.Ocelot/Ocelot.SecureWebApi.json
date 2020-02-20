@@ -60,6 +60,18 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/{version}/user/changepwd",
+      "DownstreamScheme": "http",
+      "ServiceName": "msservice",
+      "UpstreamPathTemplate": "/api/{version}/user/changepwd",
+      "UpstreamHttpMethod": [ "Put" ],
+      "RouteClaimsRequirement": {
+        "IsLogin": "True",
+        "State": "1"
+
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/{version}/user",
       "DownstreamScheme": "http",
       "ServiceName": "msservice",

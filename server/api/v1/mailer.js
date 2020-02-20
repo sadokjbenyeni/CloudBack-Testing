@@ -1,11 +1,13 @@
 const router = require('express').Router();
 const sgMail = require('@sendgrid/mail');
+const mongoose = require('mongoose');
+const User = mongoose.model('User');
 
 sgMail.setApiKey("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");
 router.post('/inscription', (req, res, next) => {
   // sgMail.setApiKey("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");
 
-  if (sendActivationMail(req.body.email,req.body.token))
+  if (sendActivationMail(req.body.email, req.body.token))
     return res.status(200).json({ mail: true });
   else {
     console.log("error in sending mail ")
@@ -55,7 +57,7 @@ router.post('/activated', (req, res, next) => {
   let link = '';
   let mailOptions = {
     from: 'no-reply@quanthouse.com',
-    to: req.body.email, 
+    to: req.body.email,
     subject: 'Your Account has been validated',
     text: `Hello,
       Thank you for choosing QH’s On Demand Historical Data product!
@@ -84,31 +86,40 @@ router.post('/activated', (req, res, next) => {
 });
 
 router.post('/mdp', (req, res) => {
-  let mailOptions = {
-    from: 'no-reply@quanthouse.com',
-    to: req.body.email,
-    subject: 'Password Initialization',
-    text: `Hello,
+  if (req.body.email == undefined) {
+    console.log("no email provided");
+    return res.status(400).send({ sent: false, message: "no Email provided" })
+  }
+  console.log("sneding email of password reset to " + req.body.email)
+  User.findOne({ email: req.body.email }, { token: true })
+    .then((u) => {
+      let mailOptions = {
+        from: 'no-reply@quanthouse.com',
+        to: req.body.email,
+        subject: 'Password Initialization',
+        text: `Hello,
 
-    To reinitialize your password, please click on the following link: `+ process.env.DOMAIN + `/mdp/` + req.body.token + `
+    To reinitialize your password, please click on the following link: `+ process.env.DOMAIN + `/mdp/` + u.token + `
     If clicking the above link does not work, you can copy and paste the URL in a new browser window.
     If you have received this email by error, you do not need to take any action. Your password will remain unchanged.
 
     The Quanthouse team`,
 
-    html: `Hello,<br><br>
-    To reinitialize your password, please click on the following link: `+ process.env.DOMAIN + `/mdp/` + req.body.token + `<br>
+        html: `Hello,<br><br>
+    To reinitialize your password, please click on the following link: `+ process.env.DOMAIN + `/mdp/` + u.token + `<br>
     If clicking the above link does not work, you can copy and paste the URL in a new browser window.<br>
     If you have received this email by error, you do not need to take any action. Your password will remain unchanged.<br><br>
     <b>The Quanthouse team</b>`
-  };
-  try {
-    sgMail.send(mailOptions);
-    return res.status(200).json({ mail: true });
-  } catch
-  {
-    return res.status(500).json({ mail: true });
-  }
+      };
+      try {
+        sgMail.send(mailOptions);
+        return res.status(200).json({ mail: true });
+      } catch (error) {
+        console.log(error);
+        return res.status(d).json({ mail: true });
+      }
+    });
+
 });
 
 const sendActivationMail = function (email, token) {
@@ -149,4 +160,4 @@ const sendActivationMail = function (email, token) {
 
 
 module.exports = router;
-module.exports.sendActivationMail=sendActivationMail;
+module.exports.sendActivationMail = sendActivationMail;

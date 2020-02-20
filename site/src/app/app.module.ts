@@ -67,7 +67,6 @@ import { HelpPageComponent } from './components/help-page/help-page.component';
 import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurrency.component';
 import { OnBoardingComponent } from './components/on-boarding/on-boarding.component';
 
-import { PasswordComponent } from './components/login/password/password.component';
 import { PasswordResetComponent } from './components/login/password-reset/password-reset.component';
 import { NotifierModule } from "angular-notifier";
 import { MutualizedSubscriptionComponent } from './components/mutualized-subscription/mutualized-subscription.component';
@@ -94,6 +93,8 @@ import { ProfileMenuComponent } from './components/userProfile/profile-menu/prof
 import { GetPaymentCardsComponent } from './components/userProfile/PaymentsModule/get-payment-cards/get-payment-cards.component';
 import { AddPaymentCardComponent } from './components/userProfile/PaymentsModule/add-payment-card/add-payment-card.component';
 import { PaymentComponent } from './components/userProfile/PaymentsModule/payment/payment.component';
+import { PasswordResetEmailComponent } from './components/login/password-reset-email/password-reset-email.component';
+import { ChangePasswordComponent } from './components/userProfile/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -124,7 +125,7 @@ import { PaymentComponent } from './components/userProfile/PaymentsModule/paymen
     TermsOfUseComponent,
     LoginPageComponent,
     ActivationComponent,
-    PasswordComponent,
+    PasswordResetEmailComponent,
     PasswordResetComponent,
     MutualizedSubscriptionComponent,
     SubscriptionsValidationComponent,
@@ -145,10 +146,11 @@ import { PaymentComponent } from './components/userProfile/PaymentsModule/paymen
     AdminMenuComponent,
     ErrorHandlerComponent,
     GeneralInformationsComponent,
-    ProfileMenuComponent
+    ProfileMenuComponent,
+    ChangePasswordComponent
 
   ],
-  entryComponents: [NgbdModalContent, LoginDialogComponent, PasswordComponent, PasswordResetComponent, TermsOfUseComponent, RejectionMessageDialogComponent, ConfirmationPopupComponent, SubscriptionConfigurationPopupComponent,ErrorHandlerComponent],
+  entryComponents: [NgbdModalContent, LoginDialogComponent, PasswordResetEmailComponent, PasswordResetComponent, TermsOfUseComponent, RejectionMessageDialogComponent, ConfirmationPopupComponent, SubscriptionConfigurationPopupComponent,ErrorHandlerComponent],
   imports: [
     MaterialModule,
     BrowserModule,

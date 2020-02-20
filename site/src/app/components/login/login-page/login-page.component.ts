@@ -6,7 +6,6 @@ import { MatSnackBar } from "@angular/material";
 import { AuthentificationService } from "../../../services/authentification.service";
 
 @Component({
-  selector: "app-login-page",
   template: ""
 })
 export class LoginPageComponent implements OnInit {

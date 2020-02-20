@@ -204,7 +204,7 @@ router.post('/', (req, res) => {
 
 router.post('/logout/', (req, res) => {
     email = getEmailfromheader(req);
-    User.updateOne({ email: email  }, { $set: { islogin: false } })
+    User.updateOne({ email: email }, { $set: { islogin: false } })
         .then(() => {
             res.status(200).json({});
         })
@@ -222,10 +222,11 @@ router.post('/check/', (req, res) => {
         {
             roleName: true,
             token: true,
-            lastname: true
+            lastname: true,
+            state: true
         })
         .then((user) => {
-            if (!user) { res.status(202).json({ user: false, message: 'Invalid Password or User Not Found' }) }
+            if (user == undefined) { return res.status(202).json({ user: false, message: 'Invalid Password or User Not Found' }) }
             if (user.state === 1) {
                 User.updateOne({ email: req.body.email }, { $set: { islogin: true } })
                     .then(() => {
@@ -327,29 +328,59 @@ router.put('/', (req, res) => {
         });
 });
 router.put('/resetpwd', (req, res) => {
-    const email = getEmailfromheader(req)
-    if (email == null) {
-        return res.sendStatus(401);
-    }
-    if (!req.body.pwd && req.body.pwd == undefined) {
+
+    if (req.body.token == undefined || req.body.pwd == undefined) {
         res.sendStatus(422);
     }
     let cipher = crypto.createCipher(algorithm, req.body.pwd);
     let crypted = cipher.update(PHRASE, 'utf8', 'hex');
     crypted += cipher.final('hex');
 
-    User.update({ email: email }, { $set: { password: crypted } })
+    User.updateOne({ token: req.body.token }, { $set: { password: crypted } })
         .then(() => {
-            return res.sendStatus(200);
+            return res.status(200).send({});
         })
+});
+router.put('/changepwd', (req, res) => {
+    const email = getEmailfromheader(req)
+    if (email == null) {
+        return res.sendStatus(401);
+    }
+    if (req.body.old == undefined || req.body.new == undefined) {
+        return res.sendStatus(422);
+    }
+    let newcipher = crypto.createCipher(algorithm, req.body.new);
+    let newcrypted = newcipher.update(PHRASE, 'utf8', 'hex');
+    newcrypted += newcipher.final('hex');
+
+    let oldcipher = crypto.createCipher(algorithm, req.body.old);
+    let oldcrypted = oldcipher.update(PHRASE, 'utf8', 'hex');
+    oldcrypted += oldcipher.final('hex');
+    User.findOne({ email: email, password: oldcrypted }).then(result => {
+        if (result == null) {
+            return res.status(400).json({ 'error': 'password not valid' });
+        }
+        User.update({ email: email, password: oldcrypted }, { $set: { password: newcrypted } })
+            .then((response) => {
+                if (response.nModified > 0) {
+                    return res.status(200).json({});
+                }
+                else {
+                    // if no line has been modified that means that there is problems in email or password so the status is 304 "not modified"
+                    return res.sendStatus(304);
+                }
+            })
+    })
+
 });
 var getEmailfromheader = function (req) {
     try {
         var rawtoken = Buffer.from(req.headers["authorization"].replace("Basic", ""), 'base64').toString('ascii');
+        console.log(JSON.parse(rawtoken)["Email"]);
         return JSON.parse(rawtoken)["Email"]
     }
-    catch
-    {
+    catch (error) {
+        console.log(error)
         return null;
     }
 }
