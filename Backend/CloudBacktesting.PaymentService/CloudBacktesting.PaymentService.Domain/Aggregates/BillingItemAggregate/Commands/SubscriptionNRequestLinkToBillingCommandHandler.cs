@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate.Commands
 {
-    public class SubscriptionNRequestLinkToBillingCommandHandler : CommandHandler<BillingItem, BillingItemId, IExecutionResult, SubscriptionNRequestLinkToBillingCommand>
+    public class SubscriptionNRequestLinkToBillingCommandHandler : CommandHandler<BillingItem, BillingItemId, IExecutionResult, SubscriptionNPaymentLinkToBillingCommand>
     {
-        public override Task<IExecutionResult> ExecuteCommandAsync(BillingItem aggregate, SubscriptionNRequestLinkToBillingCommand command, CancellationToken cancellationToken)
+        public override Task<IExecutionResult> ExecuteCommandAsync(BillingItem aggregate, SubscriptionNPaymentLinkToBillingCommand command, CancellationToken cancellationToken)
         {
-            return Task.FromResult(aggregate.LinkSubscriptionNPaymentToBilling(command.SubscriptionRequestId, command.PaymentMethodId, command.PaymentMethodStatus));
+            return Task.FromResult(aggregate.LinkSubscriptionNPaymentToBilling(command.SubscriptionRequestId, command.PaymentMethodId, command.PaymentMethodStatus, command.SubscriptionType));
         }
     }
 }

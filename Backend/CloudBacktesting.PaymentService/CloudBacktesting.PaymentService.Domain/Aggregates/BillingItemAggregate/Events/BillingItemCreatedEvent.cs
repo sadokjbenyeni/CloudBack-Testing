@@ -14,10 +14,10 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
         public string SubscriptionRequestId { get; }
         public string PaymentMethodStatus { get; }
         public DateTime CreateDate { get; }
-        public string Type { get; }
+        public string SubscriptionType { get; }
 
 
-        public BillingItemCreatedEvent(string itemId, string paymentMethodId, string subscriptionRequestId, string status, string paymentMethodStatus, DateTime createDate, string type)
+        public BillingItemCreatedEvent(string itemId, string paymentMethodId, string subscriptionRequestId, string status, string paymentMethodStatus, DateTime createDate, string subscriptionType)
         {
             ItemId = itemId;
             PaymentMethodId = paymentMethodId;
@@ -25,7 +25,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
             SubscriptionRequestId = subscriptionRequestId;
             PaymentMethodStatus = paymentMethodStatus;
             CreateDate = createDate;
-            Type = type;
+            SubscriptionType = subscriptionType;
         }
     }
 }

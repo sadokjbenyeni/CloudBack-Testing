@@ -7,11 +7,10 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
 {
     public class PaymentInitializeCommand : Command<BillingItem, BillingItemId>
     {
-        public string Type { get; set; }
-        public string MerchantTransactionId { get; set; }
-        public PaymentInitializeCommand(BillingItemId billingItemId, string merchatnTransactionId) : base(billingItemId)
+        public string SubscriptionType { get; set; }
+        public PaymentInitializeCommand(BillingItemId billingItemId, string subscriptionType) : base(billingItemId)
         {
-            MerchantTransactionId = merchatnTransactionId;
+            SubscriptionType = subscriptionType;
         }
     }
 }

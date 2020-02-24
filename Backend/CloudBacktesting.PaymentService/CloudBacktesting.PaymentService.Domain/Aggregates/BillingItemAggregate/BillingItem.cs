@@ -21,23 +21,24 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
 {
     public class BillingItem : AggregateRoot<BillingItem, BillingItemId>, IEmit<BillingItemCreatedEvent>
     {
-
+        private string billingItemId;
+        private string subscriptionType;
+        private string merchantTransactionId;
         private string paymentMethodId;
         private string subscriptionRequestId;
         private string status;
-        private Card cardDetails;
 
         public BillingItem(BillingItemId aggregateId) : base(aggregateId) { }
 
-        public IExecutionResult Create(string paymentMethodId, string paymentMethodStatus, string subscriptionRequestId, string type)
+        public IExecutionResult Create(string paymentMethodId, string paymentMethodStatus, string subscriptionRequestId, string subscriptionType)
         {
-            Emit(new BillingItemCreatedEvent(this.Id.Value, paymentMethodId, subscriptionRequestId, "Creating", paymentMethodStatus, DateTime.UtcNow, type));
+            Emit(new BillingItemCreatedEvent(this.Id.Value, paymentMethodId, subscriptionRequestId, "Creating", paymentMethodStatus, DateTime.UtcNow, subscriptionType));
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult LinkSubscriptionNPaymentToBilling(string subscriptionRequestId, string paymentMethodId, string paymentMethodStatus)
+        public IExecutionResult LinkSubscriptionNPaymentToBilling(string subscriptionRequestId, string paymentMethodId, string paymentMethodStatus, string subscriptionType)
         {
-            Emit(new SubscriptionNPaymentToBillingLinkedEvent(this.Id.Value, subscriptionRequestId, paymentMethodId, paymentMethodStatus));
+            Emit(new SubscriptionNPaymentToBillingLinkedEvent(this.Id.Value, subscriptionRequestId, paymentMethodId, paymentMethodStatus, subscriptionType));
             return ExecutionResult.Success();
         }
 
@@ -47,10 +48,9 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult InitializePayment(string type)
+        public IExecutionResult InitializePayment()
         {
-            var merchantTransactionId = new MerchantTransaction().Id;
-            Emit(new PaymentExecutionInitializedEvent(this.Id.Value, merchantTransactionId, type));
+            Emit(new PaymentExecutionInitializedEvent(this.Id.Value, this.paymentMethodId, new MerchantTransaction().Id, this.subscriptionType));
             return ExecutionResult.Success();
 
         }
@@ -76,7 +76,10 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
             return ExecutionResult.Success();
         }
 
-        public void Apply(BillingItemCreatedEvent @event) { }
+        public void Apply(BillingItemCreatedEvent @event) 
+        {
+            this.subscriptionType = @event.SubscriptionType;
+        }
 
         public void Apply(InvoiceGeneratedEvent @event) { }
 
@@ -94,6 +97,16 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
         }
         public void Apply(PaymentFailedEvent @event) { }
         public void Apply(BillingItemSystemDeclinedEvent @event) { }
+        public void Apply(PaymentExecutionInitializedEvent @event) 
+        {
+            this.billingItemId = @event.ItemId;
+            this.merchantTransactionId = @event.MerchantTransactionId;
+            this.subscriptionType = @event.Type;
+        }
 
+        internal IExecutionResult LinkSubscriptionNPaymentToBilling(string subscriptionRequestId, string paymentMethodId, string paymentMethodStatus, object subscriptionType)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

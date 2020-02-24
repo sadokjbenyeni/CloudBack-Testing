@@ -45,6 +45,7 @@ namespace CloudBacktesting.PaymentService.Domain.Repositories.BillingItemReposit
         public void Apply(IReadModelContext context, IDomainEvent<BillingItem, BillingItemId, SubscriptionNPaymentToBillingLinkedEvent> domainEvent)
         {
             SubscriptionRequestId = domainEvent.AggregateEvent.SubscriptionRequestId;
+            Type = domainEvent.AggregateEvent.SubscriptionType;
         }
     }
 }

@@ -18,7 +18,7 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.BillingCreation
 
         public Task HandleAsync(IDomainEvent<BillingItem, BillingItemId, BillingItemCreatedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
-            var command = new SubscriptionNRequestLinkToBillingCommand(new BillingItemId(domainEvent.AggregateEvent.ItemId), domainEvent.AggregateEvent.SubscriptionRequestId, domainEvent.AggregateEvent.PaymentMethodId, domainEvent.AggregateEvent.PaymentMethodStatus);
+            var command = new SubscriptionNPaymentLinkToBillingCommand(new BillingItemId(domainEvent.AggregateEvent.ItemId), domainEvent.AggregateEvent.SubscriptionRequestId, domainEvent.AggregateEvent.PaymentMethodId, domainEvent.AggregateEvent.PaymentMethodStatus, domainEvent.AggregateEvent.SubscriptionType);
             this.Publish(command);
             this.Emit(new BillingIemLinkedSagaEvent(domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.PaymentMethodId, domainEvent.AggregateEvent.PaymentMethodStatus));
             return Task.CompletedTask;
@@ -28,12 +28,12 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.BillingCreation
         {
             if (domainEvent.AggregateEvent.PaymentMethodStatus == "Validated")
             {
-                var validateCommand = new BillingItemSystemValidateCommand(domainEvent.AggregateEvent.ItemId, domainEvent.AggregateIdentity.Value);
+                var validateCommand = new BillingItemSystemValidateCommand(domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.PaymentMethodId);
                 this.Publish(validateCommand);
             }
             else if (domainEvent.AggregateEvent.PaymentMethodStatus == "Declined")
             {
-                var declineCommand = new BillingItemSystemDeclineCommand(domainEvent.AggregateEvent.ItemId, domainEvent.AggregateIdentity.Value);
+                var declineCommand = new BillingItemSystemDeclineCommand(domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.PaymentMethodId);
                 this.Publish(declineCommand);
             }
             return Task.CompletedTask;

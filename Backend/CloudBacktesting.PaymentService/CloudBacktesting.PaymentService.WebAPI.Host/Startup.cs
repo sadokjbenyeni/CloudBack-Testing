@@ -50,9 +50,9 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            int siteId = Int32.Parse(Configuration.GetSection("S2P").GetSection("SiteId").Value);
-            var s2pUri = new Uri(Configuration.GetSection("S2P").GetSection("endpoint").Value);
-            var apiKey = Configuration.GetSection("S2P").GetSection("ApiKey").Value;
+            int siteId = Int32.Parse(Configuration.GetSection("S2PCredentiels").GetSection("SiteId").Value);
+            var s2pUri = new Uri(Configuration.GetSection("S2PCredentiels").GetSection("endpoint").Value);
+            var apiKey = Configuration.GetSection("S2PCredentiels").GetSection("ApiKey").Value;
 
 
             services.AddControllers();

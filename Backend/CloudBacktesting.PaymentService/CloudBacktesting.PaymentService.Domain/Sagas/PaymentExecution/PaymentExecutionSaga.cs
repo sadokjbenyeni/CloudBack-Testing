@@ -25,8 +25,7 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentExecution
         {
             var command = new PaymentMethodLinkToBillingItemCommand(new PaymentMethodId(domainEvent.AggregateEvent.PaymentMethodId), domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.MerchantTransactionId, domainEvent.AggregateEvent.Type);
             this.Publish(command);
-            this.Emit(new PaymentInitializedSagaEvent(domainEvent.AggregateIdentity.Value,
-                                                      domainEvent.AggregateEvent.MerchantTransactionId));
+            this.Emit(new PaymentInitializedSagaEvent(domainEvent.AggregateIdentity.Value, domainEvent.AggregateEvent.MerchantTransactionId));
             return Task.CompletedTask;
         }
 
@@ -64,6 +63,7 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentExecution
         }
 
         public void Apply(PaymentInitializedSagaEvent @event) { }
+        public void Apply(BillingItemStatusUpdatedSagaEvent @event) { }
         public void Apply(PaymentExecutionSagaCompletedEvent @event)
         {
             Complete();

@@ -29,10 +29,7 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.BillingFailing
             return Task.CompletedTask;
         }
 
-        public void Apply(BillingItemFailedEmailSentEvent @event)
-        {
-
-        }
+        public void Apply(BillingItemFailedEmailSentEvent @event) { }
         public void Apply(BillingFailingSagaCompletedEvent @event)
         {
             Complete();

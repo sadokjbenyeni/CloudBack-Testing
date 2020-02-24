@@ -8,6 +8,5 @@ namespace CloudBacktesting.PaymentService.WebAPI.Models.BillingItem
     public class PaymentExecutionDto
     {
         public string SubscriptionRequestId { get; set; }
-        public string Currency { get; set; }
     }
 }

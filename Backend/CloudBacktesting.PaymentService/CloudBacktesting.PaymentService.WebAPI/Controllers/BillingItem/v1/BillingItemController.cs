@@ -98,6 +98,8 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.BillingItem.v1
         {
             var requestIdResult = await queryProcessor.ProcessAsync(new FindReadModelQuery<BillingItemReadModel>(model => string.Equals(model.SubscriptionRequestId, value.SubscriptionRequestId)), CancellationToken.None);
             var billingItemId = requestIdResult.FirstOrDefault().Id;
+            var itemById = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<BillingItemReadModel>(new BillingItemId(billingItemId)), CancellationToken.None);
+            var subscriptionType = itemById.Type;
 
             if (this.User == null || !this.User.Identity.IsAuthenticated)
             {
@@ -119,10 +121,9 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.BillingItem.v1
                 return BadRequest($"You are entering an unexisting subscription request identifier, please contact the administrator with error id: {idError}, if the problem persist");
             }
             IExecutionResult commandResult = null;
-
             try
             {
-                var command = new PaymentInitializeCommand(new BillingItemId(billingItemId), value.Currency);
+                var command = new PaymentInitializeCommand(new BillingItemId(billingItemId), subscriptionType);
                 commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
                 if (commandResult.IsSuccess)
                 {

@@ -8,13 +8,14 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
 {
     public class PaymentExecutionInitializedEvent : AggregateEvent<BillingItem, BillingItemId>, IBillingSagaItemId
     {
-        public string ItemId { get; set; }
-        public string PaymentMethodId { get; set; }
-        public string MerchantTransactionId { get; set; }
-        public string Type { get; set; }
+        public string ItemId { get; }
+        public string PaymentMethodId { get; }
+        public string MerchantTransactionId { get; }
+        public string Type { get; }
 
-        public PaymentExecutionInitializedEvent(string paymentMethodId, string merchantTransactionId, string type)
+        public PaymentExecutionInitializedEvent(string itemId ,string paymentMethodId, string merchantTransactionId, string type)
         {
+            ItemId = itemId;
             MerchantTransactionId = merchantTransactionId;
             PaymentMethodId = paymentMethodId;
             Type = type;

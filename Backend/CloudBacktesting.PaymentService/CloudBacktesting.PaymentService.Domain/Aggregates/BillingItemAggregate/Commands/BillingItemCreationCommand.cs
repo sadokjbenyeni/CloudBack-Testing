@@ -20,12 +20,5 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
             PaymentMethodStatus = paymentMethodStatus;
             Type = type;
         }
-        //public BillingItemCreationCommand(item BillingItem)
-        //{
-        //    PaymentMethodId = item.paymentMethodId ?? throw new ArgumentNullException(nameof(paymentMethodId));
-        //    SubscriptionRequestId = item.subscriptionRequestId ?? throw new ArgumentNullException(nameof(subscriptionRequestId));
-        //    PaymentMethodStatus = item.paymentMethodStatus;
-        //}
-
     }
 }
