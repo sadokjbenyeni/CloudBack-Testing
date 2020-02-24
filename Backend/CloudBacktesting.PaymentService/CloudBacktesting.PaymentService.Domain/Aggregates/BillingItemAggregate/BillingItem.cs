@@ -88,8 +88,6 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
 
         public void Apply(BillingItemSystemValidatedEvent @event) { }
 
-        public void Apply(PaymentExecutedEvent @event) { }
-
         public void Apply(BillingItemStatusUpdatedEvent @event)
         {
             this.status = @event.Status;

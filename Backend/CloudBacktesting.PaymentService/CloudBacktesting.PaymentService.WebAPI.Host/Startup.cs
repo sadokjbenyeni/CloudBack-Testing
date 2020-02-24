@@ -32,6 +32,7 @@ using S2p.RestClient.Sdk.Infrastructure;
 using S2p.RestClient.Sdk.Infrastructure.Authentication;
 using S2p.RestClient.Sdk.Services;
 using System;
+using System.Net.Http;
 using IHttpClientBuilder = S2p.RestClient.Sdk.Infrastructure.IHttpClientBuilder;
 
 namespace CloudBacktesting.PaymentService.WebAPI.Host
@@ -50,24 +51,18 @@ namespace CloudBacktesting.PaymentService.WebAPI.Host
         public void ConfigureServices(IServiceCollection services)
         {
             int siteId = Int32.Parse(Configuration.GetSection("S2P").GetSection("SiteId").Value);
+            var s2pUri = new Uri(Configuration.GetSection("S2P").GetSection("endpoint").Value);
+            var apiKey = Configuration.GetSection("S2P").GetSection("ApiKey").Value;
+
 
             services.AddControllers();
             services.AddAuthentication("cloudbacktestingAuthentication")
                     .AddScheme<AuthenticationSchemeOptions, CloudBacktestingAuthenticationHandler>("cloudbacktestingAuthentication", options => { });
             services.AddSingleton<IAuthorizationPolicyProvider, CloudBacktestingAuthorizationPolicyProvider>();
             services.AddSingleton<IAuthorizationHandler, CloudBacktestingAuthorizationHandler>();
-            services.AddScoped<IHttpClientBuilder>(item => new HttpClientBuilder(() => new AuthenticationConfiguration
-            {
-                SiteId = siteId,
-                ApiKey = Configuration.GetSection("S2P").GetSection("ApiKey").Value
-            })
-            );
-            services.AddScoped<Smart2PayUri>(item => new Smart2PayUri()
-            {
-                S2PUri = new Uri(Configuration.GetSection("S2P").GetSection("endpoint").Value)
-            });
 
-
+            services.AddScoped<ICardPaymentService>(item => new CardPaymentService(new HttpClientBuilder(() => new AuthenticationConfiguration { ApiKey = apiKey, SiteId = siteId }).Build(), s2pUri));
+            services.AddScoped<ISmart2PayCardService, Smart2PayCardService>();
             services.AddAuthorization();
             services.AddApiVersioning();
             services.AddSwaggerGen(options =>

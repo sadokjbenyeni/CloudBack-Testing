@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CloudBacktesting.PaymentService.Infra.PaymentServices.CardServices
 {
-    public class Smart2PayCardService
+    public class Smart2PayCardService : ISmart2PayCardService
     {
         private readonly ICardPaymentService cardPaymentService;
         private double amount = 0;

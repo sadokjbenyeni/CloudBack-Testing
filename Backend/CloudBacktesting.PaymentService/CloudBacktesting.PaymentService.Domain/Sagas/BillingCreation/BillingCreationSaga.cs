@@ -1,16 +1,10 @@
 ﻿using CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate;
 using CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate.Commands;
 using CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate.Events;
-using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate;
-using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate.Commands;
-using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate.Events;
 using CloudBacktesting.PaymentService.Domain.Sagas.BillingCreation.Events;
 using EventFlow.Aggregates;
 using EventFlow.Sagas;
 using EventFlow.Sagas.AggregateSagas;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

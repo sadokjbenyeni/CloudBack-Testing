@@ -1,10 +1,6 @@
-﻿using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate;
-using CloudBacktesting.PaymentService.Domain.Sagas;
+﻿using CloudBacktesting.PaymentService.Domain.Sagas;
 using CloudBacktesting.PaymentService.Infra.Models;
 using EventFlow.Aggregates;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate.Events
 {
@@ -17,8 +13,9 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
         public Card CardDetails { get; }
         public string Type { get; }
         public string Currency { get; }
+        public bool IsPaymentSuccessful { get; }
 
-        public PaymentExecutedEvent(string merchantTransactionId, string billingItemId, string paymentMethodId, string subscriber, Card cardDetails, string type, string currency)
+        public PaymentExecutedEvent(string merchantTransactionId, string billingItemId, string paymentMethodId, string subscriber, Card cardDetails, string type, string currency, bool isPaymentSuccessful)
         {
             MerchantTransactionId = merchantTransactionId;
             ItemId = billingItemId;
@@ -27,6 +24,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
             CardDetails = cardDetails;
             Type = type;
             Currency = currency;
+            IsPaymentSuccessful = isPaymentSuccessful;
         }
     }
 }

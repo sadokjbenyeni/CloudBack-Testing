@@ -23,13 +23,12 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
         private string paymentMethodStatus;
         private string paymentMethodSubscriber;
         private Card paymentMethodCardDetails;
-        private readonly IHttpClientBuilder _httpClientBuilder;
-        private readonly Smart2PayUri _smart2Pay;
+        private readonly ISmart2PayCardService _smart2payCardService;
 
-        public PaymentMethod(PaymentMethodId aggregateId, IHttpClientBuilder httpClientBuilder, Smart2PayUri smart2Pay) : base(aggregateId)
+
+        public PaymentMethod(PaymentMethodId aggregateId, ISmart2PayCardService smart2PayCardService) : base(aggregateId)
         {
-            _httpClientBuilder = httpClientBuilder;
-            _smart2Pay = smart2Pay;
+            _smart2payCardService = smart2PayCardService;
         }
 
         public IExecutionResult Create(string paymentAccountId, string cardNumber, string cardType, string cardHolder, string expirationYear, string expirationMonth, string cryptogram)
@@ -69,18 +68,8 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
         }
         public IExecutionResult ExecutePayment(string billingItemId, string merchantTransactionId, string subscriptionRequestId, Card cardDetails, string type, string subscriber)
         {
-            var baseAddress = _smart2Pay.S2PUri;
-
-            var httpClient = _httpClientBuilder.Build();
-
-            var paymentService = new CardPaymentService(httpClient, baseAddress);
-
-            var service = new Smart2PayCardService(paymentService);
-
-            var response = service.CreateAsync(merchantTransactionId, subscriptionRequestId, cardDetails, type, "EUR", CancellationToken.None);
-
-            Emit(new PaymentExecutedEvent(merchantTransactionId, billingItemId ,this.Id.Value, subscriber, cardDetails, type, "EUR"));
-
+            var response = _smart2payCardService.CreateAsync(merchantTransactionId, subscriptionRequestId, cardDetails, type, "EUR", CancellationToken.None);
+            Emit(new PaymentExecutedEvent(merchantTransactionId, billingItemId ,this.Id.Value, subscriber, cardDetails, type, "EUR", response.Result));
             return ExecutionResult.Success();
         }
         public IExecutionResult LinkBillingItem(string billingItemId, string merchantTransactionId, string type)
@@ -102,10 +91,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
             this.paymentMethodSubscriber = @event.PaymentMethodSubscriber;
             this.paymentMethodCardDetails = @event.PaymentMethodCardDetails;
         }
-
-        public void Apply(PaymentMethodStatusUpdatedEvent @event)
-        {
-
-        }
+        public void Apply(PaymentExecutedEvent @event) { }
+        public void Apply(PaymentMethodStatusUpdatedEvent @event) { }
     }
 }

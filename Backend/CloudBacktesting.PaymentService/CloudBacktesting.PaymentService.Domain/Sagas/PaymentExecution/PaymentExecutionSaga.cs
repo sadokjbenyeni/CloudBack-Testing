@@ -5,18 +5,9 @@ using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate.Commands;
 using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate.Events;
 using CloudBacktesting.PaymentService.Domain.Sagas.PaymentExecution.Events;
-using CloudBacktesting.PaymentService.Infra.Models;
-using CloudBacktesting.PaymentService.Infra.PaymentServices.CardServices;
 using EventFlow.Aggregates;
-using EventFlow.Aggregates.ExecutionResults;
 using EventFlow.Sagas;
 using EventFlow.Sagas.AggregateSagas;
-using S2p.RestClient.Sdk.Infrastructure;
-using S2p.RestClient.Sdk.Infrastructure.Authentication;
-using S2p.RestClient.Sdk.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,14 +19,7 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentExecution
                                         ISagaHandles<PaymentMethod, PaymentMethodId, PaymentExecutedEvent>,
                                         ISagaHandles<BillingItem, BillingItemId, InvoiceGeneratedEvent>
     {
-        private const string URIPAYMENT = "https://securetest.smart2pay.com/payments";
-  
-
-        public PaymentExecutionSaga(PaymentExecutionSagaId id) : base(id)
-        {
-
-        }
-
+        public PaymentExecutionSaga(PaymentExecutionSagaId id) : base(id) { }
 
         public Task HandleAsync(IDomainEvent<BillingItem, BillingItemId, PaymentExecutionInitializedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
@@ -51,24 +35,24 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentExecution
             var command = new PaymentExecutionCommand(domainEvent.AggregateIdentity, domainEvent.AggregateEvent.MerchantTransactionId,domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.SubscriptionRequestId, domainEvent.AggregateEvent.CardDetails, domainEvent.AggregateEvent.Type, domainEvent.AggregateEvent.Subscriber);
             this.Publish(command);
 
-            //if (domainEvent.AggregateEvent.IsPaymentSuccessful)
-            //{
-            //    var failCommand = new PaymentExecutionFailureCommand(domainEvent.AggregateIdentity.Value, domainEvent.AggregateEvent.PaymentMethodId);
-            //    this.Publish(failCommand);
-            //}
             return Task.CompletedTask;
-
         }
 
         public Task HandleAsync(IDomainEvent<PaymentMethod, PaymentMethodId, PaymentExecutedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
-            //var command = new InvoiceGenerationCommand(domainEvent.AggregateIdentity.Value,
-            //   domainEvent.AggregateEvent.MerchantTransactionId,
-            //   domainEvent.AggregateEvent.PaymentMethodSubscriber,
-            //   domainEvent.AggregateEvent.PaymentMethodCardDetails.HolderName);
+            if (!domainEvent.AggregateEvent.IsPaymentSuccessful)
+            {
+                var failCommand = new PaymentExecutionFailureCommand(domainEvent.AggregateIdentity.Value, domainEvent.AggregateEvent.PaymentMethodId);
+                this.Publish(failCommand);
+            }
 
-            //this.Publish(command);
-            //Emit(new BillingItemStatusUpdatedEvent("Activated", this.Id.Value));
+            var command = new InvoiceGenerationCommand(domainEvent.AggregateIdentity.Value,
+               domainEvent.AggregateEvent.MerchantTransactionId,
+               domainEvent.AggregateEvent.Subscriber,
+               domainEvent.AggregateEvent.CardDetails.HolderName);
+
+            this.Publish(command);
+            this.Emit(new BillingItemStatusUpdatedSagaEvent("Activated", domainEvent.AggregateEvent.ItemId));
 
             return Task.CompletedTask;
         }
