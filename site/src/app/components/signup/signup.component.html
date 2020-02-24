@@ -1,148 +1,118 @@
 <app-menu></app-menu>
 <div class="container col-12 ">
-  <h1 class="col-12 mt-3" >SignUp</h1>
+  <h1 class="col-12 mt-3">SignUp</h1>
   <hr>
   <div class="row col-12">
     <!-- Advanced Tables -->
-      <div class="panel-body  col-md-12">
-        <form #userForm="ngForm" class="row col-md-12" role="form">
-          <fieldset class="form-group col-md-12 col-lg-6 pt-3">
-            <legend>Contact Informations</legend>
+    <div class="panel-body  col-md-12">
+      <form class="row col-md-12" (ngSubmit)="Signup()" [formGroup]="SignupFrmGroup">
+        <fieldset class=" col-md-12 col-lg-6 pt-3">
+          <legend>Contact Informations</legend>
+          <div class="col-md-12">
+            <mat-form-field class="col-md-10">
+              <input matInput type="text" class=" col-sm-12 col-md-12 col-lg-8" placeholder="first Name"
+                formControlName="firstnamectl" required>
+              <mat-error> this field is mendatory</mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-10">
+              <input matInput type="text" class=" col-sm-12 col-md-12 col-lg-8" placeholder="Last Name"
+                formControlName="lastnamectl" required>
+              <mat-error> this field is mendatory</mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-10">
+              <input matInput type="text" class=" col-sm-12 col-md-12 col-lg-8" placeholder="Job role"
+                formControlName="jobctl" required>
+              <mat-error> this field is mendatory</mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-10">
+              <input matInput formControlName="phonectl" class="col-sm-12 col-md-12 col-lg-8" placeholder="Phone">
+              <mat-error> Phone number is not valid</mat-error>
+            </mat-form-field>
+            <legend class="pb-3">Login Informations</legend>
+            <mat-form-field class="col-md-10">
+              <input matInput type="email" class=" col-sm-12 col-md-12 col-lg-8" placeholder="Email"
+                formControlName="emailctl" required>
+              <mat-error *ngIf=" SignupFrmGroup.controls['emailctl'].hasError('email')"> Email format not valid
+              </mat-error>
+              <mat-error *ngIf=" SignupFrmGroup.controls['emailctl'].hasError('incorrect')"> This email already exists
+              </mat-error>
+              <mat-error *ngIf="SignupFrmGroup.controls['emailctl'].hasError('required')"> This field is mendatory
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-10">
+              <input matInput placeholder="Password" type="password" class="" formControlName="passwordctl" required>
+              <mat-error> This field is mendatory</mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-10">
+              <input matInput placeholder="Validation password" type="password"
+                formControlName="confirmationpasswordctl" required>
+              <mat-error *ngIf=" SignupFrmGroup.controls['confirmationpasswordctl'].hasError('incorrect')">Validation
+                password does not match the password</mat-error>
+              <mat-error *ngIf=" SignupFrmGroup.controls['confirmationpasswordctl'].hasError('required')"> This field is
+                mendatory</mat-error>
+              <br />
+            </mat-form-field>
+          </div>
+        </fieldset>
+        <fieldset class="col-md-12 col-lg-6 pt-3">
+          <legend>Company Informations</legend>
+          <mat-form-field class="col-md-10">
+            <input matInput type="text" class=" col-md-12 col-sm-12" placeholder="Company name"
+              formControlName="companynamectl" required>
+            <mat-error class="col-12 p-0"> This field is mendatory </mat-error>
+          </mat-form-field>
+          <mat-form-field class="col-md-10">
+            <mat-label>Select company type</mat-label>
+            <mat-select class=" col-md-12 col-sm-12" formControlName="companytypectl">
+              <mat-option *ngFor='let ct of companyType' [value]="ct.id">{{ct.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="col-md-10">
+            <mat-label>Select country</mat-label>
+            <mat-select class=" col-md-12 col-sm-12" formControlName="countryctl" required>
+              <mat-option *ngFor='let c of country' [value]="c.id">{{c.name}}</mat-option>
+            </mat-select>
+            <mat-error class="col-12 p-0"> This field is mendatory</mat-error>
+          </mat-form-field>
+          <mat-form-field class="col-md-10">
+            <input matInput type="text" formControlName="addressctl" class=" col-md-12 col-sm-12" placeholder="Address">
+          </mat-form-field>
+          <mat-form-field class="col-md-10">
+            <input matInput type="text" formControlName="postalcodectl" class=" col-md-12 col-sm-12"
+              placeholder="Postal Code">
+          </mat-form-field>
+          <mat-form-field class="col-md-10">
+            <input matInput type="text" formControlName="cityctl" class=" col-md-12 col-sm-12" placeholder="City">
+          </mat-form-field>
+          <mat-form-field class="col-md-10">
+            <input matInput type="text" formControlName="regionctl" class=" col-md-12 col-sm-12"
+              placeholder="State, Province or Region">
+          </mat-form-field>
+          <mat-form-field class="col-md-10">
+            <input matInput type="text" formControlName="websitectl" class=" col-md-12 col-sm-12" placeholder="Website">
+          </mat-form-field>
+        </fieldset>
+        <fieldset class="col-12 text-center">
+          <div class="float-center">
+            <mat-checkbox class="col-md-2" formControlName="cguctl" (change)="showOptions($event)" value="">
+              I agree to QH’s <a [routerLink]="" class="text-nowrap" (click)=GetTerms()>term & services, and
+                cookie policy</a>
+            </mat-checkbox>
+            <div class="mat-error mb-2" *ngIf="SignupFrmGroup.controls['cguctl'].hasError('required')">
+              this field is mendatory </div>
             <div class="col-md-12">
-              <div class="form-group input-group col-md-10">
-                <span class="input-group-addon  col-sm-12 col-md-12 col-lg-4">First Name*</span>
-                <input type="text" name="newfirstname" class="form-control col-sm-12 col-md-12 col-lg-8"
-                  placeholder="First Name" [(ngModel)]="user['firstname']" #newfirstname="ngModel" ngModel required>
-                <show-errors class="col-12 p-0" [control]="newfirstname"></show-errors>
-              </div>
-              <div class="form-group input-group col-md-10">
-                <span class="input-group-addon  col-sm-12 col-md-12 col-lg-4">Last Name*</span>
-                <input type="text" name="newlastname" class="form-control col-sm-12 col-md-12 col-lg-8"
-                  placeholder="Last Name" [(ngModel)]="user['lastname']" #newlastname="ngModel" ngModel required>
-                <show-errors class="col-12 p-0" [control]="newlastname"></show-errors>
-              </div>
-              <div class="form-group input-group col-md-10">
-                <span class="input-group-addon  col-sm-12 col-md-12 col-lg-4">Job Role*</span>
-                <input type="text" name="newjob" class="form-control col-sm-12 col-md-12 col-lg-8"
-                  [(ngModel)]="user['job']" placeholder="Job role" #newjob="ngModel" ngModel required>
-                <show-errors class="col-12 p-0" [control]="newjob"></show-errors>
-              </div>
-              <div class="form-group input-group col-md-10">
-                <span class="input-group-addon  col-sm-12 col-md-12 col-lg-4">Phone Number</span>
-                <input type="tel" name="newPhone" class="form-control col-sm-12 col-md-12 col-lg-8"
-                  [(ngModel)]="user['phone']" placeholder="Phone">
-              </div>
-              <legend class="pb-3">Login Informations</legend>
-              <div>
-                <div class="form-group input-group col-md-10">
-                  <span class="input-group-addon  col-sm-12 col-md-12 col-lg-4">Email*</span>
-                  <input type="email" name="newemail" class="form-control col-sm-12 col-md-12 col-lg-8"
-                    placeholder="Email" emailString [(ngModel)]="user['email']" (keyup)="verifMail()"
-                    #newemail="ngModel" ngModel required>
-                  <div class="alert alert-danger col-12 mb-0" style="line-height: 80% ;"
-                    [hidden]="!exist">
-                    <span>This email already exists</span></div>
-                  <show-errors class="col-12 p-0" [control]="newemail"></show-errors>
-                </div>
-                <div class="form-group input-group col-md-10">
-                  <span class="input-group-addon  col-sm-12 col-md-12 col-lg-4">Password*</span>
-                  <input type="password" name="newpassword" class="form-control" [(ngModel)]="user['password']"
-                    #newpassword="ngModel" mdp ngModel required>
-                  <div class="alert alert-danger col-12 mb-0" style="line-height: 80%;" *ngIf="isValidPwd">
-                    <span>Password does not match the confirm password</span>
-                  </div>
-                  <show-errors class="col-12 p-0" [control]="newpassword"></show-errors>
-                </div>
-                <div class="form-group input-group  col-md-10" >
-                  <span class="input-group-addon  col-sm-12 col-md-12 col-lg-4">Confirm password*</span>
-                  <input type="password" name="newconfirmation" class="form-control" [(ngModel)]="confirmation"
-                    #newconfirmation="ngModel" ngModel required>
-                  <div class="alert alert-danger col-12 mb-0" style="line-height: 80%;" *ngIf="isValidPwd">
-                    <span>Password does not match the confirm password</span>
-                  </div>
-                  <show-errors class="col-12 p-0" [control]="newconfirmation"></show-errors>
-                </div><br />
-
-              </div>
-            </div>
-          </fieldset>
-          <fieldset class="form-group col-md-12 col-lg-6 pt-3">
-            <legend>Company Informations</legend>
-            <div class="form-group input-group col-md-10">
-              <span class="input-group-addon col-sm-12 col-md-12 col-lg-4">Company Name*</span>
-              <input type="text" name="newcompanyname" class="form-control col-md-12 col-sm-12"
-                [(ngModel)]="user['companyName']" placeholder="Company name" #newcompanyname="ngModel" ngModel required>
-              <show-errors class="col-12 p-0" [control]="newcompanyname"></show-errors>
-            </div>
-            <div class="form-group input-group col-md-10">
-              <span class="input-group-addon col-sm-12 col-md-12 col-lg-4 ">Company Type</span>
-              <select name="newCompanyType" class="form-control col-md-12 col-sm-12" [(ngModel)]="user['companyType']"
-                ngModel>
-                <option value="">Selected Company Type</option>
-                <option *ngFor='let ct of companyType' [value]="ct.id">{{ct.name}}</option>
-              </select>
-            </div>
-            <div class="form-group input-group col-md-10">
-              <span class="input-group-addon col-sm-12 col-md-12 col-lg-4">Country*</span>
-              <select name="newcountry" class="form-control col-md-12 col-sm-12" [(ngModel)]="user['country']" ngModel
-                #newcountry="ngModel" required>
-                <option value="">Select country</option>
-                <option *ngFor='let c of country' [value]="c.id">{{c.name}}</option>
-              </select>
-              <show-errors class="col-12 p-0" [control]="newcountry"></show-errors>
-            </div>
-            <div class="form-group input-group col-md-10">
-              <span class="input-group-addon col-sm-12 col-md-12 col-lg-4">Address</span>
-              <input type="text" name="newAddress" class="form-control col-md-12 col-sm-12" placeholder="Address"
-                [(ngModel)]="user['address']">
-            </div>
-            <div class="form-group input-group col-md-10 ">
-              <span class="input-group-addon col-sm-12 col-md-12 col-lg-4">Postal Code</span>
-              <input type="text" name="newPostalCode" class="form-control col-md-12 col-sm-12"
-                [(ngModel)]="user['postalCode']" placeholder="Postal Code">
-            </div>
-            <div class="form-group input-group col-md-10">
-              <span class="input-group-addon col-sm-12 col-md-12 col-lg-4">City</span>
-              <input type="text" name="newCity" class="form-control col-md-12 col-sm-12" [(ngModel)]="user['city']"
-                placeholder="City">
-            </div>
-            <div class="form-group input-group col-md-10">
-              <span class="input-group-addon col-sm-12 col-md-12 col-lg-4">State, Province or Region</span>
-              <input type="text" name="newRegion" class="form-control col-md-12 col-sm-12" [(ngModel)]="user['region']"
-                placeholder="State, Province or Region">
-            </div>
-            <div class="form-group input-group col-md-10">
-              <span class="input-group-addon col-sm-12 col-md-12 col-lg-4">Website</span>
-              <input type="tel" name="newWebsite" class="form-control col-md-12 col-sm-12" [(ngModel)]="user['website']"
-                placeholder="Website">
-            </div>
-          </fieldset>
-          <fieldset class="col-12 text-center" >
-            <div class="policy-center">
-              <div class="form-group input-group  col-md-12">
-                <mat-checkbox class="col-md-2" name="newcgu" (change)="showOptions($event)" value=""
-                  [(ngModel)]="acceptingcgu" #newcgv="ngModel" ngModel required>
-                  I agree to QH’s <a [routerLink]="" class="text-nowrap" (click)=GetTerms()>term & services, and
-                    cookie policy</a>
-                </mat-checkbox>
-              </div>
-              <div class="form-group input-group col-md-12">
-                <mat-checkbox class="col-md-2" name=" newcommercial" [(ngModel)]="user.commercial"
-                  value="usercommercial">
-                  Subscribe to commercial emails
-                </mat-checkbox>
-              </div>
-            </div>
-            <div class="form-group input-group  col-md-12 ">
               <re-captcha (resolved)="resolved($event)" [siteKey]="key"></re-captcha>
+              <div class=" mb-2 mat-error" *ngIf="recaptchaerrormessage">recaptcha check is mendatory
+              </div>
             </div>
             <a routerLink="/on-boarding" class="border mr-2 btn btn-default">Cancel</a>
-            <button (click)="Signup() " class="btn btn-default"
-              [disabled]="userForm.invalid|| !acceptingcgu || userForm.pending || checkrobot || exist">Sign Up
+            <button class="btn btn-default">Sign
+              Up
             </button>
-          </fieldset>
-        </form>
-      </div>
+          </div>
+        </fieldset>
+      </form>
     </div>
-    <!-- End EditListes utilisateur -->
   </div>
+  <!-- End EditListes utilisateur -->
+</div>

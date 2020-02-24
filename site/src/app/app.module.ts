@@ -58,14 +58,9 @@ import { NgbdModalContent } from './modal-content';
 import { CdkTableModule } from '@angular/cdk/table';
 import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.component';
 import { LoginPageComponent } from './components/login/login-page/login-page.component';
-import { HomeComponent } from './components/home/home.component';
-import { PricingComponent } from './components/pricing/pricing.component';
-import { ProductsComponent } from './components/products/products.component';
+
 import { ActivationComponent } from './components/activation/activation.component';
-import { AboutComponent } from './components/about/about.component';
-import { HelpPageComponent } from './components/help-page/help-page.component';
 import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurrency.component';
-import { OnBoardingComponent } from './components/on-boarding/on-boarding.component';
 
 import { PasswordResetComponent } from './components/login/password-reset/password-reset.component';
 import { NotifierModule } from "angular-notifier";
@@ -82,19 +77,28 @@ import { ConfirmationPopupComponent } from './components/confirmation-popup/conf
 import { EnumToArrayPipe } from './EnumToList';
 import { PaymentService } from './services/payment.service';
 
-import { MySubscriptionsComponent } from './components/userProfile/my-subscriptions/my-subscriptions.component';
 import { DatePipe } from '@angular/common';
 import { SubscriptionsDetailsComponent } from './components/subscriptions-details/subscriptions-details.component';
 import { CardimagesComponent } from './components/cardimages/cardimages.component';
 import { AdminMenuComponent } from './components/admin/admin-menu/admin-menu.component';
 import { ErrorHandlerComponent } from './components/error-handler/error-handler.component';
+//user profile pages
+import { MySubscriptionsComponent } from './components/userProfile/my-subscriptions/my-subscriptions.component';
 import { GeneralInformationsComponent } from './components/userProfile/general-informations/general-informations.component';
 import { ProfileMenuComponent } from './components/userProfile/profile-menu/profile-menu.component';
+// user profile and mutualized subscription page ( under profile pages folder)
 import { GetPaymentCardsComponent } from './components/userProfile/PaymentsModule/get-payment-cards/get-payment-cards.component';
 import { AddPaymentCardComponent } from './components/userProfile/PaymentsModule/add-payment-card/add-payment-card.component';
 import { PaymentComponent } from './components/userProfile/PaymentsModule/payment/payment.component';
 import { PasswordResetEmailComponent } from './components/login/password-reset-email/password-reset-email.component';
 import { ChangePasswordComponent } from './components/userProfile/change-password/change-password.component';
+//presentation pages
+import { HomeComponent } from './components/Presentationpages/home/home.component';
+import { PricingComponent } from './components/Presentationpages/pricing/pricing.component';
+import { ProductsComponent } from './components/Presentationpages/products/products.component';
+import { OnBoardingComponent } from './components/Presentationpages/on-boarding/on-boarding.component';
+import { AboutComponent } from './components/Presentationpages/about/about.component';
+import { HelpPageComponent } from './components/Presentationpages/help-page/help-page.component';
 
 @NgModule({
   declarations: [
@@ -150,7 +154,7 @@ import { ChangePasswordComponent } from './components/userProfile/change-passwor
     ChangePasswordComponent
 
   ],
-  entryComponents: [NgbdModalContent, LoginDialogComponent, PasswordResetEmailComponent, PasswordResetComponent, TermsOfUseComponent, RejectionMessageDialogComponent, ConfirmationPopupComponent, SubscriptionConfigurationPopupComponent,ErrorHandlerComponent],
+  entryComponents: [NgbdModalContent, LoginDialogComponent, PasswordResetEmailComponent, PasswordResetComponent, TermsOfUseComponent, RejectionMessageDialogComponent, ConfirmationPopupComponent, SubscriptionConfigurationPopupComponent, ErrorHandlerComponent],
   imports: [
     MaterialModule,
     BrowserModule,

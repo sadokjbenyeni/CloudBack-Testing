@@ -35,10 +35,6 @@ export class MutualizedSubscriptionComponent implements OnInit {
     })
     this.countryService.getCountries().subscribe(result => {
       this.Countries = result.countries;
-
-      //AddBilling
-      this.SetDefaultBillingInformations();
-
     });
     this.CgvFormGroup = this._formBuilder.group({
       cgvCrtl: ['', Validators.required]
@@ -63,16 +59,7 @@ export class MutualizedSubscriptionComponent implements OnInit {
       this.IscgvAccepted = false;
     }
   }
-  SetDefaultBillingInformations() {
-    let id = JSON.parse(localStorage.getItem('user'))._id;
-    this.userService.getCompte().subscribe(res => {
-      this.Subscription.billing.address = res.addressBilling;
-      this.Subscription.billing.city = res.cityBilling;
-      this.Subscription.billing.vat = res.vat;
-      this.Subscription.billing.postalCode = res.postalCodeBilling;
-      this.Subscription.billing.country = this.Countries.find(item => item.id == res.countryBilling)
-    });
-  }
+
 
   GetPaymentMethod($event) {
     // this.Subscription.paymentCard = $event as Payment;

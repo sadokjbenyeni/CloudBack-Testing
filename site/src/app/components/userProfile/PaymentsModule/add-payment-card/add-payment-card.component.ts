@@ -62,11 +62,14 @@ export class AddPaymentCardComponent implements OnInit {
         .subscribe(result => {
           if (result == true)
             this.paymentService.AddPaymentCard(this.Payment).subscribe(retult => {
-              this.Payment.paymentMethodId=result["id"]
+              this.Payment.paymentMethodId = result["id"]
               this.eventMessage.emit(this.Payment);
               this.matsnackbar.open("Card Successfully Added", "Ok", { duration: 2000 });
               this.Payment = new Payment();
               this.controlPaymentgrp.reset();
+            }, error => {
+              debugger;
+              this.matsnackbar.open(error.error, "", { duration: 3000 });
             });
         });
     }
@@ -94,7 +97,7 @@ export class AddPaymentCardComponent implements OnInit {
   }
   IsExpirationDateValid(): boolean {
     let date = new Date();
-    date.setFullYear(Number.parseInt(this.expirationyear),Number.parseInt(this.expirationmonth), null);
+    date.setFullYear(Number.parseInt(this.expirationyear), Number.parseInt(this.expirationmonth), null);
     this.Payment.expirationMonth = this.expirationmonth.toString();
     this.Payment.expirationYear = this.expirationyear.toString();
     return (date < this.currentDate);

@@ -12,14 +12,9 @@ import { SubscriptionsactiveComponent } from './components/admin/subscriptions-a
 import { SubscriptionsValidationComponent } from './components/admin/subscriptions-validation/subscriptions-validation.component';
 import { SubscriptionsacceptedComponent } from './components/admin/subscriptions-accepted/subscriptions-accepted.component';
 // Site Clients
-import { AboutComponent } from './components/about/about.component';
-import { HelpPageComponent } from './components/help-page/help-page.component';
 import { SignUpComponent } from './components/signup/signup.component';
-import { ProductsComponent } from './components/products/products.component';
-import { PricingComponent } from './components/pricing/pricing.component';
 import { LoginPageComponent } from './components/login/login-page/login-page.component';
 import { CryptocurrencyComponent } from './components/cryptocurrency/cryptocurrency.component';
-import { OnBoardingComponent } from './components/on-boarding/on-boarding.component';
 import { MutualizedSubscriptionComponent } from './components/mutualized-subscription/mutualized-subscription.component';
 
 
@@ -29,6 +24,12 @@ import { ProfileMenuComponent } from './components/userProfile/profile-menu/prof
 import { PaymentComponent } from './components/userProfile/PaymentsModule/payment/payment.component';
 import { GeneralInformationsComponent } from './components/userProfile/general-informations/general-informations.component';
 import { ChangePasswordComponent } from './components/userProfile/change-password/change-password.component';
+// presentation pages
+import { OnBoardingComponent } from './components/Presentationpages/on-boarding/on-boarding.component';
+import { ProductsComponent } from './components/Presentationpages/products/products.component';
+import { PricingComponent } from './components/Presentationpages/pricing/pricing.component';
+import { AboutComponent } from './components/Presentationpages/about/about.component';
+import { HelpPageComponent } from './components/Presentationpages/help-page/help-page.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'on-boarding', pathMatch: 'full' },

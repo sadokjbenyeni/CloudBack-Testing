@@ -1,4 +1,3 @@
-// const app = require('express')();
 const router = require('express').Router();
 const mongoose = require('mongoose');
 const crypto = require("crypto");
@@ -6,21 +5,13 @@ const eventpublisher = require('../../Events/Publishers/AccountActiveEventPublis
 const User = mongoose.model('User');
 const config = require('../../config/config.js');
 const mailer = require('./mailer.js');
-// const Request = require('request');
+const jwt = require('jsonwebtoken');
 const URLS = config.config();
-// const admin = config.admin();
-// const domain = config.domain();
+var emailvalidator = require("email-validator");
+
 const PHRASE = config.phrase();
-// const DNLFILE = config.dnwfile();
 const algorithm = 'aes256';
 
-// router.param('user', function (req, res, next) {
-//     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-//         return next();
-
-//         return res.sendStatus(422);
-//     }
-// });
 
 router.get('/', (req, res) => {
     if (URLS.indexOf(req.headers.referer) !== -1) {
@@ -159,48 +150,71 @@ router.post('/info', (req, res) => {
 
 //Create Account User
 router.post('/', (req, res) => {
-    User.count()
-        .then((count) => {
-            let user = new User();
-            let d = new Date();
+    if (!validateuser(req)) {
+        return res.sendStatus(400);
+    }
+    User.findOne({ email: req.body.email }).then(
+        (u) => {
 
-            let concatoken = req.body.password + req.body.email + d;
-            let pass = req.body.password;
-            let cipher = crypto.createCipher(algorithm, pass);
-            let crypted = cipher.update(PHRASE, 'utf8', 'hex');
-            crypted += cipher.final('hex');
-            user.password = crypted;
-            cipher = crypto.createCipher(algorithm, concatoken);
-            crypted = cipher.update(PHRASE, 'utf8', 'hex');
-            crypted += cipher.final('hex');
-            user.token = crypted;
+            if (u != null) {
+                return res.status(200).json({ error: "email already exists" });
+            }
+            else {
+                User.count()
+                    .then((count) => {
+                        let user = new User();
+                        let d = new Date();
 
-            user.id = count + 1;
-            user.email = req.body.email;
-            user.lastname = req.body.lastname;
-            user.firstname = req.body.firstname;
-            user.job = req.body.job;
-            user.companyName = req.body.companyName;
-            user.companyType = req.body.companyType ? req.body.companyType : '';
-            user.country = req.body.country ? req.body.country : '';
-            user.address = req.body.address ? req.body.address : '';
-            user.postalCode = req.body.postalCode ? req.body.postalCode : '';
-            user.city = req.body.city ? req.body.city : '';
-            user.region = req.body.region ? req.body.region : '';
-            user.phone = req.body.phone ? req.body.phone : '';
-            user.website = req.body.website ? req.body.website : '';
-            user.cgu = req.body.cgu;
-            user.save((err) => {
-                if (err) return console.error(err);
-                console.log("User successfully created : Sending mail to user ")
-                if (mailer.sendActivationMail(user.email, user.token) == true) {
-                    res.status(201).json({ account: true });
-                } else {
-                    res.sendStatus(503);
-                }
-            });
+                        let concatoken = req.body.password + req.body.email + d;
+                        let pass = req.body.password;
+                        let cipher = crypto.createCipher(algorithm, pass);
+                        let crypted = cipher.update(PHRASE, 'utf8', 'hex');
+                        crypted += cipher.final('hex');
+                        user.password = crypted;
+                        cipher = crypto.createCipher(algorithm, concatoken);
+                        crypted = cipher.update(PHRASE, 'utf8', 'hex');
+                        crypted += cipher.final('hex');
+                        user.token = crypted;
+
+                        user.id = count + 1;
+                        user.email = req.body.email;
+                        user.lastname = req.body.lastname;
+                        user.firstname = req.body.firstname;
+                        user.job = req.body.job;
+                        user.companyName = req.body.companyName;
+                        user.companyType = req.body.companyType ? req.body.companyType : '';
+                        user.country = req.body.country ? req.body.country : '';
+                        user.address = req.body.address ? req.body.address : '';
+                        user.postalCode = req.body.postalCode ? req.body.postalCode : '';
+                        user.city = req.body.city ? req.body.city : '';
+                        user.region = req.body.region ? req.body.region : '';
+                        user.phone = req.body.phone ? req.body.phone : '';
+                        user.website = req.body.website ? req.body.website : '';
+                        user.cgu = req.body.cgu;
+                        user.save((err) => {
+                            if (err) return console.error(err);
+                            console.log("User successfully created : Sending mail to user ")
+                            if (mailer.sendActivationMail(user.email, user.token) == true) {
+                                res.status(201).json({ account: true });
+                            } else {
+                                res.sendStatus(503);
+                            }
+                        });
+                    });
+            }
         });
 });
+const validateuser = function (req) {
+    if (!req.body.firstname || req.body.firstname == undefined) return false;
+    if (!req.body.lastname || req.body.lastname == undefined) return false;
+    if (!req.body.job || req.body.job == undefined) return false;
+    if (!req.body.email || req.body.email == undefined || !emailvalidator.validate(req.body.email)) return false;
+    if (!req.body.password || req.body.password == undefined) return false;
+    if (!req.body.companyName || req.body.companyName == undefined) return false;
+    if (!req.body.country || req.body.country == undefined) return false;
+    if (!req.body.cgu || req.body.cgu == undefined || req.body.cgu.length == 0) return false;
+    return true;
+}
 
 router.post('/logout/', (req, res) => {
     email = getEmailfromheader(req);
@@ -271,16 +285,15 @@ router.post('/suspendre/', (req, res) => {
         });
 });
 
-router.post('/verifmail/', (req, res) => {
-    // if(URLS.indexOf(req.headers.referer) !== -1){
-    User.findOne({ email: req.body.email }, { _id: false })
-        .then((user) => {
-            if (!user) {
-                return res.status(200).json({ valid: false, message: "This email does not exist" });
-            }
-            return res.status(200).json({ valid: true });
-        });
-});
+// router.post('/verifmail/', (req, res) => {
+//     User.findOne({ email: req.body.email }, { _id: false })
+//         .then((user) => {
+//             if (!user) {
+//                 return res.status(200).json({ valid: false, message: "This email does not exist" });
+//             }
+//             return res.status(200).json({ valid: true });
+//         });
+// });
 
 router.delete('/:user', (req, res) => {
     req.user.remove()
@@ -332,15 +345,22 @@ router.put('/resetpwd', (req, res) => {
     if (req.body.token == undefined || req.body.pwd == undefined) {
         res.sendStatus(422);
     }
-    let cipher = crypto.createCipher(algorithm, req.body.pwd);
-    let crypted = cipher.update(PHRASE, 'utf8', 'hex');
-    crypted += cipher.final('hex');
+    try {
+        const token = jwt.verify(req.body.token, process.env.JWTSECRET).token;
+        let cipher = crypto.createCipher(algorithm, req.body.pwd);
+        let crypted = cipher.update(PHRASE, 'utf8', 'hex');
+        crypted += cipher.final('hex');
 
-    User.updateOne({ token: req.body.token }, { $set: { password: crypted } })
-        .then(() => {
-            return res.status(200).send({});
-        })
+        User.updateOne({ token: token }, { $set: { password: crypted } })
+            .then(() => {
+                return res.status(200).send({ meesage: "password changed" });
+            })
+    }
+    catch (error) {
+        return res.status(200).json({ error: error.message })
+    }
 });
+
 router.put('/changepwd', (req, res) => {
     const email = getEmailfromheader(req)
     if (email == null) {

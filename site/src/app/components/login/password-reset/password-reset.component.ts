@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
 
 @Component({
@@ -28,7 +28,9 @@ export class PasswordResetComponent implements OnInit {
     //form validators
     this.passwordform = this.formBuilder.group({
       passwordctl: ['', Validators.required],
-      validationpasswordctl: ['', Validators.required],
+      validationpasswordctl: new FormControl('', [(control) => {
+        return !control.value ? { 'required': true } : control.value != this.passwordform.controls['passwordctl'].value ? { incorrect: true } : null;
+      }]),
     });
     //get token from url
     this.route.params.subscribe(event => {
@@ -40,11 +42,7 @@ export class PasswordResetComponent implements OnInit {
   }
 
   changePassword() {
-    if (this.password != this.validationpassword) {
-      this.passwordform.controls['passwordctl'].setErrors({ 'incorrect': true })
-      this.passwordform.controls['validationpasswordctl'].setErrors({ 'incorrect': true })
-      return;
-    }
+
     if (this.passwordform.valid) {
       this.userservice.resetpwd({ pwd: this.password, token: this.token }).subscribe(result => {
         this.message = true;

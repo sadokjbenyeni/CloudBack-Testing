@@ -2,6 +2,7 @@ const router = require('express').Router();
 const sgMail = require('@sendgrid/mail');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
+const jwt = require('jsonwebtoken');
 
 sgMail.setApiKey("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");
 router.post('/inscription', (req, res, next) => {
@@ -93,20 +94,22 @@ router.post('/mdp', (req, res) => {
   console.log("sneding email of password reset to " + req.body.email)
   User.findOne({ email: req.body.email }, { token: true })
     .then((u) => {
+      const token = jwt.sign({ token : u.token }, process.env.JWTSECRET, { expiresIn: '60m', });
+
       let mailOptions = {
         from: 'no-reply@quanthouse.com',
         to: req.body.email,
         subject: 'Password Initialization',
         text: `Hello,
 
-    To reinitialize your password, please click on the following link: `+ process.env.DOMAIN + `/mdp/` + u.token + `
+    To reinitialize your password, please click on the following link: `+ process.env.DOMAIN + `/mdp/` + token + `
     If clicking the above link does not work, you can copy and paste the URL in a new browser window.
     If you have received this email by error, you do not need to take any action. Your password will remain unchanged.
 
     The Quanthouse team`,
 
         html: `Hello,<br><br>
-    To reinitialize your password, please click on the following link: `+ process.env.DOMAIN + `/mdp/` + u.token + `<br>
+    To reinitialize your password, please click on the following link: `+ process.env.DOMAIN + `/mdp/` + token + `<br>
     If clicking the above link does not work, you can copy and paste the URL in a new browser window.<br>
     If you have received this email by error, you do not need to take any action. Your password will remain unchanged.<br><br>
     <b>The Quanthouse team</b>`
