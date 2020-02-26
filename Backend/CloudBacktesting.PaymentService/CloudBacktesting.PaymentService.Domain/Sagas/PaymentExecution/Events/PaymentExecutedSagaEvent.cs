@@ -5,13 +5,13 @@ using System.Text;
 
 namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentExecution.Events
 {
-    public class PaymentInitializedSagaEvent : AggregateEvent<PaymentExecutionSaga, PaymentExecutionSagaId>, IBillingSagaItemId
+    public class PaymentExecutedSagaEvent : AggregateEvent<PaymentExecutionSaga, PaymentExecutionSagaId>, IBillingSagaItemId
     {
         public string ItemId { get; }
         public string MerchantTransactionId { get; }
 
 
-        public PaymentInitializedSagaEvent(string itemId, string merchantTransactionId)
+        public PaymentExecutedSagaEvent(string itemId, string merchantTransactionId)
         {
             ItemId = itemId;
             MerchantTransactionId = merchantTransactionId;

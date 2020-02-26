@@ -10,23 +10,19 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
     public class BillingItemLinkedEvent : AggregateEvent<PaymentMethod, PaymentMethodId>, IBillingSagaItemId
     {
         public string ItemId { get; }
-        public string MerchantTransactionId { get; }
         public string PaymentMethodStatus { get; }
         public string PaymentMethodSubscriber { get; }
         public Card PaymentMethodCardDetails { get; }
-        public string Type { get; }
-        public string SubscriptionRequestId { get; internal set; }
-        public Card CardDetails { get; internal set; }
-        public string Subscriber { get; internal set; }
+        public string SubscriptionType { get; }
+        public string SubscriptionRequestId { get; }
 
-        public BillingItemLinkedEvent(string itemId, string merchantTransactiontId, string status, string subscriber, Card card, string type)
+        public BillingItemLinkedEvent(string itemId, string status, string subscriber, Card card, string type)
         {
             ItemId = itemId;
-            MerchantTransactionId = merchantTransactiontId;
             PaymentMethodStatus = status;
             PaymentMethodSubscriber = subscriber;
             PaymentMethodCardDetails = card;
-            Type = type;
+            SubscriptionType = type;
         }
     }
 }

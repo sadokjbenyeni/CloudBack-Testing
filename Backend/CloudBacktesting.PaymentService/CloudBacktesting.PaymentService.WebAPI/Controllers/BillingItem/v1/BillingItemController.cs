@@ -2,7 +2,10 @@
 using CloudBacktesting.Infra.Security.Authorization;
 using CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate;
 using CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate.Commands;
+using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate;
 using CloudBacktesting.PaymentService.Domain.Repositories.BillingItemRepository;
+using CloudBacktesting.PaymentService.Domain.Repositories.PaymentMethodRepository;
+using CloudBacktesting.PaymentService.Infra.Models;
 using CloudBacktesting.PaymentService.Infra.Security.Claims;
 using CloudBacktesting.PaymentService.WebAPI.Models;
 using CloudBacktesting.PaymentService.WebAPI.Models.BillingItem;
@@ -100,6 +103,17 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.BillingItem.v1
             var billingItemId = requestIdResult.FirstOrDefault().Id;
             var itemById = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<BillingItemReadModel>(new BillingItemId(billingItemId)), CancellationToken.None);
             var subscriptionType = itemById.Type;
+            var paymentMethodId = itemById.PaymentMethodId;
+            var methodById = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<PaymentMethodReadModel>(new PaymentMethodId(paymentMethodId)), CancellationToken.None);
+            var creditCardDetails = new Card()
+            {
+                ExpirationMonth = methodById.ExpirationMonth,
+                ExpirationYear = methodById.ExpirationYear,
+                HolderName = methodById.CardHolder,
+                Number = methodById.CardNumber,
+                SecurityCode = methodById.Cryptogram
+            };
+            var subscriber = methodById.Client;
 
             if (this.User == null || !this.User.Identity.IsAuthenticated)
             {
@@ -123,7 +137,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.BillingItem.v1
             IExecutionResult commandResult = null;
             try
             {
-                var command = new PaymentInitializeCommand(new BillingItemId(billingItemId), subscriptionType);
+                var command = new PaymentInitializeCommand(new BillingItemId(billingItemId), subscriptionType, subscriber, creditCardDetails);
                 commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
                 if (commandResult.IsSuccess)
                 {

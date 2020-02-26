@@ -6,10 +6,6 @@ using CloudBacktesting.SubscriptionService.Domain.Specifications;
 
 namespace CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionAccountAggregate
 {
-    ///// <Summary>
-    ///// this command create a first time the SubscriptionAccount model
-    ///// this command can be call only one time by user
-    ///// <Summary>
     public class SubscriptionAccount : AggregateRoot<SubscriptionAccount, SubscriptionAccountId>, IEmit<SubscriptionAccountCreatedEvent>, IEmit<SubscriptionRequestLinkedEvent>
 
     {

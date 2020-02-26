@@ -19,16 +19,21 @@ using System.Threading.Tasks;
 
 namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
 {
-    public class BillingItem : AggregateRoot<BillingItem, BillingItemId>, IEmit<BillingItemCreatedEvent>
+    public class BillingItem : AggregateRoot<BillingItem, BillingItemId>, IEmit<BillingItemCreatedEvent>, IEmit<PaymentExecutionInitializedEvent>
     {
-        private string billingItemId;
         private string subscriptionType;
         private string merchantTransactionId;
         private string paymentMethodId;
         private string subscriptionRequestId;
         private string status;
+        private string subscriber;
+        private Card cardDetails;
+        private readonly ISmart2PayCardService _smart2payCardService;
 
-        public BillingItem(BillingItemId aggregateId) : base(aggregateId) { }
+        public BillingItem(BillingItemId aggregateId, ISmart2PayCardService smart2PayCardService) : base(aggregateId)
+        {
+            _smart2payCardService = smart2PayCardService;
+        }
 
         public IExecutionResult Create(string paymentMethodId, string paymentMethodStatus, string subscriptionRequestId, string subscriptionType)
         {
@@ -36,60 +41,67 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult LinkSubscriptionNPaymentToBilling(string subscriptionRequestId, string paymentMethodId, string paymentMethodStatus, string subscriptionType)
+        public IExecutionResult LinkSubscriptionNPaymentToBilling(string billingItemId, string paymentMethodStatus)
         {
-            Emit(new SubscriptionNPaymentToBillingLinkedEvent(this.Id.Value, subscriptionRequestId, paymentMethodId, paymentMethodStatus, subscriptionType));
+            Emit(new SubscriptionNPaymentToBillingLinkedEvent(billingItemId, this.subscriptionRequestId, this.paymentMethodId, paymentMethodStatus, this.subscriptionType));
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult GenerateInvoice(string invoiceId, string client, string cardHolder)
+        public IExecutionResult GenerateInvoice(string billingItemId, string invoiceId, string client, string cardHolder)
         {
-            Emit(new InvoiceGeneratedEvent(this.Id.Value, invoiceId, client, cardHolder, DateTime.UtcNow));
+            Emit(new InvoiceGeneratedEvent(billingItemId, invoiceId, client, cardHolder, DateTime.UtcNow));
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult InitializePayment()
+        public IExecutionResult InitializePayment(string subscriber, Card cardDetails)
         {
-            Emit(new PaymentExecutionInitializedEvent(this.Id.Value, this.paymentMethodId, new MerchantTransaction().Id, this.subscriptionType));
+            Emit(new PaymentExecutionInitializedEvent(this.Id.Value, this.paymentMethodId, new MerchantTransaction().Id, this.subscriptionType, subscriber, cardDetails));
             return ExecutionResult.Success();
 
         }
-
-        public IExecutionResult DeclineBySystem(string paymentMethodId)
+        public IExecutionResult ExecutePayment(string billingItemId, string paymentMethodId, string merchantTransactionId, string subscriber, string type, Card cardDetails)
         {
-            Emit(new BillingItemStatusUpdatedEvent("Declined", this.Id.Value));
+            var response = _smart2payCardService.CreateAsync(merchantTransactionId, subscriber, cardDetails, type, "EUR", CancellationToken.None);
+            Emit(new PaymentExecutedEvent(merchantTransactionId, billingItemId, paymentMethodId, this.subscriber, this.cardDetails, type, "EUR", response.Result));
+            return ExecutionResult.Success();
+        }
+        public IExecutionResult DeclineBySystem(string billingItemId, string paymentMethodId)
+        {
+            Emit(new BillingItemStatusUpdatedEvent("Declined", billingItemId));
             Emit(new BillingItemSystemDeclinedEvent(this.Id.Value, paymentMethodId));
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult ValidateBySystem(string paymentMethodId)
+        public IExecutionResult ValidateBySystem(string billingItemId, string paymentMethodId)
         {
-            Emit(new BillingItemStatusUpdatedEvent("Validated", this.Id.Value));
+            Emit(new BillingItemStatusUpdatedEvent("Validated", billingItemId));
             Emit(new BillingItemSystemValidatedEvent(this.Id.Value, paymentMethodId));
             return ExecutionResult.Success();
         }
 
-        public IExecutionResult PaymentFailure(string paymentMethodId)
+        public IExecutionResult PaymentFailure(string billingItemId, string paymentMethodId)
         {
-            Emit(new BillingItemStatusUpdatedEvent("Failed", this.Id.Value));
+            Emit(new BillingItemStatusUpdatedEvent("Failed", billingItemId));
             Emit(new PaymentFailedEvent(this.Id.Value, paymentMethodId, "Your payment has failed, Please check your card details", DateTime.UtcNow));
             return ExecutionResult.Success();
         }
 
-        public void Apply(BillingItemCreatedEvent @event) 
+        public void Apply(BillingItemCreatedEvent @event)
         {
             this.subscriptionType = @event.SubscriptionType;
+            this.subscriptionRequestId = @event.SubscriptionRequestId;
+            this.paymentMethodId = @event.PaymentMethodId;
         }
 
         public void Apply(InvoiceGeneratedEvent @event) { }
 
         public void Apply(SubscriptionNPaymentToBillingLinkedEvent @event)
         {
-            this.subscriptionRequestId = @event.SubscriptionRequestId;
-            this.paymentMethodId = @event.PaymentMethodId;
+
         }
 
         public void Apply(BillingItemSystemValidatedEvent @event) { }
+        public void Apply(PaymentExecutedEvent @event) { }
 
         public void Apply(BillingItemStatusUpdatedEvent @event)
         {
@@ -97,16 +109,12 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
         }
         public void Apply(PaymentFailedEvent @event) { }
         public void Apply(BillingItemSystemDeclinedEvent @event) { }
-        public void Apply(PaymentExecutionInitializedEvent @event) 
+        public void Apply(PaymentExecutionInitializedEvent @event)
         {
-            this.billingItemId = @event.ItemId;
             this.merchantTransactionId = @event.MerchantTransactionId;
-            this.subscriptionType = @event.Type;
-        }
-
-        internal IExecutionResult LinkSubscriptionNPaymentToBilling(string subscriptionRequestId, string paymentMethodId, string paymentMethodStatus, object subscriptionType)
-        {
-            throw new NotImplementedException();
+            this.subscriptionType = @event.SubscriptionType;
+            this.subscriber = @event.Subscriber;
+            this.cardDetails = @event.CreditCard;
         }
     }
 }

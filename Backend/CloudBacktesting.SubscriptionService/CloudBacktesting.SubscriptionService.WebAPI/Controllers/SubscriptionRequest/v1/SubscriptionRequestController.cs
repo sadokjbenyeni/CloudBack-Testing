@@ -126,7 +126,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             IExecutionResult commandResult = null;
             try
             {
-                var command = new SubscriptionRequestCreationCommand(new SubscriptionAccountId(subscriptionAccountId).ToString(), value.Type, value.PaymentMethodId, paymentMethodAccountId);
+                var command = new SubscriptionRequestCreationCommand(subscriptionAccountId, value.Type, value.PaymentMethodId, paymentMethodAccountId);
                 commandResult = await commandBus.PublishAsync(command, CancellationToken.None);
                 if (commandResult.IsSuccess)
                 {

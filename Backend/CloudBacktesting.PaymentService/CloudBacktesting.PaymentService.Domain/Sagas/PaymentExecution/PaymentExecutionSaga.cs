@@ -15,29 +15,25 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentExecution
 {
     public class PaymentExecutionSaga : AggregateSaga<PaymentExecutionSaga, PaymentExecutionSagaId, PaymentExecutionSagaLocator>,
                                         ISagaIsStartedBy<BillingItem, BillingItemId, PaymentExecutionInitializedEvent>,
-                                        ISagaHandles<PaymentMethod, PaymentMethodId, BillingItemLinkedEvent>,
-                                        ISagaHandles<PaymentMethod, PaymentMethodId, PaymentExecutedEvent>,
+                                        ISagaHandles<BillingItem, BillingItemId, PaymentExecutedEvent>,
                                         ISagaHandles<BillingItem, BillingItemId, InvoiceGeneratedEvent>
     {
         public PaymentExecutionSaga(PaymentExecutionSagaId id) : base(id) { }
 
         public Task HandleAsync(IDomainEvent<BillingItem, BillingItemId, PaymentExecutionInitializedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
-            var command = new PaymentMethodLinkToBillingItemCommand(new PaymentMethodId(domainEvent.AggregateEvent.PaymentMethodId), domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.MerchantTransactionId, domainEvent.AggregateEvent.Type);
+            var command = new PaymentExecutionCommand(domainEvent.AggregateEvent.PaymentMethodId,
+                                                      domainEvent.AggregateEvent.MerchantTransactionId,
+                                                      new BillingItemId(domainEvent.AggregateIdentity.Value),
+                                                      domainEvent.AggregateEvent.SubscriptionType,
+                                                      domainEvent.AggregateEvent.Subscriber,
+                                                      domainEvent.AggregateEvent.CreditCard) ;
             this.Publish(command);
-            this.Emit(new PaymentInitializedSagaEvent(domainEvent.AggregateIdentity.Value, domainEvent.AggregateEvent.MerchantTransactionId));
+            this.Emit(new PaymentExecutedSagaEvent(domainEvent.AggregateIdentity.Value, domainEvent.AggregateEvent.MerchantTransactionId));
             return Task.CompletedTask;
         }
 
-        public Task HandleAsync(IDomainEvent<PaymentMethod, PaymentMethodId, BillingItemLinkedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
-        {
-            var command = new PaymentExecutionCommand(domainEvent.AggregateIdentity, domainEvent.AggregateEvent.MerchantTransactionId,domainEvent.AggregateEvent.ItemId, domainEvent.AggregateEvent.SubscriptionRequestId, domainEvent.AggregateEvent.CardDetails, domainEvent.AggregateEvent.Type, domainEvent.AggregateEvent.Subscriber);
-            this.Publish(command);
-
-            return Task.CompletedTask;
-        }
-
-        public Task HandleAsync(IDomainEvent<PaymentMethod, PaymentMethodId, PaymentExecutedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
+        public Task HandleAsync(IDomainEvent<BillingItem, BillingItemId, PaymentExecutedEvent> domainEvent, ISagaContext sagaContext, CancellationToken cancellationToken)
         {
             if (!domainEvent.AggregateEvent.IsPaymentSuccessful)
             {
@@ -52,7 +48,6 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentExecution
 
             this.Publish(command);
             this.Emit(new BillingItemStatusUpdatedSagaEvent("Activated", domainEvent.AggregateEvent.ItemId));
-
             return Task.CompletedTask;
         }
 
@@ -62,14 +57,11 @@ namespace CloudBacktesting.PaymentService.Domain.Sagas.PaymentExecution
             return Task.CompletedTask;
         }
 
-        public void Apply(PaymentInitializedSagaEvent @event) { }
+        public void Apply(PaymentExecutedSagaEvent @event) { }
         public void Apply(BillingItemStatusUpdatedSagaEvent @event) { }
         public void Apply(PaymentExecutionSagaCompletedEvent @event)
         {
             Complete();
         }
-
-
-
     }
 }

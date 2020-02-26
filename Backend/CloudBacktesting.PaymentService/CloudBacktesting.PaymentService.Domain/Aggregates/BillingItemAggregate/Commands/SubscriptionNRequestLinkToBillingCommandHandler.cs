@@ -12,7 +12,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
     {
         public override Task<IExecutionResult> ExecuteCommandAsync(BillingItem aggregate, SubscriptionNPaymentLinkToBillingCommand command, CancellationToken cancellationToken)
         {
-            return Task.FromResult(aggregate.LinkSubscriptionNPaymentToBilling(command.SubscriptionRequestId, command.PaymentMethodId, command.PaymentMethodStatus, command.SubscriptionType));
+            return Task.FromResult(aggregate.LinkSubscriptionNPaymentToBilling(command.AggregateId.Value, command.PaymentMethodStatus));
         }
     }
 }

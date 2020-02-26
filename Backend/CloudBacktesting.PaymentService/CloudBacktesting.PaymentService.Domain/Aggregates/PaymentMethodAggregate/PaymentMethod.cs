@@ -15,7 +15,7 @@ using System.Threading;
 
 namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggregate
 {
-    public class PaymentMethod : AggregateRoot<PaymentMethod, PaymentMethodId>, IEmit<PaymentMethodCreatedEvent>, IEmit<BillingItemLinkedEvent>
+    public class PaymentMethod : AggregateRoot<PaymentMethod, PaymentMethodId>, IEmit<PaymentMethodCreatedEvent>
 
     {
 
@@ -23,12 +23,11 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
         private string paymentMethodStatus;
         private string paymentMethodSubscriber;
         private Card paymentMethodCardDetails;
-        private readonly ISmart2PayCardService _smart2payCardService;
 
 
-        public PaymentMethod(PaymentMethodId aggregateId, ISmart2PayCardService smart2PayCardService) : base(aggregateId)
+
+        public PaymentMethod(PaymentMethodId aggregateId) : base(aggregateId)
         {
-            _smart2payCardService = smart2PayCardService;
         }
 
         public IExecutionResult Create(string paymentAccountId, string cardNumber, string cardType, string cardHolder, string expirationYear, string expirationMonth, string cryptogram)
@@ -66,15 +65,10 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
             Emit(new PaymentMethodDeclinedEvent(this.Id.Value, this.paymentAccountId, client, "You have been rejected by the system, Please check your card information", DateTime.UtcNow));
             return ExecutionResult.Success();
         }
-        public IExecutionResult ExecutePayment(string billingItemId, string merchantTransactionId, string subscriptionRequestId, Card cardDetails, string type, string subscriber)
+
+        public IExecutionResult LinkBillingItem(string billingItemId, string type)
         {
-            var response = _smart2payCardService.CreateAsync(merchantTransactionId, subscriptionRequestId, cardDetails, type, "EUR", CancellationToken.None);
-            Emit(new PaymentExecutedEvent(merchantTransactionId, billingItemId ,this.Id.Value, subscriber, cardDetails, type, "EUR", response.Result));
-            return ExecutionResult.Success();
-        }
-        public IExecutionResult LinkBillingItem(string billingItemId, string merchantTransactionId, string type)
-        {
-            Emit(new BillingItemLinkedEvent(billingItemId, merchantTransactionId, this.paymentMethodStatus, this.paymentMethodSubscriber, this.paymentMethodCardDetails, type));
+            Emit(new BillingItemLinkedEvent(billingItemId, this.paymentMethodStatus, this.paymentMethodSubscriber, this.paymentMethodCardDetails, type));
             return ExecutionResult.Success();
         }
 
@@ -91,7 +85,6 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.PaymentMethodAggrega
             this.paymentMethodSubscriber = @event.PaymentMethodSubscriber;
             this.paymentMethodCardDetails = @event.PaymentMethodCardDetails;
         }
-        public void Apply(PaymentExecutedEvent @event) { }
         public void Apply(PaymentMethodStatusUpdatedEvent @event) { }
     }
 }
