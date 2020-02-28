@@ -66,6 +66,7 @@ export class AddPaymentCardComponent implements OnInit {
               this.eventMessage.emit(this.Payment);
               this.matsnackbar.open("Card Successfully Added", "Ok", { duration: 2000 });
               this.Payment = new Payment();
+              
               this.controlPaymentgrp.reset();
             }, error => {
               debugger;

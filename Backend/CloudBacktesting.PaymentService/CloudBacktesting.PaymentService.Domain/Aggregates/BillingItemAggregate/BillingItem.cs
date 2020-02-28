@@ -21,6 +21,7 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
 {
     public class BillingItem : AggregateRoot<BillingItem, BillingItemId>, IEmit<BillingItemCreatedEvent>, IEmit<PaymentExecutionInitializedEvent>
     {
+        private const string CURRENCY = "EUR";
         private string subscriptionType;
         private string merchantTransactionId;
         private string paymentMethodId;
@@ -61,8 +62,8 @@ namespace CloudBacktesting.PaymentService.Domain.Aggregates.BillingItemAggregate
         }
         public IExecutionResult ExecutePayment(string billingItemId, string paymentMethodId, string merchantTransactionId, string subscriber, string type, Card cardDetails)
         {
-            var response = _smart2payCardService.CreateAsync(merchantTransactionId, subscriber, cardDetails, type, "EUR", CancellationToken.None);
-            Emit(new PaymentExecutedEvent(merchantTransactionId, billingItemId, paymentMethodId, this.subscriber, this.cardDetails, type, "EUR", response.Result));
+            var response = _smart2payCardService.CreateAsync(merchantTransactionId, subscriber, cardDetails, type, CURRENCY, CancellationToken.None);
+            Emit(new PaymentExecutedEvent(merchantTransactionId, billingItemId, paymentMethodId, this.subscriber, this.cardDetails, type, CURRENCY, response.Result));
             return ExecutionResult.Success();
         }
         public IExecutionResult DeclineBySystem(string billingItemId, string paymentMethodId)
