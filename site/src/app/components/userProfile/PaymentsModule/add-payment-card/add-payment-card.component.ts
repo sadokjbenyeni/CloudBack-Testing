@@ -69,7 +69,6 @@ export class AddPaymentCardComponent implements OnInit {
               
               this.controlPaymentgrp.reset();
             }, error => {
-              debugger;
               this.matsnackbar.open(error.error, "", { duration: 3000 });
             });
         });

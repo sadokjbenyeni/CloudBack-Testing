@@ -20,10 +20,6 @@ export class User {
     roleName: String[]; // Client, Administrator, Product, Compliance, Finance
     role: String;
 }
-export class UserResponse {
-    user: User;
-    message: string;
-}
 
 export class Users {
     users: User[];

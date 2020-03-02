@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import * as jwt_decode from 'jwt-decode';
 
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
@@ -11,13 +12,13 @@ export class GuardGuard implements CanActivate {
   ) { }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    let user = JSON.parse(localStorage.getItem('user'));
-
-    if (user) {
+    let token = localStorage.getItem('token');
+    let decodedtoken = jwt_decode(token)
+    if (token) {
       if (next.data["roles"] == undefined) {
         return true
       }
-      for (let userrole of user["roleName"]) {
+      for (let userrole of decodedtoken["roleName"]) {
         if ((next.data["roles"] as Array<string>).indexOf(userrole) != -1)
           return true;
       }

@@ -1,4 +1,3 @@
-import { AuthentificationService } from './services/authentification.service';
 import { MaterialModule } from './components/material/material.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -51,7 +50,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Middleware
 import { RecaptchaModule } from 'ng-recaptcha';
-import { DataTablesModule, DataTableDirective } from 'angular-datatables';
+import { DataTablesModule } from 'angular-datatables';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgbdModalContent } from './modal-content';
@@ -99,6 +98,7 @@ import { ProductsComponent } from './components/Presentationpages/products/produ
 import { OnBoardingComponent } from './components/Presentationpages/on-boarding/on-boarding.component';
 import { AboutComponent } from './components/Presentationpages/about/about.component';
 import { HelpPageComponent } from './components/Presentationpages/help-page/help-page.component';
+import { TokenExpiredInterceptor } from './services/Interceptors/tokenexpired.interceptor';
 
 @NgModule({
   declarations: [
@@ -178,12 +178,12 @@ import { HelpPageComponent } from './components/Presentationpages/help-page/help
     UserService,
     CountriesService,
     CompanytypesService,
-    AuthentificationService,
     SubscriptionService,
     PaymentService,
     DatePipe,
     //middleware
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenExpiredInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

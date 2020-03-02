@@ -4,8 +4,12 @@ using CloudBacktesting.ApiGateway.WebApi.Ocelot.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Dynamic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -28,17 +32,46 @@ namespace CloudBacktesting.ApiGateway.WebApi.Ocelot.Middlewares
             var HasToken = httpContext.Request.Headers.TryGetValue("Authorization", out token);
             if (HasToken)
             {
-                var user = await _userService.GetuserByTokenAsync(token);
-                if (user != null)
+                try
                 {
-                    var bindeduser = JsonConvert.SerializeObject(BindToUserTokenFormat(user));
-                    var byteuser = Encoding.UTF8.GetBytes(bindeduser);
-                    var encodeduser = System.Convert.ToBase64String(byteuser);
-                    httpContext.Request.Headers.Remove("Authorization");
-                    httpContext.Request.Headers.Add("Authorization", "Basic " + encodeduser);
-                    var appIdentity = BuildClaimsIdentity(user);
-                    httpContext.User.AddIdentity(appIdentity);
+                    var tokenhandler = new JwtSecurityTokenHandler();
+                    tokenhandler.ValidateToken(token, new TokenValidationParameters
+                    {
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("QFCL0UDB@CKESTING2019")),
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                    }, out SecurityToken validatedToken);
+                    var persistenttoken = ((JwtSecurityToken)validatedToken).Payload["token"].ToString();
+                    var user = await _userService.GetuserByTokenAsync(persistenttoken);
+                    if (user != null)
+                    {
+                        var bindeduser = JsonConvert.SerializeObject(BindToUserTokenFormat(user));
+                        var byteuser = Encoding.UTF8.GetBytes(bindeduser);
+                        var encodeduser = System.Convert.ToBase64String(byteuser);
+                        httpContext.Request.Headers.Remove("Authorization");
+                        httpContext.Request.Headers.Add("Authorization", "Basic " + encodeduser);
+                        var appIdentity = BuildClaimsIdentity(user);
+                        httpContext.User.AddIdentity(appIdentity);
+                    }
+
                 }
+                catch (SecurityTokenExpiredException)
+                {
+                    httpContext.Response.StatusCode = 401;
+                    await httpContext.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "token expired" }));
+                }
+                catch (SecurityTokenInvalidSignatureException)
+                {
+                    httpContext.Response.StatusCode = 401;
+                    await httpContext.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "invalid signature" }));
+                }
+                catch (Exception ex)
+                {
+                    httpContext.Response.StatusCode = 401;
+                    await httpContext.Response.WriteAsync(JsonConvert.SerializeObject(new { error = ex.Message }));
+                }
+
+
             }
             await _next(httpContext);
 

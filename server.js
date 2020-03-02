@@ -8,12 +8,12 @@ const mongoose = require('mongoose');
 //const cron = require('node-cron');
 var resultEnv = false;
 if (process.env.NODEJSENVIRONMENT != undefined) {
-  console.log ("retrieving config file from environment variable "+  process.env.NODEJSENVIRONMENT )
+  console.log("retrieving config file from environment variable " + process.env.NODEJSENVIRONMENT)
   require('dotenv').config({ path: "environment/" + process.env.NODEJSENVIRONMENT + ".env" });
   resultEnv = true;
 }
 else {
-  console.log ("retrieving config file from arguments")
+  console.log("retrieving config file from arguments")
   process.argv.forEach(function (item) {
     if (item.substr(0, 4) === "env=") {
       let environement = item.replace("env=", "");
@@ -53,25 +53,28 @@ mongoose.set('debug', true);
 const app = express();
 
 //Passport
-const passport = require('passport');
-require('./server/config/passport')(passport); // pass passport for configuration
+// const passport = require('passport');
+// require('./server/config/passport')(passport); // pass passport for configuration
 
 //Enable CORS
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+  // res.header('Access-Control-Allow-Credentials', true);
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
   res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   next();
 });
 //Cookie and session
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
-app.use(session({
-  secret: '#Les défits valent d\'être relevé%si§et seulement si ils¤ont quelques_choses à apporter à l\'humanité !'
-}));
-app.use(cookieParser());
-app.use(passport.initialize());
-app.use(passport.session());
+// const cookieParser = require('cookie-parser');
+// const session = require('express-session');
+// app.use(session({
+//   secret: '#Les défits valent d\'être relevé%si§et seulement si ils¤ont quelques_choses à apporter à l\'humanité !',
+  
+  
+// }));
+// app.use(cookieParser());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 //Enable bodyParser
 app.use(bodyParser.json({ limit: '10mb' }));
@@ -131,7 +134,7 @@ app.use('/api', api);
 
 //Catch all other routes and return to the index file
 app.get('/', (req, res) => {
-    res.status(200).send("");
+  res.status(200).send("");
   // res.sendFile(path.join(__dirname, 'site/dist/index.html'));
 })
 console.log(" port number is " + process.env.PORT);
@@ -155,13 +158,11 @@ const server = http.createServer(app);
 //connecting to rabbitmq
 // the connection declaration must be set after the database.connect to load schema
 const Connection = require('./server/Events/Connection')
-try
-{
-Connection.Connect();
+try {
+  Connection.Connect();
 }
-catch (error)
-{
-  console.log (error)
+catch (error) {
+  console.log(error)
 }
 //Listen on port
 server.listen(port, () => console.log(`API running on localhost:${port}`));

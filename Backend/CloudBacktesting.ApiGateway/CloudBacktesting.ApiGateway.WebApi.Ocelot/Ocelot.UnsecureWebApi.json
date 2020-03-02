@@ -1,5 +1,14 @@
 {
   "ReRoutes": [
+
+    {
+      "DownstreamPathTemplate": "/api/{version}/user/logout",
+      "DownstreamScheme": "http",
+      "ServiceName": "msservice",
+      "UpstreamPathTemplate": "/api/{version}/user/logout",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+
     {
       "DownstreamPathTemplate": "/api/{version}/countries",
       "DownstreamScheme": "http",

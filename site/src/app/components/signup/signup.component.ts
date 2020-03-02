@@ -122,7 +122,6 @@ export class SignUpComponent implements OnInit {
       this.userService.create(this.user).subscribe(data => {
         if (data["error"] == "email already exists") {
           this.SignupFrmGroup.controls["emailctl"].setErrors({ 'incorrect': true })
-
           return;
         }
         this.router.navigateByUrl("/on-boarding");

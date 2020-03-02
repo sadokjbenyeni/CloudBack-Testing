@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { GuardGuard } from '../../../guard.guard';
-import { AuthentificationService } from '../../../services/authentification.service';
 import { PasswordResetEmailComponent } from '../password-reset-email/password-reset-email.component';
+import { UserService } from '../../../services/user.service';
 
 
 
@@ -20,7 +20,7 @@ export class LoginDialogComponent implements OnInit {
 
   constructor(
     private router: Router,
-    public authenticationservice: AuthentificationService,
+    public userService: UserService,
     public passwordDialog: MatDialog,
     public guardGuard: GuardGuard,
     public diagref: MatDialogRef<LoginDialogComponent>
@@ -43,13 +43,19 @@ export class LoginDialogComponent implements OnInit {
     this.passwordDialog.open(PasswordResetEmailComponent, { panelClass: 'no-padding-dialog' });
   }
   login() {
-    this.authenticationservice.login(this.email, this.password).subscribe(res => {
-      let currentUrl = this.router.url.split('/');
-      if (!res.user) {
-        this.message = res.message;
+    localStorage.removeItem('user');
+    localStorage.setItem('ula', 'false');
+    this.userService.check({ email: this.email, pwd: this.password }).subscribe(res => {
+      if (!res['token']) {
+        this.message = res['message'];
       }
-      else 
-      {
+      else {
+        localStorage.setItem('token', res['token']);
+        localStorage.setItem('ula', 'true');
+        //emit event so that the menu component refresh its displayed informations
+        this.userService.invokeLoginComponentFunction.emit('onLoginSuccessed');
+
+        let currentUrl = this.router.url.split('/');
         if (currentUrl[1].includes("redirection")) {
           this.redirection = this.guardGuard.router.routerState.snapshot.root.queryParams['redirection'];
           window.location.href = this.redirection;

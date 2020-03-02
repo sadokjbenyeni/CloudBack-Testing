@@ -1,11 +1,10 @@
-import { AuthentificationService } from './../../services/authentification.service';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, RouteReuseStrategy } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { UserService } from '../../services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginDialogComponent } from '../login/login-dialog/login-dialog.component';
-
+import * as jwt_decode from 'jwt-decode';
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
@@ -19,31 +18,27 @@ export class MenuComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private userService: UserService,
     public dialog: MatDialog,
-    private authentificationService: AuthentificationService
+    private userService: UserService
   ) {
     this.link = '';
     this.role = '';
   }
 
   ngOnInit() {
-    this.authentificationService.invokeLoginComponentFunction.on('onLoginSuccessed', (loggedUser: any) => {
-      this.refresh(loggedUser);
+    this.userService.invokeLoginComponentFunction.on('onLoginSuccessed', () => {
+      this.refresh();
     });
 
-    this.refresh(this.username);
+    this.refresh();
   }
 
   logout() {
-    let user = JSON.parse(localStorage.getItem('user'));
-    if (user.token) {
-      this.userService.logout({ token: user.token }).subscribe(() => {
+    var token = jwt_decode(localStorage.getItem('token'))['token']
+    if (token) {
+      this.userService.logout(token).subscribe(() => {
         this.role = '';
-        localStorage.removeItem('user');
-        localStorage.removeItem('cart');
-        localStorage.removeItem('surveyForm');
-        localStorage.setItem('dataset', JSON.stringify({ "dataset": "", "title": "" }));
+        localStorage.removeItem('token');
         this.router.navigateByUrl('/home');
       });
     }
@@ -53,16 +48,13 @@ export class MenuComponent implements OnInit {
     this.router.navigateByUrl("/home")
   }
 
-  refresh(loggedUser: any): void {
+  refresh(): void {
     this.role = '';
-    let user = JSON.parse(localStorage.getItem('user'));
-    if (user != null) {
-      this.username = user.lastname;
-    }
-    if (user && typeof user === 'object') {
-      this.role = user.roleName;
-    } else {
-      this.role = '';
+    let token = localStorage.getItem('token');
+    if (token != null) {
+      let data = jwt_decode(token);
+      this.username = data.lastname;
+      this.role = data['roleName'];
     }
   }
 
@@ -73,11 +65,11 @@ export class MenuComponent implements OnInit {
     });
   }
   goto(element) {
-    // var a = this.router.parseUrl(this.router.url).root;
     if (this.router.url.includes("/on-boarding")) {
       element = document.getElementById(element).scrollIntoView({ behavior: 'smooth' });
     }
   }
+
 }
 
 

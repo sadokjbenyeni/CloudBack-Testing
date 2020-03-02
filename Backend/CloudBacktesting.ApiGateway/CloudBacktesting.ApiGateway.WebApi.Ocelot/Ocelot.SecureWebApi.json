@@ -1,17 +1,6 @@
 {
   "ReRoutes": [
-    {
-      "DownstreamPathTemplate": "/api/{version}/user/logout",
-      "DownstreamScheme": "http",
-      "ServiceName": "msservice",
-      "UpstreamPathTemplate": "/api/{version}/user/logout",
-      "UpstreamHttpMethod": [ "Post" ],
-      "RouteClaimsRequirement": {
-        "IsLogin": "True",
-        "State": "1"
-      }
 
-    },
     {
       "DownstreamPathTemplate": "/api/{version}/role/{url}",
       "DownstreamScheme": "http",

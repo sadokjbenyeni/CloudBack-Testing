@@ -109,6 +109,21 @@ router.get('/info', (req, res) => {
             return res.status(200).json(val)
         })
 });
+// router.get('/refreshtoken', (req, res) => {
+//     try {
+//         let refreshtoken = req.headers.cookie.split("=")[1];
+//         let data = jwt.verify(refreshtoken, process.env.JWTSECRET)
+//         let newtoken = generateToken(data, '1m');
+//         let newrefreshtoken = generateToken(data, '30d')
+//         return res.status(200).cookie("refreshtoken", newrefreshtoken).json({ token: newtoken });
+//     }
+//     catch (error) {
+//         return res.status(200).json({ error: error.error })
+//     }
+// });
+
+
+
 router.get('/:user', (req, res) => {
     // let test = req.headers.referer.replace(idd, "");
     // if(URLS.indexOf(test) !== -1){
@@ -217,8 +232,7 @@ const validateuser = function (req) {
 }
 
 router.post('/logout/', (req, res) => {
-    email = getEmailfromheader(req);
-    User.updateOne({ email: email }, { $set: { islogin: false } })
+    User.updateOne({ email: req.body.token }, { $set: { islogin: false } })
         .then(() => {
             res.status(200).json({});
         })
@@ -227,6 +241,7 @@ router.post('/logout/', (req, res) => {
         });
 });
 router.post('/check/', (req, res) => {
+
     let cipher = crypto.createCipher(algorithm, req.body.pwd);
     let crypted = cipher.update(PHRASE, 'utf8', 'hex');
     crypted += cipher.final('hex');
@@ -244,10 +259,11 @@ router.post('/check/', (req, res) => {
             if (user.state === 1) {
                 User.updateOne({ email: req.body.email }, { $set: { islogin: true } })
                     .then(() => {
-                        res.status(200).json({ user: user });
+                        var token = generateToken(user, '12h');
+                        return res.status(200).json({ token: token });
                     });
             } else {
-                res.status(202).json({ message: 'Your account is not activated' })
+                return res.status(202).json({ message: 'Your account is not activated' })
             }
         });
 });
@@ -403,5 +419,8 @@ var getEmailfromheader = function (req) {
         console.log(error)
         return null;
     }
+}
+var generateToken = function (data, validity) {
+    return jwt.sign({ token: data.token, roleName: data.roleName, lastname: data.lastname, state: data.state }, process.env.JWTSECRET, { expiresIn: validity });
 }
 module.exports = router;

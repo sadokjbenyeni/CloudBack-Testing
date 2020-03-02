@@ -5,18 +5,22 @@ import 'rxjs/add/operator/map';
 
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Users, User, UserResponse } from '../models/User';
+import { Users, User } from '../models/User';
 import { Roles } from '../models/Role';
 import { LoginResponse } from '../models/LoginResponse';
 import { MailResponse } from '../models/MailResponse';
 import { Message } from '../models/message';
-import { catchError } from 'rxjs/operators';
+import { EventEmitter } from 'events';
+import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+
 
 
 @Injectable()
 export class UserService {
 
+
+  invokeLoginComponentFunction = new EventEmitter();
   protected authenticatedUser: boolean;
 
   constructor(private http: HttpClient) {
@@ -33,7 +37,8 @@ export class UserService {
   }
 
   check(user) {
-    return this.http.post<UserResponse>(environment.api + '/v1/user/check', user);
+    // with credentials option is used when we want to set the cookies in the request 
+    return this.http.post(environment.api + '/v1/user/check', user);
   }
 
   info(user) {
@@ -69,9 +74,8 @@ export class UserService {
   public getAuthenticatedUser() {
     return this.authenticatedUser;
   }
-
   logout(token) {
-    return this.http.post(environment.api + '/v1/user/logout', token);
+    return this.http.post(environment.api + '/v1/user/logout', { token: token });
   }
   preferBilling(prefer) {
     return this.http.post(environment.api + '/v1/user/preferBilling', prefer);
