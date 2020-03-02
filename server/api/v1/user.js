@@ -362,6 +362,7 @@ router.put('/resetpwd', (req, res) => {
         res.sendStatus(422);
     }
     try {
+        const test = jwt.sin
         const token = jwt.verify(req.body.token, process.env.JWTSECRET).token;
         let cipher = crypto.createCipher(algorithm, req.body.pwd);
         let crypted = cipher.update(PHRASE, 'utf8', 'hex');

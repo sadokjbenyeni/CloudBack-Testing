@@ -39,7 +39,7 @@ export class GeneralInformationsComponent implements OnInit {
       lastnamectl: ["", Validators.required],
       jobctl: ["", Validators.required],
       phonectl: ["", Validators.pattern("[0-9]{9,16}")],
-      emailctl: ["", [Validators.required, Validators.email]],
+      emailctl: ["", ],
       companynamectl: ["", Validators.required],
       companytypectl: [""],
       countryctl: ["", Validators.required],
@@ -47,12 +47,7 @@ export class GeneralInformationsComponent implements OnInit {
       postalcodectl: [""],
       cityctl: [""],
       regionctl: [""],
-      websitectl: [""],
-      cguctl: new FormControl("", [
-        control => {
-          return !control.value ? { required: true } : null;
-        }
-      ])
+      websitectl: [""]
     });
     this.user = new User();
     this.user.token = JSON.parse(localStorage.getItem("user"))["token"];
@@ -63,10 +58,11 @@ export class GeneralInformationsComponent implements OnInit {
   }
 
   update() {
-    this.bindUser();
     if(!this.GeneralInformatioFrmGroup.valid){
       return;
     }
+    this.bindUser();
+    localStorage.setItem("user", JSON.stringify(this.user));
     this.userService.updateUser(this.user).subscribe(() => {
 
     this.snackbar.open("Profile Successfully updated", "", {
@@ -121,7 +117,6 @@ export class GeneralInformationsComponent implements OnInit {
     this.user.lastname = this.GeneralInformatioFrmGroup.controls[
       "lastnamectl"
     ].value;
-    localStorage.setItem("user", JSON.stringify(this.user));
     this.user.firstname = this.GeneralInformatioFrmGroup.controls[
       "firstnamectl"
     ].value;

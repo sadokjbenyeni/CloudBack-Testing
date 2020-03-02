@@ -139,42 +139,4 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.PaymentMethod.v1
         }
 
     }
-    //[HttpGet]
-    //public IActionResult Get()
-    //{
-    //    var result = new List<PaymentMethodReadModelDto>()
-    //    { new PaymentMethodReadModelDto
-    //    {
-    //        MethodId = PaymentMethodId.New.ToString(),
-    //        PaymentAccountId = PaymentAccountId.New.ToString(),
-    //        CardHolder = "TIM COOK",
-    //        CardNumber = " ***-6279",
-    //        CardType = "Visa",
-    //        ExpirationDate = DateTime.UtcNow
-    //    },
-    //    new PaymentMethodReadModelDto
-    //    {
-    //        MethodId = PaymentMethodId.New.ToString(),
-    //        PaymentAccountId = PaymentAccountId.New.ToString(),
-    //        CardHolder = "ELON MUSK",
-    //        CardNumber = " ***-9842",
-    //        CardType = "Visa",
-    //        ExpirationDate = DateTime.UtcNow
-    //    }};
-
-    //    return Ok(result);
-    //}
-
-    //[HttpPost]
-    //public ActionResult Post([FromBody] PaymentMethodDto value)
-    //{
-    //    return Ok(new PaymentMethodDto
-    //    {
-    //        CardNumber = value.CardNumber,
-    //        CardType = value.CardType,
-    //        CardHolder = value.CardHolder,
-    //        PaymentAccountId = value.PaymentAccountId,
-    //        ExpirationDate = value.ExpirationDate
-    //    });
-    //}
 }
