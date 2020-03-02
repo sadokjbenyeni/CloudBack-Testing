@@ -55,7 +55,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.PaymentAccount.v1
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not authentificate. Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"You are not authorized to use this request, please contact the administrator with error id: {idError}, if the problem persists");
+                return Unauthorized($"You are not authorized to use this request, please contact the administrator with error id: {idError}, if the problem persists");
             }
 
             var paymentAccountId = this.User.GetUserIdentifier()?.Value ?? "";
@@ -63,7 +63,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.PaymentAccount.v1
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not authentificatted. Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"You are not authorized to use this request, please contact the administator with error id: {idError}, if the problem persists");
+                return Forbid($"You are not authorized to use this request, please contact the administator with error id: {idError}, if the problem persists");
             }
             var result = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<PaymentAccountReadModel>(new PaymentAccountId(paymentAccountId)), CancellationToken.None);
             return Ok(ToDto(result));
@@ -77,7 +77,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.PaymentAccount.v1
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+                return Unauthorized($"Access error, please contact the administrator with error id: {idError}");
             }
             var command = new PaymentAccountCreationCommand(value.Client);
             var commandResult = await commandBus.PublishAsync(command, CancellationToken.None);

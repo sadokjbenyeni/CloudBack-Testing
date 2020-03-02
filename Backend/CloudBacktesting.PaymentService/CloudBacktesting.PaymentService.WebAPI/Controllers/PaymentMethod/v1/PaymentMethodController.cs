@@ -45,14 +45,14 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.PaymentMethod.v1
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+                return Unauthorized($"Access error, please contact the administrator with error id: {idError}");
             }
             var paymentAccountId = this.User.GetUserIdentifier()?.Value ?? "";
             if (string.IsNullOrEmpty(paymentAccountId))
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify (PaymentAccountId not found). Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
+                return Forbid($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
             }//string.Equals(model.PaymentAccountId, paymentAccountId, StringComparison.InvariantCultureIgnoreCase)
             var result = await queryProcessor.ProcessAsync(new FindReadModelQuery<PaymentMethodReadModel>(model => string.Equals(model.PaymentAccountId, paymentAccountId)), CancellationToken.None);
             return Ok(result.Select(ToDtoMethod).ToList());
@@ -66,7 +66,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.PaymentMethod.v1
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+                return Unauthorized($"Access error, please contact the administrator with error id: {idError}");
             }
             var paymentAccountId = this.User.GetUserIdentifier()?.Value ?? "";
             //var readModel = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<PaymentMethodReadModel>(new PaymentMethodId(id)), CancellationToken.None);
@@ -105,14 +105,14 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.PaymentMethod.v1
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+                return Unauthorized($"Access error, please contact the administrator with error id: {idError}");
             }
             var paymentAccountId = this.User.GetUserIdentifier()?.Value ?? "";
             if (string.IsNullOrEmpty(paymentAccountId))
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify (PaymentAccountId not found). Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
+                return Forbid($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
             }
             IExecutionResult commandResult = null;
             try

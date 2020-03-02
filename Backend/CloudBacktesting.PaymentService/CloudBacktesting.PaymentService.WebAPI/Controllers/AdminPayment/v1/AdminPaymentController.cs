@@ -41,7 +41,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.AdminPayment.v1
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+                return Unauthorized($"Access error, please contact the administrator with error id: {idError}");
             }
             var result = await queryProcessor.ProcessAsync(new FindReadModelQuery<PaymentAccountReadModel>(ModelBinderAttribute => true), CancellationToken.None);
             return Ok(result.Select(ToDtoAccount).ToList());
@@ -64,7 +64,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.AdminPayment.v1
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+                return Unauthorized($"Access error, please contact the administrator with error id: {idError}");
             }
             var readModel = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<PaymentMethodReadModel>(new PaymentMethodId(id)), CancellationToken.None);
             //var readModel = await queryProcessor.ProcessAsync(new FindReadModelQuery<PaymentMethodReadModel>(model => string.Equals(model.PaymentAccountId, paymentAccountId) && string.Equals(model.Id, id)), CancellationToken.None);

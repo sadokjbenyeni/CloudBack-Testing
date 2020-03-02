@@ -53,7 +53,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers.AdminSubcripti
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+                return Unauthorized($"Access error, please contact the administrator with error id: {idError}");
             }
             var result = await queryProcessor.ProcessAsync(new FindReadModelQuery<SubscriptionAccountReadModel>(model => true), CancellationToken.None);
             return Ok(result.Select(ToDto).ToList());
@@ -124,7 +124,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers.AdminSubcripti
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+                return Unauthorized($"Access error, please contact the administrator with error id: {idError}");
             }
             try
             {

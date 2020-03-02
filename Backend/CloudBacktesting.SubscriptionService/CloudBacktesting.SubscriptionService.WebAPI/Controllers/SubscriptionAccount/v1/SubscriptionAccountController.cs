@@ -55,14 +55,14 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not authentificate. Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
+                return Forbid($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
             }
             var subscriptionAccountId = this.User.GetUserIdentifier()?.Value ?? "";
             if (string.IsNullOrEmpty(subscriptionAccountId))
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify (SubcriptionAccountId not found). Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
+                return Unauthorized($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
             }
             var result = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<SubscriptionAccountReadModel>(new SubscriptionAccountId(subscriptionAccountId)), CancellationToken.None);
             return Ok(ToDto(result));
@@ -76,7 +76,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not authentificate. Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
+                return Forbid($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
             }
             var command = new SubscriptionAccountCreationCommand(value.Subscriber);
             var commandResult = await commandBus.SafePublishAsync(command, CancellationToken.None);

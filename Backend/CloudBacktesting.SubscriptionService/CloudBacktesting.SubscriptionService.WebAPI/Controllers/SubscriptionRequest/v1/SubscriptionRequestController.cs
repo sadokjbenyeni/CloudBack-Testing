@@ -68,7 +68,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+                return Unauthorized($"Access error, please contact the administrator with error id: {idError}");
             }
             var readModel = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<SubscriptionRequestReadModel>(new SubscriptionRequestId(id)), CancellationToken.None);
             if (!string.Equals(readModel.SubscriptionAccountId, this.User.GetUserIdentifier()?.Value, StringComparison.InvariantCultureIgnoreCase)) // FAIL => If the ID is not for subscription account defined
@@ -113,7 +113,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+                return Unauthorized($"Access error, please contact the administrator with error id: {idError}");
             }
             var subscriptionAccountId = this.User.GetUserIdentifier()?.Value ?? "";
             var paymentMethodAccountId = this.User.GetUserPaymentIdentifier()?.Value ?? "";
@@ -121,7 +121,7 @@ namespace CloudBacktesting.SubscriptionService.WebAPI.Controllers
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify (SubcriptionAccountId not found). Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
+                return Forbid($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
             }
             IExecutionResult commandResult = null;
             try

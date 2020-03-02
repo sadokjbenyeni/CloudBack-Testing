@@ -45,14 +45,14 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.BillingItem.v1
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+                return Unauthorized($"Access error, please contact the administrator with error id: {idError}");
             }
             var paymentAccountId = this.User.GetUserIdentifier()?.Value ?? "";
             if (string.IsNullOrEmpty(paymentAccountId))
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify (BillingItemId not). Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persists");
+                return Forbid($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persists");
             }
             var result = await queryProcessor.ProcessAsync(new FindReadModelQuery<BillingItemReadModel>(model => true), CancellationToken.None);
             return Ok(result.Select(ToDto).ToList());
@@ -65,7 +65,7 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.BillingItem.v1
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+                return Unauthorized($"Access error, please contact the administrator with error id: {idError}");
             }
             var readModel = await queryProcessor.ProcessAsync(new ReadModelByIdQuery<BillingItemReadModel>(new BillingItemId(id)), CancellationToken.None);
             if (IsNotFound(readModel, id))
@@ -119,14 +119,14 @@ namespace CloudBacktesting.PaymentService.WebAPI.Controllers.BillingItem.v1
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify. Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"Access error, please contact the administrator with error id: {idError}");
+                return Unauthorized($"Access error, please contact the administrator with error id: {idError}");
             }
             var paymentAccountId = this.User.GetUserIdentifier()?.Value ?? "";
             if (string.IsNullOrEmpty(paymentAccountId))
             {
                 var idError = Guid.NewGuid().ToString();
                 logger.LogError($"[Security, Error] User not identify (SubcriptionAccountId not found). Please check the API Gateway log. Id error: {idError}");
-                return BadRequest($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
+                return Forbid($"You are not authorize to use this request, please contact the administrator with error id: {idError}, if the problem persist");
             }
             if (string.IsNullOrEmpty(billingItemId))
             {
