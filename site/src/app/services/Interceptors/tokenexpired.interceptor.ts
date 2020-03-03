@@ -3,7 +3,7 @@ import { HttpInterceptor, HttpEvent, HttpHandler, HttpRequest, HttpErrorResponse
 import { Observable } from 'rxjs';
 import { UserService } from '../user.service';
 import { tap } from 'rxjs/operators';
-import { Router, Route } from '@angular/router';
+import { Router } from '@angular/router';
 import * as jwt_decode from 'jwt-decode'
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,8 @@ export class TokenExpiredInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(tap(() => { }
       , error => {
         if (error instanceof HttpErrorResponse) {
-          if (error.message == 'token expired') {
+          debugger;
+          if (error['error'] == 'token expired') {
             let token=jwt_decode(localStorage.getItem('token'))['token']
             this.userService.logout(token).subscribe(
               () => {
