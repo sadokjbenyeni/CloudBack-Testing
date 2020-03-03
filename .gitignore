@@ -27,3 +27,6 @@ out
 **/*.back
 **/*.bak
 **/*.swp
+### Igonring docker local files ###
+**/appsettings.dockerLocal.json
+dockerLocal.env
