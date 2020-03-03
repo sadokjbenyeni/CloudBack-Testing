@@ -63,13 +63,7 @@
     {
       "DownstreamPathTemplate": "/api/{version}/user",
       "DownstreamScheme": "http",
-      //"ServiceName": "msservice",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 9095
-        }
-      ],
+      "ServiceName": "msservice",
       "UpstreamPathTemplate": "/api/{version}/user",
       "UpstreamHttpMethod": [ "PUT" ],
       "RouteClaimsRequirement": {
