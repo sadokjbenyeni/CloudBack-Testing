@@ -62,11 +62,13 @@ export class MutualizedSubscriptionComponent implements OnInit {
 
 
   GetPaymentMethod($event) {
+    debugger;
     // this.Subscription.paymentCard = $event as Payment;
     this.PaymentCard = $event as Payment;
     this.Subscription.paymentMethodId = ($event as Payment).paymentMethodId;
   }
   AddPaymentMethod() {
+    debugger;
     this.subscriptionService.CreateSubscriptionRequest(this.Subscription).subscribe
       (() => {
         console.log("Subscription request successfully Created")

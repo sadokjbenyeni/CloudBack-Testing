@@ -165,7 +165,7 @@ router.post('/info', (req, res) => {
 
 //Create Account User
 router.post('/', (req, res) => {
-    if (!validateuser(req)) {
+    if (!validateuser(req, true)) {
         return res.sendStatus(400);
     }
     User.findOne({ email: req.body.email }).then(
@@ -219,15 +219,19 @@ router.post('/', (req, res) => {
             }
         });
 });
-const validateuser = function (req) {
+const validateuser = function (req, isSignUp) {
     if (!req.body.firstname || req.body.firstname == undefined) return false;
     if (!req.body.lastname || req.body.lastname == undefined) return false;
     if (!req.body.job || req.body.job == undefined) return false;
-    if (!req.body.email || req.body.email == undefined || !emailvalidator.validate(req.body.email)) return false;
-    if (!req.body.password || req.body.password == undefined) return false;
     if (!req.body.companyName || req.body.companyName == undefined) return false;
     if (!req.body.country || req.body.country == undefined) return false;
-    if (!req.body.cgu || req.body.cgu == undefined || req.body.cgu.length == 0) return false;
+
+    if (isSignUp)
+    {
+        if (!req.body.email || req.body.email == undefined || !emailvalidator.validate(req.body.email)) return false;
+        if (!req.body.password || req.body.password == undefined) return false;
+        if (!req.body.cgu || req.body.cgu == undefined || req.body.cgu.length == 0) return false;
+    }
     return true;
 }
 
@@ -237,6 +241,7 @@ router.post('/logout/', (req, res) => {
             res.status(200).json({});
         })
         .catch((err) => {
+            console.log(`Unhandled exception has been thrown: ${err}`);
             console.error(err);
         });
 });
@@ -282,8 +287,10 @@ router.post('/activation/', async (req, res) => {
                     await eventpublisher.AccountActivation(result.email)
                 })
                 .catch(err => {
-                    console.error(err);
+                    console.error(`Unhandled exception has been thrown: ${e}`);
+                    return res.sendStatus(400);
                 });
+
         }
         else {
             console.log("account already active");
@@ -321,8 +328,13 @@ router.delete('/:user', (req, res) => {
 router.put('/', (req, res) => {
     // if(URLS.indexOf(req.headers.referer) !== -1){
     let user = {};
-    if (!req.body.nom == undefined && req.body.nom == undefined) {
-        res.sendStatus(422);
+    if (!validateuser(req, false)) {
+        return res.status(400).json({error: "Invalid data"});
+    }
+
+    const email = getEmailfromheader(req);
+    if (email == undefined) {
+        return res.sendStatus(401)
     }
 
     user.firstname = req.body.firstname;
@@ -339,22 +351,22 @@ router.put('/', (req, res) => {
     user.country = req.body.country;
     user.phone = req.body.phone;
     user.sameAddress = req.body.sameAddress;
-    user.roleName = req.body.roleName;
-    user.role = req.body.role;
 
-    const email = getEmailfromheader(req);
-    if (email == undefined) {
-        return res.sendStatus(401)
-    }
-    console.log(email);
     User.findOneAndUpdate({ email: email }, { $set: user })
-        .then(() => {
-            res.status(201).json({ message: "Your account has been updated" });
-            return;
+        .then(() => { User.findOne({email:email}).then
+        ((userRes) => 
+        {
+            let generatedToken = generateToken(userRes, "13h");
+            return res.status(201).json({ token : generatedToken});
+        }
+        ) 
+
         })
         .catch((e) => {
-            console.error(e);
+            console.error(`Unhandled exception has been thrown: ${e}`);
+            return res.sendStatus(400);
         });
+
 });
 router.put('/resetpwd', (req, res) => {
 
@@ -362,7 +374,6 @@ router.put('/resetpwd', (req, res) => {
         res.sendStatus(422);
     }
     try {
-        const test = jwt.sin
         const token = jwt.verify(req.body.token, process.env.JWTSECRET).token;
         let cipher = crypto.createCipher(algorithm, req.body.pwd);
         let crypted = cipher.update(PHRASE, 'utf8', 'hex');
@@ -370,7 +381,7 @@ router.put('/resetpwd', (req, res) => {
 
         User.updateOne({ token: token }, { $set: { password: crypted } })
             .then(() => {
-                return res.status(200).send({ meesage: "password changed" });
+                return res.status(200).send({ message: "password changed" });
             })
     }
     catch (error) {
@@ -408,8 +419,8 @@ router.put('/changepwd', (req, res) => {
                 }
             })
     })
-
 });
+
 var getEmailfromheader = function (req) {
     try {
         var rawtoken = Buffer.from(req.headers["authorization"].replace("Basic", ""), 'base64').toString('ascii');
@@ -417,11 +428,11 @@ var getEmailfromheader = function (req) {
         return JSON.parse(rawtoken)["Email"]
     }
     catch (error) {
-        console.log(error)
-        return null;
+        console.error(`Unhandled exception has been thrown: ${e}`);
+        return res.sendStatus(400);
     }
 }
 var generateToken = function (data, validity) {
-    return jwt.sign({ token: data.token, roleName: data.roleName, lastname: data.lastname, state: data.state }, process.env.JWTSECRET, { expiresIn: validity });
+    return jwt.sign({ token: data.token, roleName: data.roleName, lastname: data.lastname, state: data.state }, process.env.JWTSECRET, { expiresIn: validity});
 }
 module.exports = router;

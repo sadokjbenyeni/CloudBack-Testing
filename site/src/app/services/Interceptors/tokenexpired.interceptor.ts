@@ -14,7 +14,7 @@ export class TokenExpiredInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(tap(() => { }
       , error => {
         if (error instanceof HttpErrorResponse) {
-          if (error.error['error'] == 'token expired') {
+          if (error.message == 'token expired') {
             let token=jwt_decode(localStorage.getItem('token'))['token']
             this.userService.logout(token).subscribe(
               () => {

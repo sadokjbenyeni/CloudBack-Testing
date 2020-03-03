@@ -7,6 +7,8 @@ using CloudBacktesting.SubscriptionService.Domain.Aggregates.SubscriptionRequest
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionAccountRepository;
 using CloudBacktesting.SubscriptionService.Domain.Repositories.SubscriptionRequestRepository;
 using CloudBacktesting.SubscriptionService.Domain.Sagas.SubscriptionCreation;
+using CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Consumers;
+using CloudBacktesting.SubscriptionService.RabbitMQ.EventManager.Publishers;
 using CloudBacktesting.SubscriptionService.WebAPI.Controllers;
 using CloudBacktesting.SubscriptionService.WebAPI.Host;
 using CloudBacktesting.SubscriptionService.WebAPI.Host.DatabaseSettings;
@@ -23,6 +25,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using RabbitMQ.Client;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -144,7 +147,11 @@ namespace CloudBacktesting.SubscriptionService.Specs.Host
 
         protected override void AddRabbitMQ(IServiceCollection services)
         {
-
+            services.AddSingleton<IConnectionFactory>(con => NSubstitute.Substitute.For<IConnectionFactory>());
+            services.AddSingleton<IRabbitMQAccountCreatedEventPublisher, RabbitMQAccountCreatedEventPublisher>();
+            services.AddHostedService<RabbitMQAccountCreatedEventListener>();
+            services.AddSingleton<IRabbitMQSubscriptionCreatedEventPublisher, RabbitMQSubscriptionCreatedEventPublisher>();
+            services.AddHostedService<RabbitMQBillingItemCreatedEventListener>();
         }
     }
 

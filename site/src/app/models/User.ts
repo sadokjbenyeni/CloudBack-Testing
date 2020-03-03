@@ -1,24 +1,24 @@
 export class User {
-    id: Number;
-    firstname: String;
-    lastname: String;
-    email: String;
-    password: String;
-    job: String;
-    companyName: String;
-    companyType: String;
-    website: String;
-    address: String;
-    postalCode: String;
-    city: String;
-    region: String;
-    idCountry: String;
-    country: String;
+    id: number;
+    firstname: string;
+    lastname: string;
+    email: string;
+    password: string;
+    job: string;
+    companyName: string;
+    companyType: string;
+    website: string;
+    address: string;
+    postalCode: string;
+    city: string;
+    region: string;
+    idCountry: string;
+    
+    country: string;
     cgu: string[] = [];
-    phone: String;
-    token: String;
-    roleName: String[]; // Client, Administrator, Product, Compliance, Finance
-    role: String;
+    phone: string;
+    token: string;
+    roleName: string[]; // Client, Administrator, Product, Compliance, Finance
 }
 
 export class Users {

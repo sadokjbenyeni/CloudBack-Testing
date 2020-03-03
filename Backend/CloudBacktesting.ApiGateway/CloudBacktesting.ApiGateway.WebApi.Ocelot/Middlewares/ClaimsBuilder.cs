@@ -58,17 +58,17 @@ namespace CloudBacktesting.ApiGateway.WebApi.Ocelot.Middlewares
                 catch (SecurityTokenExpiredException)
                 {
                     httpContext.Response.StatusCode = 401;
-                    await httpContext.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "token expired" }));
+                    await httpContext.Response.WriteAsync("token expired");
                 }
                 catch (SecurityTokenInvalidSignatureException)
                 {
                     httpContext.Response.StatusCode = 401;
-                    await httpContext.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "invalid signature" }));
+                    await httpContext.Response.WriteAsync("invalid signature");
                 }
                 catch (Exception ex)
                 {
                     httpContext.Response.StatusCode = 401;
-                    await httpContext.Response.WriteAsync(JsonConvert.SerializeObject(new { error = ex.Message }));
+                    await httpContext.Response.WriteAsync(ex.Message);
                 }
 
 

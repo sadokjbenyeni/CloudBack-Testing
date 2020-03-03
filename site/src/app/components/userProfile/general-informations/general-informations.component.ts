@@ -8,8 +8,8 @@ import {
   FormGroup,
   FormBuilder,
   Validators,
-  FormControl
 } from "@angular/forms";
+import * as jwt_decoder from "jwt-decode";
 
 export interface FormModel {}
 
@@ -24,6 +24,7 @@ export class GeneralInformationsComponent implements OnInit {
   companyType: Array<object>;
   exist: boolean;
   country: Array<object>;
+  email: string;
   public formModel: FormModel = {};
 
   constructor(
@@ -39,7 +40,6 @@ export class GeneralInformationsComponent implements OnInit {
       lastnamectl: ["", Validators.required],
       jobctl: ["", Validators.required],
       phonectl: ["", Validators.pattern("[0-9]{9,16}")],
-      emailctl: ["", ],
       companynamectl: ["", Validators.required],
       companytypectl: [""],
       countryctl: ["", Validators.required],
@@ -50,8 +50,8 @@ export class GeneralInformationsComponent implements OnInit {
       websitectl: [""]
     });
     this.user = new User();
-    this.user.token = JSON.parse(localStorage.getItem("user"))["token"];
-    this.user.roleName = JSON.parse(localStorage.getItem("user"))["roleName"];
+
+
     this.getUser();
     this.getCompanyType();
     this.getCountry();
@@ -78,6 +78,7 @@ export class GeneralInformationsComponent implements OnInit {
       this.GeneralInformatioFrmGroup.controls["lastnamectl"].setValue(
         res.lastname
       );
+      this.email = res.email;
       this.GeneralInformatioFrmGroup.controls["jobctl"].setValue(res.job);
       this.GeneralInformatioFrmGroup.controls["companynamectl"].setValue(
         res.companyName
