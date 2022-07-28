@@ -7,6 +7,8 @@ using CloudBacktesting.PaymentService.Domain.Aggregates.PaymentAccountAggregate.
 using CloudBacktesting.PaymentService.Domain.Repositories.PaymentAccountRepository;
 using CloudBacktesting.PaymentService.Domain.Repositories.PaymentMethodRepository;
 using CloudBacktesting.PaymentService.Domain.Sagas.PaymentCreation;
+using CloudBacktesting.PaymentService.RabbitMQ.EventManager.Consumers;
+using CloudBacktesting.PaymentService.RabbitMQ.EventManager.Publishers;
 using CloudBacktesting.PaymentService.WebAPI.Controllers.PaymentAccount.v1;
 using CloudBacktesting.PaymentService.WebAPI.Host;
 using CloudBacktesting.PaymentService.WebAPI.Host.DatabaseSettings;
@@ -15,6 +17,7 @@ using EventFlow.DependencyInjection.Extensions;
 using EventFlow.Extensions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -140,7 +143,11 @@ namespace CloudBacktesting.PaymentService.Specs.Host
 
         protected override void AddRabbitMQ(IServiceCollection services)
         {
-
+            services.AddSingleton<IConnectionFactory>(con => NSubstitute.Substitute.For<IConnectionFactory>());
+            services.AddSingleton<IRabbitMQAccountCreatedEventPublisher, RabbitMQAccountCreatedEventPublisher>();
+            services.AddHostedService<AccountCreatedListener>();
+            services.AddSingleton<IRabbitMQBillingItemCreatedEventPublisher, RabbitMQBillingItemCreatedEventPublisher>();
+            services.AddHostedService<RabbitMQSubscriptionCreatedEventListener>();
         }
     }
 }
